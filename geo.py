@@ -37,7 +37,9 @@ class Geocoder(object):
                 else:
                     entry[name] = None
             self.cache[s] = entry
-        print(entry)
+        # print("------------------------------------")
+        # print(entry)
+        return entry
 
     def geocode_osm(self, s):
         s += ", São Paulo, São Paulo"
@@ -51,22 +53,21 @@ class Geocoder(object):
         else:
             return r
 
-
-a = OrderedDict()
-EXC = open("exc", 'r').read().splitlines()
-raw_db = pd.read_csv("bd.csv")
+    def close(self):
+        self.cache.close()
 
 
 def add_pks(table):
     # get Series with codes
-    code_series = [col for name, col in raw_db.iteritems()
+    code_series = [col for name, col in table.iteritems()
                    if name[:3].casefold() == "cd_"]
     code_series.append(table["PROJETOATIVIDADE"])
     # create table of codes
     code_table = pd.concat(code_series, axis=1)
     # create PK Series
     pks = pd.Series(['.'.join([str(i) for i in i[1][1:]])
-                    for i in code_table.iterrows()])
+                    for i in code_table.iterrows()],
+                    name="pk")
 
     # check pk uniqueness
     if len(pks) != len(pks.drop_duplicates()):
@@ -74,77 +75,44 @@ def add_pks(table):
 
     return pd.concat([table, pks], axis=1)
 
-add_pks(raw_db)
 
-
-def x():
+def add_geos(table):
+    # count = 0
     coder = Geocoder()
-    for row in raw_db.iterrows():
-        for i in row[1]:
-            if type(i) is str:
-                # geo = extract_geos(i)
-                canonical = canonical_form(i)
-                geo = TERMSDB.search(i, canonical)
+    table_coords = []
+    for index, row in table.iterrows():
+        # count += 1
+        # print(count)
+        # if count > 100:
+        #     break
+        row_coords = None
+        for cell in row:
+            if type(cell) is str:
+                # geo = extract_geos(cell)
+                canonical = canonical_form(cell)
+                geo = TERMSDB.search(cell, canonical)
                 if geo:
                     geo.sort(key=lambda x: x[1])
-                    coder.geocode(geo[0][0])
-                # if not geo and i not in EXC:
-                #     a[i] = 1
+                    row_coords = coder.geocode(geo[0][0])
+                    # print(row_coords)
+                # if not geo and cell not in EXC:
+                #     a[cell] = 1
+        table_coords.append(row_coords)
 
-    for i in a.keys():
-        print(i)
+    # for i in a.keys():
+    #     print(i)
+
+    coder.close()
+
+    return pd.concat([table, pd.Series(table_coords, name="geo")], axis=1)
+
+# a = OrderedDict()
 
 
-# def canonize_terms():
-#     for k, v in EXPS.items():
-#         if v:
-#             EXPS[k] = (canonical_form(v[0]), [canonical_form(i) for i in v[1]])
-#         else:
-#             EXPS[k] = ("", (canonical_form(k),))
-#     # global PLACES
-#     # PLACES = [canonical_form(i) for i in PLACES]
-#     # global REGIONS
-#     # REGIONS = [canonical_form(i) for i in REGIONS]
-#     global RP
-#     temp = []
-#     for i in RP:
-#         c = canonical_form(i)
-#         if c not in temp:
-#             temp.append(c)
-#     RP = temp
-# canonize_terms()
-# # print(EXPS)
-
-# def extract_geos(noncanonical):
-#     canonical = canonical_form(noncanonical)
-#     return TERMSDB.search(noncanonical, canonical)
-#     # for k, v in EXPS.items():
-#     #     for term in v[1]:
-#     #         pattern = r"(?:\W|^)({term}[ s][^-,]+)(.*)"
-#     #         if v[0]:
-#     #             pattern = r"(?<!{excep})\s*" + pattern
-#     #         pattern = pattern.format(excep=v[0], term=term)
-#     #         r = re.search(pattern, canonical)
-#     #         if r:
-#     #             ret += [r.group(1)]
-#     #             r2 = r.group(2)
-#     #             if r2:
-#     #                 ret += [i for i in re.split("[-,]", r2) if i]
-
-#     # # print(RP)
-#     # for term in RP:
-#     #     # print(term)
-#     #     pattern = r"(?:\W|^)({term})(\W|$)"
-#     #     pattern = pattern.format(term=term)
-#     #     r = re.search(pattern, canonical)
-#     #     if r:
-#     #         # print("----------",s)
-#     #         # print("T:",term)
-#     #         # print(r.groups())
-#     #         ret += [r.group(1)]
-
-#     # if ret:
-#     #     print(s)
-#     #     print(ret)
-#     # # print("========================")
-#     # return ret
+def do_all():
+    # EXC = open("exc", 'r').read().splitlines()
+    table = pd.read_csv("bd.csv")
+    # table = table.iloc[0:100]
+    table = add_pks(table)
+    table = add_geos(table)
+    return table
