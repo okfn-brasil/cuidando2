@@ -3,17 +3,20 @@ import json
 
 import geo
 
-ENTRY_POINT = 'http://127.0.0.1:5000'
+# ENTRY_POINT = 'http://127.0.0.1:5000'
+ENTRY_POINT = "http://cuidando.org.br:5000"
 
 
 def post_data():
+    print("Loading data")
     table = geo.do_all()
     # print(table)
     data = []
+    print("Preparing data for post")
     for i, row in table.iterrows():
         lat, lon = 0, 0
         if row['geo']:
-            print(row['geo'])
+            # print(row['geo'])
             osm = row['geo']['osm']
             gm = row['geo']['gm']
             geo_data = None
@@ -32,7 +35,9 @@ def post_data():
             "descr": row['DS_PROJETO_ATIVIDADE'],
         })
 
+    print("Posting")
     r = perform_post('data', json.dumps(data))
+    print("Posted", r.status_code)
 
 
 # def post_people():

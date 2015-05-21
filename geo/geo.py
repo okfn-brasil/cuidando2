@@ -15,7 +15,7 @@ from terms import TERMSDB
 class Geocoder(object):
 
     def __init__(self):
-        self.cache = shelve.open("cache.db")
+        self.cache = shelve.open("data/cache.db")
 
         self.osm = geopy.Nominatim()
         self.gm = geopy.GoogleV3()
@@ -111,8 +111,11 @@ def add_geos(table):
 
 def do_all():
     # EXC = open("exc", 'r').read().splitlines()
-    table = pd.read_csv("bd.csv")
+    print("Reading table")
+    table = pd.read_csv("data/bd.csv")
     # table = table.iloc[0:100]
+    print("Adding pks")
     table = add_pks(table)
+    print("Adding geos")
     table = add_geos(table)
     return table
