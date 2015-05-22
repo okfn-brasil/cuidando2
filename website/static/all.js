@@ -46,6 +46,7 @@ window.onload = function() {
 
     popup = new L.Popup();
     window.abrirPopup = function (event) {
+        window.issoReload(event.target.pk)
         popup.setContent("Carregando...");
         popup.setLatLng(event.target.getLatLng());
         map.openPopup(popup);
