@@ -4,32 +4,63 @@
 	<meta charset="utf-8">
 
     <!--Jquery-->
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script> -->
     <!--Leaflet APIs-->
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <!-- <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
     <!-- <script src="http://jawj.github.io/OverlappingMarkerSpiderfier-Leaflet/bin/oms.min.js"></script> -->
     <!--Mapquest APIs-->
-    <script src="http://open.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key=Fmjtd%7Cluur25ub25%2C8s%3Do5-9w7x50"></script>
-    <script src="static/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="static/MarkerCluster.css"/>
-    <link rel="stylesheet" href="static/MarkerCluster.Default.css"/>
-    <script src="static/all.js"></script>
-
-<style>
-#map-wrapper { height: 600px; }
-</style>
+    <!-- <script src="http://open.mapquestapi.com/sdk/leaflet/v1.0/mq-map.js?key=Fmjtd%7Cluur25ub25%2C8s%3Do5-9w7x50"></script> -->
+    <!-- <script src="static/leaflet.markercluster.js"></script> -->
+    <link rel="stylesheet" href="css/MarkerCluster.css"/>
+    <link rel="stylesheet" href="css/MarkerCluster.Default.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='vendor/datatables/css/jquery.dataTables.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="vendor/datatables/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="css/app.css"/>
+    <!-- <script src="js/main.js"></script> -->
 </head>
 <body>
-  <div id="map-wrapper"></div>
-	<div id="page" style="text-align:center;">
-		<div id="wrapper" style="width: 900px; text-align: left; margin-left: auto; margin-right: auto;">
-			
-			<script	data-isso="http://127.0.0.1:8080" src="static/embed.dev.js"></script>
 
-			<section id="isso-thread" data-title="Isso Test"></section>
-		</div>
-	</div>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+<table id="mapped-table">
+	 <thead>
+	 	<tr>
+	 		<th></th>
+	 		<th>mapeado</th>
+	 		<th>total</th>
+	 	</tr>
+	 </thead>
+	 <tbody>
+	 	<tr>
+	 		<th>execução</th>
+	 		<td id="mapped-num"></td>
+	 		<td id="total-num"></td>
+	 	</tr>
+	 </tbody>
+</table>
+
+
+    <select class="center-block text-center" id="year-selector"></select>
+    <div id="map-wrapper"></div>
+    <dl id="point-info"></dl>
+    <table id="data-table" class="display" cellspacing="0" width="100%"></table>
+    <div id="page" style="text-align:center;">
+        <div id="wrapper" style="width: 900px; text-align: left; margin-left: auto; margin-right: auto;">
+
+        <!-- <script	data-isso="http://127.0.0.1:8080" src="static/embed.dev.js"></script> -->
+        <!-- <script	src="js/isso/embed.dev.js"></script> -->
+
+        <section id="isso-thread" data-title="Isso Test"></section>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        <!-- API_URL = '{{ config['API_URL'] }}'; -->
+        window.API_URL = "http://127.0.0.1:5000";
+        window.ISSO_URL = "http://127.0.0.1:8080";
+    </script>
+    <script data-main="js/run" src="vendor/requirejs/js/require.js"></script>
 </body>
 
 

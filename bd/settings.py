@@ -39,6 +39,14 @@ schema2 = {
     },
 }
 
+# info = {
+#     'datasource': {
+#         'source': 'data',
+#     },
+#     'resource_methods': ["GET"],
+#     'item_methods': [],
+# }
+
 data = {
     # 'title' tag used in item links. Defaults to the resource title minus
     # the final, plural 's' (works fine in most cases but not for 'people')
@@ -65,7 +73,10 @@ data = {
 
 DOMAIN = {
     "data": data,
+    # "info": info,
 }
 
 #PAGINATION_LIMIT = 100000
 X_DOMAINS = "*"
+
+XML = False

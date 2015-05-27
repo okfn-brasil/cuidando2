@@ -441,7 +441,6 @@
 
         window.loaded = false;
         var once = function(callback) {
-            console.log(loaded)
             if (!window.loaded) {
                 window.loaded = true;
                 callback();
@@ -901,6 +900,8 @@
 
         var script, endpoint,
             js = document.getElementsByTagName("script");
+
+        endpoint = window.ISSO_URL;
 
         // prefer `data-isso="//host/api/endpoint"` if provided
         for (var i = 0; i < js.length; i++) {
@@ -2445,15 +2446,15 @@
     define("embed", function() {});
 
 
-window.issoReload = function(id) {
-    thread = $("#isso-thread")
-    thread.html('')
-    // thread.setAttribute("data-isso-id", id)
-    thread.attr("data-isso-id", "/index.html#" + id)
-    // thread.attr("data-isso-css", false)
+    window.issoReload = function(id) {
+        thread = $("#isso-thread")
+        thread.html('')
+        // thread.setAttribute("data-isso-id", id)
+        thread.attr("data-isso-id", "/index.html#" + id)
+        // thread.attr("data-isso-css", false)
 
-    window.loaded = false;
-    require(["app/lib/ready", "app/config", "app/i18n", "app/api", "app/isso", "app/count", "app/dom", "app/text/css", "app/text/svg", "app/jade"], mainfun);
-}
+        window.loaded = false;
+        require(["app/lib/ready", "app/config", "app/i18n", "app/api", "app/isso", "app/count", "app/dom", "app/text/css", "app/text/svg", "app/jade"], mainfun);
+    }
 
 }());
