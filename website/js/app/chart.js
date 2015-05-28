@@ -7,6 +7,7 @@ define("populate-table",  ['jquery', 'hcd', 'hce'], function ($) {
         console.log(response_data)
         var data = response_data.data
         $("#mapped-num").html(data.mapped)
+        $("#mapped-per").html(Math.round(data.mapped/data.total*100))
         $("#total-num").html(data.total)
         // table = $("#maped-table")
         // table.empty()
@@ -15,8 +16,11 @@ define("populate-table",  ['jquery', 'hcd', 'hce'], function ($) {
         // })
         $('#container').highcharts({
             data: {
-                table: 'mapped-table'
+                table: 'mapped-table',
+                endRow: 1
             },
+            // series: [{type: 'column'},
+            //          {type:'spline'}],
             chart: {
                 type: 'column'
             },
