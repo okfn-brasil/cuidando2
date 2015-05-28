@@ -14,9 +14,7 @@ from terms import TERMSDB
 # -47,-24.05
 # -46.30,-23.35
 
-# Coords limits for geolocation
-#         bot  left    top     right
-LIMITS = (-47, -24.05, -46.30, -23.35)
+
 
 
 class Geocoder(object):
@@ -24,12 +22,24 @@ class Geocoder(object):
     def __init__(self):
         self.cache = shelve.open("data/cache.db")
 
-        self.osm = geopy.Nominatim(view_box=LIMITS)
+        # Coords limits for geolocation
+        #         bot  left    top     right
+        self.limits = (-47, -24.05, -46.30, -23.35)
+
+        self.osm = geopy.Nominatim(view_box=self.limits)
         self.gm = geopy.GoogleV3()
         self.server_options = {
             "osm": self.geocode_osm,
             "gm": self.geocode_gm,
         }
+
+    def inside_limits(self, point):
+        lat, lon = point.latitude, point.longitude
+        if (lat > self.limits[0] and lon > self.limits[1] and
+           lat < self.limits[2] and lon < self.limits[3]):
+            return True
+        else:
+            return False
 
     def geocode(self, s):
         # check cache
@@ -39,7 +49,7 @@ class Geocoder(object):
             # query all servers
             for name, func in self.server_options.items():
                 r = func(s)
-                if r:
+                if r and self.inside_limits(r):
                     entry[name] = (r.address, r.latitude, r.longitude)
                 else:
                     entry[name] = None
