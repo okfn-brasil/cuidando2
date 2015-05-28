@@ -3,8 +3,8 @@ import json
 
 import geo
 
-# ENTRY_POINT = 'http://127.0.0.1:5000'
-ENTRY_POINT = "http://cuidando.org.br:5000"
+ENTRY_POINT = 'http://127.0.0.1:5000'
+# ENTRY_POINT = "http://cuidando.org.br:5000"
 
 
 def post_data():
