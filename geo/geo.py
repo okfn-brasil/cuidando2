@@ -11,13 +11,20 @@ from terms import TERMSDB
 
 # ('-24.0069999', '-23.3569999', '-46.8264086', '-46.3650897')
 
+# -47,-24.05
+# -46.30,-23.35
+
+# Coords limits for geolocation
+#         bot  left    top     right
+LIMITS = (-47, -24.05, -46.30, -23.35)
+
 
 class Geocoder(object):
 
     def __init__(self):
         self.cache = shelve.open("data/cache.db")
 
-        self.osm = geopy.Nominatim()
+        self.osm = geopy.Nominatim(view_box=LIMITS)
         self.gm = geopy.GoogleV3()
         self.server_options = {
             "osm": self.geocode_osm,
@@ -25,7 +32,7 @@ class Geocoder(object):
         }
 
     def geocode(self, s):
-        # tries cache
+        # check cache
         entry = self.cache.get(s)
         if not entry:
             entry = {}
@@ -61,6 +68,7 @@ def add_pks(table):
     # get Series with codes
     code_series = [col for name, col in table.iteritems()
                    if name[:3].casefold() == "cd_"]
+    # this column doesn't start with "cd_" but is a code
     code_series.append(table["PROJETOATIVIDADE"])
     # create table of codes
     code_table = pd.concat(code_series, axis=1)
