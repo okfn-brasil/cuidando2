@@ -93,7 +93,7 @@ class TermsDB(object):
         return found
 
 
-TERMSDB = TermsDB()
+# TERMSDB = TermsDB()
 
 
 # EXPS = {

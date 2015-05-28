@@ -7,7 +7,7 @@ import geopy
 import pandas as pd
 
 from utils import canonical_form
-from terms import TERMSDB
+from terms import TermsDB
 
 
 # ('-24.0069999', '-23.3569999', '-46.8264086', '-46.3650897')
@@ -30,6 +30,7 @@ class Geocoder(object):
         }
 
     def inside_limits(self, point):
+        """Checks if point is inside coords limits (rectangle)."""
         lat, lon = point.latitude, point.longitude
         if (lat > self.limits[0] and lon > self.limits[1] and
            lat < self.limits[2] and lon < self.limits[3]):
@@ -67,6 +68,7 @@ class Geocoder(object):
             return r
 
     def close(self):
+        """Closes cache."""
         self.cache.close()
 
 
@@ -92,6 +94,7 @@ def add_pks(table):
 
 def add_geos(table):
     coder = Geocoder()
+    terms = TermsDB()
     table_coords = []
     total = len(table)
     for index, row in table.iterrows():
@@ -100,7 +103,7 @@ def add_geos(table):
             if type(cell) is str:
                 # geo = extract_geos(cell)
                 canonical = canonical_form(cell)
-                geo = TERMSDB.search(cell, canonical)
+                geo = terms.search(cell, canonical)
                 if geo:
                     geo.sort(key=lambda x: x[1])
                     row_coords = coder.geocode(geo[0][0])
