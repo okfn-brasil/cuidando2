@@ -1,4 +1,5 @@
 # import re
+import sys
 import shelve
 from collections import OrderedDict
 
@@ -10,11 +11,6 @@ from terms import TERMSDB
 
 
 # ('-24.0069999', '-23.3569999', '-46.8264086', '-46.3650897')
-
-# -47,-24.05
-# -46.30,-23.35
-
-
 
 
 class Geocoder(object):
@@ -95,14 +91,10 @@ def add_pks(table):
 
 
 def add_geos(table):
-    # count = 0
     coder = Geocoder()
     table_coords = []
+    total = len(table)
     for index, row in table.iterrows():
-        # count += 1
-        # print(count)
-        # if count > 100:
-        #     break
         row_coords = None
         for cell in row:
             if type(cell) is str:
@@ -116,6 +108,9 @@ def add_geos(table):
                 # if not geo and cell not in EXC:
                 #     a[cell] = 1
         table_coords.append(row_coords)
+        # print progress
+        sys.stdout.write("\r %s / %s" % (str(index), total))
+        sys.stdout.flush()
 
     # for i in a.keys():
     #     print(i)
