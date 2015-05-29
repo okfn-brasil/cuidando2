@@ -29,9 +29,12 @@ class Term(object):
             text = canonical
         else:
             text = noncanonical
-        r = re.search(self.pattern, text)
-        if r:
-            return (r.group(1), self.weight)
+        all_found = re.search(self.pattern, text)
+        if all_found:
+            return {
+                "string": all_found.group(1),
+                "weight": self.weight
+            }
         else:
             return None
 
@@ -85,12 +88,13 @@ class TermsDB(object):
                 self.tokens.append(token)
 
     def search(self, noncanonical, canonical):
-        found = []
-        for i in self.tokens:
-            result = i.compare(noncanonical, canonical)
-            if result:
-                found.append(result)
-        return found
+        """Search all the terms for matching ones and return them."""
+        all_found = []
+        for token in self.tokens:
+            found = token.compare(noncanonical, canonical)
+            if found:
+                all_found.append(found)
+        return all_found
 
 
 # TERMSDB = TermsDB()
@@ -138,4 +142,3 @@ class TermsDB(object):
 #     "apa": "",
 # }
 # # EXPS["subprefeitura"] = ("", subs)
-

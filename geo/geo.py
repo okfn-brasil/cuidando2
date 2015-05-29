@@ -32,40 +32,57 @@ class Geocoder(object):
     def inside_limits(self, point):
         """Checks if point is inside coords limits (rectangle)."""
         lat, lon = point.latitude, point.longitude
-        if (lat > self.limits[0] and lon > self.limits[1] and
-           lat < self.limits[2] and lon < self.limits[3]):
+        print(lat, lon)
+        print(self.limits)
+        if (lon > self.limits[0] and lat > self.limits[1] and
+           lon < self.limits[2] and lat < self.limits[3]):
+            print("DENTRO!!!!!!")
             return True
         else:
+            print("FORA!!!!!!")
             return False
 
-    def geocode(self, s):
+    def geocode(self, term):
+        s = term['string']
         # check cache
-        entry = self.cache.get(s)
-        if not entry:
-            entry = {}
+        term_geo = self.cache.get(s)
+        if not term_geo:
+            term_geo = {}
             # query all servers
-            for name, func in self.server_options.items():
-                r = func(s)
-                if r and self.inside_limits(r):
-                    entry[name] = (r.address, r.latitude, r.longitude)
-                else:
-                    entry[name] = None
-            self.cache[s] = entry
-        # print("------------------------------------")
-        # print(entry)
-        return entry
+            print(">>>>>>>>>>> ", s)
+            for server_name, func in self.server_options.items():
+                points = func(s)
+                print(points)
+                term_geo[server_name] = []
+                for point in points:
+                    if self.inside_limits(point):
+                        print("DENTRO!!!!!!")
+                        print(point.raw)
+                        term_geo[server_name].append({
+                            "address": point.address,
+                            "latitude": point.latitude,
+                            "longitude": point.longitude
+                        })
+            self.cache[s] = term_geo
+        print("------------------------------------")
+        print(term_geo)
+        return term_geo
 
     def geocode_osm(self, s):
         s += ", São Paulo, São Paulo"
-        return self.osm.geocode(s, timeout=10, exactly_one=True)
+        r = self.osm.geocode(s, timeout=10, exactly_one=True)
+        if r:
+            return [r]
+        else:
+            return []
 
     def geocode_gm(self, s):
         s += ", São Paulo, São Paulo"
         r = self.gm.geocode(s, timeout=10, exactly_one=True)
-        if r and r.address == "São Paulo - State of São Paulo, Brazil":
-            return None
+        if not r or r.address == "São Paulo - State of São Paulo, Brazil":
+            return []
         else:
-            return r
+            return [r]
 
     def close(self):
         """Closes cache."""
@@ -94,19 +111,20 @@ def add_pks(table):
 
 def add_geos(table):
     coder = Geocoder()
-    terms = TermsDB()
+    terms_db = TermsDB()
     table_coords = []
     total = len(table)
     for index, row in table.iterrows():
-        row_coords = None
+        row_coords = []
         for cell in row:
             if type(cell) is str:
                 # geo = extract_geos(cell)
                 canonical = canonical_form(cell)
-                geo = terms.search(cell, canonical)
-                if geo:
-                    geo.sort(key=lambda x: x[1])
-                    row_coords = coder.geocode(geo[0][0])
+                terms = terms_db.search(cell, canonical)
+                for term in terms:
+                    row_coords.append(coder.geocode(term))
+                # if geo:
+                #     geo.sort(key=lambda x: x[1])
                     # print(row_coords)
                 # if not geo and cell not in EXC:
                 #     a[cell] = 1
