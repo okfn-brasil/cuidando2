@@ -26,8 +26,6 @@ class Term(object):
 
         self.pattern = re.compile(self.pattern.format(term=terms, excep=excep))
 
-    # def check_definition(self)
-
     def compare(self, noncanonical, canonical):
         if self.canonize:
             text = canonical
@@ -74,21 +72,16 @@ class Region(Name):
 
 
 def get_all_subclasses(cls):
-    """Get all subclasses of a class"""
+    """Return the cls and its subclasses"""
     all_subclasses = [cls]
     for subclass in cls.__subclasses__():
         all_subclasses.append(subclass)
         all_subclasses.extend(get_all_subclasses(subclass))
     return all_subclasses
 
-# CLASS_LIST = {"Term": Term}
-# for c in Term.__subclasses__():
-#     CLASS_LIST[c.__name__] = c
-
 
 def check_class(line):
     """Check if line defines a class"""
-    # for name, c in CLASS_LIST.items():
     for c in get_all_subclasses(Term):
         patt = c.define_pattern.format(class_name=c.__name__)
         matched = re.fullmatch(patt, line)
@@ -105,6 +98,7 @@ class TermsDB(object):
         self.load_folder(folder)
 
     def load_folder(self, path):
+        """Load tokens from a folder"""
         files = os.listdir(path)
         for file_name in files:
             if file_name[0] != '.':
@@ -112,6 +106,7 @@ class TermsDB(object):
                     self.load_text(f.read())
 
     def load_text(self, text):
+        """Load tokens from a text"""
         for line in text.splitlines():
             # ignore lines started with '#'
             if line and line[0] != "#":
