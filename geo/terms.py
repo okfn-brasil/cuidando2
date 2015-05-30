@@ -9,9 +9,11 @@ class Term(object):
     The real name of the place must be after it.
     E.g.: Rua ..."""
 
+    define_pattern = r">> {class_name} (?P<weight>\d+)"
+
     pattern = r"(?:\W|^)({term}[ s][^-,]+)(.*)"
 
-    def __init__(self, terms, excep, weight=0, canonize=True):
+    def __init__(self, terms, excep, canonize, weight=0):
         self.weight = weight
         self.canonize = canonize
         if self.canonize:
@@ -23,6 +25,8 @@ class Term(object):
                 excep = canonical_form(excep)
 
         self.pattern = re.compile(self.pattern.format(term=terms, excep=excep))
+
+    # def check_definition(self)
 
     def compare(self, noncanonical, canonical):
         if self.canonize:
@@ -40,16 +44,57 @@ class Term(object):
 
 
 class Name(Term):
-    """Class for a name of a place or region.
-    The name by itself should be enough to locate a place or region.
+    """Class for a name of a place.
+    The name by itself should be enough to locate a place.
     E.g.: Câmara Municipal"""
 
     pattern = r"(?:\W|^)({term})(\W|$)"
 
 
-CLASS_LIST = {"Term": Term}
-for c in Term.__subclasses__():
-    CLASS_LIST[c.__name__] = c
+class Region(Name):
+    """Class for a name of a region.
+    The name by itself should be enough to locate a region.
+    E.g.: Parelheiros"""
+
+    define_pattern = (
+        r">> {class_name} (?P<region>[^|]+)(?: | (?P<weight>\d+))?"
+    )
+
+    def __init__(self, terms, excep, canonize, region, weight=0):
+        """Calls super's init and adds 'region' attr"""
+        super().__init__(terms, excep, canonize, weight)
+        self.region = region
+
+    def compare(self, noncanonical, canonical):
+        """Calls super's compare and adds 'region' attr"""
+        found = super().compare(noncanonical, canonical)
+        if found:
+            found['region'] = self.region
+        return found
+
+
+def get_all_subclasses(cls):
+    """Get all subclasses of a class"""
+    all_subclasses = [cls]
+    for subclass in cls.__subclasses__():
+        all_subclasses.append(subclass)
+        all_subclasses.extend(get_all_subclasses(subclass))
+    return all_subclasses
+
+# CLASS_LIST = {"Term": Term}
+# for c in Term.__subclasses__():
+#     CLASS_LIST[c.__name__] = c
+
+
+def check_class(line):
+    """Check if line defines a class"""
+    # for name, c in CLASS_LIST.items():
+    for c in get_all_subclasses(Term):
+        patt = c.define_pattern.format(class_name=c.__name__)
+        matched = re.fullmatch(patt, line)
+        if matched:
+            return c, matched.groupdict()
+    return None
 
 
 class TermsDB(object):
@@ -67,15 +112,12 @@ class TermsDB(object):
                     self.load_text(f.read())
 
     def load_text(self, text):
-        current_weight = 0
-        current_class = None
         for line in text.splitlines():
-            # control line, e.g.: ">> Name 10"
-            if line[:2] == ">>":
-                _, class_name, current_weight = line.split()
-                current_class = CLASS_LIST[class_name]
             # ignore lines started with '#'
-            elif line and line[0] != "#":
+            if line and line[0] != "#":
+                new_class = check_class(line)
+                if new_class:
+                    current_class, current_args = new_class
                 # do not canonize if line starts with '!'
                 # alias are separeted with '|'
                 # use '?!' for except if preceded by
@@ -84,7 +126,7 @@ class TermsDB(object):
                 canonize = not dic["canonize"]
                 excep = dic["excep"]
                 terms = dic["terms"]
-                token = current_class(terms, excep, current_weight, canonize)
+                token = current_class(terms, excep, canonize, **current_args)
                 self.tokens.append(token)
 
     def search(self, noncanonical, canonical):
