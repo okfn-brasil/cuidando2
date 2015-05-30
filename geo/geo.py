@@ -32,14 +32,12 @@ class Geocoder(object):
     def inside_limits(self, point):
         """Checks if point is inside coords limits (rectangle)."""
         lat, lon = point.latitude, point.longitude
-        print(lat, lon)
-        print(self.limits)
         if (lon > self.limits[0] and lat > self.limits[1] and
            lon < self.limits[2] and lat < self.limits[3]):
-            print("DENTRO!!!!!!")
+            # print("DENTRO!!!!!!")
             return True
         else:
-            print("FORA!!!!!!")
+            # print("FORA!!!!!!")
             return False
 
     def geocode(self, term):
@@ -49,23 +47,23 @@ class Geocoder(object):
         if not term_geo:
             term_geo = {}
             # query all servers
-            print(">>>>>>>>>>> ", s)
+            # print(">>>>>>>>>>> ", s)
             for server_name, func in self.server_options.items():
                 points = func(s)
-                print(points)
+                # print(points)
                 term_geo[server_name] = []
                 for point in points:
                     if self.inside_limits(point):
-                        print("DENTRO!!!!!!")
-                        print(point.raw)
+                        # print("DENTRO!!!!!!")
+                        # print(point.raw)
                         term_geo[server_name].append({
                             "address": point.address,
                             "latitude": point.latitude,
                             "longitude": point.longitude
                         })
             self.cache[s] = term_geo
-        print("------------------------------------")
-        print(term_geo)
+        # print("------------------------------------")
+        # print(term_geo)
         return term_geo
 
     def geocode_osm(self, s):
@@ -110,7 +108,7 @@ def add_pks(table):
 
 
 def add_geos(table):
-    coder = Geocoder()
+    geocoder = Geocoder()
     terms_db = TermsDB()
     table_coords = []
     total = len(table)
@@ -122,7 +120,8 @@ def add_geos(table):
                 canonical = canonical_form(cell)
                 terms = terms_db.search(cell, canonical)
                 for term in terms:
-                    row_coords.append(coder.geocode(term))
+                    # print(term)
+                    row_coords.append(geocoder.geocode(term))
                 # if geo:
                 #     geo.sort(key=lambda x: x[1])
                     # print(row_coords)
@@ -132,11 +131,12 @@ def add_geos(table):
         # print progress
         sys.stdout.write("\r %s / %s" % (str(index), total))
         sys.stdout.flush()
+    print("")
 
     # for i in a.keys():
     #     print(i)
 
-    coder.close()
+    geocoder.close()
 
     return pd.concat([table, pd.Series(table_coords, name="geo")], axis=1)
 
@@ -147,7 +147,7 @@ def do_all():
     # EXC = open("exc", 'r').read().splitlines()
     print("Reading table")
     table = pd.read_csv("data/bd.csv")
-    # table = table.iloc[0:100]
+    table = table.iloc[0:100]
     print("Adding pks")
     table = add_pks(table)
     print("Adding geos")
