@@ -1,7 +1,6 @@
 # import re
 import sys
 import shelve
-from collections import OrderedDict
 
 import geopy
 import pandas as pd
@@ -41,7 +40,8 @@ class Geocoder(object):
             return False
 
     def geocode(self, term):
-        s = term['string']
+        # limit string size
+        s = term['string'][:60]
         # check cache
         term_geo = self.cache.get(s)
         if not term_geo:
@@ -120,7 +120,7 @@ def add_geos(table):
                 canonical = canonical_form(cell)
                 terms = terms_db.search(cell, canonical)
                 for term in terms:
-                    # print(term)
+                    print(term)
                     row_coords.append(geocoder.geocode(term))
                 # if geo:
                 #     geo.sort(key=lambda x: x[1])
