@@ -9,8 +9,10 @@ class Term(object):
     The real name of the place must be after it.
     E.g.: Rua ..."""
 
+    # pattern used to call this class in a term file
     define_pattern = r">> {class_name} (?P<weight>\d+)"
 
+    # pattern used to search for this term in text
     pattern = r"(?:\W|^)({term}[ s][^-,]+)(.*)"
 
     def __init__(self, terms, excep, canonize, weight=0):
@@ -46,6 +48,7 @@ class Name(Term):
     The name by itself should be enough to locate a place.
     E.g.: Câmara Municipal"""
 
+    # pattern used to search for this term in text
     pattern = r"(?:\W|^)({term})(\W|$)"
 
 
@@ -54,6 +57,7 @@ class Region(Name):
     The name by itself should be enough to locate a region.
     E.g.: Parelheiros"""
 
+    # pattern used to call this class in a term file
     define_pattern = (
         r">> {class_name} (?P<region>[^|]+)(?: | (?P<weight>\d+))?"
     )
