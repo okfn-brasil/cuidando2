@@ -1,5 +1,7 @@
 define(["jquery", "leaflet", "mapquest", "mapcluster"], function($, L) {
 
+    // 'use strict';
+
     function displayPointInfo(point) {
         list = $("#point-info")
         list.empty()

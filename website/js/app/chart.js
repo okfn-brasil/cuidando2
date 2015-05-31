@@ -1,19 +1,8 @@
-define("populate-table",  ['jquery', 'hcd', 'hce'], function ($) {
+define(['jquery', 'hcd', 'hce'], function ($) {
 
     'use strict';
 
-    $.getJSON(window.API_URL + '/info/data')
-    .done(function(response_data) {
-        console.log(response_data)
-        var data = response_data.data
-        $("#mapped-num").html(data.mapped)
-        $("#mapped-per").html(Math.round(data.mapped/data.total*100))
-        $("#total-num").html(data.total)
-        // table = $("#maped-table")
-        // table.empty()
-        // $.each(point, function(key, value) {
-        //     list.append("<dt>"+key+"</dt><dd>"+value+"</dd>")
-        // })
+    function plotChart() {
         $('#container').highcharts({
             data: {
                 table: 'mapped-table',
@@ -40,11 +29,20 @@ define("populate-table",  ['jquery', 'hcd', 'hce'], function ($) {
                 }
             }
         });
+    }
+
+    $.getJSON(window.API_URL + '/info/data')
+    .done(function(response_data) {
+        var data = response_data.data
+        $("#mapped-num").html(data.mapped)
+        $("#mapped-per").html(Math.round(data.mapped/data.total*100))
+        $("#total-num").html(data.total)
+        plotChart()
+        // table = $("#maped-table")
+        // table.empty()
+        // $.each(point, function(key, value) {
+        //     list.append("<dt>"+key+"</dt><dd>"+value+"</dd>")
+        // })
     });
-});
-
-require(['jquery', 'populate-table'], function ($) {
-
-    'use strict';
 
 });
