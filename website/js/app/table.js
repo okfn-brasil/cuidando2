@@ -86,7 +86,7 @@ function ($, pubsub, UrlManager, DataTable, SuperSelect) {
           page: urlManager.getParam('page'),
           per_page_num: urlManager.getParam('per_page_num'),
           // TODO: pegar do URL e usar esse parametro
-          only_mapped: '&where={"lat":0}'
+          only_mapped: '&where={"lat":404}'
         },
         // DataTables options.
         // Disable searching and ordering.

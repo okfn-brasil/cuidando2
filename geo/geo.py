@@ -16,15 +16,41 @@ class GeoEntity(object):
 
     def __init__(self, terms=None):
         self.terms = terms
+        terms.sort(reverse=True, key=lambda x: x['weight'])
+        self.region = None
 
     def geocode(self, geocoder):
         """Geocodes all the terms of this entity"""
-        # print(self.terms)
         for term in self.terms:
-            geo = geocoder.geocode(term['string'])
+            # No need to geocode regions
+            if not term.get('region'):
+                geo = geocoder.geocode(term['string'])
+                if geo:
+                    term['geo'] = geo
+            else:
+                self.region = term['region']
+
+    def best_coords(self):
+        """Returns the best latitude, longitude and region found for this
+        entity."""
+        lat, lon = None, None
+        for term in self.terms:
+            # print(term)
+            # print(term['weight'])
+            geo = term.get("geo")
             if geo:
-                term['geo'] = geo
-        # print(self.terms)
+                osm = geo['osm']
+                gm = geo['gm']
+                geo_data = None
+                if osm:
+                    geo_data = osm
+                elif gm:
+                    geo_data = gm
+                if geo_data:
+                    g = geo_data[0]
+                    lat, lon = g['latitude'], g['longitude']
+                    break
+        return lat, lon, self.region
 
 
 class Geocoder(object):
@@ -46,6 +72,7 @@ class Geocoder(object):
 
     def inside_limits(self, point):
         """Checks if point is inside coords limits (rectangle)."""
+        # TODO: Usar mapa da cidade
         lat, lon = point.latitude, point.longitude
         if (lon > self.limits[0] and lat > self.limits[1] and
            lon < self.limits[2] and lat < self.limits[3]):
@@ -157,12 +184,11 @@ def add_geos(table):
         sys.stdout.flush()
     print("")
 
-    # for i in a.keys():
-    #     print(i)
-
     geocoder.close()
 
-    return pd.concat([table, pd.Series(table_coords, name="geo")], axis=1)
+    return pd.concat(
+        [table, pd.Series(table_coords, name="geoentity")],
+        axis=1)
 
 # a = OrderedDict()
 
@@ -171,7 +197,7 @@ def do_all():
     # EXC = open("exc", 'r').read().splitlines()
     print("Reading table")
     table = pd.read_csv("data/bd.csv")
-    table = table#.iloc[0:100]
+    table = table.iloc[0:10]
     print("Adding pks")
     table = add_pks(table)
     print("Adding geos")

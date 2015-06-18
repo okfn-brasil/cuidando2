@@ -7,25 +7,6 @@ ENTRY_POINT = 'http://127.0.0.1:5000'
 # ENTRY_POINT = "http://cuidando.org.br:5000"
 
 
-def get_lat_lon(row):
-    # TODO: use a good method to pick the best lat/lon avaiable
-    lat, lon = 0, 0
-    if row['geo']:
-        print(row['geo'])
-        osm = row['geo'][0]['osm']
-        gm = row['geo'][0]['gm']
-        geo_data = None
-        if osm:
-            geo_data = osm
-        elif gm:
-            geo_data = gm
-        if geo_data:
-            print(geo_data)
-            g = geo_data[0]
-            lat, lon = g['latitude'], g['longitude']
-    return lat, lon
-
-
 def post_data():
     print("Loading data")
     table = geo.do_all()
@@ -33,14 +14,18 @@ def post_data():
     data = []
     print("Preparing data for post")
     for i, row in table.iterrows():
-        lat, lon = get_lat_lon(row)
+        lat, lon, reg = row['geoentity'].best_coords()
+        if lat is None:
+            lat, lon = 404, 404
         data.append({
             "pk": row['pk'],
             "lat": lat,
             "lon": lon,
+            "reg": reg,
             "descr": row['DS_PROJETO_ATIVIDADE'],
         })
 
+    print(data)
     print("Posting")
     r = perform_post('data', json.dumps(data))
     print("Posted", r.status_code)

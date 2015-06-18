@@ -82,7 +82,7 @@ define(["jquery", "leaflet", "mapquest", "mapcluster"], function($, L) {
         $.getJSON(API_URL + '/list/data')
         .done(function(response_data) {
             $.each(response_data["data"], function(index, item) {
-                if (item.lat != 0) {
+                if (item.lat != 404) {
                     // var marker = L.marker([item.lat, item.lon]).addTo(map);
                     var marker = L.marker([item.lat, item.lon]);
                     marker.pk = item.pk

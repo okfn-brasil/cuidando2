@@ -15,7 +15,7 @@ app = Eve()
 @cross_origin(allow_headers=['Content-Type'])
 def info(resource):
     total = current_app.data.driver.db[resource].find({}).count()
-    notmapped = current_app.data.driver.db[resource].find({'lat': 0}).count()
+    notmapped = current_app.data.driver.db[resource].find({'lat': 404}).count()
     r = {
         "data": {
             "total": total,

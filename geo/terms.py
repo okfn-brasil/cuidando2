@@ -16,7 +16,9 @@ class Term(object):
     pattern = r"(?:\W|^)({term}[ s][^-,]+)(.*)"
 
     def __init__(self, terms, excep, canonize, weight=0):
-        self.weight = weight
+        if weight is None:
+            weight = 0
+        self.weight = int(weight)
         self.canonize = canonize
         if self.canonize:
             terms = canonical_form(terms)

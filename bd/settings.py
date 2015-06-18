@@ -37,6 +37,9 @@ schema2 = {
     'lon': {
         'type': 'float',
     },
+    'reg': {
+        'type': 'string',
+    },
 }
 
 # info = {
