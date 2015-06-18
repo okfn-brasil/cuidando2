@@ -1,9 +1,11 @@
 # import re
 import sys
 import shelve
+import json
 
 import geopy
 import pandas as pd
+from shapely.geometry import shape, Point
 
 from utils import canonical_form
 from terms import TermsDB
@@ -65,6 +67,7 @@ class Geocoder(object):
         # Coords limits for geolocation
         #         bot  left    top     right
         self.limits = (-47, -24.05, -46.30, -23.35)
+        self.regions = None
 
         self.osm = geopy.Nominatim(view_box=self.limits)
         self.gm = geopy.GoogleV3()
@@ -72,17 +75,37 @@ class Geocoder(object):
             "osm": self.geocode_osm,
             "gm": self.geocode_gm,
         }
+        self.shapefy_regions()
+
+    def shapefy_regions(self):
+        # TODO: permitir configurar...
+        with open("data/subprefeituras.geojson", 'r') as f:
+            self.regions = {}
+            j = json.load(f)
+            for region in j['features']:
+                name = region['properties']['name']
+                poly = shape(region['geometry'])
+                self.regions[name] = poly
 
     def inside_limits(self, point):
-        """Checks if point is inside coords limits (rectangle)."""
-        # TODO: Usar mapa da cidade
-        lat, lon = point.latitude, point.longitude
-        if (lon > self.limits[0] and lat > self.limits[1] and
-           lon < self.limits[2] and lat < self.limits[3]):
-            # print("DENTRO!!!!!!")
-            return True
+        """Checks if point is inside coords limits or possible region."""
+        if not self.regions:
+            # Use rectangle check
+            lat, lon = point.latitude, point.longitude
+            if (lon > self.limits[0] and lat > self.limits[1] and
+               lon < self.limits[2] and lat < self.limits[3]):
+                return True
+            else:
+                return False
         else:
-            # print("FORA!!!!!!")
+            # Check inside all possible regions
+            p = Point((point.longitude, point.latitude))
+            print(p, point)
+            # import IPython; IPython.embed()
+            for name, poly in self.regions.items():
+                # if p.intersects(poly):
+                if poly.contains(p):
+                    return name
             return False
 
     def geocode(self, term):
@@ -95,19 +118,20 @@ class Geocoder(object):
         if not term_geo:
             term_geo = {}
             # query all servers
-            # print(">>>>>>>>>>> ", s)
             for server_name, func in self.server_options.items():
                 points = func(s)
-                # print(points)
                 term_geo[server_name] = []
                 for point in points:
-                    if self.inside_limits(point):
-                        # print("DENTRO!!!!!!")
-                        # print(point.raw)
+                    region = self.inside_limits(point)
+                    if region:
+                        if region is True:
+                            region = "???"
+                        print(region)
                         term_geo[server_name].append({
                             "address": point.address,
                             "latitude": point.latitude,
                             "longitude": point.longitude,
+                            "region": region
                         })
             self.cache[s] = term_geo
         # print("------------------------------------")
@@ -200,7 +224,7 @@ def do_all():
     # EXC = open("exc", 'r').read().splitlines()
     print("Reading table")
     table = pd.read_csv("data/bd.csv")
-    table = table#.iloc[0:10]
+    table = table.iloc[0:100]
     print("Adding pks")
     table = add_pks(table)
     print("Adding geos")

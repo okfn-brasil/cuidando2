@@ -96,6 +96,12 @@ define(["jquery", "leaflet", "mapquest", "mapcluster"], function($, L) {
 
         map.addLayer(markers);
 
-    // }
 
+    console.log("GEOOOOOOOOOO2")
+        $.getJSON('geojson/subprefeituras.geojson')
+        .done(function(response_data) {
+            console.log("PEGUEIIIIIIIII")
+            console.log(response_data)
+            L.geoJson(response_data).addTo(map);
+        });
 });

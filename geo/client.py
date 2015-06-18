@@ -25,7 +25,7 @@ def post_data():
             "descr": row['DS_PROJETO_ATIVIDADE'],
         })
 
-    print(data)
+    # print(data)
     print("Posting")
     r = perform_post('data', json.dumps(data))
     print("Posted", r.status_code)
