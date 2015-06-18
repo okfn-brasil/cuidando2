@@ -11,8 +11,24 @@ from terms import TermsDB
 
 # ('-24.0069999', '-23.3569999', '-46.8264086', '-46.3650897')
 
+class GeoEntity(object):
+    """Stores information about an entity possibly geocoded."""
+
+    def __init__(self, terms=None):
+        self.terms = terms
+
+    def geocode(self, geocoder):
+        """Geocodes all the terms of this entity"""
+        # print(self.terms)
+        for term in self.terms:
+            geo = geocoder.geocode(term['string'])
+            if geo:
+                term['geo'] = geo
+        # print(self.terms)
+
 
 class Geocoder(object):
+    """A class to organize geoservers and geocode terms"""
 
     def __init__(self):
         self.cache = shelve.open("data/cache.db")
@@ -40,8 +56,10 @@ class Geocoder(object):
             return False
 
     def geocode(self, term):
+        """Geocodes a term in all avaiable geoservers"""
+        # TODO: permitir cofigurar isso...
         # limit string size
-        s = term['string'][:60]
+        s = term[:60]
         # check cache
         term_geo = self.cache.get(s)
         if not term_geo:
@@ -59,7 +77,7 @@ class Geocoder(object):
                         term_geo[server_name].append({
                             "address": point.address,
                             "latitude": point.latitude,
-                            "longitude": point.longitude
+                            "longitude": point.longitude,
                         })
             self.cache[s] = term_geo
         # print("------------------------------------")
@@ -67,6 +85,7 @@ class Geocoder(object):
         return term_geo
 
     def geocode_osm(self, s):
+        # TODO: permitir configurar
         s += ", São Paulo, São Paulo"
         r = self.osm.geocode(s, timeout=10, exactly_one=True)
         if r:
@@ -75,8 +94,10 @@ class Geocoder(object):
             return []
 
     def geocode_gm(self, s):
+        # TODO: permitir configurar
         s += ", São Paulo, São Paulo"
         r = self.gm.geocode(s, timeout=10, exactly_one=True)
+        # TODO: permitir configurar
         if not r or r.address == "São Paulo - State of São Paulo, Brazil":
             return []
         else:
@@ -113,21 +134,24 @@ def add_geos(table):
     table_coords = []
     total = len(table)
     for index, row in table.iterrows():
-        row_coords = []
+        row_terms = []
         for cell in row:
             if type(cell) is str:
-                # geo = extract_geos(cell)
                 canonical = canonical_form(cell)
                 terms = terms_db.search(cell, canonical)
-                for term in terms:
-                    print(term)
-                    row_coords.append(geocoder.geocode(term))
+                if terms:
+                    row_terms = row_terms + terms
+                # for term in terms:
+                #     # print(term)
+                #     row_coords.append(geocoder.geocode(term))
                 # if geo:
                 #     geo.sort(key=lambda x: x[1])
                     # print(row_coords)
                 # if not geo and cell not in EXC:
                 #     a[cell] = 1
-        table_coords.append(row_coords)
+        gt = GeoEntity(row_terms)
+        gt.geocode(geocoder)
+        table_coords.append(gt)
         # print progress
         sys.stdout.write("\r %s / %s" % (str(index), total))
         sys.stdout.flush()
@@ -147,7 +171,7 @@ def do_all():
     # EXC = open("exc", 'r').read().splitlines()
     print("Reading table")
     table = pd.read_csv("data/bd.csv")
-    table = table.iloc[0:100]
+    table = table#.iloc[0:100]
     print("Adding pks")
     table = add_pks(table)
     print("Adding geos")
