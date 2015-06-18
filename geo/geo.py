@@ -103,8 +103,8 @@ class Geocoder(object):
             print(p, point)
             # import IPython; IPython.embed()
             for name, poly in self.regions.items():
-                # if p.intersects(poly):
-                if poly.contains(p):
+                # if poly.contains(p):
+                if p.intersects(poly):
                     return name
             return False
 
