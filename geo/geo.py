@@ -17,7 +17,7 @@ class GeoEntity(object):
     def __init__(self, terms=None):
         self.terms = terms
         terms.sort(reverse=True, key=lambda x: x['weight'])
-        self.region = None
+        self.region = ''
 
     def geocode(self, geocoder):
         """Geocodes all the terms of this entity"""
@@ -27,6 +27,9 @@ class GeoEntity(object):
                 geo = geocoder.geocode(term['string'])
                 if geo:
                     term['geo'] = geo
+                    if not self.region:
+                        # TODO: descobrir regiao do ponto
+                        self.region = "???"
             else:
                 self.region = term['region']
 
@@ -197,7 +200,7 @@ def do_all():
     # EXC = open("exc", 'r').read().splitlines()
     print("Reading table")
     table = pd.read_csv("data/bd.csv")
-    table = table.iloc[0:10]
+    table = table#.iloc[0:10]
     print("Adding pks")
     table = add_pks(table)
     print("Adding geos")

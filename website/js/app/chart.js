@@ -36,6 +36,8 @@ define(['jquery', 'hcd', 'hce'], function ($) {
         var data = response_data.data
         $("#mapped-num").html(data.mapped)
         $("#mapped-per").html(Math.round(data.mapped/data.total*100))
+        $("#region-num").html(data.region)
+        $("#region-per").html(Math.round(data.region/data.total*100))
         $("#total-num").html(data.total)
         plotChart()
         // table = $("#maped-table")

@@ -16,10 +16,12 @@ app = Eve()
 def info(resource):
     total = current_app.data.driver.db[resource].find({}).count()
     notmapped = current_app.data.driver.db[resource].find({'lat': 404}).count()
+    noregion = current_app.data.driver.db[resource].find({'reg': ''}).count()
     r = {
         "data": {
             "total": total,
             "mapped": total - notmapped,
+            "region": total - noregion,
         }
     }
     return jsonify(r)
