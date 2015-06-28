@@ -11,7 +11,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', "mapquest", "mapcluster
     }
 
 
-    var map = L.map('map-wrapper', {
+    var map = L.map('map-container', {
         layers: MQ.mapLayer(),
         center: [-23.58098, -46.61293],
         zoom: 12,

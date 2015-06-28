@@ -80,6 +80,8 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
             pubsub: pubsub,
         });
 
+        $("#data-table_wrapper").addClass("general-view")
+
     } catch (e) {
         console && console.error('Could not create DataTable:', e)
     }

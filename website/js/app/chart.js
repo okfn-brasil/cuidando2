@@ -13,7 +13,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'hcd', 'hce'], function($, pubsub,
                 $("#region-num").html(data.region)
                 $("#region-per").html(Math.round(data.region / data.total * 100))
                 $("#total-num").html(data.total)
-                plotChart('mapped-table', '#container')
+                plotChart('mapped-table', '#chart-container')
                     // table = $("#maped-table")
                     // table.empty()
                     // $.each(point, function(key, value) {
