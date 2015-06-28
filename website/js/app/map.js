@@ -1,5 +1,4 @@
-define(["jquery", "leaflet", 'app/urlmanager', "mapquest", "mapcluster"],
-function($, L, urlManager) {
+define(["jquery", "leaflet", 'app/urlmanager', "mapquest", "mapcluster"], function($, L, urlManager) {
 
     // 'use strict';
 
@@ -7,20 +6,20 @@ function($, L, urlManager) {
         list = $("#point-info")
         list.empty()
         $.each(point, function(key, value) {
-            list.append("<dt>"+key+"</dt><dd>"+value+"</dd>")
+            list.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
         })
     }
 
     // window.onload = function() {
-        // API_URL = "http://127.0.0.1:5000"
+    // API_URL = "http://127.0.0.1:5000"
 
-        map = L.map('map-wrapper', {
-            layers: MQ.mapLayer(),
-            center: [ -23.58098, -46.61293 ],
-            zoom: 12
-        });
+    map = L.map('map-wrapper', {
+        layers: MQ.mapLayer(),
+        center: [-23.58098, -46.61293],
+        zoom: 12
+    });
 
-        // var oms = new OverlappingMarkerSpiderfier(map);
+    // var oms = new OverlappingMarkerSpiderfier(map);
 
     // //icones
     // var greenIcon = L.icon({
@@ -57,8 +56,8 @@ function($, L, urlManager) {
     // 	}
     // }
 
-        popup = new L.Popup();
-        window.abrirPopup = function (event) {
+    popup = new L.Popup();
+    window.abrirPopup = function(event) {
             try {
                 // Open related comments
                 // TODO: fazer via pubsub para mostras mais infos do ponto tb
@@ -70,25 +69,29 @@ function($, L, urlManager) {
             popup.setLatLng(event.target.getLatLng());
             map.openPopup(popup);
             $.getJSON(API_URL + '/data/' + event.target.pk)
-            .done(function(response_data) {
-                popup.setContent(response_data.descr);
-                displayPointInfo(response_data);
-            });
+                .done(function(response_data) {
+                    popup.setContent(response_data.descr);
+                    displayPointInfo(response_data);
+                });
         }
         // oms.addListener('click', window.abrirPopup);
         // map.addListener('click', window.abrirPopup);
 
-        var markers = new L.MarkerClusterGroup({ spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true });
+    var markers = new L.MarkerClusterGroup({
+        spiderfyOnMaxZoom: true,
+        showCoverageOnHover: false,
+        zoomToBoundsOnClick: true
+    });
 
-        var year = urlManager.getParam('year')
-        $.getJSON(API_URL + '/list/' + year)
+    var year = urlManager.getParam('year')
+    $.getJSON(API_URL + '/list/' + year)
         .done(function(response_data) {
             $.each(response_data["data"], function(index, item) {
                 if (item.lat != 404) {
                     // var marker = L.marker([item.lat, item.lon]).addTo(map);
                     var marker = L.marker([item.lat, item.lon]);
                     marker.pk = item.pk
-                    // marker.bindPopup(item.descr);
+                        // marker.bindPopup(item.descr);
                     marker.on('click', window.abrirPopup);
                     markers.addLayer(marker);
                     // oms.addMarker(marker);
@@ -96,10 +99,10 @@ function($, L, urlManager) {
             });
         });
 
-        map.addLayer(markers);
+    map.addLayer(markers);
 
 
-        $.getJSON('geojson/subprefeituras.geojson')
+    $.getJSON('geojson/subprefeituras.geojson')
         .done(function(response_data) {
             L.geoJson(response_data).addTo(map);
         });
