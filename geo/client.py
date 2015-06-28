@@ -9,21 +9,31 @@ ENTRY_POINT = 'http://127.0.0.1:5000'
 
 def post_data():
     print("Loading data")
-    table = geo.do_all()
-    # print(table)
+
+    # CACHE PORCA PARA AGILIZAR TESTES
+    import pickle
+    try:
+        table = pickle.load(open("data/table.cache", 'rb'))
+    except:
+        table = geo.do_all()
+        pickle.dump(table, open("data/table.cache", 'wb'))
+    # -----------------------
+
     data = []
-    print("Preparing data for post")
-    for i, row in table.iterrows():
-        lat, lon, reg = row['geoentity'].best_coords()
-        if lat is None:
-            lat, lon = 404, 404
-        data.append({
-            "pk": row['pk'],
-            "lat": lat,
-            "lon": lon,
-            "reg": reg,
-            "descr": row['DS_PROJETO_ATIVIDADE'],
-        })
+    for year in [2014, 2015]:
+        print("Preparing data for post")
+        for i, row in table.iterrows():
+            lat, lon, reg = row['geoentity'].best_coords()
+            if lat is None:
+                lat, lon = 404, 404
+            data.append({
+                "pk": row['pk'],
+                "lat": lat,
+                "lon": lon,
+                "reg": reg,
+                "year": year,
+                "descr": row['DS_PROJETO_ATIVIDADE'],
+            })
 
     # print(data)
     print("Posting")

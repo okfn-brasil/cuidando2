@@ -18,6 +18,7 @@ RESOURCE_METHODS = ['GET', 'POST', 'DELETE']
 # individual items  (defaults to read-only item access).
 ITEM_METHODS = ['GET', 'PATCH', 'PUT', 'DELETE']
 
+# DATE_FORMAT = "%d %m %Y %H:%M:%S"
 
 # schemaU = {
 #     'allow_unknown': True
@@ -27,16 +28,19 @@ schema2 = {
         'type': 'string',
         'unique': True,
     },
+    'year': {
+        'type': 'integer',
+    },
     'descr': {
         'type': 'string',
     },
     'lat': {
         'type': 'float',
     },
-    # 'role' is a list, and can only contain values from 'allowed'.
     'lon': {
         'type': 'float',
     },
+    # region
     'reg': {
         'type': 'string',
     },

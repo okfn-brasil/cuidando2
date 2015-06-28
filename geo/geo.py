@@ -224,7 +224,7 @@ def do_all():
     # EXC = open("exc", 'r').read().splitlines()
     print("Reading table")
     table = pd.read_csv("data/bd.csv")
-    table = table.iloc[0:100]
+    table = table#.iloc[0:100]
     print("Adding pks")
     table = add_pks(table)
     print("Adding geos")

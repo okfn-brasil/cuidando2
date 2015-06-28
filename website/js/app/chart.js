@@ -1,4 +1,4 @@
-define(['jquery', 'hcd', 'hce'], function ($) {
+define(['jquery', 'app/urlmanager', 'hcd', 'hce'], function ($, urlManager) {
 
     'use strict';
 
@@ -31,7 +31,8 @@ define(['jquery', 'hcd', 'hce'], function ($) {
         });
     }
 
-    $.getJSON(window.API_URL + '/info/data')
+    var year = urlManager.getParam('year')
+    $.getJSON(window.API_URL + '/info/' + year)
     .done(function(response_data) {
         var data = response_data.data
         $("#mapped-num").html(data.mapped)

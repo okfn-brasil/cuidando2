@@ -1,5 +1,5 @@
-require(['jquery', 'pubsub', 'urlmanager', 'datatable', 'superselect'],
-function ($, pubsub, UrlManager, DataTable, SuperSelect) {
+define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'],
+function ($, pubsub, urlManager, DataTable, SuperSelect) {
 
   'use strict';
 
@@ -28,34 +28,11 @@ function ($, pubsub, UrlManager, DataTable, SuperSelect) {
   }
 
 
-  $(function main() {
     // This pubsub object should be used by all objects that will be synced.
-    window.pubsub = pubsub;
+    // window.pubsub = pubsub;
 
-    // ****************************************************
-    //          URL MANAGER INITIALIZATION
-    // ****************************************************
-    var urlManager = window.urlManager = new UrlManager({
-      format: '#{{years}}/{{code}}?{{params}}',
-      params: {
-        years: [2014],
-        code: null,
-        page: 0,
-        per_page_num: 25
-      },
-      parsers: {
-        years: function(value) {
-          return $.map(value.split('-'), function(value) {
-            return parseInt(value);
-          });
-        },
-        page: parseInt,
-        per_page_num: parseInt
-      },
-      pubsub: pubsub
-    });
 
-    // populateYearSelector(urlManager.getParam('years'), SuperSelect);
+    populateYearSelector(urlManager.getParam('year'), SuperSelect);
     // createBarChart();
     // populateBarChart(urlManager.getParam('years'), urlManager.getParam('code'));
 
@@ -81,7 +58,7 @@ function ($, pubsub, UrlManager, DataTable, SuperSelect) {
         //   monthly_outcome: formatCurrency
         // },
         params: {
-          years: urlManager.getParam('years'),
+          years: urlManager.getParam('year'),
           code: urlManager.getParam('code'),
           page: urlManager.getParam('page'),
           per_page_num: urlManager.getParam('per_page_num'),
@@ -100,24 +77,26 @@ function ($, pubsub, UrlManager, DataTable, SuperSelect) {
     } catch(e) {
       console && console.error('Could not create DataTable:', e)
     }
-  });
 
 
 
     // Populate selector and prepare its publisher
-    function populateYearSelector(years, SuperSelect) {
+    function populateYearSelector(currentYear, SuperSelect) {
+
         'use strict';
+
         $.getJSON(window.API_URL + '/info')
         .done(function(response_data) {
+            var years = response_data.data.years
             var yearSelector = $("#year-selector")
-            for (var i = 0; i < response_data.length; ++i) {
-                var year = response_data[i].year;
+            for (var i = 0; i < years.length; ++i) {
+                var year = years[i];
                 var item = '<option value="' + year + '">' + year + '</option>';
                 yearSelector.append(item)
             }
             // Set current year
             // TODO: getting only first year... how to use more?
-            if (years) yearSelector.val(years[0])
+            if (currentYear) yearSelector.val(currentYear)
 
             // -----------SUPER STYLED SELECT------------------------------------------
             // Iterate over each select element

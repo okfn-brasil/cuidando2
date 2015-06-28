@@ -1,4 +1,4 @@
-define(["jquery", "leaflet", "mapquest", "mapcluster"], function($, L) {
+define(["jquery", "leaflet", 'app/urlmanager', "mapquest", "mapcluster"], function($, L, urlManager) {
 
     // 'use strict';
 
@@ -79,7 +79,8 @@ define(["jquery", "leaflet", "mapquest", "mapcluster"], function($, L) {
 
         var markers = new L.MarkerClusterGroup({ spiderfyOnMaxZoom: true, showCoverageOnHover: false, zoomToBoundsOnClick: true });
 
-        $.getJSON(API_URL + '/list/data')
+        var year = urlManager.getParam('year')
+        $.getJSON(API_URL + '/list/' + year)
         .done(function(response_data) {
             $.each(response_data["data"], function(index, item) {
                 if (item.lat != 404) {
@@ -97,11 +98,8 @@ define(["jquery", "leaflet", "mapquest", "mapcluster"], function($, L) {
         map.addLayer(markers);
 
 
-    console.log("GEOOOOOOOOOO2")
         $.getJSON('geojson/subprefeituras.geojson')
         .done(function(response_data) {
-            console.log("PEGUEIIIIIIIII")
-            console.log(response_data)
             L.geoJson(response_data).addTo(map);
         });
 });
