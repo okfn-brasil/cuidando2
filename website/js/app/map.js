@@ -1,22 +1,21 @@
-define(["jquery", "leaflet", 'app/urlmanager', "mapquest", "mapcluster"], function($, L, urlManager) {
+define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', "mapquest", "mapcluster"], function($, L, pubsub, urlManager) {
 
-    // 'use strict';
+    'use strict';
 
     function displayPointInfo(point) {
-        list = $("#point-info")
+        var list = $("#point-info")
         list.empty()
         $.each(point, function(key, value) {
             list.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
         })
     }
 
-    // window.onload = function() {
-    // API_URL = "http://127.0.0.1:5000"
 
-    map = L.map('map-wrapper', {
+    var map = L.map('map-wrapper', {
         layers: MQ.mapLayer(),
         center: [-23.58098, -46.61293],
-        zoom: 12
+        zoom: 12,
+        // maxZoom: 20
     });
 
     // var oms = new OverlappingMarkerSpiderfier(map);
@@ -56,54 +55,65 @@ define(["jquery", "leaflet", 'app/urlmanager', "mapquest", "mapcluster"], functi
     // 	}
     // }
 
-    popup = new L.Popup();
-    window.abrirPopup = function(event) {
-            try {
-                // Open related comments
-                // TODO: fazer via pubsub para mostras mais infos do ponto tb
-                window.issoReload(event.target.pk)
-            } catch (ex) {
-                console.log("Error to open Isso comments!")
-            }
-            popup.setContent("Carregando...");
-            popup.setLatLng(event.target.getLatLng());
-            map.openPopup(popup);
-            $.getJSON(API_URL + '/data/' + event.target.pk)
-                .done(function(response_data) {
-                    popup.setContent(response_data.descr);
-                    displayPointInfo(response_data);
-                });
-        }
+    var popup = new L.Popup();
+    function markerClicked(event) {
+        var code = event.target.pk
+        pubsub.publish('code.changed', {value: code})
+
+        popup.setContent("Carregando...");
+        popup.setLatLng(event.target.getLatLng());
+        map.openPopup(popup);
+        $.getJSON(API_URL + '/data/' + code)
+            .done(function(response_data) {
+                popup.setContent(response_data.descr);
+                displayPointInfo(response_data);
+            });
+    }
         // oms.addListener('click', window.abrirPopup);
         // map.addListener('click', window.abrirPopup);
 
-    var markers = new L.MarkerClusterGroup({
-        spiderfyOnMaxZoom: true,
-        showCoverageOnHover: false,
-        zoomToBoundsOnClick: true
-    });
+    // Update map
+    function updateMap() {
+        // Remove possible previous markers layer
+        if (map.yearMarkers) map.removeLayer(map.yearMarkers)
 
-    var year = urlManager.getParam('year')
-    $.getJSON(API_URL + '/list/' + year)
-        .done(function(response_data) {
-            $.each(response_data["data"], function(index, item) {
-                if (item.lat != 404) {
-                    // var marker = L.marker([item.lat, item.lon]).addTo(map);
-                    var marker = L.marker([item.lat, item.lon]);
-                    marker.pk = item.pk
-                        // marker.bindPopup(item.descr);
-                    marker.on('click', window.abrirPopup);
-                    markers.addLayer(marker);
-                    // oms.addMarker(marker);
-                }
-            });
+        // Create new cluster layer
+        var markers = new L.MarkerClusterGroup({
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true
         });
 
-    map.addLayer(markers);
+        // Get list of points from server
+        var year = urlManager.getParam('year')
+        $.getJSON(API_URL + '/list/' + year)
+            .done(function(response_data) {
+                $.each(response_data["data"], function(index, item) {
+                    if (item.lat != 404) {
+                        // var marker = L.marker([item.lat, item.lon]).addTo(map);
+                        var marker = L.marker([item.lat, item.lon]);
+                        marker.pk = item.pk
+                            // marker.bindPopup(item.descr);
+                        marker.on('click', markerClicked);
+                        markers.addLayer(marker);
+                        // oms.addMarker(marker);
+                    }
+                });
+            });
+
+        map.addLayer(markers);
+        map.yearMarkers = markers
+    }
 
 
     $.getJSON('geojson/subprefeituras.geojson')
         .done(function(response_data) {
             L.geoJson(response_data).addTo(map);
         });
+
+    // Subscribe to year change
+    pubsub.subscribe("year.changed", function(event, data) {
+        updateMap()
+    })
+    updateMap()
 });

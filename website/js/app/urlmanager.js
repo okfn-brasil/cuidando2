@@ -5,10 +5,10 @@ define(['jquery', 'pubsub', 'urlmanagerlib'], function($, pubsub, UrlManager) {
     // ****************************************************
     //          URL MANAGER INITIALIZATION
     // ****************************************************
-    var urlmanager = new UrlManager({
+    var urlManager = new UrlManager({
         format: '#{{year}}/{{code}}?{{params}}',
         params: {
-            year: 2015,
+            year: null,
             code: null,
             page: 0,
             per_page_num: 25
@@ -21,5 +21,9 @@ define(['jquery', 'pubsub', 'urlmanagerlib'], function($, pubsub, UrlManager) {
         pubsub: pubsub
     });
 
-    return urlmanager;
+    // If no year, force it to current year
+    if (!urlManager.getParam('year'))
+        urlManager.setParam('year', new Date().getFullYear())
+
+    return urlManager;
 });

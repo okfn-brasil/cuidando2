@@ -83,7 +83,7 @@ DOMAIN = {
     # "info": info,
 }
 
-#PAGINATION_LIMIT = 100000
+# PAGINATION_LIMIT = 100000
 X_DOMAINS = "*"
 
 XML = False

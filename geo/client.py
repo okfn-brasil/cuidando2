@@ -26,14 +26,15 @@ def post_data():
             lat, lon, reg = row['geoentity'].best_coords()
             if lat is None:
                 lat, lon = 404, 404
-            data.append({
-                "pk": row['pk'],
-                "lat": lat,
-                "lon": lon,
-                "reg": reg,
-                "year": year,
-                "descr": row['DS_PROJETO_ATIVIDADE'],
-            })
+            if lat == 404 or year != 2014:
+                data.append({
+                    "pk": row['pk'],
+                    "lat": lat,
+                    "lon": lon,
+                    "reg": reg,
+                    "year": year,
+                    "descr": row['DS_PROJETO_ATIVIDADE'],
+                })
 
     # print(data)
     print("Posting")
