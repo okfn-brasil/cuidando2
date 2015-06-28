@@ -87,7 +87,9 @@ define(["jquery"], function ($) {
     setParam: function(name, value) {
       if (this.params[name] != value) {
         this.params[name] = value;
-        this.location.hash = this.createURL();  // Update URL.
+        var hash = this.createURL();
+        this.url = this.location.origin + "/" + hash
+        this.location.hash = hash;  // Update URL.
       }
       return this;
     },
