@@ -9,7 +9,7 @@ function ($, pubsub, UrlManager) {
     var urlmanager = new UrlManager({
       format: '#{{year}}/{{code}}?{{params}}',
       params: {
-        years: 2015,
+        year: 2015,
         code: null,
         page: 0,
         per_page_num: 25

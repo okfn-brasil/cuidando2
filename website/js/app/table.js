@@ -58,12 +58,12 @@ function ($, pubsub, urlManager, DataTable, SuperSelect) {
         //   monthly_outcome: formatCurrency
         // },
         params: {
-          years: urlManager.getParam('year'),
+          where: '{"year": '+urlManager.getParam('year')+'}',
           code: urlManager.getParam('code'),
           page: urlManager.getParam('page'),
           per_page_num: urlManager.getParam('per_page_num'),
           // TODO: pegar do URL e usar esse parametro
-          only_mapped: '&where={"lat":404}'
+          // only_mapped: '&where={"lat":404}'
         },
         // DataTables options.
         // Disable searching and ordering.
