@@ -1,1 +1,8 @@
-#map-wrapper { height: 600px; }
+#map-container {
+    height: 600px;
+}
+#chart-container {
+    min-width: 310px;
+    height: 400px;
+    margin: 0 auto
+}
