@@ -1,4 +1,5 @@
-define(["jquery", "leaflet", 'app/urlmanager', "mapquest", "mapcluster"], function($, L, urlManager) {
+define(["jquery", "leaflet", 'app/urlmanager', "mapquest", "mapcluster"],
+function($, L, urlManager) {
 
     // 'use strict';
 

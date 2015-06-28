@@ -32,7 +32,7 @@ function ($, pubsub, urlManager, DataTable, SuperSelect) {
     // window.pubsub = pubsub;
 
 
-    populateYearSelector(urlManager.getParam('year'), SuperSelect);
+    // populateYearSelector(urlManager.getParam('year'), SuperSelect);
     // createBarChart();
     // populateBarChart(urlManager.getParam('years'), urlManager.getParam('code'));
 
@@ -78,54 +78,5 @@ function ($, pubsub, urlManager, DataTable, SuperSelect) {
       console && console.error('Could not create DataTable:', e)
     }
 
-
-
-    // Populate selector and prepare its publisher
-    function populateYearSelector(currentYear, SuperSelect) {
-
-        'use strict';
-
-        $.getJSON(window.API_URL + '/info')
-        .done(function(response_data) {
-            var years = response_data.data.years
-            var yearSelector = $("#year-selector")
-            for (var i = 0; i < years.length; ++i) {
-                var year = years[i];
-                var item = '<option value="' + year + '">' + year + '</option>';
-                yearSelector.append(item)
-            }
-            // Set current year
-            // TODO: getting only first year... how to use more?
-            if (currentYear) yearSelector.val(currentYear)
-
-            // -----------SUPER STYLED SELECT------------------------------------------
-            // Iterate over each select element
-            $('#year-selector').each(function () {
-            var yearSelector = new SuperSelect($(this));
-
-            // Subscribe to year change
-            pubsub.subscribe("years.changed", function (event, data) {
-                yearSelector.setValue(data.value);
-            });
-
-            yearSelector.on('change', function(e, value) {
-                pubsub.publish('years.changed', {value: [value]});
-                /* alert($this.val()); Uncomment this for demonstration! */
-            });
-
-            });
-            // ------------------------------------------------------------------------
-
-
-            // Subscribe to year change
-            pubsub.subscribe("years.changed", function (event, data) {
-                $("#year-selector").val(data.value)
-            })
-        });
-        $("#year-selector").change(function (e) {
-            // Publish year change
-            pubsub.publish('years.changed', {value: [e.target.value]})
-        })
-    }
 
 });
