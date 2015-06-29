@@ -17,7 +17,8 @@ requirejs.config({
         hce: "//code.highcharts.com/modules/exporting",
         mapcluster: "leaflet.markercluster",
         pubsub: '../vendor/pubsub-js/js/pubsub',
-        datatables: '../vendor/datatables/js/jquery.dataTables'
+        datatables: '../vendor/datatables/js/jquery.dataTables',
+        bootstrap: '//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min'
     },
     shim: {
         // 'leaflet': {
@@ -26,6 +27,7 @@ requirejs.config({
         mapcluster: ['leaflet', 'mapquest'],
         mapquest: ['leaflet'],
         highcharts: ['jquery'],
+        bootstrap: ['jquery'],
         hcd: ['highcharts'],
         hce: ['highcharts']
     }
