@@ -1,15 +1,6 @@
-define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', "mapquest", "mapcluster"], function($, L, pubsub, urlManager) {
+define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapquest", "mapcluster"], function($, L, pubsub, urlManager) {
 
     'use strict';
-
-    function displayPointInfo(point) {
-        var list = $("#point-info")
-        list.empty()
-        $.each(point, function(key, value) {
-            list.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
-        })
-    }
-
 
     var map = L.map('map-container', {
         layers: MQ.mapLayer(),
@@ -66,7 +57,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', "mapquest", "mapcluster
         $.getJSON(API_URL + '/data/' + code)
             .done(function(response_data) {
                 popup.setContent(response_data.descr);
-                displayPointInfo(response_data);
+                pubsub.publish('pointdata.changed', response_data)
             });
     }
         // oms.addListener('click', window.abrirPopup);
