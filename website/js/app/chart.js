@@ -54,6 +54,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'hcd', 'hce'], function($, pubsub,
 
     // Subscribe to year change
     pubsub.subscribe("year.changed", function(event, data) {
+        console.log("CHART!?!!!")
         updateInfo()
     })
     updateInfo()

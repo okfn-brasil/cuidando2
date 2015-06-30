@@ -63,31 +63,38 @@
             <select id="year-selector" class="center-block text-center general-view"></select>
             <button id="to-general" class="center-block specific-view">Voltar</button>
             <div id="map-container"></div>
-            <div id="chart-container" class="general-view"></div>
-            <table id="mapped-table" class="general-view">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>mapeado</th>
-                        <th>regionalizado</th>
-                        <th>total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th>linhas</th>
-                        <td id="mapped-num"></td>
-                        <td id="region-num"></td>
-                        <td id="total-num"></td>
-                    </tr>
-                    <tr>
-                        <th>porcentagem</th>
-                        <td id="mapped-per"></td>
-                        <td id="region-per"></td>
-                        <td>100</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="row general-view">
+                <div class="col-md-6">
+                    <div id="chart-container"></div>
+                    <table id="mapped-table" class="table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>mapeado</th>
+                                <th>regionalizado</th>
+                                <th>total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>linhas</th>
+                                <td id="mapped-num"></td>
+                                <td id="region-num"></td>
+                                <td id="total-num"></td>
+                            </tr>
+                            <tr>
+                                <th>porcentagem</th>
+                                <td id="mapped-per"></td>
+                                <td id="region-per"></td>
+                                <td>100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                  <p>Aqui vai o outro gráfico
+                </div>
+            </div>
             <div id="datatable-container" class="general-view">
                 <table id="data-table" class="display" cellspacing="0" width="100%"></table>
             </div>
