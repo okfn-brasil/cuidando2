@@ -99,7 +99,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
     }
 
 
-    $.getJSON('static/geojson/subprefeituras.geojson')
+    $.getJSON('static/geojson/subprefeituras.json')
         .done(function(response_data) {
             L.geoJson(response_data).addTo(map);
         });
