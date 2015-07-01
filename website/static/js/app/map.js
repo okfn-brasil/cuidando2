@@ -2,6 +2,8 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
 
     'use strict';
 
+    // L.Icon.Default.imagePath = "static/img"
+
     var map = L.map('map-container', {
         layers: MQ.mapLayer(),
         center: [-23.58098, -46.61293],
@@ -97,7 +99,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
     }
 
 
-    $.getJSON('geojson/subprefeituras.geojson')
+    $.getJSON('static/geojson/subprefeituras.geojson')
         .done(function(response_data) {
             L.geoJson(response_data).addTo(map);
         });

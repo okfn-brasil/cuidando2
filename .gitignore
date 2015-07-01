@@ -57,3 +57,7 @@ target/
 
 *swp
 *swo
+
+.webassets-cache
+bower_components
+
