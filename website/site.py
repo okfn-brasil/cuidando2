@@ -110,12 +110,17 @@ freezer = Freezer(app)
 @app.route('/index.html')
 def root():
     ''' Main page '''
-    return render_template('index.html')
+    return render_template('app.html')
     # Get the page
     # path = 'main'
     # page = pages.get_or_404(add_l10n_prefix(path))
 
     # return render_template('root.html', page=page, pages=pages)
+
+@app.route('/sobre')
+def about():
+    ''' About page '''
+    return render_template('about.html')
 
 # @app.route('/<path:path>/')
 # def page(path):

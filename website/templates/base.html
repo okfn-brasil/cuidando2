@@ -47,74 +47,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Cuidando</a>
+                <a class="navbar-brand" href="/">Cuidando</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <!-- <li class="active"><a href="/">Home</a></li> -->
+                    <li><a href="/sobre">Sobre</a></li>
                 </ul>
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
 
         <div id="main-container" class="container">
-            <select id="year-selector" class="center-block text-center general-view"></select>
-            <button id="to-general" class="center-block specific-view">Voltar</button>
-            <div id="map-container"></div>
-            <div class="row general-view">
-                <div class="col-md-6">
-                    <div id="chart-container"></div>
-                    <table id="mapped-table" class="table">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>mapeado</th>
-                                <th>regionalizado</th>
-                                <th>total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>linhas</th>
-                                <td id="mapped-num"></td>
-                                <td id="region-num"></td>
-                                <td id="total-num"></td>
-                            </tr>
-                            <tr>
-                                <th>porcentagem</th>
-                                <td id="mapped-per"></td>
-                                <td id="region-per"></td>
-                                <td>100</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-md-6">
-                  <p>Aqui vai o outro gráfico
-                </div>
-            </div>
-            <div id="datatable-container" class="general-view">
-                <table id="data-table" class="display" cellspacing="0" width="100%"></table>
-            </div>
-            <dl id="point-info" class="specific-view"></dl>
-            <div id="comments-container" class="specific-view" style="text-align:center;">
-                <div id="wrapper" style="width: 900px; text-align: left; margin-left: auto; margin-right: auto;">
-                    <!-- <script	data-isso="http://127.0.0.1:8080" src="static/embed.dev.js"></script> -->
-                    <!-- <script	src="js/isso/embed.dev.js"></script> -->
-                    <section id="isso-thread" data-title="Isso Test"></section>
-                </div>
-            </div>
+        {% block maincontainer %}
+        {% endblock %}
         </div><!-- /.container -->
 
-        <script type="text/javascript">
-            window.API_URL = '{{ config['API_URL'] }}';
-            window.ISSO_URL = '{{ config['ISSO_URL'] }}';
-        </script>
-        <!-- {% assets "requirejs" %} -->
-        <!-- <script type="text/javascript" src="{{ ASSET_URL }}"></script> -->
-        <!-- {% endassets %} -->
-        <script data-main="static/js/config" src="static/vendor/requirejs/js/require.js"></script>
+        {% block endjs %}
+        {% endblock %}
     </body>
 </html>
