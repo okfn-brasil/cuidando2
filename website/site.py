@@ -107,6 +107,7 @@ freezer = Freezer(app)
 #
 
 @app.route('/')
+@app.route('/index.html')
 def root():
     ''' Main page '''
     return render_template('index.html')
