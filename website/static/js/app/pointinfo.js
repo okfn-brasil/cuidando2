@@ -1,6 +1,8 @@
-define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
+define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub, urlManager, showSubscribe) {
 
     'use strict';
+
+    var infoId = "#point-info"
 
     var names = {
         "reg": 'Região',
@@ -8,16 +10,20 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         "year": "Ano"
     }
 
-    function displayPointInfo(point) {
-        var list = $("#point-info")
+    function displayPointInfo(event, point) {
+        var list = $(infoId)
         list.empty()
-        $.each(point, function(key, value) {
-            if (names[key])
-            list.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
-        })
+        if (point) {
+            $.each(point, function(key, value) {
+                if (names[key])
+                    list.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
+            })
+        }
     }
 
-    pubsub.subscribe("pointdata.changed", function(event, data) {
-        displayPointInfo(data);
-    })
+    // pubsub.subscribe("pointdata.changed", function(event, data) {
+    //     displayPointInfo(data);
+    // })
+
+    showSubscribe("pointdata.changed", displayPointInfo, infoId)
 });

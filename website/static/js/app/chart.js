@@ -1,10 +1,13 @@
-define(['jquery', 'pubsub', 'app/urlmanager', 'hcd', 'hce'], function($, pubsub, urlManager) {
+define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], function($, pubsub, urlManager, showSubscribe) {
 
     'use strict';
+
+    var chartId = '#chart-container'
 
     // Get data, update table, plot chart
     function updateInfo() {
         var year = urlManager.getParam('year')
+        console.log(year)
         $.getJSON(window.API_URL + '/info/' + year)
             .done(function(response_data) {
                 var data = response_data.data
@@ -13,7 +16,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'hcd', 'hce'], function($, pubsub,
                 $("#region-num").html(data.region)
                 $("#region-per").html(Math.round(data.region / data.total * 100))
                 $("#total-num").html(data.total)
-                plotChart('mapped-table', '#chart-container')
+                plotChart('mapped-table', chartId)
                     // table = $("#maped-table")
                     // table.empty()
                     // $.each(point, function(key, value) {
@@ -52,10 +55,22 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'hcd', 'hce'], function($, pubsub,
         });
     }
 
-    // Subscribe to year change
-    pubsub.subscribe("year.changed", function(event, data) {
-        console.log("CHART!?!!!")
-        updateInfo()
-    })
-    updateInfo()
+
+    showSubscribe("year.changed", updateInfo, chartId)
+
+
+    // // Starts to update automaticaly while visible
+    // $(chartId).on("show", function() {
+    //     // Subscribe to year change
+    //     pubsub.subscribe("year.changed", function(event, data) {
+    //         updateInfo()
+    //     })
+    //     updateInfo()
+    // })
+
+    // // Stops to update automaticaly while hidden
+    // $(chartId).on("hide", function() {
+    //     // Unsubscribe to year change
+    //     pubsub.unsubscribe(updateInfo)
+    // })
 });

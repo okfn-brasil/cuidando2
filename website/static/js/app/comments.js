@@ -1,4 +1,4 @@
-define(["jquery", 'pubsub', 'app/urlmanager', "isso/embed.dev"], function($, pubsub, urlManager) {
+define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub", "isso/embed.dev"], function($, pubsub, urlManager, showSubscribe) {
 
     'use strict';
 
@@ -11,8 +11,8 @@ define(["jquery", 'pubsub', 'app/urlmanager', "isso/embed.dev"], function($, pub
         }
     }
 
-    pubsub.subscribe("code.changed", function(event, data) {
-        console.log(event, data)
-        updateComments()
-    })
+    // pubsub.subscribe("code.changed", function(event, data) {
+    //     updateComments()
+    // })
+    showSubscribe("code.changed", updateComments, "#comments-container")
 });

@@ -15,3 +15,7 @@
 .interface-component {
     margin-top: 50px;
 }
+
+.specific-view, .general-view {
+    display: none;
+}

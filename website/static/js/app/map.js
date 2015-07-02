@@ -4,7 +4,9 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
 
     // L.Icon.Default.imagePath = "static/img"
 
-    var map = L.map('map-container', {
+    var mapId = 'map-container'
+
+    var map = L.map(mapId, {
         layers: MQ.mapLayer(),
         center: [-23.58098, -46.61293],
         zoom: 12,
@@ -104,9 +106,24 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
             L.geoJson(response_data).addTo(map);
         });
 
-    // Subscribe to year change
+
     pubsub.subscribe("year.changed", function(event, data) {
         updateMap()
     })
     updateMap()
+
+    // // Starts to update automaticaly while visible
+    // $(mapId).on("show", function() {
+    //     // Subscribe to year change
+    //     pubsub.subscribe("year.changed", function(event, data) {
+    //         updateMap()
+    //     })
+    //     updateMap()
+    // })
+
+    // // Stops to update automaticaly while hidden
+    // $(mapId).on("hide", function() {
+    //     // Unsubscribe to year change
+    //     pubsub.unsubscribe(updateMap)
+    // })
 });

@@ -117,7 +117,7 @@ def root():
 
     # return render_template('root.html', page=page, pages=pages)
 
-@app.route('/sobre')
+@app.route('/sobre.html')
 def about():
     ''' About page '''
     return render_template('about.html')

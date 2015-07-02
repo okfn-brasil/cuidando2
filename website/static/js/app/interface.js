@@ -2,13 +2,17 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
 
     'use strict';
 
-    function toggleGeneralSpecific() {
-        if (urlManager.getParam('code') == null) {
-            $(".general-view").show()
-            $(".specific-view").hide()
-        } else {
+    // Show/Hide interface elements
+    function switchGeneralSpecific() {
+        console.log(urlManager.getParam('code'))
+        if (urlManager.getParam('code')) {
+            console.log("Specific")
             $(".general-view").hide()
             $(".specific-view").show()
+        } else {
+            console.log("General")
+            $(".general-view").show()
+            $(".specific-view").hide()
         }
         // if (data.value == null) {
         //     $(".general-view").fadeIn()
@@ -19,14 +23,39 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         // }
     }
 
+    // Controls when to show/hide the elements of the interface
+    var prevCodeWasNull = !urlManager.getParam('code')
+    function controledSwitch() {
+        var currentCodeIsNull = !urlManager.getParam('code')
+        // Show/Hide only if "nulliness" changed
+        if (currentCodeIsNull != prevCodeWasNull) {
+            switchGeneralSpecific()
+        }
+        prevCodeWasNull = currentCodeIsNull
+    }
+
     pubsub.subscribe("code.changed", function(event, data) {
-        toggleGeneralSpecific()
+        controledSwitch()
     })
+
 
     // Button to go back to general view
     $("#to-general").click(function () {
         pubsub.publish('code.changed', {value: null})
     });
 
-    toggleGeneralSpecific()
+
+    // Allows "on show" and "on hide"
+    (function ($) {
+        $.each(['show', 'hide'], function (i, ev) {
+            var el = $.fn[ev];
+            $.fn[ev] = function () {
+                this.trigger(ev);
+                return el.apply(this, arguments);
+            };
+        });
+    })(jQuery);
+
+
+    return switchGeneralSpecific
 });
