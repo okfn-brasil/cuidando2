@@ -3,7 +3,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'superselect'], function($, pubsub
     'use strict';
 
     // Populate selector and prepare its publisher
-    $.getJSON(window.API_URL + '/info')
+    $.getJSON(window.API_URL + '/execucao/info')
         .done(function(response_data) {
             var existingYears = response_data.data.years
             var yearSelector = $("#year-selector")

@@ -81,13 +81,13 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
 
         // Get list of points from server
         var year = urlManager.getParam('year')
-        $.getJSON(API_URL + '/list/' + year)
+        $.getJSON(API_URL + '/execucao/minlist/' + year)
             .done(function(response_data) {
                 $.each(response_data["data"], function(index, item) {
-                    if (item.lat != 404) {
+                    if (item[1]) {
                         // var marker = L.marker([item.lat, item.lon]).addTo(map);
-                        var marker = L.marker([item.lat, item.lon]);
-                        marker.pk = item.pk
+                        var marker = L.marker([item[1], item[2]]);
+                        marker.pk = item[0]
                             // marker.bindPopup(item.descr);
                         marker.on('click', markerClicked);
                         markers.addLayer(marker);
