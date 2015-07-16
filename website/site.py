@@ -14,6 +14,8 @@ from flask_frozen import Freezer
 from flask.ext.assets import Environment, Bundle
 from flask.ext.cors import CORS
 
+from gambs import MyRequireJSFilter
+
 
 # TODO:
 # * Get babel locale from request path
@@ -23,10 +25,11 @@ app = Flask(__name__)
 cors = CORS(app)
 assets = Environment(app)
 
-requirejs = Bundle('js/config.js',
-                   # filters='requirejs',
-                   filters='rjsmin',
-                   output='gen/packed.js',
+requirejs = Bundle('js/build.js',
+                   filters=MyRequireJSFilter,
+                   # filters='rjsmin',
+                   # output='gen/packed.js',
+                   output="build/app/main.js",
                    depends="js/app/*")
 assets.register('requirejs', requirejs)
 
@@ -39,6 +42,9 @@ if len(sys.argv) > 2:
     extra_conf = sys.argv[2]
     app.config.from_pyfile(
         'settings/{}_settings.py'.format(extra_conf), silent=True)
+
+assets.debug = app.config['DEBUG']
+print(assets.debug)
 
 # # Add the babel extension
 # babel = Babel(app)

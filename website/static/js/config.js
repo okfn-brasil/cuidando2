@@ -28,9 +28,14 @@ requirejs.config({
         highcharts: ['jquery'],
         bootstrap: ['jquery'],
         hcd: ['highcharts'],
-        hce: ['highcharts']
-    }
+        hce: ['highcharts'],
+    },
+    modules: [
+        {
+            name: "app/main"
+        }
+    ]
 })
 
 // Load the main app module to start the app
-requirejs(["app/main"])
+// requirejs(["app/main"])
