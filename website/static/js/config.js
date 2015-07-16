@@ -4,7 +4,7 @@
 // except 'app' ones,
 requirejs.config({
     baseUrl: "static/js",
-    // urlArgs: "bust=" + (new Date()).getTime(),
+    urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
         bootstrap: "bower_components/bootstrap/dist/js/bootstrap",
         highcharts: "bower_components/highcharts/highcharts",
@@ -29,13 +29,8 @@ requirejs.config({
         bootstrap: ['jquery'],
         hcd: ['highcharts'],
         hce: ['highcharts'],
-    },
-    modules: [
-        {
-            name: "app/main"
-        }
-    ]
+    }
 })
 
 // Load the main app module to start the app
-// requirejs(["app/main"])
+requirejs(["app/main"])

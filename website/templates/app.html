@@ -55,7 +55,7 @@
     window.ISSO_URL = '{{ config['ISSO_URL'] }}';
 </script>
 {% assets "requirejs" %}
-<script type="text/javascript" src="{{ ASSET_URL }}"></script>
+<script type="text/javascript" data-main="static/js/config" src="{{ ASSET_URL }}"></script>
 {% endassets %}
 <!-- <script data-main="static/js/config" src="static/vendor/requirejs/js/require.js"></script> -->
 {% endblock %}

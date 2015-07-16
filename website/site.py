@@ -25,10 +25,12 @@ app = Flask(__name__)
 cors = CORS(app)
 assets = Environment(app)
 
-requirejs = Bundle('js/build.js',
+# requirejs = Bundle('js/build.js',
+requirejs = Bundle('vendor/requirejs/js/require.js',
                    filters=MyRequireJSFilter,
                    # filters='rjsmin',
                    # output='gen/packed.js',
+                   # output="vendor/require.js",
                    output="build/app/main.js",
                    depends="js/app/*")
 assets.register('requirejs', requirejs)
@@ -44,7 +46,6 @@ if len(sys.argv) > 2:
         'settings/{}_settings.py'.format(extra_conf), silent=True)
 
 assets.debug = app.config['DEBUG']
-print(assets.debug)
 
 # # Add the babel extension
 # babel = Babel(app)
