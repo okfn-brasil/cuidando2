@@ -4,7 +4,6 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
 
     // Show/Hide interface elements
     function switchGeneralSpecific() {
-        console.log(urlManager.getParam('code'))
         if (urlManager.getParam('code')) {
             console.log("Specific")
             $(".general-view").hide()
@@ -57,5 +56,10 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
     })(jQuery);
 
 
-    return switchGeneralSpecific
+    function init() {
+        switchGeneralSpecific()
+        // This allows pointInfo to load the data at startup
+        pubsub.publish('code.changed', {value: urlManager.getParam('code')})
+    }
+    return init
 });

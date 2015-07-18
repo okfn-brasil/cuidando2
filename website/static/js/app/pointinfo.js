@@ -11,21 +11,18 @@ define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub
     }
 
     function displayPointInfo(event, point) {
-        var list = $(infoId)
-        list.empty()
+        var dom_list = $(infoId)
+        dom_list.empty()
+        console.log(point)
+
         if (point) {
-            console.log(point)
             $.each(point, function(key, value) {
                 // if (names[key])
-                //     list.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
-                list.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
+                //     dom_list.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
+                dom_list.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
             })
         }
     }
 
-    // pubsub.subscribe("pointdata.changed", function(event, data) {
-    //     displayPointInfo(data);
-    // })
-
-    showSubscribe("pointdata.changed", displayPointInfo, infoId)
+    showSubscribe("pointdata.changed", displayPointInfo, infoId, false)
 });

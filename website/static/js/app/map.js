@@ -51,22 +51,31 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
     // }
 
     var popup = new L.Popup();
+
+    // Get more data about current code and publish it
+    pubsub.subscribe("code.changed", function(event, data) {
+        console.log("get data", data)
+        $.getJSON(API_URL + '/execucao/list?code=' + data.value)
+            .done(function(response_data) {
+                var pointInfo = response_data.data[0]
+                console.log("get data2", response_data, pointInfo)
+                pubsub.publish('pointdata.changed', pointInfo)
+        });
+    })
+
+    // Called when a marker is clicked
     function markerClicked(event) {
         var code = event.layer.feature.properties.uid
-        pubsub.publish('code.changed', {value: code})
-
         popup.setContent("Carregando...");
         popup.setLatLng(event.latlng);
         map.openPopup(popup);
-        $.getJSON(API_URL + '/execucao/list?code=' + code)
-            .done(function(response_data) {
-                var pointInfo = response_data.data[0]
-                popup.setContent(pointInfo.ds_projeto_atividade);
-                pubsub.publish('pointdata.changed', pointInfo)
-            });
+        pubsub.publish('code.changed', {value: code})
     }
-        // oms.addListener('click', window.abrirPopup);
-        // map.addListener('click', window.abrirPopup);
+
+    // Update popup with the new data
+    pubsub.subscribe("pointdata.changed", function(event, data) {
+        popup.setContent(data.ds_projeto_atividade);
+    })
 
     // Update map
     function updateMap() {
