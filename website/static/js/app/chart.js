@@ -8,7 +8,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
     function updateInfo() {
         var year = urlManager.getParam('year')
         console.log(year)
-        $.getJSON(window.API_URL + '/info/' + year)
+        $.getJSON(window.API_URL + '/execucao/info/' + year)
             .done(function(response_data) {
                 var data = response_data.data
                 $("#mapped-num").html(data.mapped)

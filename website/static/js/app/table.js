@@ -40,12 +40,13 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
     // ****************************************************
     try {
         var dataTable = new DataTable('#data-table', {
-            url: window.API_URL + '/data',
+            url: window.API_URL + '/execucao/list',
+            // url: "http://demo.gastosabertos.org/api/v1/receita/list",
             columns: [{
-                    field: 'descr',
+                    field: 'ds_projeto_atividade',
                     title: 'Descrição'
                 }, {
-                    field: 'pk',
+                    field: 'code',
                     title: 'PK'
                 }
                 // { field: 'id',                title: 'ID'},
@@ -63,7 +64,8 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
             params: {
                 // TODO: Eve começa o contar páginas de 1, DataTable de 0
                 // TODO: Eve usa "max_results", DataTable "per_page_num"
-                where: 'year==' + urlManager.getParam('year'),
+                // where: 'year==' + urlManager.getParam('year'),
+                year: urlManager.getParam('year'),
                 code: urlManager.getParam('code'),
                 page: urlManager.getParam('page'),
                 per_page_num: urlManager.getParam('per_page_num'),
@@ -86,14 +88,14 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
         console && console.error('Could not create DataTable:', e)
     }
 
-    //TODO: esse subscribe é necessário porque o DataTable assume que os
-    //parâmetros do website são iguais aos da API, mas isso não é verdade para o
-    //"year" e "where=year==<ano>", logo é preciso forçar a atualização do
-    //'where' quando o 'year' mudar. É possível que a API mude e isso se arrume
-    //sozinho. Se não arrumar sozinho, talvez seja bom dar uma rafatorada aqui.
-    pubsub.subscribe("year.changed", function(event, data) {
-        pubsub.publish('where.changed', {
-            value: 'year==' + data.value
-        });
-    })
+    // //TODO: esse subscribe é necessário porque o DataTable assume que os
+    // //parâmetros do website são iguais aos da API, mas isso não é verdade para o
+    // //"year" e "where=year==<ano>", logo é preciso forçar a atualização do
+    // //'where' quando o 'year' mudar. É possível que a API mude e isso se arrume
+    // //sozinho. Se não arrumar sozinho, talvez seja bom dar uma rafatorada aqui.
+    // pubsub.subscribe("year.changed", function(event, data) {
+    //     pubsub.publish('where.changed', {
+    //         value: 'year==' + data.value
+    //     });
+    // })
 });

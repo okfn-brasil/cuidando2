@@ -52,16 +52,17 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
 
     var popup = new L.Popup();
     function markerClicked(event) {
-        var code = event.target.pk
+        var code = event.layer.feature.properties.uid
         pubsub.publish('code.changed', {value: code})
 
         popup.setContent("Carregando...");
-        popup.setLatLng(event.target.getLatLng());
+        popup.setLatLng(event.latlng);
         map.openPopup(popup);
-        $.getJSON(API_URL + '/data/' + code)
+        $.getJSON(API_URL + '/execucao/list?code=' + code)
             .done(function(response_data) {
-                popup.setContent(response_data.descr);
-                pubsub.publish('pointdata.changed', response_data)
+                var pointInfo = response_data.data[0]
+                popup.setContent(pointInfo.ds_projeto_atividade);
+                pubsub.publish('pointdata.changed', pointInfo)
             });
     }
         // oms.addListener('click', window.abrirPopup);
@@ -84,15 +85,27 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
         $.getJSON(API_URL + '/execucao/minlist/' + year)
             .done(function(response_data) {
                 $.each(response_data["data"], function(index, item) {
-                    if (item[1]) {
-                        // var marker = L.marker([item.lat, item.lon]).addTo(map);
-                        var marker = L.marker([item[1], item[2]]);
-                        marker.pk = item[0]
-                            // marker.bindPopup(item.descr);
-                        marker.on('click', markerClicked);
-                        markers.addLayer(marker);
-                        // oms.addMarker(marker);
-                    }
+                    // L.geoJson(item).addTo(map);
+                    // L.geoJson(item, {
+                    //     pointToLayer: function (feature, latlng) {
+                    //         return L.marker(latlng);
+                    //         // return L.marker(latlng, geojsonMarkerOptions);
+                    //     }
+                    // })
+                    var marker = L.geoJson(item)
+                    marker.on('click', markerClicked);
+                    markers.addLayer(marker);
+
+
+                    // if (item[1]) {
+                    //     // var marker = L.marker([item.lat, item.lon]).addTo(map);
+                    //     var marker = L.marker([item[1], item[2]]);
+                    //     marker.pk = item[0]
+                    //         // marker.bindPopup(item.descr);
+                    //     marker.on('click', markerClicked);
+                    // markers.addLayer(marker);
+                    //     // oms.addMarker(marker);
+                    // }
                 });
             });
 

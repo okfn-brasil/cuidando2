@@ -183,16 +183,16 @@ define(['jquery', 'datatables'], function ($, datatables) {
     },
 
     _formatData: function(data) {
-      var formatters = this.formatters,
-          items = data['_items'];
-      $.each(items, function(i, row) {
+      var formatters = this.formatters
+          // items = data['_items'];
+      $.each(data, function(i, row) {
         $.each(formatters, function(column, formatter) {
           if (row[column] !== undefined && $.isFunction(formatter)) {
             row[column] = formatter(row[column]);
           }
         });
       });
-      return items;
+      return data;
     },
 
     _ajaxRequest: function(data, callback, settings) {
@@ -209,13 +209,13 @@ define(['jquery', 'datatables'], function ($, datatables) {
         xhrFields: { withCredentials: false }
       })
       .done(function(data, textStatus, jqXHR) {
-        // var totalCount = jqXHR.getResponseHeader('X-Total-Count');
-        var totalCount = data['_meta'].total;
+        var totalCount = jqXHR.getResponseHeader('X-Total-Count');
+        // var totalCount = data['_meta'].total;
         callback({  // Ref: http://datatables.net/manual/server-side
           draw: draw,
           recordsTotal: totalCount,
           recordsFiltered: totalCount,
-          data: that._formatData(data)
+          data: that._formatData(data.data)
         });
       });
     }

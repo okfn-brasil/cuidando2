@@ -14,9 +14,11 @@ define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub
         var list = $(infoId)
         list.empty()
         if (point) {
+            console.log(point)
             $.each(point, function(key, value) {
-                if (names[key])
-                    list.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
+                // if (names[key])
+                //     list.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
+                list.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
             })
         }
     }
