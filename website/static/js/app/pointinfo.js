@@ -11,15 +11,15 @@ define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub
     }
 
     function displayPointInfo(event, point) {
-        var dom_list = $(infoId)
-        dom_list.empty()
+        var domList = $(infoId)
+        domList.empty()
         console.log(point)
 
         if (point) {
             $.each(point, function(key, value) {
                 // if (names[key])
-                //     dom_list.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
-                dom_list.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
+                //     domList.append("<dt>" + names[key] + "</dt><dd>" + value + "</dd>")
+                domList.append("<dt>" + key + "</dt><dd>" + value + "</dd>")
             })
         }
     }
