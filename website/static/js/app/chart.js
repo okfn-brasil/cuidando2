@@ -7,7 +7,6 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
     // Get data, update table, plot chart
     function updateInfo() {
         var year = urlManager.getParam('year')
-        console.log(year)
         $.getJSON(window.API_URL + '/execucao/info/' + year)
             .done(function(response_data) {
                 // Mapped Rows
@@ -24,7 +23,6 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
                 var domValues = $("#values-table>tbody")
                 domValues.empty()
                 $.each(values, function(key, value) {
-                    console.log(value)
                     var unmapped = value.total - value.mapped
                     var per = value.mapped / value.total * 100
                     domValues.append(
