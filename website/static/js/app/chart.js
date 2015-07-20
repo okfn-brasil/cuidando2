@@ -10,13 +10,32 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
         console.log(year)
         $.getJSON(window.API_URL + '/execucao/info/' + year)
             .done(function(response_data) {
-                var data = response_data.data
-                $("#mapped-num").html(data.mapped)
-                $("#mapped-per").html(Math.round(data.mapped / data.total * 100))
-                $("#region-num").html(data.region)
-                $("#region-per").html(Math.round(data.region / data.total * 100))
-                $("#total-num").html(data.total)
+                var rows = response_data.data.rows
+                $("#mapped-num").html(rows.mapped)
+                $("#mapped-per").html(Math.round(rows.mapped / rows.total * 100))
+                $("#region-num").html(rows.region)
+                $("#region-per").html(Math.round(rows.region / rows.total * 100))
+                $("#total-num").html(rows.total)
                 plotChart('mapped-table', chartId)
+
+                var values = response_data.data.values
+                var domValues = $("#values-table>tbody")
+                domValues.empty()
+                $.each(values, function(key, value) {
+                    console.log(value)
+                    var unmapped = value.total - value.mapped
+                    var per = value.mapped / value.total * 100
+                    domValues.append(
+                        "<tr><th>"+value.name+
+                        "</th><td>"+value.mapped+
+                        "</td><td>"+unmapped+
+                        "</td><td>"+value.total+
+                        "</td><td>"+Math.round(per.toFixed(0))+
+                        // "</td><td>"+per.toFixed(0)+
+                        "</td></tr>")
+                })
+                plotChartStacked('values-table', "#chart-values-container")
+
                     // table = $("#maped-table")
                     // table.empty()
                     // $.each(point, function(key, value) {
@@ -44,6 +63,41 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
                 allowDecimals: false,
                 title: {
                     text: 'Units'
+                }
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        this.point.y + ' ' + this.point.name.toLowerCase();
+                }
+            }
+        });
+    }
+
+    // Plot table 'table' in container 'chartContainer'
+    function plotChartStacked(table, chartContainer) {
+        $(chartContainer).highcharts({
+            data: {
+                table: table,
+                endColumn: 2
+            },
+            // series: [{type: 'column'},
+            //          {type:'spline'}],
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Data extracted from a HTML table in the page'
+            },
+            yAxis: {
+                allowDecimals: false,
+                title: {
+                    text: 'Units'
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal'
                 }
             },
             tooltip: {
