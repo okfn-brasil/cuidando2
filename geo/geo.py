@@ -101,7 +101,6 @@ class Geocoder(object):
             # Check inside all possible regions
             p = Point((point.longitude, point.latitude))
             print(p, point)
-            # import IPython; IPython.embed()
             for name, poly in self.regions.items():
                 # if poly.contains(p):
                 if p.intersects(poly):
