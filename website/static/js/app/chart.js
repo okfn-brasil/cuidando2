@@ -10,6 +10,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
         console.log(year)
         $.getJSON(window.API_URL + '/execucao/info/' + year)
             .done(function(response_data) {
+                // Mapped Rows
                 var rows = response_data.data.rows
                 $("#mapped-num").html(rows.mapped)
                 $("#mapped-per").html(Math.round(rows.mapped / rows.total * 100))
@@ -18,6 +19,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
                 $("#total-num").html(rows.total)
                 plotChart('mapped-table', chartId)
 
+                // Values Table
                 var values = response_data.data.values
                 var domValues = $("#values-table>tbody")
                 domValues.empty()
@@ -30,17 +32,11 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
                         "</th><td>"+value.mapped+
                         "</td><td>"+unmapped+
                         "</td><td>"+value.total+
-                        "</td><td>"+Math.round(per.toFixed(0))+
+                        "</td><td>"+Math.round(per)+
                         // "</td><td>"+per.toFixed(0)+
                         "</td></tr>")
                 })
                 plotChartStacked('values-table', "#chart-values-container")
-
-                    // table = $("#maped-table")
-                    // table.empty()
-                    // $.each(point, function(key, value) {
-                    //     list.append("<dt>"+key+"</dt><dd>"+value+"</dd>")
-                    // })
             });
     }
 
