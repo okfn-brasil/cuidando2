@@ -1,0 +1,7 @@
+Flask
+Flask-Login
+Flask-Script
+Flask-Restplus
+# Werkzeug
+# pysqlite
+# Jinja2
