@@ -1,7 +1,9 @@
 Flask
-Flask-Login
+# Flask-Login
 Flask-Script
 Flask-Restplus
+# itsdangerous
+pyjwt
 # Werkzeug
 # pysqlite
 # Jinja2

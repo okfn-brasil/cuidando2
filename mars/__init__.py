@@ -11,7 +11,7 @@ from social.apps.flask_app.default.models import init_social
 
 
 from flask import g, Blueprint, request, current_app
-from flask.ext.login import login_required, login_user
+# from flask.ext.login import login_required, login_user
 
 from social.actions import do_auth, do_complete, do_disconnect
 from social.apps.flask_app.utils import psa
@@ -29,6 +29,25 @@ from social.utils import build_absolute_uri
 
 from social.strategies.flask_strategy import FlaskStrategy
 from social.backends.facebook import FacebookOAuth2
+
+# from itsdangerous import Signer
+# from itsdangerous import JSONWebSignatureSerializer
+import jwt
+
+
+# DANGEROUS_SECRET_KEY = "AVOBSRD@H908o12wo9HDO289o(Dct2yh8o92dko9c28w39kw3298w)"
+# signer = JSONWebSignatureSerializer(DANGEROUS_SECRET_KEY)
+
+KEY = "AVOBSRD@H908o12wo9HDO289o(Dct2yh8o92dko9c28w39kw3298w)"
+
+# a=jwt.encode({"username":u, 'exp': datetime.utcnow()}, D)
+
+
+def encode(data, exp=None):
+    #TODO: Usar chaves pub/priv
+    if exp:
+        data["exp"] = exp
+    return jwt.encode(data, KEY).decode("utf8")
 
 
 # App
@@ -60,64 +79,18 @@ from mars import models
 
 
 def insert_user(user, is_new, **kwargs):
+    if user:
+        g.user = user
     if is_new:
         db_session.add(user)
         db_session.commit()
         print(">>>>>Adicinado ao BD!!!")
 
 count = 0
-def pipe_count():
+def pipe_count(**kwargs):
     global count
     print("============", count)
     count += 1
-
-
-# @login_manager.user_loader
-# def load_user(userid):
-#     try:
-#         u = models.User.query.get(int(userid))
-#         # import IPython; IPython.embed()
-#         print("OOOOOOOOOOHH", u)
-#         # import IPython; IPython.embed()
-#         return u
-#     except (TypeError, ValueError):
-#         print("Ahhhhhhhhhh")
-#         pass
-
-
-# @app.before_request
-# def global_user():
-#     # g.user = login.current_user
-#     g.user = login.current_user._get_current_object()
-
-
-@app.teardown_appcontext
-def commit_on_success(error=None):
-    if error is None:
-        db_session.commit()
-
-
-@app.teardown_request
-def shutdown_session(exception=None):
-    db_session.remove()
-
-
-@app.context_processor
-def inject_user():
-    try:
-        return {'user': g.user}
-    except AttributeError:
-        return {'user': None}
-
-
-
-
-
-
-
-
-
-
 
 
 class HeadlessFacebookStrategy(FlaskStrategy):
@@ -189,12 +162,18 @@ class Complete(Resource):
         g.backend = load_backend(g.strategy, backend, redirect_uri=uri,
                                  *args, **kwargs)
         print("COMPLETE-GET-2")
-        u = models.User.query.get(int(1))
-        resp = do_complete(g.backend, login=do_login, user=u,
-                           *args, **kwargs)
+        # u = models.User.query.get(int(1))
+        # resp = do_complete(g.backend, login=do_login, user=u,
+        do_complete(g.backend, login=do_login, *args, **kwargs)
         print("COMPLETE-GET-3")
-        return {'redirect': resp.location}
+        return {
+            'token': encode({'username': g.user.username})
+        }
+        # return {'redirect': resp.location}
 
+
+def do_login(backend, user, social_user):
+    print("do_login", user, social_user)
 
 # @api.route('/login/<string:backend>/', methods=('GET', 'POST'))
 # @psa('social.complete')
@@ -223,10 +202,49 @@ class Complete(Resource):
 #     return do_disconnect(g.backend, g.user, association_id)
 
 
-def do_login(backend, user, social_user):
-    return login_user(user, remember=request.cookies.get('remember') or
-                      request.args.get('remember') or
-                      request.form.get('remember') or False)
+# def do_login(backend, user, social_user):
+#     return login_user(user, remember=request.cookies.get('remember') or
+#                       request.args.get('remember') or
+#                       request.form.get('remember') or False)
 
 
 # app.context_processor(backends)
+
+
+
+# @login_manager.user_loader
+# def load_user(userid):
+#     try:
+#         u = models.User.query.get(int(userid))
+#         # import IPython; IPython.embed()
+#         print("OOOOOOOOOOHH", u)
+#         # import IPython; IPython.embed()
+#         return u
+#     except (TypeError, ValueError):
+#         print("Ahhhhhhhhhh")
+#         pass
+
+
+# @app.before_request
+# def global_user():
+#     # g.user = login.current_user
+#     g.user = login.current_user._get_current_object()
+
+
+# @app.teardown_appcontext
+# def commit_on_success(error=None):
+#     if error is None:
+#         db_session.commit()
+
+
+# @app.teardown_request
+# def shutdown_session(exception=None):
+#     db_session.remove()
+
+
+# @app.context_processor
+# def inject_user():
+#     try:
+#         return {'user': g.user}
+#     except AttributeError:
+#         return {'user': None}

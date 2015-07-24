@@ -28,11 +28,9 @@ $("#login-button").click(function() {
 
 if (window.location.search) {
     url = AUTH_URL + "/complete/facebook/" + window.location.search
-    console.log("SEARCH", url)
-    // window.location.search = ""
     $.getJSON(url)
     .done(function(data) {
-        console.log( "done" );
-        console.log(data);
+        document.cookie = "token=" + data.token
+        window.location.search = ""
     })
 }
