@@ -43,13 +43,14 @@ def encode(data, exp=None):
 
 # App
 app = Flask(__name__)
-app.config.from_object('mars.settings')
-
-try:
-    app.config.from_object('mars.local_settings')
-except ImportError:
-    pass
-# app.config.from_pyfile('mars.local_settings', silent=True)
+# app.config.from_object('mars.settings')
+app.config.from_pyfile('settings/common.py', silent=False)
+app.config.from_pyfile('settings/local_settings.py', silent=False)
+# try:
+#     # app.config.from_object('mars.local_settings')
+#     app.config.from_pyfile('settings/common.py', silent=False)
+# except ImportError:
+#     app.config.from_pyfile('settings/2local_settings.py', silent=False)
 
 # DB
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])

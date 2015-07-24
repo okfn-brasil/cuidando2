@@ -1,30 +1,15 @@
-from os.path import dirname, abspath
+# from os.path import dirname, abspath
 
-SECRET_KEY = '@*rshdjo9821j9!@ (*&K@!#dk89O98d1298kd219odraderu92doEAV2c'
-SESSION_COOKIE_NAME = 'psa_session2'
 DEBUG = True
-# SQLALCHEMY_DATABASE_URI = 'sqlite:////%s/test.db' % dirname(abspath(__file__))
-SQLALCHEMY_DATABASE_URI = 'postgresql://mars:?w#38uUL1eoGwz3@localhost/mars'
 DEBUG_TB_INTERCEPT_REDIRECTS = False
+
+# SQLALCHEMY_DATABASE_URI = 'sqlite:////%s/test.db' % dirname(abspath(__file__))
+
+SESSION_COOKIE_NAME = 'psa_session2'
 SESSION_PROTECTION = 'strong'
 
 # STORAGE = 'social.apps.flask_app.default.models.FlaskStorage2'
 SOCIAL_AUTH_STRATEGY = 'mars.HeadlessFacebookStrategy'
-
-SOCIAL_AUTH_FACEBOOK_KEY = '454273438092673'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'b20660026536e4c0e3c65542e9581831'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ["public_profile"]
-
-# SOCIAL_AUTH_PIPELINE = (
-#     'social.pipeline.social_auth.social_details',
-#     'social.pipeline.social_auth.social_uid',
-#     'social.pipeline.social_auth.auth_allowed',
-#     'social.pipeline.social_auth.social_user',
-#     'social.pipeline.social_auth.associate_user',
-#     'social.pipeline.social_auth.load_extra_data',
-#     'social.pipeline.user.user_details',
-#     'flask_example.test',
-# )
 
 SOCIAL_AUTH_PIPELINE = (
  'social.pipeline.social_auth.social_details',
