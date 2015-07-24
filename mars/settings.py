@@ -27,27 +27,16 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = ["public_profile"]
 # )
 
 SOCIAL_AUTH_PIPELINE = (
- 'mars.pipe_count',
  'social.pipeline.social_auth.social_details',
- 'mars.pipe_count',
  'social.pipeline.social_auth.social_uid',
- 'mars.pipe_count',
  'social.pipeline.social_auth.auth_allowed',
- 'mars.pipe_count',
  'social.pipeline.social_auth.social_user',
- 'mars.pipe_count',
  'social.pipeline.user.get_username',
- 'mars.pipe_count',
  'social.pipeline.user.create_user',
- 'mars.pipe_count',
  'social.pipeline.social_auth.associate_user',
- 'mars.pipe_count',
  'social.pipeline.social_auth.load_extra_data',
- 'mars.pipe_count',
  'social.pipeline.user.user_details',
- 'mars.pipe_count',
  'mars.insert_user',
- 'mars.pipe_count',
 )
 
 SOCIAL_AUTH_LOGIN_URL = '/meu_login_url/'

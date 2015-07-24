@@ -3,11 +3,11 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from flask.ext.login import UserMixin
 
-from mars import db_session
+# from mars import db_session
 
 
 Base = declarative_base()
-Base.query = db_session.query_property()
+# Base.query = db_session.query_property()
 
 
 class User(Base, UserMixin):
