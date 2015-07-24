@@ -61,3 +61,5 @@ target/
 .webassets-cache
 bower_components
 
+local_settings.py
+
