@@ -4,7 +4,6 @@
 from flask.ext.script import Server, Manager, Shell
 
 from app import app, db_session, engine
-import views
 
 
 manager = Manager(app)
@@ -12,7 +11,6 @@ manager.add_command('run', Server())
 manager.add_command('shell', Shell(make_context=lambda: {
     'app': app,
     'db_session': db_session,
-    'views': views
 }))
 
 # def run():
