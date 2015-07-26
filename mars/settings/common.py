@@ -1,8 +1,5 @@
 # from os.path import dirname, abspath
 
-DEBUG = True
-DEBUG_TB_INTERCEPT_REDIRECTS = False
-
 # SQLALCHEMY_DATABASE_URI = 'sqlite:////%s/test.db' % dirname(abspath(__file__))
 
 SESSION_COOKIE_NAME = 'psa_session2'
