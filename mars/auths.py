@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import sys
+
 from flask import request, g, url_for
 
 from social.apps.flask_app.default.models import init_social
@@ -8,23 +10,21 @@ from social.actions import do_auth, do_complete
 from social.apps.flask_app.utils import load_strategy, load_backend
 from social.backends.facebook import FacebookOAuth2
 from social.strategies.flask_strategy import FlaskStrategy
-from social.strategies.utils import set_current_strategy_getter
 from social.utils import build_absolute_uri
+# from social.strategies.utils import set_current_strategy_getter
 # from social.apps.flask_app.routes import social_auth
 # from social.apps.flask_app.template_filters import backends
 
-from app import app, db_session
+
+def init_social_models(app, db_session):
+    try:
+        import mars
+    except:
+        sys.path.append('..')
+    init_social(app, db_session)
 
 
-set_current_strategy_getter(load_strategy)
-
-# app.register_blueprint(social_auth)
-# try:
-#     init_social(app, db_session)
-# except ImportError:
-#     import sys
-#     sys.path.append('..')
-#     init_social(app, db_session)
+# set_current_strategy_getter(load_strategy)
 
 
 def get_auth_url(backend, redirect_uri='complete', *args, **kwargs):

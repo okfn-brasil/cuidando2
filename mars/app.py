@@ -14,6 +14,9 @@ from flask.ext.restplus import Api, apidoc
 
 from phobos import SignerVerifier
 
+from auths import init_social_models
+
+
 # App
 app = Flask(__name__)
 # app.config.from_object('mars.settings')
@@ -30,10 +33,8 @@ engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 db_session = scoped_session(Session)
 
-import sys
-from social.apps.flask_app.default.models import init_social
-sys.path.append('..')
-init_social(app, db_session)
+init_social_models(app, db_session)
+
 
 # login_manager = login.LoginManager()
 # login_manager.login_view = 'main'
