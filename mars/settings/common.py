@@ -9,7 +9,7 @@ SESSION_COOKIE_NAME = 'psa_session2'
 SESSION_PROTECTION = 'strong'
 
 # STORAGE = 'social.apps.flask_app.default.models.FlaskStorage2'
-SOCIAL_AUTH_STRATEGY = 'mars.HeadlessFacebookStrategy'
+SOCIAL_AUTH_STRATEGY = 'mars.auths.HeadlessFacebookStrategy'
 
 SOCIAL_AUTH_PIPELINE = (
  'social.pipeline.social_auth.social_details',
@@ -21,7 +21,7 @@ SOCIAL_AUTH_PIPELINE = (
  'social.pipeline.social_auth.associate_user',
  'social.pipeline.social_auth.load_extra_data',
  'social.pipeline.user.user_details',
- 'mars.insert_user',
+ 'mars.auths.insert_user',
 )
 
 SOCIAL_AUTH_LOGIN_URL = '/meu_login_url/'
@@ -37,7 +37,7 @@ SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
     # 'social.backends.stripe.StripeOAuth2',
     # 'social.backends.persona.PersonaAuth',
     # 'social.backends.facebook.FacebookOAuth2',
-    'mars.HeadlessFacebookBackend',
+    'mars.auths.HeadlessFacebookBackend',
     # 'social.backends.facebook.FacebookAppOAuth2',
     # 'social.backends.yahoo.YahooOAuth',
     # 'social.backends.angel.AngelOAuth2',

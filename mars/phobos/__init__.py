@@ -19,6 +19,7 @@ from cryptography.hazmat.backends import default_backend
 
 
 class SignerVerifier(object):
+    """Class to encode and decode JWTs."""
 
     def __init__(self,
                  priv_key_path=None,

@@ -1,22 +1,25 @@
-from flask import render_template, redirect
-from flask.ext.login import login_required, logout_user
+#!/usr/bin/env python
+# coding: utf-8
 
-from mars import app
+from flask.ext.restplus import Resource
 
-
-# @app.route('/')
-# def main():
-#     return render_template('home.html')
+from app import api, sv
+from auths import get_auth_url, get_username
 
 
-@login_required
-@app.route('/done/')
-def done():
-    return render_template('done.html')
+@api.route('/login/<string:backend>/')
+class Auth(Resource):
+
+    def get(self, backend, *args, **kwargs):
+        print("AUTH-GET")
+        return {'redirect': get_auth_url(backend)}
 
 
-@app.route('/logout')
-def logout():
-    """Logout view"""
-    logout_user()
-    return redirect('/')
+@api.route('/complete/<string:backend>/')
+class Complete(Resource):
+
+    def get(self, backend):
+        print("COMPLETE-GET")
+        return {
+            'token': sv.encode({'username': get_username(backend)})
+        }

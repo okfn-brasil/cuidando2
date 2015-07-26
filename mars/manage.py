@@ -1,13 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import sys
-
 from flask.ext.script import Server, Manager, Shell
 
-sys.path.append('..')
-
-from mars import app, db_session, engine
+from app import app, db_session, engine
+import views
 
 
 manager = Manager(app)
@@ -16,6 +13,10 @@ manager.add_command('shell', Shell(make_context=lambda: {
     'app': app,
     'db_session': db_session
 }))
+
+# def run():
+#     import views
+#     Server()
 
 
 @manager.command
