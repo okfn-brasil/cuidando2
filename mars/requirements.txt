@@ -4,6 +4,7 @@ Flask-Script
 Flask-Restplus
 # itsdangerous
 pyjwt
+cryptography
 # Werkzeug
 # pysqlite
 # Jinja2

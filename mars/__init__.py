@@ -17,29 +17,11 @@ from social.utils import build_absolute_uri
 # from social.apps.flask_app.routes import social_auth
 # from social.apps.flask_app.template_filters import backends
 
-import jwt
+from phobos import SignerVerifier
 
 # from mars import models
 
-# from itsdangerous import Signer
-# from itsdangerous import JSONWebSignatureSerializer
-
 set_current_strategy_getter(load_strategy)
-
-# DANGEROUS_SECRET_KEY = "AVOBSRD@H908o12wo9HDO289o(Dct2yh8o99238ow9"
-# signer = JSONWebSignatureSerializer(DANGEROUS_SECRET_KEY)
-
-KEY = "AVOBSRD@H908o12wo9HDO289o(Dct2yh8o92dko9c28w39kw3298w)"
-
-# a=jwt.encode({"username":u, 'exp': datetime.utcnow()}, D)
-
-
-def encode(data, exp=None):
-    # TODO: Usar chaves pub/priv
-    if exp:
-        data["exp"] = exp
-    return jwt.encode(data, KEY).decode("utf8")
-
 
 # App
 app = Flask(__name__)
@@ -75,6 +57,8 @@ api = Api(app, version='1.0',
 # api.init_app(app)
 app.register_blueprint(apidoc.apidoc)
 CORS(app, resources={r"*": {"origins": "*"}})
+
+sv = SignerVerifier(priv_key_path="settings/key")
 
 
 def insert_user(user, is_new, **kwargs):
@@ -149,7 +133,7 @@ class Complete(Resource):
         g.backend = load_backend(g.strategy, backend, redirect_uri="/")
         do_complete(g.backend, login=do_login)
         return {
-            'token': encode({'username': g.user.username})
+            'token': sv.encode({'username': g.user.username})
         }
 
 
