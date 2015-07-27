@@ -10,10 +10,11 @@ class Comment(db.Model):
     text = db.Column(db.String(500), nullable=False)
     created = db.Column(db.DateTime, nullable=False)
     modified = db.Column(db.DateTime, nullable=False)
-    author = db.Column(db.String(200), nullable=False)
     # http://docs.sqlalchemy.org/en/rel_1_0/orm/basic_relationships.html
-    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'),
+                          nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('author.id'),
+                          nullable=False)
 
     # TODO: adicionar mais? likes e dislikes (precisa de voters),
     # parent_comment (para permitir respostas a comentários, não thread)
@@ -22,12 +23,12 @@ class Comment(db.Model):
 class Thread(db.Model):
     __tablename__ = 'thread'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(200), nullable=False, unique=True)
     comments = db.relationship("Comment")
 
 
-class User(db.Model):
-    __tablename__ = 'user'
+class Author(db.Model):
+    __tablename__ = 'author'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
-    comments = db.relationship("Comment")
+    name = db.Column(db.String(200), nullable=False, unique=True)
+    comments = db.relationship("Comment", backref="author")

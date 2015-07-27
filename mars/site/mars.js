@@ -48,7 +48,10 @@ if (window.location.search) {
 
 $("#send-button").click(function() {
     url = COMMENTS_URL + "/test/add"
-    data = {'token': localStorage.token}
+    data = {
+        'token': localStorage.token,
+        'text': "Blha Blal Bhal Blah!"
+    }
     console.log(data)
     $.ajax({
         url        : url,
@@ -57,4 +60,12 @@ $("#send-button").click(function() {
         data       : JSON.stringify(data),
         type       : 'POST',
     })
+})
+
+$("#get-button").click(function() {
+    url = COMMENTS_URL + "/test"
+    $.getJSON(url)
+        .done(function(data) {
+            console.log(data)
+        })
 })
