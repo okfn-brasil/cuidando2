@@ -4,6 +4,7 @@
 from flask.ext.restplus import Resource, Api, apidoc
 
 from auths import get_auth_url, get_username
+from extensions import db, sv
 
 
 api = Api(version='1.0',
@@ -11,10 +12,9 @@ api = Api(version='1.0',
           description='Social Auth')
 
 
-def init_api(app, sv):
+def init_api(app):
     api.init_app(app)
     app.register_blueprint(apidoc.apidoc)
-    api.sv = sv
 
 
 @api.route('/login/<string:backend>/')
@@ -31,5 +31,5 @@ class Complete(Resource):
     def get(self, backend):
         print("COMPLETE-GET")
         return {
-            'token': api.sv.encode({'username': get_username(backend)})
+            'token': sv.encode({'username': get_username(backend)})
         }

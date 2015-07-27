@@ -15,13 +15,15 @@ from social.utils import build_absolute_uri
 # from social.apps.flask_app.routes import social_auth
 # from social.apps.flask_app.template_filters import backends
 
+from extensions import db
 
-def init_social_models(app, db_session):
+
+def init_social_models(app):
     try:
         import mars
     except:
         sys.path.append('..')
-    init_social(app, db_session)
+    init_social(app, db.session)
 
 
 # set_current_strategy_getter(load_strategy)
@@ -77,6 +79,6 @@ def insert_user(user, is_new, **kwargs):
     if user:
         g.user = user
     if is_new:
-        db_session.add(user)
-        db_session.commit()
+        db.session.add(user)
+        db.session.commit()
         print(">>>>>Adicinado ao BD!!!")

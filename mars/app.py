@@ -3,14 +3,10 @@
 
 # Micro Auth: Restful & Social
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-
 from flask import Flask
 from flask.ext.cors import CORS
 
-from phobos import SignerVerifier
-
+from extensions import db, sv
 from views import init_api
 from auths import init_social_models
 
@@ -22,13 +18,14 @@ app.config.from_pyfile('settings/local_settings.py', silent=False)
 CORS(app, resources={r"*": {"origins": "*"}})
 
 # DB
-engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
-Session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-db_session = scoped_session(Session)
+db.init_app(app)
 
 # Signer/Verifier
-sv = SignerVerifier(priv_key_path="settings/key",
-                    priv_key_password=app.config['PRIVATE_KEY_PASSWORD'])
+sv.config(priv_key_path="settings/key",
+          priv_key_password=app.config['PRIVATE_KEY_PASSWORD'])
 
-init_social_models(app, db_session)
-init_api(app, sv)
+# Social
+init_social_models(app)
+
+# API
+init_api(app)

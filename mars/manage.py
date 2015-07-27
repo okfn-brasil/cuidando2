@@ -3,14 +3,15 @@
 
 from flask.ext.script import Server, Manager, Shell
 
-from app import app, db_session, engine
+from app import app
+from extensions import db
 
 
 manager = Manager(app)
 manager.add_command('run', Server())
 manager.add_command('shell', Shell(make_context=lambda: {
     'app': app,
-    'db_session': db_session,
+    'db': db,
 }))
 
 # def run():
@@ -20,14 +21,13 @@ manager.add_command('shell', Shell(make_context=lambda: {
 
 @manager.command
 def initdb():
-    import models
     from social.apps.flask_app.default import models as social_models
 
-    social_models.PSABase.metadata.drop_all(engine)
-    models.Base.metadata.drop_all(engine)
+    social_models.PSABase.metadata.drop_all(db.engine)
+    db.drop_all()
 
-    models.Base.metadata.create_all(engine)
-    social_models.PSABase.metadata.create_all(engine)
+    db.create_all()
+    social_models.PSABase.metadata.create_all(db.engine)
 
 if __name__ == '__main__':
     manager.run()

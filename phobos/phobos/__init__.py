@@ -21,16 +21,35 @@ from cryptography.hazmat.backends import default_backend
 class SignerVerifier(object):
     """Class to encode and decode JWTs."""
 
-    def __init__(self,
-                 priv_key_path=None,
-                 priv_key_password=None,
-                 pub_key_path=None,
-                 algorithm='RS512'):
-        self.algorithm = algorithm
-        if priv_key_path:
-            self.load_priv_key(priv_key_path, priv_key_password)
-        if pub_key_path:
-            self.load_pub_key(pub_key_path)
+    def __init__(self, **kwargs):
+        self.defaults = {
+            "priv_key_path": None,
+            "priv_key_password": None,
+            "pub_key_path": None,
+            "algorithm": 'RS512'
+        }
+        self.config(init_defaults=True, **kwargs)
+
+    def config(self, init_defaults=False, **kwargs):
+        """Configures this class, loading defaults if asked, and then the passed
+        args."""
+
+        # Init defaults
+        if init_defaults:
+            for k, v in self.defaults.items():
+                setattr(self, k, v)
+
+        # Use passed args
+        for k, v in kwargs.items():
+            if k in self.defaults:
+                setattr(self, k, v)
+            else:
+                raise "Error! Unknown arg!: " + k
+
+        if "priv_key_path" in kwargs:
+            self.load_priv_key(self.priv_key_path, self.priv_key_password)
+        if "pub_key_path" in kwargs:
+            self.load_pub_key(self.pub_key_path)
 
     def load_priv_key(self, path, priv_key_password=None):
         """Loads private and public key from a private key PEM file."""

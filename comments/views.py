@@ -3,16 +3,13 @@
 
 from flask.ext.restplus import Resource, Api, apidoc
 
+from models import Comment, Thread, User
+from extensions import db, sv
+
 
 api = Api(version='1.0',
           title='comments',
           description='Comments')
-
-
-def init_api(app, sv):
-    api.init_app(app)
-    app.register_blueprint(apidoc.apidoc)
-    api.sv = sv
 
 
 parser = api.parser()
@@ -21,45 +18,48 @@ parser.add_argument('token')
 # parser.add_argument('session_id', location='cookies')
 
 
-@api.route('/<string:topic>/<int:comment>')
-class GetComment(Resource):
-
-    def get(self, topic, comment):
-        pass
-
-
-@api.route('/<string:topic>/add')
+@api.route('/<string:thread>/add')
 class AddComment(Resource):
 
-    def post(self, topic):
+    def post(self, thread):
         args = parser.parse_args()
-        data = args['token']
         try:
-            decoded = api.sv.decode(data)
+            decoded = sv.decode(args['token'])
         except:
             # TODO: tratar erros...
             raise
-        username = decoded['username']
-        print("------------->", username)
-        return {'status': 'ok'}
+        author = decoded['username']
+        # TODO: validar text (XSS)
+        text = args['text']
+        comment = Comment()
+        db.session.add(comment)
+        db.session.commit()
+        return {}
 
 
-@api.route('/<string:topic>/<int:comment>/delete')
+@api.route('/<string:thread>/<int:comment>/delete')
 class DeleteComment(Resource):
 
-    def delete(self, topic, comment):
+    def delete(self, thread, comment):
         pass
 
 
-@api.route('/<string:topic>/<int:comment>/edit')
+@api.route('/<string:thread>/<int:comment>/edit')
 class EditComment(Resource):
 
-    def put(self, topic, comment):
+    def put(self, thread, comment):
         pass
 
 
-@api.route('/<string:topic>')
-class GetTopic(Resource):
+@api.route('/<string:thread>')
+class GetThread(Resource):
 
-    def get(self, topic):
+    def get(self, thread):
         pass
+
+
+# @api.route('/<string:thread>/<int:comment>')
+# class GetComment(Resource):
+
+#     def get(self, thread, comment):
+#         pass

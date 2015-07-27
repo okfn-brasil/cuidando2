@@ -1,17 +1,33 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from sqlalchemy import Column, String, Integer, DateTime
-from sqlalchemy.ext.declarative import declarative_base
+from extensions import db
 
 
-Base = declarative_base()
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(500), nullable=False)
+    created = db.Column(db.DateTime, nullable=False)
+    modified = db.Column(db.DateTime, nullable=False)
+    author = db.Column(db.String(200), nullable=False)
+    # http://docs.sqlalchemy.org/en/rel_1_0/orm/basic_relationships.html
+    thread_id = db.Column(db.Integer, db.ForeignKey('thread.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    # TODO: adicionar mais? likes e dislikes (precisa de voters),
+    # parent_comment (para permitir respostas a comentários, não thread)
 
 
-class Comment(Base):
-    __tablename__ = 'comments'
-    id = Column(Integer, primary_key=True)
-    date = Column(DateTime, nullable=False)
-    text = Column(String(500), nullable=False)
-    topic = Column(String(200), nullable=False)
-    username = Column(String(200), nullable=False)
+class Thread(db.Model):
+    __tablename__ = 'thread'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    comments = db.relationship("Comment")
+
+
+class User(db.Model):
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    comments = db.relationship("Comment")
