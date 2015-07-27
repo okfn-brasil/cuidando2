@@ -20,7 +20,7 @@ def init_api(app, sv):
 @api.route('/login/<string:backend>/')
 class Auth(Resource):
 
-    def get(self, backend, *args, **kwargs):
+    def get(self, backend):
         print("AUTH-GET")
         return {'redirect': get_auth_url(backend)}
 
