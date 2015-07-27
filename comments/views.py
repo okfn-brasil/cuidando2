@@ -15,28 +15,51 @@ def init_api(app, sv):
     api.sv = sv
 
 
-parser = api.reqparse.RequestParser()
+parser = api.parser()
 parser.add_argument('token')
 # From http cookies
 # parser.add_argument('session_id', location='cookies')
 
 
-@api.route('/<string:topic>/add')
-class Add(Resource):
+@api.route('/<string:topic>/<int:comment>')
+class GetComment(Resource):
 
-    def get(self, topic):
+    def get(self, topic, comment):
+        pass
+
+
+@api.route('/<string:topic>/add')
+class AddComment(Resource):
+
+    def post(self, topic):
         args = parser.parse_args()
         data = args['token']
-        api.sv.decode(data)
-        print("------------->", data)
+        try:
+            decoded = api.sv.decode(data)
+        except:
+            # TODO: tratar erros...
+            raise
+        username = decoded['username']
+        print("------------->", username)
         return {'status': 'ok'}
 
 
-# @api.route('/complete/<string:backend>/')
-# class Complete(Resource):
+@api.route('/<string:topic>/<int:comment>/delete')
+class DeleteComment(Resource):
 
-#     def get(self, backend):
-#         print("COMPLETE-GET")
-#         return {
-#             'token': api.sv.encode({'username': get_username(backend)})
-#         }
+    def delete(self, topic, comment):
+        pass
+
+
+@api.route('/<string:topic>/<int:comment>/edit')
+class EditComment(Resource):
+
+    def put(self, topic, comment):
+        pass
+
+
+@api.route('/<string:topic>')
+class GetTopic(Resource):
+
+    def get(self, topic):
+        pass
