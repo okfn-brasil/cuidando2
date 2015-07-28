@@ -22,11 +22,14 @@ manager.add_command('shell', Shell(make_context=lambda: {
 @manager.command
 def initdb():
     from social.apps.flask_app.default import models as social_models
+    import models
 
     social_models.PSABase.metadata.drop_all(db.engine)
-    db.drop_all()
+    models.Base.metadata.drop_all(db.engine)
+    # db.drop_all()
 
-    db.create_all()
+    # db.create_all()
+    models.Base.metadata.create_all(db.engine)
     social_models.PSABase.metadata.create_all(db.engine)
 
 if __name__ == '__main__':

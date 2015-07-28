@@ -5,9 +5,10 @@
 
 from flask import Flask
 from flask.ext.cors import CORS
+from flask.ext.restplus import apidoc
 
 from extensions import db, sv
-from views import init_api
+from views import api
 from auths import init_social_models
 
 
@@ -24,8 +25,9 @@ db.init_app(app)
 sv.config(priv_key_path="settings/key",
           priv_key_password=app.config['PRIVATE_KEY_PASSWORD'])
 
+# API
+api.init_app(app)
+app.register_blueprint(apidoc.apidoc)
+
 # Social
 init_social_models(app)
-
-# API
-init_api(app)

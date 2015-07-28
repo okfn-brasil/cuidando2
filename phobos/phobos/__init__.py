@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import datetime
+
 import jwt
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
 from cryptography.hazmat.backends import default_backend
@@ -26,7 +28,10 @@ class SignerVerifier(object):
             "priv_key_path": None,
             "priv_key_password": None,
             "pub_key_path": None,
-            "algorithm": 'RS512'
+            "algorithm": 'RS512',
+            "options": {
+                'require_exp': True,
+            }
         }
         self.config(init_defaults=True, **kwargs)
 
@@ -64,11 +69,11 @@ class SignerVerifier(object):
         with open(path, "r") as key_file:
             self.pub_key = key_file.read()
 
-    def encode(self, data, exp=None):
+    def encode(self, data, exp_minutes=5):
         """Encodes data. If has 'exp', sets expiration to it."""
         if self.priv_key:
-            if exp:
-                data["exp"] = exp
+            data["exp"] = (datetime.datetime.utcnow() +
+                           datetime.timedelta(minutes=exp_minutes))
             return jwt.encode(
                 data,
                 self.priv_key,
@@ -80,6 +85,6 @@ class SignerVerifier(object):
     def decode(self, data):
         """Decodes data."""
         if self.pub_key:
-            return jwt.decode(data, self.pub_key)
+            return jwt.decode(data, self.pub_key, options=self.options)
         else:
             raise "Error: No public key!"

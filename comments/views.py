@@ -17,8 +17,8 @@ api = Api(version='1.0',
 
 
 parser = api.parser()
-parser.add_argument('token')
-parser.add_argument('text')
+parser.add_argument('token', location='json')
+parser.add_argument('text', location='json')
 # From http cookies
 # parser.add_argument('session_id', location='cookies')
 
@@ -90,7 +90,7 @@ class GetThread(Resource):
         except NoResultFound:
             api.abort(404)
         return {
-            "data": [
+            "list": [
                 {
                     "id": c.id,
                     "text": c.text,

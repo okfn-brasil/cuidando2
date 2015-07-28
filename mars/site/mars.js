@@ -65,7 +65,23 @@ $("#send-button").click(function() {
 $("#get-button").click(function() {
     url = COMMENTS_URL + "/test"
     $.getJSON(url)
-        .done(function(data) {
-            console.log(data)
-        })
+    .done(function(data) {
+        console.log(data)
+    })
+})
+
+$("#register-button").click(function() {
+    url = AUTH_URL + "/users/tester/register"
+    data = {
+        'password': "oooohhhhquesenhafera!!!"
+    }
+    $.ajax({
+        url        : url,
+        contentType: 'application/json; charset=UTF-8',
+        data       : JSON.stringify(data),
+        type       : 'POST',
+    })
+    .done(function(data) {
+        console.log(data)
+    })
 })
