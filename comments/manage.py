@@ -7,7 +7,7 @@ from app import app, db
 
 
 manager = Manager(app)
-manager.add_command('run', Server(port=5005))
+manager.add_command('run', Server(port=5003))
 manager.add_command('shell', Shell(make_context=lambda: {
     'app': app,
     'db_session': db.session,

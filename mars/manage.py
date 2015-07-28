@@ -8,7 +8,7 @@ from extensions import db
 
 
 manager = Manager(app)
-manager.add_command('run', Server())
+manager.add_command('run', Server(port=5002))
 manager.add_command('shell', Shell(make_context=lambda: {
     'app': app,
     'db': db,
