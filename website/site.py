@@ -124,6 +124,13 @@ def root():
 
     # return render_template('root.html', page=page, pages=pages)
 
+
+# @app.route('/login.html')
+# def login():
+#     ''' Login page '''
+#     return render_template('login.html')
+
+
 @app.route('/sobre.html')
 def about():
     ''' About page '''

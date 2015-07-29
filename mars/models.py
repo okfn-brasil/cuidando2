@@ -33,4 +33,4 @@ class User(Base):
     def verify_password(cls, username, password):
         return (db.session.query(cls.password)
                 .filter(cls.username == username)
-                .one() == password)
+                .one()[0] == password)

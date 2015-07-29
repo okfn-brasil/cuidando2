@@ -36,7 +36,7 @@ class CompleteLoginBackend(Resource):
         return create_tokens(username)
 
 
-@api.route('/login_local/')
+@api.route('/login_local')
 class LoginLocal(Resource):
     """Login using local BD, not backend."""
 
@@ -46,12 +46,17 @@ class LoginLocal(Resource):
     parser.add_argument('password', type=str,
                         location='json', help="Password!!")
 
-    def post(self, backend):
+    def post(self):
         args = self.parser.parse_args()
         username = args['username']
         password = args['password']
-        if User.verify_password(username, password):
-            return create_tokens(username)
+        try:
+            if User.verify_password(username, password):
+                return create_tokens(username)
+            else:
+                api.abort(400, "Wrong password...")
+        except NoResultFound:
+            api.abort(400, "Username seems not registered...")
 
 
 @api.route('/renew_micro_token')
@@ -138,9 +143,7 @@ class RegisterUser(Resource):
         try:
             db.session.commit()
         except IntegrityError:
-            # TODO: Apresentar uma msg de erro (possivelmente usuário já existe
-            # no bd)
-            api.abort(400)
+            api.abort(400, "It seems this username is already registered...")
         return {}
 
 
@@ -160,8 +163,8 @@ def create_tokens(username):
     user.last_token_exp = sv.decode(main_token)['exp']
     db.session.commit()
     return {
-        'main-token': main_token,
-        'micro-token': create_token(username),
+        'mainToken': main_token,
+        'microToken': create_token(username),
     }
 
 

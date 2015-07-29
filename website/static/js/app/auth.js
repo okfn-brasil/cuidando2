@@ -16,23 +16,25 @@ define(["jquery"], function($) {
             AUTH_API_URL + '/login/facebook/'
         )
         .done(function(response_data) {
-            console.log("oooooooooooooooooooooooooooooooooooooooooooo")
-            console.log("resp", response_data)
             var origRedirect = response_data.redirect
-            console.log(origRedirect)
             var thisUrl = window.location.origin
             var parts = origRedirect.split(escape("?"))
             var newRedirect = parts[0].replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) + escape("?redirected_for_login=1&") + parts[1]
-            console.log("------------->>>>>>>", newRedirect)
             localStorage.prevhash = location.hash
-            window.location.replace(newRedirect)
+            // redirect to site for login
+            location.href = newRedirect
         })
         return false
     })
 
-    // TODO: Fazer com que auth.js seja o primeiro a rodar
-    // Ver se é um login e trocar search pelo do BD
-    // Pedir tokens
+
+    // The page was reloaded and a get_token is pending. Needed when browser has
+    // no support for window.history
+    if (localStorage.query_for_token) {
+        // TODO: ver pq esse get_tokens, depois do reload quando não tem window.history, não funciona
+        get_tokens(localStorage.query_for_token)
+        localStorage.query_for_token = ""
+    }
 
 
     // If redicected for login
@@ -43,11 +45,14 @@ define(["jquery"], function($) {
             get_tokens(query)
             window.history.replaceState(null, null, url)
         } else {
+            // Save info to get tokens after page reload
+            localStorage.query_for_token = query
             // Fallback method that doesn't requires "window.history" but
             // reloads the page.
             location.href = url
         }
     }
+
 
     function get_tokens(query) {
         var url = AUTH_API_URL + "/complete/facebook/" + query
@@ -57,10 +62,66 @@ define(["jquery"], function($) {
             dataType   : 'json',
             type       : 'POST',
         })
-        .done(function(data) {
-            // document.cookie = "token=" + data.token
-            console.log("TOKENS>>>>>>", data)
-            localStorage.token = data.token
-        })
+        .done(save_tokens)
     }
+
+
+
+    function save_tokens(data) {
+        // document.cookie = "token=" + data.token
+        localStorage.mainToken = data.mainToken
+        localStorage.microToken = data.microToken
+    }
+
+
+
+    // Local Login
+    $("#login-form-button").click(function(e) {
+        var url = AUTH_API_URL + "/login_local"
+        var data = {
+            'username': $("#login-form-username").val(),
+            'password': $("#login-form-password").val(),
+        }
+        console.log(data)
+        $.ajax({
+            url        : url,
+            dataType   : 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data       : JSON.stringify(data),
+            type       : 'POST',
+        })
+        .done(save_tokens)
+        .fail(function(data, error, errorName) {
+            alert(data.responseJSON.message)
+        })
+    })
+
+
+    // Local Register
+    $("#register-form-button").click(function(e) {
+        var username = $("#register-form-username").val()
+        var url = AUTH_API_URL + "/users/" + username + "/register"
+
+        var password = $("#register-form-password").val()
+        if (password != $("#register-form-password2").val()) {
+            alert("Senhas não batem!")
+        }
+
+        var data = {
+            'password': password
+        }
+
+        $.ajax({
+            url        : url,
+            dataType   : 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data       : JSON.stringify(data),
+            type       : 'POST',
+        })
+        .done(save_tokens)
+        .fail(function(data, error, errorName) {
+            console.log(data)
+            alert(data.responseJSON.message)
+        })
+    })
 });
