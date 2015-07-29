@@ -85,6 +85,7 @@ class SignerVerifier(object):
     def decode(self, data):
         """Decodes data."""
         if self.pub_key:
-            return jwt.decode(data, self.pub_key, options=self.options)
+            # return jwt.decode(data, self.pub_key, options=self.options)
+            return jwt.decode(data, self.pub_key)
         else:
             raise "Error: No public key!"

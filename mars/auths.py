@@ -29,7 +29,8 @@ def init_social_models(app):
 # set_current_strategy_getter(load_strategy)
 
 
-def get_auth_url(backend, redirect_uri='complete', *args, **kwargs):
+def get_auth_url(backend, redirect_uri='completeloginbackend',
+                 *args, **kwargs):
     uri = redirect_uri
     if uri and not uri.startswith('/'):
         uri = url_for(uri, backend=backend)

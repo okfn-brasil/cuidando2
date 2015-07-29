@@ -14,10 +14,6 @@ manager.add_command('shell', Shell(make_context=lambda: {
     'db': db,
 }))
 
-# def run():
-#     import views
-#     Server()
-
 
 @manager.command
 def initdb():

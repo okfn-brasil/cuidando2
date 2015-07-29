@@ -1,6 +1,6 @@
 console.log("RECARREGANDO-----------------")
 // AUTH_URL = "http://teste.aqui:5000"
-AUTH_URL = "http://localhost.aqui:5000"
+AUTH_URL = "http://localhost.aqui:5002"
 COMMENTS_URL = "http://localhost.aqui:5005"
 
 if(typeof(Storage) !== "undefined") {
@@ -37,7 +37,11 @@ $("#login-button").click(function() {
 
 if (window.location.search) {
     url = AUTH_URL + "/complete/facebook/" + window.location.search
-    $.getJSON(url)
+    $.ajax({
+        url        : url,
+        dataType   : 'json',
+        type       : 'POST',
+    })
     .done(function(data) {
         // document.cookie = "token=" + data.token
         localStorage.token = data.token

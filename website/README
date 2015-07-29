@@ -1,2 +1,8 @@
 Build:
 npm install -g requirejs
+
+
+Limitadores de versão do browser:
+-localStorage
+-history
+(verificar se o navegador tem os dois e avisar se não tem)

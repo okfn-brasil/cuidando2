@@ -30,7 +30,7 @@ class LoginBackend(Resource):
 class CompleteLoginBackend(Resource):
     """Completes the login with a specific backend."""
 
-    def get(self, backend):
+    def post(self, backend):
         print("COMPLETE-GET")
         username = get_username(backend)
         return create_tokens(username)
@@ -155,6 +155,8 @@ def create_tokens(username):
     """Returns tokens."""
     main_token = create_token(username, True)
     user = User.get_user(username)
+    # TODO: Talvez usar algo mais rápido para decodificar o token?
+    # ignorar verificações?
     user.last_token_exp = sv.decode(main_token)['exp']
     db.session.commit()
     return {

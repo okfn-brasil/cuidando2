@@ -65,7 +65,7 @@
 {% block endjs %}
 <script type="text/javascript">
     window.API_URL = '{{ config['API_URL'] }}';
-    window.ISSO_URL = '{{ config['ISSO_URL'] }}';
+    <!-- window.ISSO_URL = '{{ config['ISSO_URL'] }}'; -->
 </script>
 {% assets "requirejs" %}
 <script type="text/javascript" data-main="static/js/config" src="{{ ASSET_URL }}"></script>
