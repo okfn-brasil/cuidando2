@@ -71,7 +71,7 @@ class RenewMicroToken(Resource):
             decoded = sv.decode(args['token'])
             # options={"verify_exp": False})
         except:
-            # TODO: tratar erros...
+            # TODO: tratar erros... quais são?
             raise
         if decoded['type'] != "main":
             # This seems not to be a main token. It must be main for security
@@ -94,6 +94,8 @@ class Logout(Resource):
 
     def post(self):
         args = self.parser.parse_args()
+        # TODO: Oq fazer aqui?
+        return {}
 
 
 @api.route('/users/<string:username>')

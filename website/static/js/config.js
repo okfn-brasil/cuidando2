@@ -16,8 +16,12 @@ requirejs.config({
         mapcluster: "leaflet.markercluster",
         pubsub: '../vendor/pubsub-js/js/pubsub',
         mapquest: "mq-map",
+        handlebars: "handlebars",
         datatables: '../vendor/datatables/js/jquery.dataTables',
         requirejs: '../vendor/requirejs/js/require',
+        base64: 'bower_components/base64/base64',
+        // jwtdecode: "jwt-decode.min",
+        // base64: 'bower_components/requirejs-base64/base64.min'
     },
     shim: {
         // 'leaflet': {
@@ -28,7 +32,7 @@ requirejs.config({
         highcharts: ['jquery'],
         bootstrap: ['jquery'],
         hcd: ['highcharts'],
-        hce: ['highcharts'],
+        hce: ['highcharts']
     }
 })
 

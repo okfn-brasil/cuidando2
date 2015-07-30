@@ -87,17 +87,18 @@
 </div>
 <dl id="point-info" class="specific-view interface-component"></dl>
 <div id="comments-container" class="specific-view interface-component" style="text-align:center;">
-    <div id="wrapper" style="width: 900px; text-align: left; margin-left: auto; margin-right: auto;">
+    <!-- <div id="wrapper" style="width: 900px; text-align: left; margin-left: auto; margin-right: auto;"> -->
         <!-- <script	data-isso="http://127.0.0.1:8080" src="static/embed.dev.js"></script> -->
         <!-- <script	src="js/isso/embed.dev.js"></script> -->
-        <section id="isso-thread" data-title="Isso Test"></section>
-    </div>
+    <!--     <section id="isso-thread" data-title="Isso Test"></section> -->
+    <!-- </div> -->
 </div>
 {% endblock %}
 
 {% block endjs %}
 <script type="text/javascript">
     window.API_URL = '{{ config['API_URL'] }}';
+    window.COMMENTS_API_URL = '{{ config['COMMENTS_API_URL'] }}';
     <!-- window.ISSO_URL = '{{ config['ISSO_URL'] }}'; -->
 </script>
 {% assets "requirejs" %}

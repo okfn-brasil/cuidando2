@@ -54,11 +54,9 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
 
     // Get more data about current code and publish it
     pubsub.subscribe("code.changed", function(event, data) {
-        console.log("get data", data)
         $.getJSON(API_URL + '/execucao/list?code=' + data.value)
             .done(function(response_data) {
                 var pointInfo = response_data.data[0]
-                console.log("get data2", response_data, pointInfo)
                 pubsub.publish('pointdata.changed', pointInfo)
         });
     })

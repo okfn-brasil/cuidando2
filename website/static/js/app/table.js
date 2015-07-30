@@ -2,6 +2,10 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
 
     'use strict';
 
+
+    // TODO: a tabela parece estar pedindo dados mesmo quando não visível...
+
+
     // ****************************************************
     //               DATA TABLE FORMATTERS
     // ****************************************************

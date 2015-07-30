@@ -16,18 +16,15 @@ api = Api(version='1.0',
           description='Comments')
 
 
-parser = api.parser()
-parser.add_argument('token', location='json')
-parser.add_argument('text', location='json')
-# From http cookies
-# parser.add_argument('session_id', location='cookies')
-
-
-@api.route('/<string:thread_name>/add')
+@api.route('/thread/<string:thread_name>/add')
 class AddComment(Resource):
 
+    parser = api.parser()
+    parser.add_argument('token', location='json')
+    parser.add_argument('text', location='json')
+
     def post(self, thread_name):
-        args = parser.parse_args()
+        args = self.parser.parse_args()
         try:
             decoded = sv.decode(args['token'])
         except:
@@ -66,21 +63,21 @@ class AddComment(Resource):
         return {}
 
 
-@api.route('/<string:thread_name>/<int:comment>/delete')
+@api.route('/thread/<string:thread_name>/<int:comment>/delete')
 class DeleteComment(Resource):
 
     def delete(self, thread_name, comment):
         pass
 
 
-@api.route('/<string:thread_name>/<int:comment>/edit')
+@api.route('/thread/<string:thread_name>/<int:comment>/edit')
 class EditComment(Resource):
 
     def put(self, thread_name, comment):
         pass
 
 
-@api.route('/<string:thread_name>')
+@api.route('/thread/<string:thread_name>')
 class GetThread(Resource):
 
     def get(self, thread_name):

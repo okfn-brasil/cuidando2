@@ -1,31 +1,11 @@
-define(["jquery"], function($) {
+define(["jquery", "app/jwt"], function($, decode_token) {
 
     'use strict';
 
-    $("#login-facebook").click(function(e) {
-        // $.ajax({
-        //     url: AUTH_URL + '/login/facebook/',
-        //     dataType: "json",
-        //     // crossDomain: true,
-        //     // xhrFields : {
-        //     //     withCredentials : true
-        //     // }
-        // })
-        console.log(AUTH_API_URL)
-        $.getJSON(
-            AUTH_API_URL + '/login/facebook/'
-        )
-        .done(function(response_data) {
-            var origRedirect = response_data.redirect
-            var thisUrl = window.location.origin
-            var parts = origRedirect.split(escape("?"))
-            var newRedirect = parts[0].replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) + escape("?redirected_for_login=1&") + parts[1]
-            localStorage.prevhash = location.hash
-            // redirect to site for login
-            location.href = newRedirect
-        })
-        return false
-    })
+    // Sets username when loading page and already logged
+    if (localStorage.mainToken) {
+        set_username()
+    }
 
 
     // The page was reloaded and a get_token is pending. Needed when browser has
@@ -71,6 +51,16 @@ define(["jquery"], function($) {
         // document.cookie = "token=" + data.token
         localStorage.mainToken = data.mainToken
         localStorage.microToken = data.microToken
+        set_username()
+    }
+
+
+    function set_username() {
+        var username = ""
+        if (localStorage.mainToken) {
+            username = decode_token(localStorage.mainToken).username
+        }
+        $("#user-profile-button").html(username)
     }
 
 
@@ -94,6 +84,7 @@ define(["jquery"], function($) {
         .fail(function(data, error, errorName) {
             alert(data.responseJSON.message)
         })
+        return false
     })
 
 
@@ -123,5 +114,62 @@ define(["jquery"], function($) {
             console.log(data)
             alert(data.responseJSON.message)
         })
+        return false
+    })
+
+
+    // Logout
+    $("#logout-button").click(function(e) {
+        var url = AUTH_API_URL + "/logout"
+
+        var data = {
+            'token': localStorage.mainToken
+        }
+
+        $.ajax({
+            url        : url,
+            dataType   : 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data       : JSON.stringify(data),
+            type       : 'POST',
+        })
+        .done(function(data) {
+            localStorage.mainToken = ""
+            localStorage.microToken = ""
+            set_username()
+        })
+        .fail(function(data, error, errorName) {
+            console.log(data)
+            alert(data.responseJSON.message)
+        })
+        return false
+    })
+
+
+
+    // Facebook Login
+    $("#login-facebook").click(function(e) {
+        // $.ajax({
+        //     url: AUTH_URL + '/login/facebook/',
+        //     dataType: "json",
+        //     // crossDomain: true,
+        //     // xhrFields : {
+        //     //     withCredentials : true
+        //     // }
+        // })
+        console.log(AUTH_API_URL)
+        $.getJSON(
+            AUTH_API_URL + '/login/facebook/'
+        )
+            .done(function(response_data) {
+                var origRedirect = response_data.redirect
+                var thisUrl = window.location.origin
+                var parts = origRedirect.split(escape("?"))
+                var newRedirect = parts[0].replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) + escape("?redirected_for_login=1&") + parts[1]
+                localStorage.prevhash = location.hash
+                // redirect to site for login
+                location.href = newRedirect
+            })
+        return false
     })
 });
