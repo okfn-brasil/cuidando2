@@ -60,7 +60,7 @@ class AddComment(Resource):
                           created=now, modified=now)
         db.session.add(comment)
         db.session.commit()
-        return {}
+        return get_thread_comments(thread_name)
 
 
 @api.route('/thread/<string:thread_name>/<int:comment>/delete')
@@ -81,23 +81,27 @@ class EditComment(Resource):
 class GetThread(Resource):
 
     def get(self, thread_name):
-        try:
-            thread = (db.session.query(Thread)
-                      .filter(Thread.name == thread_name).one())
-        except NoResultFound:
-            api.abort(404)
-        return {
-            "list": [
-                {
-                    "id": c.id,
-                    "text": c.text,
-                    "author": c.author.name,
-                    "created": str(c.created),
-                    "modified": str(c.modified),
-                }
-                for c in thread.comments
-            ]
-        }
+        return get_thread_comments(thread_name)
+
+
+def get_thread_comments(thread_name):
+    try:
+        thread = (db.session.query(Thread)
+                    .filter(Thread.name == thread_name).one())
+    except NoResultFound:
+        api.abort(404)
+    return {
+        "comments": [
+            {
+                "id": c.id,
+                "text": c.text,
+                "author": c.author.name,
+                "created": str(c.created),
+                "modified": str(c.modified),
+            }
+            for c in thread.comments
+        ]
+    }
 
 
 # @api.route('/<string:thread_name>/<int:comment>')

@@ -71,6 +71,32 @@ class HeadlessFacebookBackend(FacebookOAuth2):
         #     raise AuthMissingParameter(self, 'state')
         return request_state
 
+    def request(self, url, method='GET', *args, **kwargs):
+        from social.utils import user_agent
+        from social.exceptions import AuthFailed
+        from requests import request
+        kwargs.setdefault('headers', {})
+        if self.setting('VERIFY_SSL') is not None:
+            kwargs.setdefault('verify', self.setting('VERIFY_SSL'))
+        kwargs.setdefault('timeout', self.setting('REQUESTS_TIMEOUT') or
+                          self.setting('URLOPEN_TIMEOUT'))
+
+        if self.SEND_USER_AGENT and 'User-Agent' not in kwargs['headers']:
+            kwargs['headers']['User-Agent'] = user_agent()
+
+        try:
+            response = request(method, url, *args, **kwargs)
+        except ConnectionError as err:
+            raise AuthFailed(self, str(err))
+        try:
+            response.raise_for_status()
+        except:
+            print(response.json())
+            print(url)
+            print(kwargs)
+            raise
+        return response
+
 
 def do_login(backend, user, social_user):
     print("do_login", user, social_user)

@@ -17,16 +17,16 @@ define(["jquery", "app/jwt"], function($, decode_token) {
     }
 
 
-    // If redicected for login
-    if (/^\?redirected_for_login=1&/.test(location.search)) {
+    // If redicected for login (from Facebook)
+    if (/^\?redirect_state=/.test(location.search)) {
         var url = location.origin + "/" + localStorage.prevhash
-        var query = location.search.replace("redirected_for_login=1&", "")
+        // var query = location.search.replace("redirected_for_login=1&", "")
         if (window.history.replaceState) {
-            get_tokens(query)
+            get_tokens(location.search)
             window.history.replaceState(null, null, url)
         } else {
             // Save info to get tokens after page reload
-            localStorage.query_for_token = query
+            localStorage.query_for_token = location.search
             // Fallback method that doesn't requires "window.history" but
             // reloads the page.
             location.href = url
@@ -165,9 +165,10 @@ define(["jquery", "app/jwt"], function($, decode_token) {
                 var origRedirect = response_data.redirect
                 var thisUrl = window.location.origin
                 var parts = origRedirect.split(escape("?"))
-                var newRedirect = parts[0].replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) + escape("?redirected_for_login=1&") + parts[1]
+                var newRedirect = parts[0].replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) + escape("?") + parts[1]
                 localStorage.prevhash = location.hash
                 // redirect to site for login
+                console.log("NEW-REDIRECT:", newRedirect)
                 location.href = newRedirect
             })
         return false
