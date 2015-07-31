@@ -50,8 +50,55 @@ define(["jquery", "app/jwt"], function($, decode_token) {
     function save_tokens(data) {
         // document.cookie = "token=" + data.token
         localStorage.mainToken = data.mainToken
-        localStorage.microToken = data.microToken
+        save_micro_token(data)
+
         set_username()
+    }
+
+    function save_micro_token(data) {
+        console.log("SAVE", data)
+        localStorage.microToken = data.microToken
+
+        var now = new Date()
+        // Convert valid period from minutes to miliseconds, add it to now and
+        // save for future checks, to see if it's still valid. We use this value
+        // for checks instead of the exp field in the tokens because server and
+        // clients may differ time settings.
+        localStorage.microTokenValidTime = now.getTime() + data.microTokenValidPeriod * 60000
+    }
+
+
+    // Asks for a new micro token is the current one is too old, and calls
+    // the callback
+    function validate_micro_token_time(callback) {
+        var now = new Date()
+
+        // Check if micro token is still valid for 30s
+        if (now < localStorage.microTokenValidTime - 30000) {
+            callback()
+        // Get new micro token
+        } else {
+            var url = AUTH_API_URL + "/renew_micro_token"
+            var data = {
+                'token': localStorage.mainToken
+            }
+            console.log(data)
+            $.ajax({
+                url        : url,
+                dataType   : 'json',
+                contentType: 'application/json; charset=UTF-8',
+                data       : JSON.stringify(data),
+                type       : 'POST',
+            })
+            .done(function(data) {
+                save_micro_token(data)
+                callback()
+            })
+            .fail(function(data, error, errorName) {
+                // TODO: tratar se main token é inválido
+                alert(data.responseJSON.message)
+            })
+        }
     }
 
 
@@ -173,4 +220,9 @@ define(["jquery", "app/jwt"], function($, decode_token) {
             })
         return false
     })
+
+
+    return {
+        validateMicroTokenTime: validate_micro_token_time,
+    }
 });

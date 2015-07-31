@@ -1,5 +1,5 @@
 // define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub", "isso/embed.dev"], function($, pubsub, urlManager, showSubscribe) {
-define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars'], function($, pubsub, urlManager, showSubscribe, Handlebars) {
+define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars', 'app/auth'], function($, pubsub, urlManager, showSubscribe, Handlebars, auth) {
 
     'use strict';
 
@@ -24,6 +24,11 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars'], func
     // Send comment
     $("#comment-send-button").click(function(e) {
         // TODO: verificar se está logado
+        auth.validateMicroTokenTime(sendComment)
+        return false
+    })
+
+    function sendComment() {
         var url = COMMENTS_API_URL + "/thread/" + urlManager.getParam('code') + "/add"
         var data = {
             'token': localStorage.microToken,
@@ -41,10 +46,10 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars'], func
             comListContainer.html(comListTemplate(data))
         })
         .fail(function(data, error, errorName) {
+            console.log(data)
             alert(data.responseJSON.message)
         })
-        return false
-    })
+    }
 
 
     function updateComments(e, data) {

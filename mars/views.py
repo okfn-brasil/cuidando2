@@ -11,6 +11,10 @@ from models import User
 from extensions import db, sv
 
 
+# TODO: permitir configurar melhor
+MICRO_TOKEN_VALID_PERIOD = 5
+
+
 api = Api(version='1.0',
           title='MARS',
           description='Social Auth')
@@ -83,7 +87,10 @@ class RenewMicroToken(Resource):
         if decoded['exp'] != user.last_token_exp:
             api.abort(400)
         token = create_token(username),
-        return {'micro-token': token}
+        return {
+            'microToken': token,
+            'microTokenValidPeriod': MICRO_TOKEN_VALID_PERIOD,
+        }
 
 
 @api.route('/logout')
@@ -167,6 +174,7 @@ def create_tokens(username):
     return {
         'mainToken': main_token,
         'microToken': create_token(username),
+        'microTokenValidPeriod': MICRO_TOKEN_VALID_PERIOD,
     }
 
 
@@ -179,8 +187,7 @@ def create_token(username, main=False):
         exp_minutes = 10080
         token_type = "main"
     else:
-        # TODO: permitir configurar
-        exp_minutes = 5
+        exp_minutes = MICRO_TOKEN_VALID_PERIOD
         token_type = "micro"
 
     return sv.encode({
