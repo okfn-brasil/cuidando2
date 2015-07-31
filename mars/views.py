@@ -153,7 +153,7 @@ class RegisterUser(Resource):
             db.session.commit()
         except IntegrityError:
             api.abort(400, "It seems this username is already registered...")
-        return {}
+        return create_tokens(username)
 
 
 # def create_token(username, exp_minutes=5):
