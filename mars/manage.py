@@ -21,11 +21,11 @@ def initdb():
     import models
 
     social_models.PSABase.metadata.drop_all(db.engine)
-    models.Base.metadata.drop_all(db.engine)
-    # db.drop_all()
+    # models.Base.metadata.drop_all(db.engine)
+    db.drop_all()
 
-    # db.create_all()
-    models.Base.metadata.create_all(db.engine)
+    db.create_all()
+    # models.Base.metadata.create_all(db.engine)
     social_models.PSABase.metadata.create_all(db.engine)
 
 if __name__ == '__main__':

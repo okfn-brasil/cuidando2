@@ -2,16 +2,18 @@
 # coding: utf-8
 
 # from sqlalchemy import Column, String, Integer, Boolean
-from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.ext.declarative import declarative_base
 from extensions import db
 
 
-Base = declarative_base()
+# Base = declarative_base()
 
 
-# class User(db.Model):
-class User(Base):
+# class User(Base):
+class User(db.Model):
     __tablename__ = 'user'
+    __table_args__ = {'extend_existing': True}
+    extend_existing = True
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(200), unique=True)
     password = db.Column(db.String(200), default='')
