@@ -10,10 +10,25 @@ define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub
         "year": "Ano"
     }
 
-    function displayPointInfo(event, point) {
+
+    function getPointInfo(event, data) {
+        var code = typeof data !== 'undefined' ? data.value : urlManager.getParam('code')
+        // Sometimes "code" changed to "null", for year pages
+        if (code) {
+            // Get data about current code and publish it
+            $.getJSON(API_URL + '/execucao/list?code=' + code)
+            .done(function(response_data) {
+                var pointInfo = response_data.data[0]
+                pubsub.publish('pointdata.changed', pointInfo)
+                displayPointInfo(pointInfo)
+            });
+        }
+    }
+
+
+    function displayPointInfo(point) {
         var domList = $(infoId)
         domList.empty()
-        console.log(point)
 
         if (point) {
             $.each(point, function(key, value) {
@@ -24,5 +39,5 @@ define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub
         }
     }
 
-    showSubscribe("pointdata.changed", displayPointInfo, infoId, false)
+    showSubscribe("code.changed", getPointInfo, infoId, true)
 });

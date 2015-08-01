@@ -13,6 +13,7 @@ from extensions import db, sv
 
 # TODO: permitir configurar melhor
 MICRO_TOKEN_VALID_PERIOD = 5
+MAIN_TOKEN_VALID_PERIOD = 10080
 
 
 api = Api(version='1.0',
@@ -71,22 +72,13 @@ class RenewMicroToken(Resource):
 
     def post(self):
         args = self.parser.parse_args()
-        try:
-            decoded = sv.decode(args['token'])
-            # options={"verify_exp": False})
-        except:
-            # TODO: tratar erros... quais são?
-            raise
+        decoded = decode_token(args['token'])
         if decoded['type'] != "main":
             # This seems not to be a main token. It must be main for security
             # reasons, for only main ones can be invalidated at logout
             api.abort(400)
 
-        username = decoded['username']
-        user = User.get_user(username)
-        if decoded['exp'] != user.last_token_exp:
-            api.abort(400)
-        token = create_token(username),
+        token = create_token(decoded['username']),
         return {
             'microToken': token,
             'microTokenValidPeriod': MICRO_TOKEN_VALID_PERIOD,
@@ -101,27 +93,37 @@ class Logout(Resource):
 
     def post(self):
         args = self.parser.parse_args()
-        # TODO: Oq fazer aqui?
+        decoded = decode_token(args['token'])
+        # Invalidates all main tokens
+        get_user(decoded['username']).last_token_exp = 0
         return {}
 
 
 @api.route('/users/<string:username>')
 class GetUser(Resource):
 
+    parser = api.parser()
+    parser.add_argument('token', type=str, location='json', help="Token!!!")
+
     def get(self, username):
+        args = self.parser.parse_args()
         try:
-            # user = (db.session.query(User)
-            #         .filter(User.username == username).one())
             user = User.get_user(username)
         except NoResultFound:
             api.abort(404)
 
-        return {
+        resp = {
             "username": user.username,
-            # TODO: retornar email se for o próprio
-            # "email": user.email,
             "description": user.description,
         }
+
+        # Add email if this is the owner of the account
+        token = args['token']
+        if token:
+            decoded = decode_token(token)
+            if decoded['username'] == username:
+                resp['email'] = user.email
+        return resp
 
 
 @api.route('/users')
@@ -178,9 +180,9 @@ class RegisterUser(Resource):
 def create_tokens(username):
     """Returns tokens."""
     main_token = create_token(username, True)
-    user = User.get_user(username)
-    # TODO: Talvez usar algo mais rápido para decodificar o token?
-    # ignorar verificações?
+    user = get_user(username)
+    # TODO: Talvez usar algo mais rápido para decodificar o token,
+    # como ignorar verificações?
     user.last_token_exp = sv.decode(main_token)['exp']
     db.session.commit()
     return {
@@ -194,9 +196,8 @@ def create_token(username, main=False):
     """Returns a token."""
 
     if main:
-        # TODO: permitir configurar
         # one week
-        exp_minutes = 10080
+        exp_minutes = MAIN_TOKEN_VALID_PERIOD
         token_type = "main"
     else:
         exp_minutes = MICRO_TOKEN_VALID_PERIOD
@@ -206,3 +207,32 @@ def create_token(username, main=False):
         'username': username,
         'type': token_type,
     }, exp_minutes)
+
+
+def decode_token(token):
+    try:
+        decoded = sv.decode(token)
+        # options={"verify_exp": False})
+    except:
+        # TODO: tratar erros... quais são?
+        raise
+
+    # Verify if token as all fields
+    for fields in ['username', 'type', 'exp']:
+        if fields not in decoded.keys():
+            api.abort(400, "Error: Malformed token! No: %s" % fields)
+
+    # Verify if main token is not invalid
+    if decoded['type'] == "main":
+        user = get_user(decoded['username'])
+        if decoded['exp'] != user.last_token_exp:
+            api.abort(400, "Error: Invalid main token!")
+
+    return decoded
+
+
+def get_user(username):
+    try:
+        return User.get_user(username)
+    except NoResultFound:
+        api.abort(404, "Error: User not found!")

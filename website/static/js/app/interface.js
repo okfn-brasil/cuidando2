@@ -58,8 +58,6 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
 
     function init() {
         switchGeneralSpecific()
-        // This allows pointInfo to load the data at startup
-        pubsub.publish('code.changed', {value: urlManager.getParam('code')})
     }
     return init
 });

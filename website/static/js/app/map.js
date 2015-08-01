@@ -50,16 +50,12 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
     // 	}
     // }
 
-    var popup = new L.Popup();
+    var popup = new L.Popup()
 
-    // Get more data about current code and publish it
-    pubsub.subscribe("code.changed", function(event, data) {
-        $.getJSON(API_URL + '/execucao/list?code=' + data.value)
-            .done(function(response_data) {
-                var pointInfo = response_data.data[0]
-                pubsub.publish('pointdata.changed', pointInfo)
-        });
-    })
+    // This flag is used to know if the user clicked the marker (so the map
+    // already panned to it) or if the "code" was changed another way, so the
+    // map still needs to pan to it.
+    var justClickedMarker = false
 
     // Called when a marker is clicked
     function markerClicked(event) {
@@ -67,12 +63,29 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
         popup.setContent("Carregando...");
         popup.setLatLng(event.latlng);
         map.openPopup(popup);
+        // map.setView(event.latlng, 1, true);
+        map.panTo(event.latlng);
+        justClickedMarker = true
         pubsub.publish('code.changed', {value: code})
     }
 
     // Update popup with the new data
     pubsub.subscribe("pointdata.changed", function(event, data) {
-        popup.setContent(data.ds_projeto_atividade);
+        if (data && data.ds_projeto_atividade) {
+            console.log(data)
+            window.mydata = data
+            window.mymap = map
+            if (justClickedMarker) {
+                justClickedMarker = false
+            } else {
+                var coords = data.geometry.coordinates
+                // Inversion of coords needed... Leaflet standard != geoJSON
+                if (data.geometry) map.panTo([coords[1], coords[0]])
+            }
+            popup.setContent(data.ds_projeto_atividade)
+        } else {
+            popup.setContent("Erro: descrição não encontrada!")
+        }
     })
 
     // Update map
@@ -130,6 +143,8 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
     pubsub.subscribe("year.changed", function(event, data) {
         updateMap()
     })
+
+    // TODO: Só fazer isso se mapa está visível!!!
     updateMap()
 
     // // Starts to update automaticaly while visible
