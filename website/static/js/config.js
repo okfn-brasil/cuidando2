@@ -4,7 +4,7 @@
 // except 'app' ones,
 requirejs.config({
     baseUrl: "static/js",
-    urlArgs: "bust=" + (new Date()).getTime(),
+    // urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
         bootstrap: "bower_components/bootstrap/dist/js/bootstrap",
         highcharts: "bower_components/highcharts/highcharts",

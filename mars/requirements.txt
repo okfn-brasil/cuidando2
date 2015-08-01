@@ -1,10 +1,17 @@
 Flask
-# Flask-Login
 Flask-Script
 Flask-Restplus
-# itsdangerous
+Flask-CORS
+Flask-SQLAlchemy
+python-social-auth
 pyjwt
 cryptography
-# Werkzeug
+
+# Also needs: phobos
+
+# For Postgis support:
+psycopg2
+
+# Flask-Login
+# itsdangerous
 # pysqlite
-# Jinja2

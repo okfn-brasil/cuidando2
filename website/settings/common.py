@@ -19,7 +19,7 @@ BABEL_DEFAULT_LOCALE = DEFAULT_LOCALE
 # REQUIREJS_BASEURL = "static/js"
 # REQUIREJS_BASEURL = "jslib"
 REQUIREJS_RUN_IN_DEBUG = False
-REQUIREJS_OPTIMIZE = "none"
+# REQUIREJS_OPTIMIZE = "none"
 # REQUIREJS_EXTRAS = "mainConfigFile=static/js/config.js include=requirejs"
 # REQUIREJS_EXTRAS = "paths.requireLib=../../require include=requireLib"
 # REQUIREJS_EXTRAS = "; touch {{output}}"
