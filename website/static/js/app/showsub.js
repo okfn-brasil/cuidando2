@@ -14,7 +14,7 @@ define(['jquery', 'pubsub'], function($, pubsub) {
     // });
 
 
-    function showSubscribe(event, func, selector, runOnShow=true) {
+    function showSubscribe(event, func, selector, runOnShow) {
         console.log(selector, "showSubscribed")
 
         // var subscribed_func = function(eventNow, dataNow) {
