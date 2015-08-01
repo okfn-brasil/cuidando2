@@ -40,6 +40,7 @@ app.config.from_pyfile('settings/common.py')
 app.config.from_pyfile('settings/local_settings.py', silent=True)
 
 # TODO: colocar no doc que dá para fazer build passando "prod" como argumento
+# TODO: melhorar isso aqui para poder rodar "python manage.py prod"
 if len(sys.argv) > 2:
     extra_conf = sys.argv[2]
     app.config.from_pyfile(

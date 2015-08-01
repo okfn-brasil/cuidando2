@@ -53,6 +53,8 @@ class HeadlessFacebookStrategy(FlaskStrategy):
     name = 'facebook'
 
     def build_absolute_uri(self, path=None):
+        # TODO: Quando a API diretamente (e não a partir de outro site) não tem
+        # "referrer". Como resolver isso?
         return build_absolute_uri(request.referrer, path).partition("&")[0]
 
 

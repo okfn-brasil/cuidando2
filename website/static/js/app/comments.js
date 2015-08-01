@@ -53,6 +53,7 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars', 'app/
 
 
     function updateComments(e, data) {
+        // TODO: Se der 404 (não achou thread) tem que limpar a lista de comentários e não simplesmente não fazer nada!!!
         $.getJSON(
             COMMENTS_API_URL + '/thread/' + urlManager.getParam('code')//data.value
         )
