@@ -105,7 +105,14 @@ define(["jquery", "app/jwt"], function($, decode_token) {
     function set_username() {
         var username = ""
         if (localStorage.mainToken) {
-            username = decode_token(localStorage.mainToken).username
+            try {
+                username = decode_token(localStorage.mainToken).username
+            }
+            catch(err) {
+                localStorage.removeItem("mainToken")
+                localStorage.removeItem("microToken")
+                alert("Error to decode stored token!")
+            }
         }
         $("#user-profile-button").html(username)
     }
@@ -181,8 +188,8 @@ define(["jquery", "app/jwt"], function($, decode_token) {
             type       : 'POST',
         })
         .done(function(data) {
-            localStorage.mainToken = ""
-            localStorage.microToken = ""
+            localStorage.removeItem("mainToken")
+            localStorage.removeItem("microToken")
             set_username()
         })
         .fail(function(data, error, errorName) {
