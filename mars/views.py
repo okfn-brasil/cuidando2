@@ -118,8 +118,20 @@ class GetUser(Resource):
 
         return {
             "username": user.username,
-            "email": user.email,
+            # TODO: retornar email se for o próprio
+            # "email": user.email,
             "description": user.description,
+        }
+
+
+@api.route('/users')
+class GetUsers(Resource):
+
+    def get(self):
+        users = db.session.query(User.username).all()
+
+        return {
+            "users": [u[0] for u in users]
         }
 
 
