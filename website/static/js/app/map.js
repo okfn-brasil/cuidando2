@@ -2,7 +2,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
 
     'use strict';
 
-    // L.Icon.Default.imagePath = "static/img"
+    L.Icon.Default.imagePath = "static/img/leaflet"
 
     var mapId = 'map-container'
 
