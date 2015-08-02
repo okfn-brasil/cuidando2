@@ -1,4 +1,4 @@
-define(['jquery', 'datatables'], function ($, datatables) {
+define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, datatables, showSubscribe, urlManager) {
 
   "use strict";
 
@@ -56,6 +56,7 @@ define(['jquery', 'datatables'], function ($, datatables) {
         this.$el = $('<table>');
         $(el).append(this.$el);
       }
+      this.domID = el
       this.pubsub = opts.pubsub;
       this.url = opts.url;
       this.columns = opts.columns;
@@ -109,6 +110,7 @@ define(['jquery', 'datatables'], function ($, datatables) {
           });
       // Get a reference to DataTables API.
       this.table = this.$el.dataTable(opts).api();
+
       return this;
     },
 
@@ -126,12 +128,24 @@ define(['jquery', 'datatables'], function ($, datatables) {
         // Subscribe to params changes.
         $.each(this.params, function(name, value) {
           (function(paramName) {
-            that.pubsub.subscribe(paramName + ".changed", function(msg, content) {
-              // Ignore changes published by this instance
-              if (content.sender != that && content.value != that.getParam(paramName)) {
-                that.setParam(paramName, content.value);
-              }
-            });
+
+            showSubscribe(paramName + ".changed", that.domID, true, function(msg, content) {
+                var paramValue = typeof content !== 'undefined' ? content.value : urlManager.getParam(paramName)
+                // Tries to ignore changes published by this instance
+                if (!content || (content.sender != that && paramValue != that.getParam(paramName))) {
+                    console.log("UPDATE", paramName, paramValue)
+                    that.setParam(paramName, paramValue);
+                }
+
+            })
+
+            // that.pubsub.subscribe(paramName + ".changed", function(msg, content) {
+            //   // Ignore changes published by this instance
+            //   if (content.sender != that && content.value != that.getParam(paramName)) {
+            //     that.setParam(paramName, content.value);
+            //   }
+            // });
+
           })(name);
         });
       }
