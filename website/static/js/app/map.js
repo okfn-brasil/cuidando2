@@ -104,7 +104,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
         var year = urlManager.getParam('year')
         $.getJSON(API_URL + '/execucao/minlist/' + year)
             .done(function(response_data) {
-                $.each(response_data["data"], function(index, item) {
+                $.each(response_data.data, function(index, item) {
                     // L.geoJson(item).addTo(map);
                     // L.geoJson(item, {
                     //     pointToLayer: function (feature, latlng) {

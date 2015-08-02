@@ -18,7 +18,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
     }
 
     function formatCurrency(value, symbol) {
-        if (symbol == null) {
+        if (symbol === null) {
             symbol = "";
         } else {
             symbol += "&nbsp;"

@@ -1,19 +1,19 @@
-define(["jquery", "app/jwt"], function($, decode_token) {
+define(["jquery", "app/jwt"], function($, decodeToken) {
 
     'use strict';
 
     // Sets username when loading page and already logged
     if (localStorage.mainToken) {
-        set_username()
+        setUsername()
     }
 
 
-    // The page was reloaded and a get_token is pending. Needed when browser has
+    // The page was reloaded and a getToken is pending. Needed when browser has
     // no support for window.history
-    if (localStorage.query_for_token) {
-        // TODO: ver pq esse get_tokens, depois do reload quando não tem window.history, não funciona
-        get_tokens(localStorage.query_for_token)
-        localStorage.query_for_token = ""
+    if (localStorage.queryForToken) {
+        // TODO: ver pq esse getTokens, depois do reload quando não tem window.history, não funciona
+        getTokens(localStorage.queryForToken)
+        localStorage.queryForToken = ""
     }
 
 
@@ -22,11 +22,11 @@ define(["jquery", "app/jwt"], function($, decode_token) {
         var url = location.origin + "/" + localStorage.prevhash
         // var query = location.search.replace("redirected_for_login=1&", "")
         if (window.history.replaceState) {
-            get_tokens(location.search)
+            getTokens(location.search)
             window.history.replaceState(null, null, url)
         } else {
             // Save info to get tokens after page reload
-            localStorage.query_for_token = location.search
+            localStorage.queryForToken = location.search
             // Fallback method that doesn't requires "window.history" but
             // reloads the page.
             location.href = url
@@ -34,7 +34,7 @@ define(["jquery", "app/jwt"], function($, decode_token) {
     }
 
 
-    function get_tokens(query) {
+    function getTokens(query) {
         var url = AUTH_API_URL + "/complete/facebook/" + query
         console.log("QUERY", url)
         $.ajax({
@@ -42,20 +42,20 @@ define(["jquery", "app/jwt"], function($, decode_token) {
             dataType   : 'json',
             type       : 'POST',
         })
-        .done(save_tokens)
+        .done(saveTokens)
     }
 
 
 
-    function save_tokens(data) {
+    function saveTokens(data) {
         // document.cookie = "token=" + data.token
         localStorage.mainToken = data.mainToken
-        save_micro_token(data)
+        saveMicroToken(data)
 
-        set_username()
+        setUsername()
     }
 
-    function save_micro_token(data) {
+    function saveMicroToken(data) {
         console.log("SAVE", data)
         localStorage.microToken = data.microToken
 
@@ -70,7 +70,7 @@ define(["jquery", "app/jwt"], function($, decode_token) {
 
     // Asks for a new micro token is the current one is too old, and calls
     // the callback
-    function validate_micro_token_time(callback) {
+    function validateMicroTokenTime(callback) {
         var now = new Date()
 
         // Check if micro token is still valid for 30s
@@ -91,7 +91,7 @@ define(["jquery", "app/jwt"], function($, decode_token) {
                 type       : 'POST',
             })
             .done(function(data) {
-                save_micro_token(data)
+                saveMicroToken(data)
                 callback()
             })
             .fail(function(data, error, errorName) {
@@ -102,11 +102,11 @@ define(["jquery", "app/jwt"], function($, decode_token) {
     }
 
 
-    function set_username() {
+    function setUsername() {
         var username = ""
         if (localStorage.mainToken) {
             try {
-                username = decode_token(localStorage.mainToken).username
+                username = decodeToken(localStorage.mainToken).username
             }
             catch(err) {
                 localStorage.removeItem("mainToken")
@@ -134,7 +134,7 @@ define(["jquery", "app/jwt"], function($, decode_token) {
             data       : JSON.stringify(data),
             type       : 'POST',
         })
-        .done(save_tokens)
+        .done(saveTokens)
         .fail(function(data, error, errorName) {
             alert(data.responseJSON.message)
         })
@@ -163,7 +163,7 @@ define(["jquery", "app/jwt"], function($, decode_token) {
             data       : JSON.stringify(data),
             type       : 'POST',
         })
-        .done(save_tokens)
+        .done(saveTokens)
         .fail(function(data, error, errorName) {
             console.log(data)
             alert(data.responseJSON.message)
@@ -190,7 +190,7 @@ define(["jquery", "app/jwt"], function($, decode_token) {
         .done(function(data) {
             localStorage.removeItem("mainToken")
             localStorage.removeItem("microToken")
-            set_username()
+            setUsername()
         })
         .fail(function(data, error, errorName) {
             console.log(data)
@@ -215,8 +215,8 @@ define(["jquery", "app/jwt"], function($, decode_token) {
         $.getJSON(
             AUTH_API_URL + '/login/facebook/'
         )
-            .done(function(response_data) {
-                var origRedirect = response_data.redirect
+            .done(function(responseData) {
+                var origRedirect = responseData.redirect
                 var thisUrl = window.location.origin
                 var parts = origRedirect.split(escape("?"))
                 var newRedirect = parts[0].replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) + escape("?") + parts[1]
@@ -230,6 +230,6 @@ define(["jquery", "app/jwt"], function($, decode_token) {
 
 
     return {
-        validateMicroTokenTime: validate_micro_token_time,
+        validateMicroTokenTime: validateMicroTokenTime,
     }
 });
