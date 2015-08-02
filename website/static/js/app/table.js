@@ -60,6 +60,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
                 // { field: 'monthly_predicted', title: 'Previsto (R$)', className: 'col-predicted'},
                 // { field: 'monthly_outcome',   title: 'Realizado (R$)', className: 'col-outcome'}
             ],
+
             // formatters: {
             //   date: formatDate,
             //   monthly_predicted: formatCurrency,
@@ -85,6 +86,12 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
             },
             pubsub: pubsub,
         });
+
+        // Change URL to code on click
+        $('#data-table tbody').on('click', 'tr', function () {
+            pubsub.publish('code.changed',
+                           {value: dataTable.table.row(this).data().code})
+        })
 
         $("#data-table_wrapper").addClass("general-view")
 
