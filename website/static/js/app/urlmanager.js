@@ -6,8 +6,9 @@ define(['jquery', 'pubsub', 'urlmanagerlib', "app/auth"], function($, pubsub, Ur
     //          URL MANAGER INITIALIZATION
     // ****************************************************
     var urlManager = new UrlManager({
-        format: '#{{year}}/{{code}}?{{params}}',
+        format: '#{{section}}/{{year}}/{{code}}?{{params}}',
         params: {
+            section: null,
             year: null,
             code: null,
             page: 0,
@@ -21,6 +22,9 @@ define(['jquery', 'pubsub', 'urlmanagerlib', "app/auth"], function($, pubsub, Ur
         pubsub: pubsub
     });
 
+    // If no section, force it to data
+    if (!urlManager.getParam('section'))
+        urlManager.setParam('section', 'data')
     // If no year, force it to current year
     if (!urlManager.getParam('year'))
         urlManager.setParam('year', new Date().getFullYear())
