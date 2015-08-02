@@ -39,5 +39,5 @@ define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub
         }
     }
 
-    showSubscribe("code.changed", getPointInfo, infoId, true)
+    showSubscribe("code.changed", infoId, true, getPointInfo)
 });

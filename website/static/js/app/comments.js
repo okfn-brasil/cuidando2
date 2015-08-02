@@ -62,5 +62,5 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars', 'app/
         })
     }
 
-    showSubscribe("code.changed", updateComments, "#comments-container")
+    showSubscribe("code.changed", "#comments-container", true, updateComments)
 });

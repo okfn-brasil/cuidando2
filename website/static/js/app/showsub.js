@@ -18,7 +18,7 @@ define(['jquery', 'pubsub'], function($, pubsub) {
     // but this should only happens while an element (selector) is visible.
     // "runOnShow" is used to force the function to be executed also when the
     // element becomes visible, not only when "event" is published.
-    function showSubscribe(event, func, selector, runOnShow) {
+    function showSubscribe(event, selector, runOnShow, func) {
         console.log(selector, "showSubscribed")
 
         // var subscribed_func = function(eventNow, dataNow) {

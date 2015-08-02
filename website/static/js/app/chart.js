@@ -104,7 +104,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", 'hcd', 'hce'], func
     }
 
 
-    showSubscribe("year.changed", updateInfo, chartId, true)
+    showSubscribe("year.changed", chartId, true, updateInfo)
 
 
     // // Starts to update automaticaly while visible
