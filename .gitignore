@@ -65,3 +65,4 @@ local_settings.py
 key
 keypub
 r.js
+compiled_templates
