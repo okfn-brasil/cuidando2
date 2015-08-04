@@ -89,7 +89,8 @@ def get_thread_comments(thread_name):
         thread = (db.session.query(Thread)
                     .filter(Thread.name == thread_name).one())
     except NoResultFound:
-        api.abort(404)
+        return {"comments": []}
+        # api.abort(404)
     return {
         "comments": [
             {
