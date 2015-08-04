@@ -154,6 +154,7 @@ class RegisterUser(Resource):
     def post(self, username):
         args = self.parser.parse_args()
         # TODO: validar username
+        # TODO: case insensitive? ver isso na hora de login tb
         username
         # TODO: validar password
         # TODO: encriptar e salgar password
