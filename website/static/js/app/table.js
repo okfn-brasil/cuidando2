@@ -85,8 +85,7 @@ define(['jquery', 'pubsub', 'app/urlmanager', 'datatable', 'superselect'], funct
 
         // Change URL to code on click
         $('#data-table tbody').on('click', 'tr', function () {
-            pubsub.publish('code.changed',
-                           {value: dataTable.table.row(this).data().code})
+            urlManager.route('despesa', urlManager.getParam('year'), dataTable.table.row(this).data().code)
         })
 
         $("#data-table_wrapper").addClass("general-view")
