@@ -2,9 +2,6 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
 
     'use strict';
 
-    // Sets username when loading page and already logged
-    if (localStorage.mainToken) setUsername()
-
 
     // The page was reloaded and a getToken is pending. Needed when browser has
     // no support for window.history
@@ -29,6 +26,8 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
             // reloads the page.
             location.href = url
         }
+    } else {
+        updateButtons()
     }
 
 
@@ -50,7 +49,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         localStorage.mainToken = data.mainToken
         saveMicroToken(data)
 
-        setUsername()
+        updateButtons()
     }
 
     function saveMicroToken(data) {
@@ -100,8 +99,15 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     }
 
 
-    function setUsername() {
-        var username = ""
+    // Update register/login/profile/logout buttons
+    function updateButtons() {
+        var username = "",
+            link = "",
+            profileButton = $('#user-profile-button'),
+            registerButton = $('#register-button'),
+            logoutButton = $('#logout-button'),
+            loginButton = $('#login-button')
+
         if (localStorage.mainToken) {
             try {
                 username = decodeToken(localStorage.mainToken).username
@@ -109,12 +115,26 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
             catch(err) {
                 localStorage.removeItem("mainToken")
                 localStorage.removeItem("microToken")
-                alert("Error to decode stored token!")
+                alert("Error to decode stored token! Please relogin...")
             }
         }
-        var button = $("#user-profile-button")
-        button.attr('href', '#pessoa/' + username)
-        button.html(username)
+
+        console.log("----------------------------", username)
+        if (!username) {
+            console.log("HIDE PROF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            logoutButton.hide()
+            profileButton.hide()
+            registerButton.show()
+            loginButton.show()
+        } else {
+            logoutButton.show()
+            profileButton.show()
+            registerButton.hide()
+            loginButton.hide()
+        }
+
+        profileButton.attr('href', link)
+        profileButton.html(username)
     }
 
 
@@ -191,7 +211,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         .done(function(data) {
             localStorage.removeItem("mainToken")
             localStorage.removeItem("microToken")
-            setUsername()
+            updateButtons()
         })
         .fail(function(data, error, errorName) {
             console.log(data)
