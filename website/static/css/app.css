@@ -16,10 +16,6 @@
     margin-top: 50px;
 }
 
-[data-view] {
+[data-view], #auth-panel {
     display: none;
 }
-
-/* .specific-view, .general-view { */
-/*     display: none; */
-/* } */

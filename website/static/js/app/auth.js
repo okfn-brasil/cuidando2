@@ -138,6 +138,29 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     }
 
 
+    var registerPanel = $('#register-panel'),
+        loginPanel = $('#login-panel'),
+        closePanel = $('#close-panel-button'),
+        authPanel = $('#auth-panel')
+    // Open login panel
+    $("#login-button").click(function(e) {
+        registerPanel.hide()
+        loginPanel.show()
+        authPanel.show()
+        return false
+    })
+    // Open register panel
+    $("#register-button").click(function(e) {
+        loginPanel.hide()
+        registerPanel.show()
+        authPanel.show()
+        return false
+    })
+    // Close panel
+    $("#close-panel-button").click(function(e) {
+        authPanel.hide()
+        return false
+    })
 
 
     // Local Login
@@ -233,9 +256,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         //     // }
         // })
         console.log(AUTH_API_URL)
-        $.getJSON(
-            AUTH_API_URL + '/login/facebook/'
-        )
+        $.getJSON(AUTH_API_URL + '/login/facebook/')
             .done(function(responseData) {
                 var origRedirect = responseData.redirect
                 var thisUrl = window.location.origin
