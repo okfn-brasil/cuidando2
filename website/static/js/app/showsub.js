@@ -43,15 +43,16 @@ define(['jquery', 'pubsub'], function($, pubsub) {
 
         // Starts to update automaticaly while visible
         $(selector).on("show", function() {
-            console.log(selector, "Subshow")
+            console.log("SubSHOW", event, selector, func)
             // pubsub.unsubscribe(subscribed_func)
             pubsub.subscribe(event, func)
+            if (runOnShow) console.log("RUN-On-Show: ", event, selector, func)
             if (runOnShow) func()
         })
 
         // Stops to update automaticaly while hidden
         $(selector).on("hide", function() {
-            console.log(selector, "Subhide")
+            console.log("SubHIDE", event, selector, func)
             pubsub.unsubscribe(func)
         })
     }
