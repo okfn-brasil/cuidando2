@@ -1,5 +1,5 @@
 // define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub", "isso/embed.dev"], function($, pubsub, urlManager, showSubscribe) {
-define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars', 'app/auth'], function($, pubsub, urlManager, showSubscribe, Handlebars, auth) {
+define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'], function($, pubsub, urlManager, showSubscribe, templates, auth) {
 
     'use strict';
 
@@ -12,10 +12,14 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars', 'app/
     //     }
     // }
 
-    var comListTemplate = Handlebars.compile($("#comments-list-template").html());
-    Handlebars.registerPartial("comments-list", comListTemplate)
+    // var comListTemplate = Handlebars.compile($("#comments-list-template").html())
+    // Handlebars.registerPartial("comments-list", comListTemplate)
 
-    var comTemplate = Handlebars.compile($("#comments-template").html());
+    var comListTemplate = templates.get("comments-list", true)
+
+    // var comTemplate = Handlebars.compile($("#comments-template").html())
+    var comTemplate = templates.get("comments")
+
     $("#comments-container").html(comTemplate({}))
 
     var commentTextarea = $("#comment-textarea")
@@ -54,6 +58,7 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'handlebars', 'app/
 
     function updateComments(e, data) {
         // TODO: Se der 404 (não achou thread) tem que limpar a lista de comentários e não simplesmente não fazer nada!!!
+        console.log("UPADETE-COMENTS")
         $.getJSON(
             COMMENTS_API_URL + '/thread/' + urlManager.getParam('code')//data.value
         )
