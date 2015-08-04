@@ -5,14 +5,14 @@ import sys
 import datetime
 # import pypandoc
 
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, send_from_directory
 # from flask import render_template, redirect, url_for
 # from flask.ext.babel import Babel
 # from flask_flatpages import FlatPages
 from flask_frozen import Freezer
 from flask.ext.assets import Environment, Bundle
 from flask.ext.cors import CORS
+# from jinja2 import Markup
 
 from gambs import MyRequireJSFilter
 
@@ -25,6 +25,7 @@ app = Flask(__name__)
 cors = CORS(app)
 assets = Environment(app)
 
+
 # requirejs = Bundle('js/build.js',
 requirejs = Bundle('vendor/requirejs/js/require.js',
                    filters=MyRequireJSFilter,
@@ -34,6 +35,13 @@ requirejs = Bundle('vendor/requirejs/js/require.js',
                    output="build/app/main.js",
                    depends="js/app/*")
 assets.register('requirejs', requirejs)
+
+handlebars = Bundle('../templates/handlebars/*',
+                    filters='handlebars',
+                    output="js/compiled_templates/all.js",
+                    )
+assets.register('handlebars', handlebars)
+
 
 # Load settings
 app.config.from_pyfile('settings/common.py')
@@ -132,10 +140,10 @@ def root():
 #     return render_template('login.html')
 
 
-@app.route('/sobre.html')
-def about():
-    ''' About page '''
-    return render_template('about.html')
+# @app.route('/sobre.html')
+# def about():
+#     ''' About page '''
+#     return render_template('about.html')
 
 # @app.route('/<path:path>/')
 # def page(path):
@@ -157,8 +165,30 @@ def about():
 #     # Render the page
 #     return render_template(template, page=page, today=today, pages=pages)
 
+
+@app.route('/handlebars_templates/<path:path>')
+def send_templates(path):
+    return send_from_directory('templates/handlebars/', path)
+
+
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'build':
+        # TODO: compile templates: !!!!!!!!!!!!!!!!!!!!!!!!
+        # handlebars templates/handlebars/ -f static/js/compiled_templates/all.js -e html -a
+        # sed -i -- 's/handlebars\.runtime/handlebars/g' static/js/compiled_templates/all.js
         freezer.freeze()
+    if len(sys.argv) > 1 and sys.argv[1] == 'watch':
+        import logging
+        from webassets.script import CommandLineEnvironment
+
+        # Setup a logger
+        log = logging.getLogger('webassets')
+        log.addHandler(logging.StreamHandler())
+        log.setLevel(logging.DEBUG)
+
+        cmdenv = CommandLineEnvironment(assets, log)
+        cmdenv.watch()
+        # cmdenv.build()
     else:
+        print("---------->>>>", assets['handlebars'].urls())
         app.run(port=5001)

@@ -16,8 +16,8 @@ requirejs.config({
         mapcluster: "leaflet.markercluster",
         pubsub: '../vendor/pubsub-js/js/pubsub',
         mapquest: "mq-map",
-        // handlebars: "handlebars",
-        handlebars: "bower_components/handlebars/handlebars.amd.min",
+        // handlebars: "bower_components/handlebars/handlebars.amd.min",
+        'handlebars.runtime': 'bower_components/handlebars/handlebars.runtime.amd.min',
         datatables: 'bower_components/datatables/media/js/jquery.dataTables.min',
         requirejs: '../vendor/requirejs/js/require',
         base64: 'bower_components/base64/base64',
@@ -27,6 +27,9 @@ requirejs.config({
     shim: {
         // 'leaflet': {
         //     exports: 'L'
+        // },
+        // handlebars: {
+        //     exports: 'handlebars.runtime'
         // },
         mapcluster: ['leaflet', 'mapquest'],
         mapquest: ['leaflet'],
