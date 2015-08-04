@@ -14,6 +14,21 @@ define(['jquery', 'pubsub'], function($, pubsub) {
     // });
 
 
+    // Allows "on show" and "on hide"
+    (function ($) {
+        $.each(['show', 'hide'], function (i, ev) {
+            var el = $.fn[ev];
+            $.fn[ev] = function () {
+                var r = el.apply(this, arguments);
+                // Trigger "on show/hide" after showing/hiding to avoid problems
+                // initializing elements still not visible
+                this.trigger(ev);
+                return r
+            };
+        });
+    })(jQuery);
+
+
     // Prepares a function (func) to be executed when an "event" is published,
     // but this should only happens while an element (selector) is visible.
     // "runOnShow" is used to force the function to be executed also when the
