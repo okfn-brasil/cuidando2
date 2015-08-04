@@ -12,6 +12,7 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
             AUTH_API_URL + '/users/' + username
         )
             .done(function(data) {
+                // TODO: caso seja a página do próprio usuário, deixar alterar dados
                 console.log("AJAX - USER", data)
                 if (!data.description) data.description = "Sem descrição..."
                 userContainer.html(userTemplate(data))

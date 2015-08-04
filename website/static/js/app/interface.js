@@ -18,7 +18,7 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         console.log("SHOULD", shouldBeVisible)
 
         // Remove from "visible" the elements thas should continue visible
-        $.each(shouldBeVisible, function(index, element) {
+        $.each(shouldBeVisible, function(i, element) {
             var index = $.inArray(element, visible)
             if (index != -1) {
                 // Already visible
