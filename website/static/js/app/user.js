@@ -16,7 +16,13 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
                 if (!data.description) data.description = "Sem descrição..."
                 userContainer.html(userTemplate(data))
             })
+            .fail(function(data, error, errorName) {
+                // TODO: Melhorar isso
+                userContainer.html("Não encontrado...")
+                // console.log(data)
+                // alert(data.responseJSON.message)
+            })
     }
 
-    showSubscribe("user.changed", "#user-container", true, updateUser)
+    showSubscribe("username.changed", "#user-container", true, updateUser)
 })
