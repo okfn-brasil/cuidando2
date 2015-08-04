@@ -16,6 +16,10 @@
     margin-top: 50px;
 }
 
-.specific-view, .general-view {
+[data-view] {
     display: none;
 }
+
+/* .specific-view, .general-view { */
+/*     display: none; */
+/* } */

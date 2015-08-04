@@ -2,97 +2,15 @@
 
 {% block maincontainer %}
 
-<form class="form-inline">
-  <div class="form-group">
-    <label class="sr-only" for="login-form-username">Username</label>
-    <input type="text" class="form-control" id="login-form-username" placeholder="Username">
-  </div>
-  <div class="form-group">
-    <label class="sr-only" for="login-form-password">Password</label>
-    <input type="password" class="form-control" id="login-form-password" placeholder="Password">
-  </div>
-  <button id="login-form-button" type="submit" class="btn btn-default">Sign in</button>
-</form>
-
-<form class="form-inline">
-  <div class="form-group">
-    <label class="sr-only" for="register-form-username">Username</label>
-    <input type="text" class="form-control" id="register-form-username" placeholder="Username">
-  </div>
-  <div class="form-group">
-    <label class="sr-only" for="register-form-password">Password</label>
-    <input type="password" class="form-control" id="register-form-password" placeholder="Password">
-  </div>
-  <div class="form-group">
-    <label class="sr-only" for="register-form-password">Confirm Password</label>
-    <input type="password" class="form-control" id="register-form-password2" placeholder="Confirm Password">
-  </div>
-  <div class="form-group">
-    <label class="sr-only" for="register-form-email">Email</label>
-    <input type="email" class="form-control" id="register-form-email" placeholder="Email">
-  </div>
-  <button id="register-form-button" type="submit" class="btn btn-default">Register</button>
-</form>
-
-<select id="year-selector" class="center-block text-center general-view interface-component"></select>
-<button id="to-general" class="center-block specific-view interface-component">Voltar</button>
-<div id="map-container" class="interface-component"></div>
-<div class="row general-view interface-component">
-    <div class="col-md-6">
-        <div id="chart-container" class="general-view"></div>
-        <table id="mapped-table" class="interface-component table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>mapeado</th>
-                    <th>regionalizado</th>
-                    <th>total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <th>linhas</th>
-                    <td id="mapped-num"></td>
-                    <td id="region-num"></td>
-                    <td id="total-num"></td>
-                </tr>
-                <tr>
-                    <th>porcentagem</th>
-                    <td id="mapped-per"></td>
-                    <td id="region-per"></td>
-                    <td>100</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-6">
-        <div id="chart-values-container" class="general-view"></div>
-        <table id="values-table" class="interface-component table">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>mapeado</th>
-                    <th>não mapeado</th>
-                    <!-- <th>regionalizado</th> -->
-                    <th>total</th>
-                    <th>mapped %</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
+<div id="users-container" data-view="pessoa" class="interface-component"></div>
+<select id="year-selector" data-view="ano" class="center-block text-center interface-component"></select>
+<button id="to-general" data-view="despesa" class="center-block interface-component">Voltar</button>
+<div id="map-container" data-view="ano despesa" class="interface-component"></div>
+<div id="datatable-container" data-view="ano" class="interface-component">
+    <table id="data-table" data-view="ano" class="display" cellspacing="0" width="100%"></table>
 </div>
-<div id="datatable-container" class="general-view interface-component">
-    <table id="data-table" class="display general-view" cellspacing="0" width="100%"></table>
-</div>
-<dl id="point-info" class="specific-view interface-component"></dl>
-<div id="comments-container" class="specific-view interface-component" style="text-align:center;">
-    <!-- <div id="wrapper" style="width: 900px; text-align: left; margin-left: auto; margin-right: auto;"> -->
-        <!-- <script	data-isso="http://127.0.0.1:8080" src="static/embed.dev.js"></script> -->
-        <!-- <script	src="js/isso/embed.dev.js"></script> -->
-    <!--     <section id="isso-thread" data-title="Isso Test"></section> -->
-    <!-- </div> -->
-</div>
+<dl id="point-info" data-view="despesa" class="interface-component"></dl>
+<div id="comments-container" data-view="despesa" class="interface-component"></div>
 {% endblock %}
 
 {% block endjs %}

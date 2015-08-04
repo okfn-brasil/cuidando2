@@ -1,17 +1,6 @@
-define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapquest", "mapcluster"], function($, L, pubsub, urlManager) {
+define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/pointinfo', "mapquest", "mapcluster"], function($, L, pubsub, urlManager, showSubscribe) {
 
     'use strict';
-
-    L.Icon.Default.imagePath = "static/img/leaflet"
-
-    var mapId = 'map-container'
-
-    var map = L.map(mapId, {
-        layers: MQ.mapLayer(),
-        center: [-23.58098, -46.61293],
-        zoom: 12,
-        // maxZoom: 20
-    });
 
     // var oms = new OverlappingMarkerSpiderfier(map);
 
@@ -50,7 +39,11 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
     // 	}
     // }
 
-    var popup = new L.Popup()
+    L.Icon.Default.imagePath = "static/img/leaflet"
+
+    var mapId = 'map-container',
+        popup = null,
+        map = null
 
     // This flag is used to know if the user clicked the marker (so the map
     // already panned to it) or if the "code" was changed another way, so the
@@ -66,30 +59,15 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
         // map.setView(event.latlng, 1, true);
         map.panTo(event.latlng);
         justClickedMarker = true
-        pubsub.publish('code.changed', {value: code})
+        // pubsub.publish('code.changed', {value: code})
+        urlManager.route('despesa', urlManager.getParam('year'), code)
     }
 
-    // Update popup with the new data
-    pubsub.subscribe("pointdata.changed", function(event, data) {
-        if (data && data.ds_projeto_atividade) {
-            console.log(data)
-            window.mydata = data
-            window.mymap = map
-            if (justClickedMarker) {
-                justClickedMarker = false
-            } else {
-                var coords = data.geometry.coordinates
-                // Inversion of coords needed... Leaflet standard != geoJSON
-                if (data.geometry) map.panTo([coords[1], coords[0]])
-            }
-            popup.setContent(data.ds_projeto_atividade)
-        } else {
-            popup.setContent("Erro: descrição não encontrada!")
-        }
-    })
 
     // Update map
-    function updateMap() {
+    function updateMap(msg, content) {
+        if (!map) initMap()
+
         // Remove possible previous markers layer
         if (map.yearMarkers) map.removeLayer(map.yearMarkers)
 
@@ -101,7 +79,9 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
         });
 
         // Get list of points from server
-        var year = urlManager.getParam('year')
+        var year = content ? content.value : urlManager.getParam('year')
+        console.log("MAP Year", year)
+        // var year = urlManager.getParam('code').split('.')[0]
         $.getJSON(API_URL + '/execucao/minlist/' + year)
             .done(function(response_data) {
                 $.each(response_data.data, function(index, item) {
@@ -134,18 +114,53 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/pointinfo', "mapqu
     }
 
 
-    $.getJSON('static/geojson/subprefeituras.json')
-        .done(function(response_data) {
-            L.geoJson(response_data).addTo(map);
+    function initMap() {
+        console.log("INIT MAP")
+        popup = new L.Popup()
+
+        map = L.map(mapId, {
+            layers: MQ.mapLayer(),
+            center: [-23.58098, -46.61293],
+            zoom: 12,
+            // maxZoom: 20
         });
 
+        $.getJSON('static/geojson/subprefeituras.json')
+            .done(function(response_data) {
+                L.geoJson(response_data).addTo(map);
+            });
 
-    pubsub.subscribe("year.changed", function(event, data) {
-        updateMap()
-    })
+        // TODO: Aqui não seria um showsub tb?
+        // Update popup with the new data
+        pubsub.subscribe("pointdata.changed", function(event, data) {
+            if (data && data.ds_projeto_atividade) {
+                console.log(data)
+                window.mydata = data
+                window.mymap = map
+                if (justClickedMarker) {
+                    justClickedMarker = false
+                } else {
+                    var coords = data.geometry.coordinates
+                    // Inversion of coords needed... Leaflet standard != geoJSON
+                    if (data.geometry) map.panTo([coords[1], coords[0]])
+                }
+                popup.setContent(data.ds_projeto_atividade)
+            } else {
+                popup.setContent("Erro: descrição não encontrada!")
+            }
+        })
+    }
+
+
+    showSubscribe("year.changed", '#'+mapId, true, updateMap)
+    window.up = updateMap
+
+    // pubsub.subscribe("year.changed", function(event, data) {
+    //     updateMap()
+    // })
 
     // TODO: Só fazer isso se mapa está visível!!!
-    updateMap()
+    // updateMap()
 
     // // Starts to update automaticaly while visible
     // $(mapId).on("show", function() {
