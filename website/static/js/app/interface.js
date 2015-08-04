@@ -83,7 +83,13 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
     $("#to-general").click(function () {
         // pubsub.publish('code.changed', {value: null})
         urlManager.route("ano", urlManager.getParam('year'))
-    });
+    })
+
+    // // Button to go to own profile
+    // $("#user-profile-button").click(function(e) {
+    //     urlManager.route("pessoa", )
+    //     return false
+    // })
 
 
     function init() {
