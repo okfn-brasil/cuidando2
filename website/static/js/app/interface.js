@@ -49,6 +49,14 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         urlManager.route("ano", urlManager.getParam('year'))
     })
 
+    // Button to share page
+    $("#share-button").click(function () {
+        var page = encodeURIComponent(location.href)
+        var title = "Cuidando 2"
+        location.href = 'http://www.facebook.com/sharer.php?u=' + page + '&t=' + title
+        return false
+    })
+
 
     function init() {
         updateView()
