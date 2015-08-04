@@ -41,7 +41,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/poi
 
     L.Icon.Default.imagePath = "static/img/leaflet"
 
-    var mapId = 'map-container',
+    var mapId = '#map-container',
         popup = null,
         map = null
 
@@ -53,11 +53,11 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/poi
     // Called when a marker is clicked
     function markerClicked(event) {
         var code = event.layer.feature.properties.uid
-        popup.setContent("Carregando...");
-        popup.setLatLng(event.latlng);
-        map.openPopup(popup);
+        if (urlManager.getParam('code') != code) popup.setContent("Carregando...")
+        popup.setLatLng(event.latlng)
+        map.openPopup(popup)
         // map.setView(event.latlng, 1, true);
-        map.panTo(event.latlng);
+        map.panTo(event.latlng)
         justClickedMarker = true
         // pubsub.publish('code.changed', {value: code})
         urlManager.route('despesa', urlManager.getParam('year'), code)
@@ -118,7 +118,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/poi
         console.log("INIT MAP")
         popup = new L.Popup()
 
-        map = L.map(mapId, {
+        map = L.map(mapId.slice(1), {
             layers: MQ.mapLayer(),
             center: [-23.58098, -46.61293],
             zoom: 12,
@@ -129,51 +129,31 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/poi
             .done(function(response_data) {
                 L.geoJson(response_data).addTo(map);
             });
+    }
 
-        // TODO: Aqui não seria um showsub tb?
-        // Update popup with the new data
-        pubsub.subscribe("pointdata.changed", function(event, data) {
-            if (data && data.ds_projeto_atividade) {
-                console.log(data)
-                window.mydata = data
-                window.mymap = map
-                if (justClickedMarker) {
-                    justClickedMarker = false
-                } else {
-                    var coords = data.geometry.coordinates
-                    // Inversion of coords needed... Leaflet standard != geoJSON
-                    if (data.geometry) map.panTo([coords[1], coords[0]])
-                }
-                popup.setContent(data.ds_projeto_atividade)
+    // Update popup with the new data
+    function updatePopup(event, data) {
+        console.log("MAP - pointdata changed")
+        if (data && data.ds_projeto_atividade) {
+            console.log(data)
+            window.mydata = data
+            window.mymap = map
+            if (justClickedMarker) {
+                justClickedMarker = false
             } else {
-                popup.setContent("Erro: descrição não encontrada!")
+                var coords = data.geometry.coordinates
+                // Inversion of coords needed... Leaflet standard != geoJSON
+                if (data.geometry) map.panTo([coords[1], coords[0]])
             }
-        })
+            popup.setContent(data.ds_projeto_atividade)
+        } else {
+            popup.setContent("Erro: descrição não encontrada!")
+        }
     }
 
 
-    showSubscribe("year.changed", '#'+mapId, true, updateMap)
+    showSubscribe("year.changed", mapId, true, updateMap)
+    showSubscribe("pointdata.changed", mapId, false, updatePopup)
     window.up = updateMap
-
-    // pubsub.subscribe("year.changed", function(event, data) {
-    //     updateMap()
-    // })
-
-    // TODO: Só fazer isso se mapa está visível!!!
-    // updateMap()
-
-    // // Starts to update automaticaly while visible
-    // $(mapId).on("show", function() {
-    //     // Subscribe to year change
-    //     pubsub.subscribe("year.changed", function(event, data) {
-    //         updateMap()
-    //     })
-    //     updateMap()
-    // })
-
-    // // Stops to update automaticaly while hidden
-    // $(mapId).on("hide", function() {
-    //     // Unsubscribe to year change
-    //     pubsub.unsubscribe(updateMap)
-    // })
+    window.p = pubsub
 });
