@@ -56,11 +56,11 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/templates', 'a
     }
 
 
-    function updateComments(e, data) {
-        // TODO: Se der 404 (não achou thread) tem que limpar a lista de comentários e não simplesmente não fazer nada!!!
-        console.log("UPADETE-COMENTS")
+    function updateComments(event, data) {
+        console.log("UPADETE-COMENTS", event, data, urlManager.getParam('code'))
+        var code = typeof data !== 'undefined' ? data.value : urlManager.getParam('code')
         $.getJSON(
-            COMMENTS_API_URL + '/thread/' + urlManager.getParam('code')//data.value
+            COMMENTS_API_URL + '/thread/' + code
         )
         .done(function(data) {
             comListContainer.html(comListTemplate(data))
