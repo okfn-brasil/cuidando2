@@ -3,9 +3,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     'use strict';
 
     // Sets username when loading page and already logged
-    if (localStorage.mainToken) {
-        setUsername()
-    }
+    if (localStorage.mainToken) setUsername()
 
 
     // The page was reloaded and a getToken is pending. Needed when browser has
@@ -114,8 +112,11 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
                 alert("Error to decode stored token!")
             }
         }
-        $("#user-profile-button").html(username)
+        var button = $("#user-profile-button")
+        button.attr('href', '#pessoa/' + username)
+        button.html(username)
     }
+
 
 
 
