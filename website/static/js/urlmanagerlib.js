@@ -141,9 +141,10 @@ define(["jquery"], function($) {
             $.each(this.params, function(name, value) {
                 var func = function(msg, content) {
                     console.log("SENDER", content.sender)
-                    if (content.sender != urlmanager) {
-                        console.log("PARAM-CHANGE", name, msg, content, content.value)
-                        urlmanager.setParam(name, content.value);
+                    var paramValue = content ? content.value : urlManager.getParam(name)
+                    if (!content || (content.sender != urlmanager && paramValue != urlmanager.getParam(name))) {
+                        console.log("PARAM-CHANGE", name, msg, content, paramValue)
+                        urlmanager.setParam(name, paramValue);
                     }
                 }
                 urlmanager.pubsub.subscribe(name + ".changed", func)
