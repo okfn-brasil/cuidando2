@@ -39,41 +39,6 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         visible = shouldBeVisible
     }
 
-    // // Show/Hide interface elements
-    // function switchGeneralSpecific() {
-    //     if (urlManager.getParam('code')) {
-    //         console.log("Specific")
-    //         $(".general-view").hide()
-    //         $(".specific-view").show()
-    //     } else {
-    //         console.log("General")
-    //         $(".general-view").show()
-    //         $(".specific-view").hide()
-    //     }
-    //     // if (data.value == null) {
-    //     //     $(".general-view").fadeIn()
-    //     //     $(".specific-view").fadeOut()
-    //     // } else {
-    //     //     $(".general-view").fadeOut()
-    //     //     $(".specific-view").fadeIn()
-    //     // }
-    // }
-
-    // // Controls when to show/hide the elements of the interface
-    // var prevCodeWasNull = !urlManager.getParam('code')
-    // function controledSwitch() {
-    //     var currentCodeIsNull = !urlManager.getParam('code')
-    //     // Show/Hide only if "nulliness" changed
-    //     if (currentCodeIsNull != prevCodeWasNull) {
-    //         switchGeneralSpecific()
-    //     }
-    //     prevCodeWasNull = currentCodeIsNull
-    // }
-
-    // pubsub.subscribe("code.changed", function(event, data) {
-    //     controledSwitch()
-    // })
-
     pubsub.subscribe("root.changed", function(event, data) {
         updateView()
     })
@@ -81,19 +46,11 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
 
     // Button to go back to general view
     $("#to-general").click(function () {
-        // pubsub.publish('code.changed', {value: null})
         urlManager.route("ano", urlManager.getParam('year'))
     })
 
-    // // Button to go to own profile
-    // $("#user-profile-button").click(function(e) {
-    //     urlManager.route("pessoa", )
-    //     return false
-    // })
-
 
     function init() {
-        // switchGeneralSpecific()
         updateView()
     }
     return init
