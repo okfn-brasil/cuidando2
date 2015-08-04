@@ -136,16 +136,20 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/poi
         console.log("MAP - pointdata changed")
         if (data && data.ds_projeto_atividade) {
             console.log(data)
-            window.mydata = data
-            window.mymap = map
-            if (justClickedMarker) {
-                justClickedMarker = false
+            // If row has geometry (is mapped)
+            if (data.geometry) {
+                if (justClickedMarker) {
+                    justClickedMarker = false
+                } else {
+                    var coords = data.geometry.coordinates
+                    // Inversion of coords needed... Leaflet standard != geoJSON
+                    if (data.geometry) map.panTo([coords[1], coords[0]])
+                }
+                popup.setContent(data.ds_projeto_atividade)
+            // TODO: add something to comment and else
+            // If row has no geometry, ...
             } else {
-                var coords = data.geometry.coordinates
-                // Inversion of coords needed... Leaflet standard != geoJSON
-                if (data.geometry) map.panTo([coords[1], coords[0]])
             }
-            popup.setContent(data.ds_projeto_atividade)
         } else {
             popup.setContent("Erro: descrição não encontrada!")
         }
