@@ -129,11 +129,11 @@ define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, d
         $.each(this.params, function(name, value) {
           (function(paramName) {
 
-            showSubscribe(paramName + ".changed", that.domID, true, function(msg, content) {
+            showSubscribe(paramName + ".changed", that.domID, false, function(msg, content) {
                 var paramValue = typeof content !== 'undefined' ? content.value : urlManager.getParam(paramName)
                 // Tries to ignore changes published by this instance
                 if (!content || (content.sender != that && paramValue != that.getParam(paramName))) {
-                    console.log("UPDATE", paramName, paramValue)
+                    console.log("UPDATE", paramName, paramValue, content)
                     that.setParam(paramName, paramValue);
                 }
 
