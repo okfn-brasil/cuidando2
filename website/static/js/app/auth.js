@@ -12,6 +12,33 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     }
 
 
+    // ------------- Auth panel -------------------
+    var registerPanel = $('#register-panel'),
+        loginPanel = $('#login-panel'),
+        closePanel = $('#close-panel-button'),
+        authPanel = $('#auth-panel')
+    // Open login panel
+    $("#login-button").click(function(e) {
+        registerPanel.hide()
+        loginPanel.show()
+        authPanel.show()
+        return false
+    })
+    // Open register panel
+    $("#register-button").click(function(e) {
+        loginPanel.hide()
+        registerPanel.show()
+        authPanel.show()
+        return false
+    })
+    // Close panel
+    $("#close-panel-button").click(function(e) {
+        authPanel.hide()
+        return false
+    })
+    // -------------------------------------------
+
+
     // If redicected for login (from Facebook)
     if (/^\?redirect_state=/.test(location.search)) {
         var url = location.origin + "/" + localStorage.prevhash
@@ -122,6 +149,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         console.log("----------------------------", username)
         if (!username) {
             console.log("HIDE PROF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            link = '#pessoa/' + username
             logoutButton.hide()
             profileButton.hide()
             registerButton.show()
@@ -135,32 +163,8 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
 
         profileButton.attr('href', link)
         profileButton.html(username)
-    }
-
-
-    var registerPanel = $('#register-panel'),
-        loginPanel = $('#login-panel'),
-        closePanel = $('#close-panel-button'),
-        authPanel = $('#auth-panel')
-    // Open login panel
-    $("#login-button").click(function(e) {
-        registerPanel.hide()
-        loginPanel.show()
-        authPanel.show()
-        return false
-    })
-    // Open register panel
-    $("#register-button").click(function(e) {
-        loginPanel.hide()
-        registerPanel.show()
-        authPanel.show()
-        return false
-    })
-    // Close panel
-    $("#close-panel-button").click(function(e) {
         authPanel.hide()
-        return false
-    })
+    }
 
 
     // Local Login
