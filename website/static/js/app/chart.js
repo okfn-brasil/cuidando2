@@ -13,32 +13,10 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", "app/templates", 'h
         $.getJSON(window.API_URL + '/execucao/info/' + year)
             .done(function(response_data) {
                 var data = response_data.data
-                // Mapped Rows
-                console.log("!!!!!!!!!!!!!",response_data)
-                // $("#mapped-num").html(rows.mapped)
-                // $("#mapped-per").html(Math.round(rows.mapped / rows.total * 100))
-                // $("#region-num").html(rows.region)
-                // $("#region-per").html(Math.round(rows.region / rows.total * 100))
-                // $("#total-num").html(rows.total)
+                // Rows table
                 data.rows["mapped-per"] = Math.round(data.rows.mapped / data.rows.total * 100),
                 data.rows["region-per"] = Math.round(data.rows.region / data.rows.total * 100),
-
-                // Values Table
-                // var values = response_data.data.values
-                // var domValues = $("#values-table>tbody")
-                // domValues.empty()
-                // $.each(values, function(key, value) {
-                //     var unmapped = value.total - value.mapped
-                //     var per = value.mapped / value.total * 100
-                //     domValues.append(
-                //         "<tr><th>"+value.name+
-                //         "</th><td>"+value.mapped+
-                //         "</td><td>"+unmapped+
-                //         "</td><td>"+value.total+
-                //         "</td><td>"+Math.round(per)+
-                //         // "</td><td>"+per.toFixed(0)+
-                //         "</td></tr>")
-                // })
+                // Values table
                 $.each(data.values, function(index, valueElement) {
                     valueElement.unmapped = valueElement.total - valueElement.mapped
                     valueElement.percentage = Math.round(valueElement.mapped / valueElement.total * 100)
