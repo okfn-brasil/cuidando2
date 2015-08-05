@@ -2,8 +2,9 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
 
     'use strict';
 
+    var containerId = "#user-container"
     var userTemplate = templates.get("user")
-    var userContainer = $("#user-container")
+    var userContainer = $(containerId)
 
     function updateUser(event, data) {
         console.log("!!!!!!!!!!!!!UPADETE-USER", event, data, urlManager.getParam('username'))
@@ -25,5 +26,5 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
             })
     }
 
-    showSubscribe("username.changed", "#user-container", true, updateUser)
+    showSubscribe("username.changed", containerId, true, updateUser)
 })
