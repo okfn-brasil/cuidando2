@@ -147,12 +147,12 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         }
 
         if (!username) {
-            link = '#pessoa/' + username
             logoutButton.hide()
             profileButton.hide()
             registerButton.show()
             loginButton.show()
         } else {
+            link = '#pessoa/' + username
             logoutButton.show()
             profileButton.show()
             registerButton.hide()
