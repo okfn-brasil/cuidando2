@@ -1,4 +1,4 @@
-define(['jquery', 'pubsub', 'app/showsub', 'app/urlmanager', 'superselect'], function($, pubsub, showSubscribe, urlManager, SuperSelect) {
+define(['jquery', 'pubsub', 'showutils', 'app/urlmanager', 'superselect'], function($, pubsub, showutils, urlManager, SuperSelect) {
 
     'use strict';
 
@@ -56,7 +56,7 @@ define(['jquery', 'pubsub', 'app/showsub', 'app/urlmanager', 'superselect'], fun
     }
 
     // Run loader on first show
-    showSubscribe.runOnFirstShow(elementId, function () {
+    showutils.runOnFirstShow(elementId, function () {
         if (!loaded) {
             loaded = true
             initYearSelector()

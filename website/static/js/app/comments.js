@@ -1,5 +1,5 @@
-// define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub", "isso/embed.dev"], function($, pubsub, urlManager, showSubscribe) {
-define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'], function($, urlManager, showSubscribe, templates, auth) {
+// define(["jquery", 'pubsub', 'app/urlmanager', "showutils", "isso/embed.dev"], function($, pubsub, urlManager, showutils) {
+define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], function($, urlManager, showutils, templates, auth) {
 
     'use strict';
 
@@ -66,5 +66,5 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
         })
     }
 
-    showSubscribe("code.changed", containerId, true, updateComments)
+    showutils.showSubscribe("code.changed", containerId, true, updateComments)
 })

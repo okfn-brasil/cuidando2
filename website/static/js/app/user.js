@@ -1,4 +1,4 @@
-define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'], function($, urlManager, showSubscribe, templates, auth) {
+define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], function($, urlManager, showutils, templates, auth) {
 
     'use strict';
 
@@ -31,5 +31,5 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
             })
     }
 
-    showSubscribe("username.changed", containerId, true, updateUser)
+    showutils.showSubscribe("username.changed", containerId, true, updateUser)
 })

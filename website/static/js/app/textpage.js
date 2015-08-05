@@ -1,4 +1,4 @@
-define(["jquery", 'app/urlmanager', 'pubsub', 'app/showsub', 'app/templates'], function($, urlManager, pubsub, showSubscribe, templates) {
+define(["jquery", 'app/urlmanager', 'pubsub', 'showutils', 'app/templates'], function($, urlManager, pubsub, showutils, templates) {
 
     'use strict'
 
@@ -19,5 +19,5 @@ define(["jquery", 'app/urlmanager', 'pubsub', 'app/showsub', 'app/templates'], f
     }
 
     window.updatePage = updatePage
-    showSubscribe("text.changed", containerId, true, updatePage)
+    showutils.showSubscribe("text.changed", containerId, true, updatePage)
 })

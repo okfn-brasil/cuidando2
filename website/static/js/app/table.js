@@ -1,4 +1,4 @@
-define(['jquery', 'pubsub', 'app/showsub', 'app/urlmanager', 'datatable'], function($, pubsub, showSubscribe, urlManager, DataTable) {
+define(['jquery', 'pubsub', 'showutils', 'app/urlmanager', 'datatable'], function($, pubsub, showutils, urlManager, DataTable) {
 
     'use strict';
 
@@ -87,7 +87,7 @@ define(['jquery', 'pubsub', 'app/showsub', 'app/urlmanager', 'datatable'], funct
     }
 
     // Run loader on first show
-    showSubscribe.runOnFirstShow(containerId, function () {
+    showutils.runOnFirstShow(containerId, function () {
         if (!loaded) {
             loaded = true
             initTable()

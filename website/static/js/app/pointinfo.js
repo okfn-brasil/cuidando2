@@ -1,4 +1,4 @@
-define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub, urlManager, showSubscribe) {
+define(["jquery", 'pubsub', 'app/urlmanager', "showutils"], function($, pubsub, urlManager, showutils) {
 
     'use strict';
 
@@ -39,5 +39,5 @@ define(["jquery", 'pubsub', 'app/urlmanager', "app/showsub"], function($, pubsub
         }
     }
 
-    showSubscribe("code.changed", infoId, true, getPointInfo)
+    showutils.showSubscribe("code.changed", infoId, true, getPointInfo)
 });

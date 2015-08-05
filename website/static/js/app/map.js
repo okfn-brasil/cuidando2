@@ -1,4 +1,4 @@
-define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/pointinfo', "mapquest", "mapcluster"], function($, L, pubsub, urlManager, showSubscribe) {
+define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/pointinfo', "mapquest", "mapcluster"], function($, L, pubsub, urlManager, showutils) {
 
     'use strict';
 
@@ -156,8 +156,8 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'app/showsub', 'app/poi
     }
 
 
-    showSubscribe("year.changed", mapId, true, updateMap)
-    showSubscribe("pointdata.changed", mapId, false, updatePopup)
+    showutils.showSubscribe("year.changed", mapId, true, updateMap)
+    showutils.showSubscribe("pointdata.changed", mapId, false, updatePopup)
     window.up = updateMap
     window.p = pubsub
 });

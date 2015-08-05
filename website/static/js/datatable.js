@@ -1,4 +1,4 @@
-define(['jquery', 'datatables', 'pubsub', 'app/showsub', 'app/urlmanager'], function ($, datatables, pubsub, showSubscribe, urlManager) {
+define(['jquery', 'datatables', 'pubsub', 'showutils', 'app/urlmanager'], function ($, datatables, pubsub, showutils, urlManager) {
 
   "use strict";
 
@@ -144,7 +144,7 @@ define(['jquery', 'datatables', 'pubsub', 'app/showsub', 'app/urlmanager'], func
                 }
             }
 
-            showSubscribe(paramName + ".changed", datatable.containerId, false, func)
+            showutils.showSubscribe(paramName + ".changed", datatable.containerId, false, func)
             // Subscribe now for element is already shown and showSubscribe doesn't check this
             pubsub.subscribe(paramName + ".changed", func)
         })

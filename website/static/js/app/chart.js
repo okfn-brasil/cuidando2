@@ -1,4 +1,4 @@
-define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", "app/templates", 'hcd', 'hce'], function($, pubsub, urlManager, showSubscribe, templates) {
+define(['jquery', 'pubsub', 'app/urlmanager', "showutils", "app/templates", 'hcd', 'hce'], function($, pubsub, urlManager, showutils, templates) {
 
     'use strict';
 
@@ -99,5 +99,5 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", "app/templates", 'h
         });
     }
 
-    showSubscribe("year.changed", chartsId, true, updateInfo)
+    showutils.showSubscribe("year.changed", chartsId, true, updateInfo)
 })

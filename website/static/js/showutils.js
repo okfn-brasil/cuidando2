@@ -77,7 +77,8 @@ define(['jquery', 'pubsub'], function($, pubsub) {
         })
     }
 
-    showSubscribe.runOnFirstShow = runOnFirstShow
-
-    return showSubscribe
+    return {
+        showSubscribe: showSubscribe,
+        runOnFirstShow: runOnFirstShow
+    }
 })
