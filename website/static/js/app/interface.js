@@ -44,9 +44,15 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
     })
 
 
-    // Button to go back to general view
+    // Button to go back to year view
     $("#to-general").click(function () {
         urlManager.route("ano", urlManager.getParam('year'))
+    })
+
+    // Button to go home
+    $("#home-button").click(function () {
+        urlManager.routeDefault()
+        return false
     })
 
     // Button to share page

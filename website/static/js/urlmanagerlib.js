@@ -57,10 +57,11 @@ define(["jquery"], function($) {
             this.url = this.location.href
             this.subscribedFunctions = []
             this.lastChangedParams = {}
+            this.defaultRoute = opts.defaultRoute
 
             // Sets default route when hash is empty
             // TODO: settar isso tb quando alterarem o URL na mão
-            if (this._getHash() == "") this.location.hash = opts.defaultRoute
+            if (this._getHash() == "") this.location.hash = this.defaultRoute
 
             this.routes = opts.routes
             this.initRoute()
@@ -70,6 +71,10 @@ define(["jquery"], function($) {
 
         route: function() {
             this.location.hash = [].slice.apply(arguments).join('/')
+        },
+
+        routeDefault: function() {
+            this.location.hash = this.defaultRoute
         },
 
         findCurrentRoute: function() {
