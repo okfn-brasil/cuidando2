@@ -127,7 +127,7 @@ define(["jquery"], function($) {
                     }
                     urlmanager.broadcast()
                 }
-            };
+            }
             return this;
         },
 
@@ -185,10 +185,18 @@ define(["jquery"], function($) {
             var urlmanager = this;
             $.each(this.lastChangedParams, function(name, value) {
                 console.log("URLM-PUBLISH:", name, value)
-                urlmanager.pubsub.publish(name + '.changed', {
+                var content = {
                     value: value,
                     sender: urlmanager,
-                });
+                }
+                // urlmanager.pubsub.publish(name + '.changed', content);
+                // Use synced publish for 'root' param
+                if (name != 'root') {
+                    urlmanager.pubsub.publish(name + '.changed', content);
+                } else {
+                    console.log("SYNC!!!!")
+                    urlmanager.pubsub.publishSync(name + '.changed', content);
+                }
                 console.log("SENDER-saida", urlmanager)
             });
             return this;
