@@ -3,7 +3,6 @@
 {% block maincontainer %}
 
 <div id="textpage-container" data-view="texto" class="interface-component">
-  <div>
     {# {% include "textpages.html" %} #}
 
     {% for page in textpages %}
@@ -11,7 +10,6 @@
             {% include "textpages/" + page %}
         </div>
     {% endfor %}
-  </div>
 </div>
 
 <div id="user-container" data-view="pessoa" class="interface-component"></div>

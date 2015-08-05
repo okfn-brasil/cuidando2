@@ -146,9 +146,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
             }
         }
 
-        console.log("----------------------------", username)
         if (!username) {
-            console.log("HIDE PROF!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
             link = '#pessoa/' + username
             logoutButton.hide()
             profileButton.hide()
