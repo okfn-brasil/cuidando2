@@ -1,21 +1,23 @@
 define(["jquery", 'app/urlmanager', 'pubsub', 'app/showsub', 'app/templates'], function($, urlManager, pubsub, showSubscribe, templates) {
 
-    'use strict';
+    'use strict'
 
-    // var userTemplate = templates.get("user")
-    // var userContainer = $("#user-container")
     var containerId = "#textpage-container"
 
     function updatePage(event, data) {
         console.log("!!!!!!!!!!!!!UPDATE-TEXT", event, data, urlManager.getParam('text'))
         var pageName = typeof data !== 'undefined' ? data.value : urlManager.getParam('text')
 
-        // pubsub.unsubscribe(updatePage)
+        // console.log("disact")
+        // $(containerId).on("show", function() {})
+        // $(containerId).on("hide", function() {})
+        // console.log("disacted, hiding")
         $("[data-textpage]").hide()
+        console.log("hided, showing")
         $("*[data-textpage*='" + pageName + "']").show()
-        // showSubscribe("text.changed", containerId, true, updatePage)
+        console.log("showed")
     }
 
-    // TODO: fazer com que rode onShow sem cair em recursão infinita...
-    showSubscribe("text.changed", containerId, false, updatePage)
+    window.updatePage = updatePage
+    showSubscribe("text.changed", containerId, true, updatePage)
 })

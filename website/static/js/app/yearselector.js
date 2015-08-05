@@ -1,52 +1,65 @@
-define(['jquery', 'pubsub', 'app/urlmanager', 'superselect'], function($, pubsub, urlManager, SuperSelect) {
+define(['jquery', 'pubsub', 'app/showsub', 'app/urlmanager', 'superselect'], function($, pubsub, showSubscribe, urlManager, SuperSelect) {
 
     'use strict';
 
-    // Populate selector and prepare its publisher
-    $.getJSON(window.API_URL + '/execucao/info')
-        .done(function(response_data) {
-            var existingYears = response_data.data.years
-            var yearSelector = $("#year-selector")
-            for (var i = 0; i < existingYears.length; ++i) {
-                var year = existingYears[i];
-                var item = '<option value="' + year + '">' + year + '</option>';
-                yearSelector.append(item)
-            }
+    var loaded = false,
+        elementId = "#year-selector",
+        yearSelector = $(elementId)
 
-            // // -----------SUPER STYLED SELECT------------------------------------------
-            // // Iterate over each select element
-            // $('#year-selector').each(function() {
-            //     var yearSelector = new SuperSelect($(this));
+    function initYearSelector() {
+        // Populate selector and prepare its publisher
+        $.getJSON(window.API_URL + '/execucao/info')
+            .done(function(response_data) {
+                var existingYears = response_data.data.years
+                for (var i = 0; i < existingYears.length; ++i) {
+                    var year = existingYears[i];
+                    var item = '<option value="' + year + '">' + year + '</option>';
+                    yearSelector.append(item)
+                }
 
-            //     // // Subscribe to year change
-            //     // pubsub.subscribe("year.changed", function(event, data) {
-            //     //     yearSelector.setValue(data.value);
-            //     // });
+                // // -----------SUPER STYLED SELECT------------------------------------------
+                // // Iterate over each select element
+                // $('#year-selector').each(function() {
+                //     var yearSelector = new SuperSelect($(this));
 
-            //     yearSelector.on('change', function(e, value) {
-            //         pubsub.publish('year.changed', {
-            //             value: [value]
-            //         });
-            //         /* alert($this.val()); Uncomment this for demonstration! */
-            //     });
+                //     // // Subscribe to year change
+                //     // pubsub.subscribe("year.changed", function(event, data) {
+                //     //     yearSelector.setValue(data.value);
+                //     // });
 
-            // });
-            // // ------------------------------------------------------------------------
+                //     yearSelector.on('change', function(e, value) {
+                //         pubsub.publish('year.changed', {
+                //             value: [value]
+                //         });
+                //         /* alert($this.val()); Uncomment this for demonstration! */
+                //     });
+
+                // });
+                // // ------------------------------------------------------------------------
 
 
-            // Subscribe to year change
-            pubsub.subscribe("year.changed", function(event, data) {
-                $("#year-selector").val(data.value)
-            })
+                // Subscribe to year change
+                pubsub.subscribe("year.changed", function(event, data) {
+                    yearSelector.val(data.value)
+                })
 
-            // Set current year
-            var currentYear = urlManager.getParam('year')
-            // if (!currentYear) currentYear = new Date().getFullYear()
-            yearSelector.val(currentYear)
-        });
+                // Set current year
+                var currentYear = urlManager.getParam('year')
+                // if (!currentYear) currentYear = new Date().getFullYear()
+                yearSelector.val(currentYear)
+            });
 
-    // Publish year change
-    $("#year-selector").change(function(e) {
-        pubsub.publish('year.changed', {value: e.target.value})
+        // Publish year change
+        yearSelector.change(function(e) {
+            pubsub.publish('year.changed', {value: e.target.value})
+        })
+    }
+
+    // Run loader on first show
+    showSubscribe.runOnFirstShow(elementId, function () {
+        if (!loaded) {
+            loaded = true
+            initYearSelector()
+        }
     })
-});
+})

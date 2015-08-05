@@ -4,10 +4,10 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
     'use strict';
 
     var containerId = "#comments-container",
-        commentTextarea = $("#comment-textarea"),
-        comListContainer = $("#comments-list-container"),
+        comTemplate = null,
         comListTemplate = null,
-        comTemplate = null
+        commentTextarea = null,
+        comListContainer = null
 
 
     // Init comments interface
@@ -15,6 +15,8 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
         comListTemplate = templates.get("comments-list", true)
         comTemplate = templates.get("comments")
         $(containerId).html(comTemplate({}))
+        commentTextarea = $("#comment-textarea"),
+        comListContainer = $("#comments-list-container"),
 
         // Send comment
         $("#comment-send-button").click(function(e) {

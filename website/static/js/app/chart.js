@@ -2,13 +2,18 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", "app/templates", 'h
 
     'use strict';
 
-    var chartsId = '#charts-container'
+    var chartsId = '#charts-container',
+        chartsContainer = $(chartsId),
+        chartsTemplates = null
 
-    var chartsTemplates = templates.get('charts')
-    var chartsContainer = $(chartsId)
+    function initInterface() {
+        chartsTemplates = templates.get('charts')
+    }
 
     // Get data, update table, plot chart
     function updateInfo() {
+        if (!chartsTemplates) initInterface()
+
         var year = urlManager.getParam('year')
         $.getJSON(window.API_URL + '/execucao/info/' + year)
             .done(function(response_data) {
@@ -94,22 +99,5 @@ define(['jquery', 'pubsub', 'app/urlmanager', "app/showsub", "app/templates", 'h
         });
     }
 
-
     showSubscribe("year.changed", chartsId, true, updateInfo)
-
-
-    // // Starts to update automaticaly while visible
-    // $(chartId).on("show", function() {
-    //     // Subscribe to year change
-    //     pubsub.subscribe("year.changed", function(event, data) {
-    //         updateInfo()
-    //     })
-    //     updateInfo()
-    // })
-
-    // // Stops to update automaticaly while hidden
-    // $(chartId).on("hide", function() {
-    //     // Unsubscribe to year change
-    //     pubsub.unsubscribe(updateInfo)
-    // })
-});
+})
