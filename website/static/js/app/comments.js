@@ -3,21 +3,29 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
 
     'use strict';
 
-    var comListTemplate = templates.get("comments-list", true)
-    var comTemplate = templates.get("comments")
+    var containerId = "#comments-container",
+        commentTextarea = $("#comment-textarea"),
+        comListContainer = $("#comments-list-container"),
+        comListTemplate = null,
+        comTemplate = null
 
-    $("#comments-container").html(comTemplate({}))
 
-    var commentTextarea = $("#comment-textarea")
-    var comListContainer = $("#comments-list-container")
+    // Init comments interface
+    function initComments() {
+        comListTemplate = templates.get("comments-list", true)
+        comTemplate = templates.get("comments")
+        $(containerId).html(comTemplate({}))
 
-    // Send comment
-    $("#comment-send-button").click(function(e) {
-        // TODO: verificar se está logado
-        auth.validateMicroTokenTime(sendComment)
-        return false
-    })
+        // Send comment
+        $("#comment-send-button").click(function(e) {
+            // TODO: verificar se está logado
+            auth.validateMicroTokenTime(sendComment)
+            return false
+        })
+    }
 
+
+    // Add comment to a thread
     function sendComment() {
         var url = COMMENTS_API_URL + "/thread/" + urlManager.getParam('code') + "/add"
         var data = {
@@ -42,7 +50,10 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
     }
 
 
+    // Update comments list
     function updateComments(event, data) {
+        if (!comTemplate) initComments()
+
         console.log("UPADETE-COMENTS", event, data, urlManager.getParam('code'))
         var code = typeof data !== 'undefined' ? data.value : urlManager.getParam('code')
         $.getJSON(
@@ -53,5 +64,5 @@ define(["jquery", 'app/urlmanager', 'app/showsub', 'app/templates', 'app/auth'],
         })
     }
 
-    showSubscribe("code.changed", "#comments-container", true, updateComments)
+    showSubscribe("code.changed", containerId, true, updateComments)
 })
