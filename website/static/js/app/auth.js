@@ -128,6 +128,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
 
     // Update register/login/profile/logout buttons
     function updateButtons() {
+        console.log("updateButtons")
         var username = "",
             link = "",
             profileButton = $('#user-profile-button'),

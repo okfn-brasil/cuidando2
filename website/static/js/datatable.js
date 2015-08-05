@@ -1,4 +1,4 @@
-define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, datatables, showSubscribe, urlManager) {
+define(['jquery', 'datatables', 'pubsub', 'app/showsub', 'app/urlmanager'], function ($, datatables, pubsub, showSubscribe, urlManager) {
 
   "use strict";
 
@@ -56,7 +56,11 @@ define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, d
         this.$el = $('<table>');
         $(el).append(this.$el);
       }
-      this.domID = el
+
+      // Used to subscribe on show
+      // this.domID = el
+      this.containerId = opts.containerId;
+
       this.pubsub = opts.pubsub;
       this.url = opts.url;
       this.columns = opts.columns;
@@ -83,12 +87,12 @@ define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, d
 
     initTable: function() {
       var page = this.params.page,
-          that = this,
+          datatable = this,
           perPageNum = this.params.per_page_num,
           opts = $.extend({}, this.dataTablesOpts, {
             serverSide: true,
             // Use our ajax request function.
-            ajax: function() { that._ajaxRequest.apply(that, arguments); },
+            ajax: function() { datatable._ajaxRequest.apply(datatable, arguments); },
             // Extrac coluns from options.
             columns: $.map(this.columns, function(col) {
               return {data: col.field, className: col.className}
@@ -115,41 +119,37 @@ define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, d
     },
 
     handleEvents: function() {
-      var that = this;
-      this.$el.on('draw.dt',   function () { that._resizeSearchBox(); });
+      var datatable = this;
+      this.$el.on('draw.dt',   function () { datatable._resizeSearchBox(); });
       // Publish changes on `page` and `per_page_num` params.
-      this.$el.on('page.dt',   function () { that._publishPageChanged(); });
+      this.$el.on('page.dt',   function () { datatable._publishPageChanged(); });
       this.$el.on('length.dt', function () {
-        that._publishPageChanged();
-        that._publishPerPageNumChanged();
+        datatable._publishPageChanged();
+        datatable._publishPerPageNumChanged();
       });
 
       if (this.pubsub) {
         // Subscribe to params changes.
-        $.each(this.params, function(name, value) {
-          (function(paramName) {
+        $.each(this.params, function(paramName, value) {
 
-            showSubscribe(paramName + ".changed", that.domID, false, function(msg, content) {
+            console.log("DT - showsub param:", paramName, datatable.containerId)
+
+            var func = function(msg, content) {
+                console.log("DT - received publish", msg, content)
                 var paramValue = typeof content !== 'undefined' ? content.value : urlManager.getParam(paramName)
                 // Tries to ignore changes published by this instance
-                if (!content || (content.sender != that && paramValue != that.getParam(paramName))) {
+                if (!content || (content.sender != datatable && paramValue != datatable.getParam(paramName))) {
                     console.log("UPDATE", paramName, paramValue, content)
-                    that.setParam(paramName, paramValue);
+                    datatable.setParam(paramName, paramValue);
                 }
+            }
 
-            })
-
-            // that.pubsub.subscribe(paramName + ".changed", function(msg, content) {
-            //   // Ignore changes published by this instance
-            //   if (content.sender != that && content.value != that.getParam(paramName)) {
-            //     that.setParam(paramName, content.value);
-            //   }
-            // });
-
-          })(name);
-        });
+            showSubscribe(paramName + ".changed", datatable.containerId, false, func)
+            // Subscribe now for element is already shown and showSubscribe doesn't check this
+            pubsub.subscribe(paramName + ".changed", func)
+        })
       }
-      return this;
+      return this
     },
 
     setParam: function(name, value) {
@@ -210,7 +210,7 @@ define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, d
     },
 
     _ajaxRequest: function(data, callback, settings) {
-      var that = this,
+      var datatable = this,
           draw = data.draw,
           params = $.extend({}, this.params, {
             per_page_num: data.length,
@@ -229,12 +229,12 @@ define(['jquery', 'datatables', 'app/showsub', 'app/urlmanager'], function ($, d
           draw: draw,
           recordsTotal: totalCount,
           recordsFiltered: totalCount,
-          data: that._formatData(data.data)
-        });
-      });
+          data: datatable._formatData(data.data)
+        })
+      })
     }
 
-  };
+  }
 
   return DataTable;
-});
+})

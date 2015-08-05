@@ -21,7 +21,7 @@ define(['jquery', 'handlebars.runtime', 'compiled_templates/all'], function($, H
 	      // }
 
 
-        console.log("CCCCCCCCCCCC", name, partial, Handlebars.templates[name])
+        console.log("getting template", name, partial, Handlebars.templates[name])
         // Register template as a partial if asked for
         if (partial) Handlebars.registerPartial(name, Handlebars.templates[name])
 

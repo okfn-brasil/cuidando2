@@ -27,14 +27,17 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
             } else {
                 // New element
                 console.log("SHOW!!", element.id)
-                $(element).show()
+                $(element).show({propagate: true})
             }
         })
+
         // Hide the ones left in visible
-        $.each(visible, function(index, element) {
-            $(visible).hide()
-            console.log("ESCOD", element.id)
-        })
+        $(visible).hide({propagate: true})
+        // $.each(visible, function(index, element) {
+        //     console.log("esconder vários: ", visible)
+        //     $(visible).hide({propagate: true})
+        // })
+
         // Replaced the now hidden ones with the real visible
         visible = shouldBeVisible
     }
@@ -65,4 +68,4 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
 
 
     return updateView
-});
+})

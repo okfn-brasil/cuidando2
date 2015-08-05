@@ -30,10 +30,9 @@ define(["base64"], function() {
     function json_parse(str) {
         var parsed;
         if (typeof JSON === 'object') {
-            console.log("Não uso eval! hahahahaah!!!!!!!!!")
             parsed = JSON.parse(str);
         } else {
-            console.log("Oh não! estou usando Eval!!!!!!!! =(")
+            console.log("Warning: using 'eval'! Old browser?")
             parsed = eval('(' + str + ')');
         }
         return parsed;
