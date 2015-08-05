@@ -35,6 +35,7 @@ define(['jquery', 'pubsub'], function($, pubsub) {
     })(jQuery);
 
 
+    // TODO: arrumar essa doc (vai usar esse hack de endedInitFase mesmo?!)
     // Prepares a function (func) to be executed when an "event" is published,
     // but this should only happens while an element (selector) is visible.
     // "runOnFirstShow" is used to force the function to be executed also when the
