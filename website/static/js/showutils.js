@@ -39,7 +39,7 @@ define(['jquery', 'pubsub'], function($, pubsub) {
     // but this should only happens while an element (selector) is visible.
     // "runOnFirstShow" is used to force the function to be executed also when the
     // element first becomes visible, not only when "event" is published.
-    function showSubscribe(event, selector, runOnFirstShow, func) {
+    function showSubscribe(event, selector, runOnInit, func) {
         console.log("showSubscribed", event, selector, runOnFirstShow, func)
         var element = $(selector)
 
@@ -48,10 +48,11 @@ define(['jquery', 'pubsub'], function($, pubsub) {
             console.log("subshow", event, selector, func)
             pubsub.subscribe(event, func)
             // if (runOnShow) func()
-            if (runOnFirstShow && !func.notFirstShow) {
-                func()
-            }
-            func.notFirstShow = true
+            // if (runOnFirstShow && !func.notFirstShow) {
+            //     func()
+            // }
+            // func.notFirstShow = true
+            if(runOnInit && !pubsub.endedInitFase) func()
         })
 
         // Stops to update automaticaly while hidden

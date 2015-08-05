@@ -66,6 +66,10 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         return false
     })
 
+    function init() {
+        updateView()
+        pubsub.endedInitFase = true
+    }
 
-    return updateView
+    return init
 })
