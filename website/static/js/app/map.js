@@ -43,7 +43,8 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
 
     var mapId = '#map-container',
         popup = null,
-        map = null
+        map = null,
+        year = null
 
     // This flag is used to know if the user clicked the marker (so the map
     // already panned to it) or if the "code" was changed another way, so the
@@ -68,49 +69,35 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
     function updateMap(msg, content) {
         if (!map) initMap()
 
-        // Remove possible previous markers layer
-        if (map.yearMarkers) map.removeLayer(map.yearMarkers)
+        var newYear = content ? content.value : urlManager.getParam('year')
+        // Avoids realoading data if year didn't change
+        if (newYear != year) {
+            year = newYear
+            // Remove possible previous markers layer
+            if (map.yearMarkers) map.removeLayer(map.yearMarkers)
 
-        // Create new cluster layer
-        var markers = new L.MarkerClusterGroup({
-            spiderfyOnMaxZoom: true,
-            showCoverageOnHover: false,
-            zoomToBoundsOnClick: true
-        });
-
-        // Get list of points from server
-        var year = content ? content.value : urlManager.getParam('year')
-        console.log("MAP Year", year)
-        // var year = urlManager.getParam('code').split('.')[0]
-        $.getJSON(API_URL + '/execucao/minlist/' + year)
-            .done(function(response_data) {
-                $.each(response_data.data, function(index, item) {
-                    // L.geoJson(item).addTo(map);
-                    // L.geoJson(item, {
-                    //     pointToLayer: function (feature, latlng) {
-                    //         return L.marker(latlng);
-                    //         // return L.marker(latlng, geojsonMarkerOptions);
-                    //     }
-                    // })
-                    var marker = L.geoJson(item)
-                    marker.on('click', markerClicked);
-                    markers.addLayer(marker);
-
-
-                    // if (item[1]) {
-                    //     // var marker = L.marker([item.lat, item.lon]).addTo(map);
-                    //     var marker = L.marker([item[1], item[2]]);
-                    //     marker.pk = item[0]
-                    //         // marker.bindPopup(item.descr);
-                    //     marker.on('click', markerClicked);
-                    // markers.addLayer(marker);
-                    //     // oms.addMarker(marker);
-                    // }
-                });
+            // Create new cluster layer
+            var markers = new L.MarkerClusterGroup({
+                spiderfyOnMaxZoom: true,
+                showCoverageOnHover: false,
+                zoomToBoundsOnClick: true
             });
 
-        map.addLayer(markers);
-        map.yearMarkers = markers
+            // Get list of points from server
+            console.log("MAP Year", year)
+            // var year = urlManager.getParam('code').split('.')[0]
+            $.getJSON(API_URL + '/execucao/minlist/' + year)
+                .done(function(response_data) {
+                    $.each(response_data.data, function(index, item) {
+                        var marker = L.geoJson(item)
+                        marker.on('click', markerClicked);
+                        markers.addLayer(marker);
+                    })
+                })
+
+            map.addLayer(markers);
+            map.yearMarkers = markers
+        }
     }
 
 
@@ -158,6 +145,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
 
     showutils.showSubscribe("year.changed", mapId, true, updateMap)
     showutils.showSubscribe("pointdata.changed", mapId, false, updatePopup)
+    // TODO: remover isso:
     window.up = updateMap
     window.p = pubsub
 });
