@@ -273,7 +273,6 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         return false
     })
 
-
     return {
         validateMicroTokenTime: validateMicroTokenTime,
     }
