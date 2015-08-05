@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 import datetime
 # import pypandoc
@@ -126,7 +127,10 @@ freezer = Freezer(app)
 @app.route('/index.html')
 def root():
     ''' Main page '''
-    return render_template('app.html')
+    return render_template(
+        'app.html',
+        textpages=os.listdir(os.path.join("templates", "textpages"))
+    )
     # Get the page
     # path = 'main'
     # page = pages.get_or_404(add_l10n_prefix(path))

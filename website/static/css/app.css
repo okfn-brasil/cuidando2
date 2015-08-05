@@ -16,6 +16,6 @@
     margin-top: 50px;
 }
 
-[data-view], #auth-panel {
+[data-view], [data-textpage], #auth-panel {
     display: none;
 }
