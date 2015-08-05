@@ -35,11 +35,10 @@ define(['jquery', 'pubsub'], function($, pubsub) {
     })(jQuery);
 
 
-    // TODO: arrumar esse doc
     // Prepares a function (func) to be executed when an "event" is published,
     // but this should only happens while an element (selector) is visible.
-    // "runOnShow" is used to force the function to be executed also when the
-    // element becomes visible, not only when "event" is published.
+    // "runOnFirstShow" is used to force the function to be executed also when the
+    // element first becomes visible, not only when "event" is published.
     function showSubscribe(event, selector, runOnFirstShow, func) {
         console.log("showSubscribed", event, selector, runOnFirstShow, func)
         var element = $(selector)
