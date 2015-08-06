@@ -239,15 +239,16 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
             data       : JSON.stringify(data),
             type       : 'POST',
         })
-        .done(function(data) {
-            localStorage.removeItem("mainToken")
-            localStorage.removeItem("microToken")
-            updateButtons()
-        })
-        .fail(function(data, error, errorName) {
-            console.log(data)
-            alert(data.responseJSON.message)
-        })
+            .fail(function(data, error, errorName) {
+                // TODO: tentar de novo?
+                console.log(data)
+                alert(data.responseJSON.message)
+            })
+            .always(function(data) {
+                localStorage.removeItem("mainToken")
+                localStorage.removeItem("microToken")
+                updateButtons()
+            })
         return false
     })
 
