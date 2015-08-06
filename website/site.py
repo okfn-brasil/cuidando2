@@ -180,8 +180,9 @@ if __name__ == '__main__':
         # TODO: compile templates: !!!!!!!!!!!!!!!!!!!!!!!!
         # handlebars templates/handlebars/ -f static/js/compiled_templates/all.js -e html -a
         # sed -i -- 's/handlebars\.runtime/handlebars/g' static/js/compiled_templates/all.js
+        print("Freezing...")
         freezer.freeze()
-    if len(sys.argv) > 1 and sys.argv[1] == 'watch':
+    elif len(sys.argv) > 1 and sys.argv[1] == 'watch':
         import logging
         from webassets.script import CommandLineEnvironment
 
@@ -194,5 +195,5 @@ if __name__ == '__main__':
         cmdenv.watch()
         # cmdenv.build()
     else:
-        print("---------->>>>", assets['handlebars'].urls())
+        # print("---------->>>>", assets['handlebars'].urls())
         app.run(port=5001)
