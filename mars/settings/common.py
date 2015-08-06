@@ -68,3 +68,13 @@ SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
     # 'social.backends.mineid.MineIDOAuth2',
     # 'social.backends.wunderlist.WunderlistOAuth2',
 )
+
+
+# TODO: mesmo com isso parece não salvar email no BD. Ver se Face está realmente passando esse dado e pq não está sendo salvo.
+# needed starting from protocol v2.4
+# https://github.com/omab/python-social-auth/issues/675
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email',
+}
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+# SOCIAL_AUTH_FACEBOOK_SCOPE = ["public_profile"]
