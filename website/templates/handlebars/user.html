@@ -1,5 +1,17 @@
 <h2>{{username}}</h2>
 <p>{{description}}</p>
+
+{{#if possibleEdit}}
+    <form class="form-inline">
+    <div class="form-group">
+        <label class="sr-only" for="descr-form-update">Descrição</label>
+        <textarea id="user-form-textarea" placeholder="Descrição" class="form-control" rows="3"></textarea>
+    </div>
+    <button id="descr-form-update-button" type="submit" class="btn btn-default">Update</button>
+    </form>
+{{/if}}
+
+
 <!-- <dl> -->
 <!-- {{#each fields}} -->
 <!--   <dt> -->
