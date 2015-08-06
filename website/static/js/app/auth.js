@@ -126,19 +126,11 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     }
 
 
-    // Update register/login/profile/logout buttons
-    function updateButtons() {
-        console.log("updateButtons")
-        var username = "",
-            link = "",
-            profileButton = $('#user-profile-button'),
-            registerButton = $('#register-button'),
-            logoutButton = $('#logout-button'),
-            loginButton = $('#login-button')
-
+    // Get current username
+    function getUsername() {
         if (localStorage.mainToken) {
             try {
-                username = decodeToken(localStorage.mainToken).username
+                return decodeToken(localStorage.mainToken).username
             }
             catch(err) {
                 localStorage.removeItem("mainToken")
@@ -146,6 +138,19 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
                 alert("Error to decode stored token! Please relogin...")
             }
         }
+        return null
+    }
+
+
+    // Update register/login/profile/logout buttons
+    function updateButtons() {
+        console.log("updateButtons")
+        var username = getUsername(),
+            link = "",
+            profileButton = $('#user-profile-button'),
+            registerButton = $('#register-button'),
+            logoutButton = $('#logout-button'),
+            loginButton = $('#login-button')
 
         if (!username) {
             logoutButton.hide()
@@ -275,5 +280,6 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
 
     return {
         validateMicroTokenTime: validateMicroTokenTime,
+        getUsername: getUsername
     }
 });
