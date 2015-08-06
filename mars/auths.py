@@ -71,6 +71,7 @@ class HeadlessFacebookBackend(FacebookOAuth2):
         print(request_state)
         # if not request_state:
         #     raise AuthMissingParameter(self, 'state')
+        # TODO: ver se isso não é problemático...
         return request_state
 
     def request(self, url, method='GET', *args, **kwargs):
