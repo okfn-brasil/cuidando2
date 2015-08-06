@@ -140,9 +140,33 @@ class GetUsers(Resource):
 @api.route('/users/<string:username>/edit')
 class EditUser(Resource):
 
+    parser = api.parser()
+    parser.add_argument('token', type=str, location='json', help="Token!!!")
+    parser.add_argument('description', type=str,
+                        location='json', help="Descr!!!")
+    # parser.add_argument('password', type=str,
+    #                     location='json', help="Password!!")
+    parser.add_argument('email', type=str,
+                        location='json', help="Email!!")
+
     def put(self, username):
-        # Must check permission! If token user == username?
-        pass
+        args = self.parser.parse_args()
+        decoded = decode_token(args['token'])
+        if username == decoded['username']:
+            user = get_user(decoded['username'])
+            if args['description']:
+                user.description = args['description']
+            if args['email']:
+                user.email = args['email']
+            db.session.commit()
+            return {
+                "username": user.username,
+                "description": user.description,
+                "email": user.email,
+            }
+
+        else:
+            api.abort(550, "Editing other user profile...")
 
 
 @api.route('/users/<string:username>/register')
@@ -150,6 +174,8 @@ class RegisterUser(Resource):
 
     parser = api.parser()
     parser.add_argument('password')
+    parser.add_argument('email', type=str,
+                        location='json', help="Email!!")
 
     def post(self, username):
         args = self.parser.parse_args()
@@ -214,6 +240,8 @@ def decode_token(token):
     try:
         decoded = sv.decode(token)
         # options={"verify_exp": False})
+    except sv.ExpiredSignatureError:
+        api.abort(400, "Error: Expired token!")
     except:
         # TODO: tratar erros... quais são?
         raise
