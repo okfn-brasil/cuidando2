@@ -42,7 +42,8 @@ class MyExternalTool(ExternalTool):
         output_file = tempfile_on_demand()
         if hasattr(str, 'format'):   # Support Python 2.5 without the feature
             argv = list(map(lambda item:
-                       item.format(input=input_file, output=output_file), argv))
+                       item.format(
+                           input=input_file, output=output_file), argv))
 
         try:
             data = (data.read() if hasattr(data, 'read') else data)
