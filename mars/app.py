@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Micro Auth: Restful & Social
-
 from flask import Flask
 from flask.ext.cors import CORS
 from flask.ext.restplus import apidoc
