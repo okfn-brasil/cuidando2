@@ -96,6 +96,7 @@ class Logout(Resource):
         decoded = decode_token(args['token'])
         # Invalidates all main tokens
         get_user(decoded['username']).last_token_exp = 0
+        # TODO: será que não precisa commitar aqui?
         return {}
 
 
