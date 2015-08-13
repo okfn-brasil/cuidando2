@@ -1,5 +1,0 @@
-Flask
-Flask-Script
-Flask-Restplus
-Flask-CORS
-Flask-SQLAlchemy
