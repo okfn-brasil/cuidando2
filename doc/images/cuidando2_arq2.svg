@@ -498,7 +498,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.1879605"
-     inkscape:cx="387.67478"
+     inkscape:cx="205.00877"
      inkscape:cy="277.0534"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -558,7 +558,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -590,7 +590,7 @@
        y="92.362228" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-302.12439"
        y="117.96067"
        id="text15983"
@@ -602,12 +602,12 @@
            x="-235.60056"
            y="117.96067"
            id="tspan15987"
-           style="text-anchor:start;text-align:start;">Extrator</tspan><tspan
+           style="text-anchor:start;text-align:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Extrator</tspan><tspan
            dx="0"
            x="-160.22025"
            y="117.96067"
            id="tspan15989"
-           style="text-anchor:start;text-align:start;" /></tspan><tspan
+           style="text-anchor:start;text-align:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="-264.83414"
          y="135.46066"
@@ -615,10 +615,10 @@
            x="-265.99414"
            y="135.46066"
            id="tspan15993"
-           style="text-anchor:start;text-align:start;">Geolocalizador</tspan></tspan></text>
+           style="text-anchor:start;text-align:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Geolocalizador</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-360.48975"
        y="257.36615"
        id="text15995"
@@ -629,7 +629,8 @@
          id="tspan15997"><tspan
            x="-360.48975"
            y="257.36615"
-           id="tspan15999">PREFEITURA</tspan></tspan></text>
+           id="tspan15999"
+           style="-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">PREFEITURA</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#4d658d;fill-opacity:1;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect7116"
@@ -652,7 +653,7 @@
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-24.591898"
        y="106.97645"
        id="text15977"
@@ -663,18 +664,19 @@
          id="tspan15979"><tspan
            x="-24.591898"
            y="106.97645"
-           id="tspan15981">Geolocalizados</tspan></tspan></text>
+           id="tspan15981"
+           style="-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Geolocalizados</tspan></tspan></text>
     <flowRoot
        xml:space="preserve"
        id="flowRoot3446"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"><flowRegion
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"><flowRegion
          id="flowRegion3448"><rect
            id="rect3450"
            width="245.17659"
            height="87.747414"
            x="197.8618"
            y="561.14874"
-           style="text-align:start;text-anchor:start;fill:#000000;fill-opacity:1" /></flowRegion><flowPara
+           style="text-align:start;text-anchor:start;fill:#000000;fill-opacity:1;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></flowRegion><flowPara
          id="flowPara3452" /></flowRoot>    <rect
        style="opacity:1;fill:#43877b;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4372"
@@ -684,7 +686,7 @@
        y="220.46974" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-112.95177"
        y="240.62282"
        id="text15965"
@@ -696,12 +698,12 @@
            x="49.686275"
            y="240.62282"
            id="tspan15969"
-           style="text-align:start;text-anchor:start">NAVEGADOR - Cliente JS</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">NAVEGADOR - Cliente JS</tspan><tspan
            dx="0"
            x="270.85907"
            y="240.62282"
            id="tspan15971"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="104.40525"
          y="258.1228"
@@ -709,7 +711,7 @@
            x="104.40525"
            y="258.1228"
            id="tspan15975"
-           style="text-align:start;text-anchor:start">(Cuidando2)</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">(Cuidando2)</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#7689a9;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4340-5-9"
@@ -719,7 +721,7 @@
        y="92.362206" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="56.25523"
        y="118.71498"
        id="text15953"
@@ -731,12 +733,12 @@
            x="200.73048"
            y="118.71498"
            id="tspan15957"
-           style="text-align:start;text-anchor:start">Base de Comentários</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Base de Comentários</tspan><tspan
            dx="0"
            x="394.40814"
            y="118.71498"
            id="tspan15959"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="251.07869"
          y="136.21495"
@@ -744,10 +746,10 @@
            x="251.07869"
            y="136.21495"
            id="tspan15963"
-           style="text-align:start;text-anchor:start">(Tagarela)</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">(Tagarela)</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-417.58963"
        y="306.22247"
        id="text15947"
@@ -759,7 +761,7 @@
            x="-365.86823"
            y="306.22247"
            id="tspan15951"
-           style="text-align:start;text-anchor:start">Secr. Finan.</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Secr. Finan.</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#7689a9;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4340-5"
@@ -769,7 +771,7 @@
        y="476.36221" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-236.94064"
        y="504.25699"
        id="text15935"
@@ -781,12 +783,12 @@
            x="-189.04865"
            y="504.25699"
            id="tspan15939"
-           style="text-align:start;text-anchor:start">Facilitador</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Facilitador</tspan><tspan
            dx="0"
            x="-91.505219"
            y="504.25699"
            id="tspan15941"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="-189.40411"
          y="521.75702"
@@ -794,7 +796,7 @@
            x="-189.40411"
            y="521.75702"
            id="tspan15945"
-           style="text-align:start;text-anchor:start">(EsicLivre)</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">(EsicLivre)</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#ffe0aa;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect3538"
@@ -804,7 +806,7 @@
        y="352.36221" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-351.56741"
        y="386.09766"
        id="text15929"
@@ -816,7 +818,7 @@
            x="-333.15091"
            y="386.09766"
            id="tspan15933"
-           style="text-align:start;text-anchor:start">eSIC</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">eSIC</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#6ca299;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4374"
@@ -826,7 +828,7 @@
        y="272.36221" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-76.565147"
        y="297.09125"
        id="text15917"
@@ -838,12 +840,12 @@
            x="-5.6794472"
            y="297.09125"
            id="tspan15921"
-           style="text-align:start;text-anchor:start">Visualização</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Visualização</tspan><tspan
            dx="0"
            x="108.64883"
            y="297.09125"
            id="tspan15923"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="10.155727"
          y="314.59125"
@@ -851,7 +853,7 @@
            x="10.155727"
            y="314.59125"
            id="tspan15927"
-           style="text-align:start;text-anchor:start">em mapa</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">em mapa</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#6ca299;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4374-1"
@@ -861,7 +863,7 @@
        y="272.36221" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="76.081284"
        y="297.55951"
        id="text15905"
@@ -873,12 +875,12 @@
            x="162.98276"
            y="297.55951"
            id="tspan15909"
-           style="text-align:start;text-anchor:start">Comentários</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Comentários</tspan><tspan
            dx="0"
            x="277.58868"
            y="297.55951"
            id="tspan15911"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="147.24121"
          y="315.05951"
@@ -886,7 +888,7 @@
            x="147.24121"
            y="315.05951"
            id="tspan15915"
-           style="text-align:start;text-anchor:start">sobre os pontos</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">sobre os pontos</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#6ca299;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4374-7"
@@ -896,7 +898,7 @@
        y="352.36221" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="2.5577765"
        y="376.83145"
        id="text15893"
@@ -908,12 +910,12 @@
            x="81.230896"
            y="376.83145"
            id="tspan15897"
-           style="text-align:start;text-anchor:start">Pedidos de</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Pedidos de</tspan><tspan
            dx="0"
            x="180.47388"
            y="376.83145"
            id="tspan15899"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="66.104568"
          y="394.33145"
@@ -921,7 +923,7 @@
            x="66.104568"
            y="394.33145"
            id="tspan15903"
-           style="text-align:start;text-anchor:start">Acesso à Info.</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Acesso à Info.</tspan></tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#552200;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Sstart);marker-end:url(#Arrow2Send)"
        d="m -89.259568,476.36221 0.458357,-94.6183 L 40,382.36221"
@@ -954,7 +956,7 @@
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-89.176956"
        y="187.53566"
        id="text15887"
@@ -966,10 +968,10 @@
            x="-50.820297"
            y="187.53566"
            id="tspan15891"
-           style="text-align:start;text-anchor:start">API (Ler)</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">API (Ler)</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-251.16553"
        y="372.43417"
        id="text15881"
@@ -981,10 +983,10 @@
            x="-211.45665"
            y="372.43417"
            id="tspan15885"
-           style="text-align:start;text-anchor:start">Selenium</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Selenium</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-253.06093"
        y="226.71364"
        id="text15869"
@@ -996,12 +998,12 @@
            x="-185.72148"
            y="226.71364"
            id="tspan15873"
-           style="text-align:start;text-anchor:start">Download</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Download</tspan><tspan
            dx="0"
            x="-97.571648"
            y="226.71364"
            id="tspan15875"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="-160.4664"
          y="244.21364"
@@ -1009,7 +1011,7 @@
            x="-160.4664"
            y="244.21364"
            id="tspan15879"
-           style="text-align:start;text-anchor:start">ODS</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">ODS</tspan></tspan></text>
     <rect
        style="opacity:1;fill:#ffccaa;fill-opacity:1;stroke:none;stroke-width:0.80000001;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:0;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect4404"
@@ -1019,7 +1021,7 @@
        y="478.36221" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="7.0859447"
        y="507.02835"
        id="text15857"
@@ -1031,12 +1033,12 @@
            x="78.753845"
            y="507.02835"
            id="tspan15861"
-           style="text-align:start;text-anchor:start">Autenticador</tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Autenticador</tspan><tspan
            dx="0"
            x="196.93762"
            y="507.02835"
            id="tspan15863"
-           style="text-align:start;text-anchor:start" /></tspan><tspan
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;" /></tspan><tspan
          sodipodi:role="line"
          x="93.747681"
          y="524.52832"
@@ -1044,10 +1046,10 @@
            x="93.747681"
            y="524.52832"
            id="tspan15867"
-           style="text-align:start;text-anchor:start">(Viralata)</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">(Viralata)</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-86.003983"
        y="373.06357"
        id="text15851"
@@ -1059,10 +1061,10 @@
            x="-47.920761"
            y="373.06357"
            id="tspan15855"
-           style="text-align:start;text-anchor:start">API (L/E)</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">API (L/E)</tspan></tspan></text>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-86.603058"
        y="43.768475"
        id="text15845"
@@ -1074,7 +1076,7 @@
            x="-18.886337"
            y="43.768475"
            id="tspan15849"
-           style="text-align:start;text-anchor:start">Gastos Abertos</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Gastos Abertos</tspan></tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#00362d;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -225.80372,33.157873 60.2027,0"
@@ -1090,7 +1092,7 @@
        y="12.362226" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-471.73944"
        y="36.718163"
        id="text15839"
@@ -1102,7 +1104,7 @@
            x="-392.20078"
            y="36.718163"
            id="tspan15843"
-           style="text-align:start;text-anchor:start">Open Street Maps</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">Open Street Maps</tspan></tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#00362d;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:url(#Arrow2Send-3-2-1-6-7)"
        d="m -196,32.159534 0,60.202691"
@@ -1190,7 +1192,7 @@
        y="12.270265" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="-179.12692"
        y="36.626202"
        id="text15833"
@@ -1202,7 +1204,7 @@
            x="-151.36778"
            y="36.626202"
            id="tspan15837"
-           style="text-align:start;text-anchor:start">GMaps</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">GMaps</tspan></tspan></text>
     <path
        style="fill:none;fill-rule:evenodd;stroke:#552200;stroke-width:5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Sstart-5);marker-end:url(#Arrow2Send-5)"
        d="m 135.10662,439.03851 0,38"
@@ -1211,7 +1213,7 @@
        sodipodi:nodetypes="cc" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:Sans;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;font-size:14px;line-height:125%;font-family:sans-serif;text-align:start;letter-spacing:2.31999993px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;-inkscape-font-specification:sans-serif;font-stretch:normal;font-variant:normal;"
        x="112.70465"
        y="465.40857"
        id="text15827"
@@ -1223,6 +1225,6 @@
            x="150.78787"
            y="465.40857"
            id="tspan15831"
-           style="text-align:start;text-anchor:start">API (L/E)</tspan></tspan></text>
+           style="text-align:start;text-anchor:start;-inkscape-font-specification:sans-serif;font-family:sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;">API (L/E)</tspan></tspan></text>
   </g>
 </svg>
