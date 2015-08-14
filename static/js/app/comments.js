@@ -1,4 +1,3 @@
-// define(["jquery", 'pubsub', 'app/urlmanager', "showutils", "isso/embed.dev"], function($, pubsub, urlManager, showutils) {
 define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], function($, urlManager, showutils, templates, auth) {
 
     'use strict';
@@ -47,7 +46,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         })
         .fail(function(data, error, errorName) {
             console.log(data)
-            alert(data.responseJSON.message)
+            alert(data.message)
         })
     }
 
