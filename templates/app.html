@@ -2,6 +2,8 @@
 
 {% block maincontainer %}
 
+<div id="pedidos-container" data-view="pedido" class="interface-component"></div>
+
 <div id="textpage-container" data-view="texto" class="interface-component">
     {# {% include "textpages.html" %} #}
 
@@ -27,6 +29,7 @@
 
 <dl id="point-info" data-view="despesa" class="interface-component"></dl>
 <div id="comments-container" data-view="despesa" class="interface-component"></div>
+
 {% endblock %}
 
 {% block endjs %}

@@ -22,6 +22,8 @@ define(['jquery', 'pubsub', 'urlmanagerlib', "app/auth"], function($, pubsub, Ur
         }, {
             format: 'pessoa/{{username}}',
         }, {
+            format: 'pedido/{{protocolo}}',
+        }, {
             format: 'texto/{{text}}',
         }
     ]
