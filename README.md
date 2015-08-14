@@ -7,7 +7,6 @@ Para mais informações consulte nossa Wiki, disponível (assim com o repositór
 Já para os "*issues*", como ainda não sabemos sincronizá-los entre GitLab e GitHub, favor usar o [*issues* do GitLab](https://gitlab.com/ok-br/cuidando2/issues).
 
 ![Alt text](https://rawgit.com/okfn-brasil/cuidando2/master/doc/images/cuidando2_arq2.svg)
-<img src="https://rawgit.com/okfn-brasil/cuidando2/master/doc/images/cuidando2_arq2.svg">
 
 ## Instalando
 
