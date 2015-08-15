@@ -20,7 +20,7 @@ Abaixo estão representados os diversos módulos nos quais esse projeto se basei
 
 Linkando para os respectivos repositórios:
 
-- [Gastos Abertos](https://github.com/okfn-brasil/gastos_abertos): Geolocalização e fornecimento dos dados de execução orçamentária.
+- [Gastos Abertos](https://github.com/okfn-brasil/gastos_abertos): Geolocalização e fornecimento dos dados de execução orçamentária. ([endpoint](http://demo.gastosabertos.org))
 - [Vira-Lata](https://github.com/okfn-brasil/viralata): Autenticação via token (usados para acessar os outros serviços) e informações sobre o usuário. ([endpoint](http://cuidando.org.br:5002))
 - [Tagarela](https://github.com/okfn-brasil/tagarela): Comentários. ([endpoint](http://cuidando.org.br:5002))
 - [EsicLivre](https://github.com/okfn-brasil/esiclivre): Interface com eSIC para a realização de pedidos de informação. ([endpoint](http://cuidando.org.br:5004) - ainda não online)
