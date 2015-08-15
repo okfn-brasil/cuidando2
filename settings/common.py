@@ -5,13 +5,13 @@ from __future__ import unicode_literals
 # Common settings
 #
 
-AVAILABLE_LOCALES = ['pt_BR', 'en']
+# AVAILABLE_LOCALES = ['pt_BR', 'en']
 
-DEFAULT_LOCALE = 'pt_BR'
+# DEFAULT_LOCALE = 'pt_BR'
 
-FLATPAGES_EXTENSION = '.md'
+# FLATPAGES_EXTENSION = '.md'
 
-BABEL_DEFAULT_LOCALE = DEFAULT_LOCALE
+# BABEL_DEFAULT_LOCALE = DEFAULT_LOCALE
 
 HANDLEBARS_EXTRA_ARGS = ["-e", "html", "-a"]
 
