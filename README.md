@@ -1,6 +1,6 @@
 # Cuidando do Meu Bairro 2.0
 
-**Projeto ainda está em desenvolvimento!**
+**Projeto ainda em desenvolvimento!**
 
 Este projeto se trata de uma reescrita do [Cuidando do Meu Bairro](http://cuidando.org.br), que busca mapear a execução do orçamento municipal de São Paulo, não só em regiões, mas também colocando um ponto no mapa para cada despesa.
 
