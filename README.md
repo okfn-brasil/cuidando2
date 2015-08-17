@@ -28,9 +28,16 @@ Linkando para os respectivos repositórios:
 
 ## Instalando
 
+Para instalar todos os repositórios necessários para executar esse projeto, há um shell script "guia" [aqui](doc/install.sh).
+
+Caso só queira instalar esse repositório, clone-o e rode dentro dele:
+
 ```
 $ python setup.py develop
 ```
+
+Depois configure um `settings/local_settings.py`
+
 
 ## Rodando
 
@@ -40,7 +47,7 @@ Para rodar o site:
 $ python site.py
 ```
 
-Depois acesse localhost:5001 em um navegador.
+Depois acesse `localhost:5001` em um navegador.
 
 Como o esse projeto depende de vários micro serviços, sugiro que você tenha um script para rodar todos eles quando quiser. Há um exemplo [aqui](doc/run.py).
 
