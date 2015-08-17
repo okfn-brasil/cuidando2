@@ -36,7 +36,7 @@ Caso só queira instalar esse repositório, clone-o e rode dentro dele:
 $ python setup.py develop
 ```
 
-Depois configure um `settings/local_settings.py`
+Depois configure um `settings/local_settings.py`.
 
 
 ## Rodando
@@ -50,6 +50,35 @@ $ python site.py
 Depois acesse `localhost:5001` em um navegador.
 
 Como o esse projeto depende de vários micro serviços, sugiro que você tenha um script para rodar todos eles quando quiser. Há um exemplo [aqui](doc/run.py).
+
+
+## Compilando
+
+Para compilar o site para produção, rode:
+
+```
+$ python site.py build
+```
+
+Caso queira usar um arquivo de configuração diferente do `local_settings.py`, por exemplo um `prod_settings.py` use:
+
+```
+$ python site.py build prod
+```
+
+O site compilado (estático, com JS minificado etc) deverá estar na pasta `build`.
+Você pode testá-lo entrando na pasta, servindo-o com o comando a seguir e abrindo o endereço em um navegador:
+
+```
+$ python -m http.server
+```
+
+Caso algo saia errado, tente remover os arquivos de build e tentar novamente:
+
+```
+$ rm -rf build static/build static/.webassets-cache
+```
+
 
 ### Limitadores de versão do browser:
 
