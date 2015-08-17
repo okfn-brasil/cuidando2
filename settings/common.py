@@ -13,6 +13,8 @@ from __future__ import unicode_literals
 
 # BABEL_DEFAULT_LOCALE = DEFAULT_LOCALE
 
+DEBUG = True
+
 HANDLEBARS_EXTRA_ARGS = ["-e", "html", "-a"]
 
 REQUIREJS_RUN_IN_DEBUG = False
