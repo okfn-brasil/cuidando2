@@ -18,6 +18,8 @@ Abaixo estão representados os diversos módulos nos quais esse projeto se basei
 
 ![Alt text](https://rawgit.com/okfn-brasil/cuidando2/master/doc/images/cuidando2_arq2.svg)
 
+As setas avermelhadas indicam conexões em que as escritas provavelmente necessitarão de um [token](https://github.com/okfn-brasil/viralata#protocol).
+
 Linkando para os respectivos repositórios:
 
 - [Gastos Abertos](https://github.com/okfn-brasil/gastos_abertos): Geolocalização e fornecimento dos dados de execução orçamentária. ([endpoint](http://demo.gastosabertos.org))
