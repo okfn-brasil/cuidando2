@@ -34,9 +34,15 @@ $ python setup.py develop
 
 ## Rodando
 
+Para rodar o site:
+
 ```
 $ python site.py
 ```
+
+Depois acesse localhost:5001 em um navegador.
+
+Como o esse projeto depende de vários micro serviços, sugiro que você tenha um script para rodar todos eles quando quiser. Há um exemplo aqui: [rodar.py](doc/rodar.py)
 
 ### Limitadores de versão do browser:
 
