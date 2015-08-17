@@ -4,40 +4,34 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
 
     // var oms = new OverlappingMarkerSpiderfier(map);
 
-    // //icones
-    // var greenIcon = L.icon({
-    // 	iconUrl: 'img/verde.png',
-    // 	iconSize: [25, 41],
-    // 	popupAnchor: [0, -10],
-    // });
-    // var blueIcon = L.icon({
-    // 	iconUrl: 'img/azul.png',
-    // 	iconSize: [25, 41],
-    // 	popupAnchor: [0, -10],
-    // });
-    // var redIcon = L.icon({
-    // 	iconUrl: 'img/vermelho.png',
-    // 	iconSize: [25, 41],
-    // 	popupAnchor: [0, -10],
-    // });
-    // var yellowIcon = L.icon({
-    // 	iconUrl: 'img/amarelo.png',
-    // 	iconSize: [25, 41],
-    // 	popupAnchor: [0, -10],
-    // });
+    //icones
+    var greenIcon = L.icon({
+    	iconUrl: 'static/img/verde.png',
+    	iconSize: [25, 41],
+    	popupAnchor: [0, -10],
+    });
+    var blueIcon = L.icon({
+    	iconUrl: 'static/img/azul.png',
+    	iconSize: [25, 41],
+    	popupAnchor: [0, -10],
+    });
+    var redIcon = L.icon({
+    	iconUrl: 'static/img/vermelho.png',
+    	iconSize: [25, 41],
+    	popupAnchor: [0, -10],
+    });
+    var yellowIcon = L.icon({
+    	iconUrl: 'static/img/amarelo.png',
+    	iconSize: [25, 41],
+    	popupAnchor: [0, -10],
+    });
 
-    // function getcolor(entry) {
-    //   a = entry
-    // 	if(entry.atualizado == "0,00" && entry.empenhado == "0,00" && entry.liquidado == "0,00") {
-    // 		return redIcon;
-    // 	} else if(entry.empenhado == "0,00" && entry.liquidado == "0,00") {
-    // 		return yellowIcon;
-    // 	} else if(entry.liquidado == "0,00") {
-    // 		return greenIcon;
-    // 	} else {
-    // 		return blueIcon;
-    // 	}
-    // }
+    function getcolor(state) {
+    	  if(state == "orcado") return redIcon
+    	  if(state == "atualizado") return yellowIcon
+    	  if(state == "empenhado") return greenIcon
+    	  if(state == "liquidado") return blueIcon
+    }
 
     L.Icon.Default.imagePath = "static/img/leaflet"
 
@@ -78,18 +72,46 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
 
             // Create new cluster layer
             var markers = new L.MarkerClusterGroup({
+                maxClusterRadius: 60,
                 spiderfyOnMaxZoom: true,
                 showCoverageOnHover: false,
-                zoomToBoundsOnClick: true
-            });
+                zoomToBoundsOnClick: true,
+                iconCreateFunction: function (cluster) {
+                    var markers = cluster.getAllChildMarkers()
+                    // var html = markers.length
+                    return L.divIcon({
+                        html: markers.length,
+                        className: 'cluster-circle',
+                        iconSize: L.point(32, 32)
+                    })
+
+				            // var markers = cluster.getAllChildMarkers()
+                    // window.markers = markers
+				            // var n = 0;
+				            // for (var i = 0; i < markers.length; i++) {
+					          //     n += markers[i].number
+				            // }
+				            // return L.divIcon({ html: n, className: 'mycluster', iconSize: L.point(40, 40) });
+			          },
+            })
 
             // Get list of points from server
             console.log("MAP Year", year)
             // var year = urlManager.getParam('code').split('.')[0]
-            $.getJSON(API_URL + '/execucao/minlist/' + year)
+            $.getJSON(API_URL + '/execucao/minlist/' + year + '?state=True')
                 .done(function(response_data) {
-                    $.each(response_data.data, function(index, item) {
-                        var marker = L.geoJson(item)
+                    $.each(response_data.FeatureColletion, function(index, item) {
+                        var marker = L.geoJson(item, {
+
+			                      pointToLayer: function (feature, latlng) {
+                                console.log("AAAAAAAA", feature)
+				                        return L.marker(latlng, {icon: getcolor(feature.properties.state)})
+			                      },
+
+			                      // onEachFeature: onEachFeature
+		                    })
+                        console.log(item, marker)
+
                         marker.on('click', markerClicked);
                         markers.addLayer(marker);
                     })

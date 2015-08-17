@@ -19,3 +19,14 @@
 [data-view], [data-textpage], #auth-panel {
     display: none;
 }
+
+.cluster-circle {
+    color: white;
+    width: 32px;
+    height: 32px;
+    /* background-color: greenyellow; */
+    text-align: center;
+    font-size: 24px;
+    line-height: 32px;
+    background-image: url('/static/img/cluster_circle.png');
+}
