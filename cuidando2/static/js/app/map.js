@@ -98,7 +98,7 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
             // Get list of points from server
             console.log("MAP Year", year)
             // var year = urlManager.getParam('code').split('.')[0]
-            $.getJSON(API_URL + '/execucao/minlist/' + year + '?state=True')
+            $.getJSON(API_URL + '/execucao/minlist/' + year + '?state=1&capcor=1')
                 .done(function(response_data) {
                     $.each(response_data.FeatureColletion, function(index, item) {
                         var marker = L.geoJson(item, {
