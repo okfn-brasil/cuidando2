@@ -48,7 +48,7 @@ BASE_CUIDANDO = "/caminho/para/a/pasta/com/os/repositorios/do/cuidando"
 ativar = cd(BASE_CUIDANDO) + ["source %s/bin/activate" % VENV]
 
 # Rodar site
-caminho_comando = cd("cuidando2") + ["python site.py"]
+caminho_comando = cd("cuidando2") + ["python manage.py run"]
 rodar(ativar + caminho_comando)
 
 # Rodar Vira-Lata

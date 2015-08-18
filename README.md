@@ -46,7 +46,7 @@ Depois configure um `settings/local_settings.py`.
 Para rodar o site:
 
 ```
-$ python site.py
+$ python manage.py run
 ```
 
 Depois acesse `localhost:5001` em um navegador.
@@ -59,13 +59,13 @@ Como o esse projeto depende de vários micro serviços, sugiro que você tenha u
 Para compilar o site para produção, rode:
 
 ```
-$ python site.py build
+$ python manage.py build
 ```
 
 Caso queira usar um arquivo de configuração diferente do `local_settings.py`, por exemplo um `prod_settings.py` use:
 
 ```
-$ python site.py build prod
+$ python manage.py -c prod build
 ```
 
 O site compilado (estático, com JS minificado etc) deverá estar na pasta `build`.
