@@ -3,6 +3,10 @@
         <div class="panel-body">{{text}}</div>
         <div class="panel-footer">
             <a href="/#pessoa/{{author}}">{{author}}</a>
+            {{#if userIsAuthor}}
+                <button data-comment-id="{{id}}" class="btn btn-default delete-comment-button">Deletar</button>
+            {{/if}}
         </div>
     </div>
 {{/each}}
+

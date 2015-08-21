@@ -93,13 +93,13 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
 
 
     // Asks for a new micro token is the current one is too old, and calls
-    // the callback
-    function validateMicroTokenTime(callback) {
+    // the callback passing args
+    function validateMicroTokenTime(callback, args) {
         var now = new Date()
 
         // Check if micro token is still valid for 30s
         if (now < localStorage.microTokenValidTime - 30000) {
-            callback()
+            callback(args)
         // Get new micro token
         } else {
             var url = AUTH_API_URL + "/renew_micro_token"
@@ -116,7 +116,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
             })
             .done(function(data) {
                 saveMicroToken(data)
-                callback()
+                callback(args)
             })
             .fail(function(data, error, errorName) {
                 // TODO: tratar se main token é inválido
@@ -285,4 +285,4 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         validateMicroTokenTime: validateMicroTokenTime,
         getUsername: getUsername
     }
-});
+})

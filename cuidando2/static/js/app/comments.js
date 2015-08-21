@@ -42,12 +42,46 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         })
         .done(function(data) {
             commentTextarea.val("")
-            comListContainer.html(comListTemplate(data))
+            drawComments(data)
         })
         .fail(function(data, error, errorName) {
             console.log(data)
             alert(data.message)
         })
+    }
+
+
+    // Delete comment from a thread
+    function deleteComment(commentId) {
+        var url = COMMENTS_API_URL + "/thread/" +
+            urlManager.getParam('code') + "/" +
+            commentId + "/delete"
+        var data = {
+            'token': localStorage.microToken,
+        }
+        $.ajax({
+            url        : url,
+            dataType   : 'json',
+            contentType: 'application/json; charset=UTF-8',
+            data       : JSON.stringify(data),
+            type       : 'DELETE',
+        })
+            .done(function(data) {
+                drawComments(data)
+            })
+            .fail(function(data, error, errorName) {
+                console.log(data, error, errorName)
+                alert(data.responseJSON.message)
+            })
+    }
+
+    function deleteButtonClicked(element) {
+        // TODO: verificar se está logado
+        auth.validateMicroTokenTime(
+            deleteComment,
+            element.currentTarget.dataset.commentId
+        )
+        return false
     }
 
 
@@ -61,8 +95,20 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             COMMENTS_API_URL + '/thread/' + code
         )
         .done(function(data) {
-            comListContainer.html(comListTemplate(data))
+            drawComments(data)
         })
+    }
+
+
+    // Draw comments
+    function drawComments(data) {
+        var current_user = auth.getUsername()
+        $.each(data.comments, function(index, comment) {
+            if (comment.author == current_user) comment.userIsAuthor = true
+            console.log(comment)
+        })
+        comListContainer.html(comListTemplate(data))
+        $('.delete-comment-button').click(deleteButtonClicked)
     }
 
     showutils.showSubscribe("code.changed", containerId, true, updateComments)
