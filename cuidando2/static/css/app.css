@@ -20,6 +20,11 @@
     display: none;
 }
 
+/* Needed because 'hidden', from Bootstrap, uses '!important' */
+.probably-hidden {
+    display: none;
+}
+
 .cluster-circle {
     color: white;
     width: 32px;

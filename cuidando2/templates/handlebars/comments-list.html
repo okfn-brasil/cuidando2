@@ -1,10 +1,12 @@
 {{#each comments}}
     <div class="panel panel-default">
-        <div class="panel-body">{{text}}</div>
+        <div id="comment-body-{{id}}" class="panel-body">{{text}}</div>
         <div class="panel-footer">
             <a href="/#pessoa/{{author}}">{{author}}</a>
             {{#if userIsAuthor}}
                 <button data-comment-id="{{id}}" class="btn btn-default delete-comment-button">Deletar</button>
+                <button id="comment-edit-button-{{id}}" data-comment-id="{{id}}" class="btn btn-default edit-comment-button">Editar</button>
+                <button id="comment-edit-cancel-button-{{id}}" data-comment-id="{{id}}" class="btn btn-default edit-comment-cancel-button probably-hidden">Cancelar</button>
             {{/if}}
         </div>
     </div>

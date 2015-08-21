@@ -95,6 +95,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     // Asks for a new micro token is the current one is too old, and calls
     // the callback passing args
     function validateMicroTokenTime(callback, args) {
+        // TODO: verificar se está logado?
         var now = new Date()
 
         // Check if micro token is still valid for 30s
