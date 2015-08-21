@@ -202,10 +202,12 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
         var password = $("#register-form-password").val()
         if (password != $("#register-form-password2").val()) {
             alert("Senhas não batem!")
+            return false
         }
 
         var data = {
-            'password': password
+            'password': password,
+            'email': $("#register-form-email").val()
         }
 
         $.ajax({
