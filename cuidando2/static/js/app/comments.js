@@ -209,7 +209,6 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         var current_user = auth.getUsername()
         // Sort comments by creation time
         data.comments = data.comments.sort(function(a, b){
-            console.log(a.created > b.created)
             return a.created > b.created ? 1 : -1
         })
         // Mark comments by this user or not
