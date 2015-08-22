@@ -3,6 +3,20 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     'use strict';
 
 
+    var hasLocalStorage = true
+
+
+    // Test localStorage
+    // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/storage/localstorage.js
+    try {
+        localStorage.setItem('t', 't')
+        localStorage.removeItem('t')
+    } catch (e) {
+        hasLocalStorage = false
+        alert('Seu navegador parece não suportar localStorage. Por favor use um mais recente, ou você não conseguirá autenticar nesse site...')
+    }
+
+
     // The page was reloaded and a getToken is pending. Needed when browser has
     // no support for window.history
     if (localStorage.queryForToken) {
