@@ -62,6 +62,10 @@ templates['comments-list'] = template({"1":function(depth0,helpers,partials,data
     + alias3(((helper = (helper = helpers.likes || (depth0 != null ? depth0.likes : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"likes","hash":{},"data":data}) : helper)))
     + "</span>\n            <span>Não gostaram: "
     + alias3(((helper = (helper = helpers.dislikes || (depth0 != null ? depth0.dislikes : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"dislikes","hash":{},"data":data}) : helper)))
+    + "</span>\n            <span>Criado: "
+    + alias3(((helper = (helper = helpers.created || (depth0 != null ? depth0.created : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"created","hash":{},"data":data}) : helper)))
+    + "</span>\n            <span>Modificado: "
+    + alias3(((helper = (helper = helpers.modified || (depth0 != null ? depth0.modified : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"modified","hash":{},"data":data}) : helper)))
     + "</span>\n        </div>\n    </div>\n";
 },"2":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
