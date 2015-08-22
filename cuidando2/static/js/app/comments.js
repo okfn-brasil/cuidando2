@@ -103,6 +103,32 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             })
     }
 
+
+    // Delete comment from a thread
+    function reportComment(commentId) {
+        var url = COMMENTS_API_URL + "/thread/" +
+            urlManager.getParam('code') + "/" +
+            commentId + "/report"
+        // var data = {
+        //     'token': localStorage.microToken,
+        // }
+        $.ajax({
+            url        : url,
+            dataType   : 'json',
+            contentType: 'application/json; charset=UTF-8',
+            // data       : JSON.stringify(data),
+            type       : 'POST',
+        })
+            .done(function(data) {
+                alert('Reportado!')
+            })
+            .fail(function(data, error, errorName) {
+                console.log(data, error, errorName)
+                alert(data.responseJSON.message)
+            })
+    }
+
+
     function deleteButtonClicked(event) {
         auth.validateMicroTokenTime(
             deleteComment,
@@ -116,6 +142,11 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             editComment,
             event.currentTarget.dataset.commentId
         )
+        return false
+    }
+
+    function reportButtonClicked(event) {
+        reportComment(event.currentTarget.dataset.commentId)
         return false
     }
 
@@ -165,12 +196,16 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
     function drawComments(data) {
         var current_user = auth.getUsername()
         $.each(data.comments, function(index, comment) {
-            if (comment.author == current_user) comment.userIsAuthor = true
-            console.log(comment)
+            if (comment.author == current_user) {
+                comment.userIsAuthor = true
+            } else {
+                comment.userNotAuthor = true
+            }
         })
         comListContainer.html(comListTemplate(data))
         $('.delete-comment-button').click(deleteButtonClicked)
         $('.edit-comment-button').click(editButtonClicked)
+        $('.report-comment-button').click(reportButtonClicked)
     }
 
     showutils.showSubscribe("code.changed", containerId, true, updateComments)
