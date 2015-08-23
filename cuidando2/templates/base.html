@@ -70,10 +70,10 @@
         </div>
 
         <script type="text/javascript">
-            window.AUTH_API_URL = '{{ config['AUTH_API_URL'] }}';
-            window.ESIC_API_URL = '{{ config['ESIC_API_URL'] }}';
-            window.API_URL = '{{ config['API_URL'] }}';
-            window.COMMENTS_API_URL = '{{ config['COMMENTS_API_URL'] }}';
+            window.API_URL = '{{ config['API_URL'] }}'
+            window.AUTH_API_URL = '{{ config['AUTH_API_URL'] }}'
+            window.ESIC_API_URL = '{{ config['ESIC_API_URL'] }}'
+            window.COMMENTS_API_URL = '{{ config['COMMENTS_API_URL'] }}'
         </script>
         {% assets "requirejs" %}
         <script type="text/javascript" data-main="static/js/config" src="{{ ASSET_URL }}"></script>
