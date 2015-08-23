@@ -39,44 +39,45 @@
 
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a id="home-button" class="navbar-brand" href="#">Cuidando</a>
-                </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <!-- <li class="active"><a href="/">Home</a></li> -->
-                    <li><a href="#texto/sobre">Sobre</a></li>
-                    <li><a href="#texto/outra">Outra</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a id="share-button" href="#">Compartilhar</a></li>
-                    <li><a id="user-profile-button" href="#"></a></li>
-                    <li><a id="login-button" href="#">Login</a></li>
-                    <li><a id="register-button" href="#">Registrar</a></li>
-                    <li><a id="logout-button" href="#">Logout</a></li>
-                </ul>
-                </div><!--/.nav-collapse -->
-            </div>
+            <div id="menu-container" class="container"></div>
         </nav>
 
         <div id="main-container" class="container">
-        {% include "auth.html" %}
-        {% block maincontainer %}
-        {% endblock %}
-        </div><!-- /.container -->
+
+            <div id="auth-container" ></div>
+
+            <div id="pedidos-container" data-view="pedido" class="interface-component"></div>
+
+            <div id="textpage-container" data-view="texto" class="interface-component"></div>
+
+            <div id="user-container" data-view="pessoa" class="interface-component"></div>
+
+            <select id="year-selector" data-view="ano" class="center-block text-center interface-component"></select>
+
+            <button id="to-general" data-view="despesa" class="btn btn-default center-block interface-component">Voltar</button>
+
+            <a id="download-data" data-view="ano" class="interface-component" href="http://site.gastosabertos.org/static-downloads/execucao/" target="_blank">Baixar Dados</a>
+
+            <div id="map-container" data-view="ano despesa" class="interface-component"></div>
+
+            <div id="charts-container" data-view="ano" class="row interface-component"></div>
+            <div id="datatable-container" data-view="ano" class="interface-component">
+                <table id="data-table" class="display" cellspacing="0" width="100%"></table>
+            </div>
+
+            <dl id="point-info" data-view="despesa" class="interface-component"></dl>
+            <div id="comments-container" data-view="despesa" class="interface-component"></div>
+        </div>
 
         <script type="text/javascript">
             window.AUTH_API_URL = '{{ config['AUTH_API_URL'] }}';
             window.ESIC_API_URL = '{{ config['ESIC_API_URL'] }}';
+            window.API_URL = '{{ config['API_URL'] }}';
+            window.COMMENTS_API_URL = '{{ config['COMMENTS_API_URL'] }}';
         </script>
-        {% block endjs %}
-        {% endblock %}
+        {% assets "requirejs" %}
+        <script type="text/javascript" data-main="static/js/config" src="{{ ASSET_URL }}"></script>
+        {% endassets %}
+        <!-- <script data-main="static/js/config" src="static/vendor/requirejs/js/require.js"></script> -->
     </body>
 </html>

@@ -1,4 +1,4 @@
-define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
+define(["jquery", 'pubsub', 'app/urlmanager', 'app/templates'], function($, pubsub, urlManager, templates) {
 
     'use strict';
 
@@ -7,6 +7,8 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
     //     ano: [yearSelector, map, charts, datatable],
     //     pessoa: [user],
     // }
+
+    templates.smartApply('menu', {})
 
     var visible = []
 
@@ -65,6 +67,10 @@ define(["jquery", 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         location.href = 'http://www.facebook.com/sharer.php?u=' + page + '&t=' + title
         return false
     })
+
+
+
+    // $("[data-route]").click()
 
     function init() {
         updateView()

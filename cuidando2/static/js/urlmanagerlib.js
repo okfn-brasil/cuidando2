@@ -69,12 +69,16 @@ define(["jquery"], function($) {
             return this
         },
 
+        // Go to a given route (given by merging args with /)
         route: function() {
-            this.location.hash = [].slice.apply(arguments).join('/')
+            var query = this._getQuery()
+            this.location.hash = [].slice.apply(arguments).join('/') + query
         },
 
+        // Go to the default route
         routeDefault: function() {
-            this.location.hash = this.defaultRoute
+            var query = this._getQuery()
+            this.location.hash = this.defaultRoute + query
         },
 
         findCurrentRoute: function() {
@@ -96,13 +100,13 @@ define(["jquery"], function($) {
             this.mainParamsNames = null
             this.unsubscribeFunctions()
 
-            this.format = route.format;
+            this.format = route.format
             if (this.format.indexOf('{{params}}') == -1) this.format += "?{{params}}"
-            this.parsers = route.parsers || {};
+            this.parsers = route.parsers || {}
             this.defaultParams = $.extend({
-                'lang': 'ptBR'
-            }, route.params);
-            this.params = $.extend({}, this.defaultParams, this.extractParamsFromUrl());
+                'lang': 'pt-br'
+            }, route.params)
+            this.params = $.extend({}, this.defaultParams, this.extractParamsFromUrl())
             this.subscribeToParamsChange()
         },
 

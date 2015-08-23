@@ -1,10 +1,9 @@
-define(["jquery", "app/jwt"], function($, decodeToken) {
+define(["jquery", "app/jwt", 'app/templates', 'app/interface'], function($, decodeToken, templates) {
 
     'use strict';
 
 
     var hasLocalStorage = true
-
 
     // Test localStorage
     // https://github.com/Modernizr/Modernizr/blob/master/feature-detects/storage/localstorage.js
@@ -17,14 +16,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     }
 
 
-    // The page was reloaded and a getToken is pending. Needed when browser has
-    // no support for window.history
-    if (localStorage.queryForToken) {
-        // TODO: ver pq esse getTokens, depois do reload quando não tem window.history, não funciona
-        getTokens(localStorage.queryForToken)
-        localStorage.queryForToken = ""
-    }
-
+    templates.smartApply('auth', {})
 
     // ------------- Auth panel -------------------
     var registerPanel = $('#register-panel'),
@@ -53,23 +45,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     // -------------------------------------------
 
 
-    // If redicected for login (from Facebook)
-    if (/^\?redirect_state=/.test(location.search)) {
-        var url = location.origin + "/" + localStorage.prevhash
-        // var query = location.search.replace("redirected_for_login=1&", "")
-        if (window.history.replaceState) {
-            getTokens(location.search)
-            window.history.replaceState(null, null, url)
-        } else {
-            // Save info to get tokens after page reload
-            localStorage.queryForToken = location.search
-            // Fallback method that doesn't requires "window.history" but
-            // reloads the page.
-            location.href = url
-        }
-    } else {
-        updateButtons()
-    }
+    updateButtons()
 
 
     function getTokens(query) {
@@ -161,7 +137,7 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
     function updateButtons() {
         console.log("updateButtons")
         var username = getUsername(),
-            link = "",
+            // link = "",
             profileButton = $('#user-profile-button'),
             registerButton = $('#register-button'),
             logoutButton = $('#logout-button'),
@@ -173,15 +149,19 @@ define(["jquery", "app/jwt"], function($, decodeToken) {
             registerButton.show()
             loginButton.show()
         } else {
-            link = '#pessoa/' + username
+            // link = '#pessoa/' + username
             logoutButton.show()
             profileButton.show()
             registerButton.hide()
             loginButton.hide()
         }
 
-        profileButton.attr('href', link)
-        profileButton.html(username)
+        // profileButton.attr('href', link)
+        templates.smartApply('user-profile-button', {'username': username})
+        // profileButton.click(function () {
+        //     urlManager.route("pessoa", username)
+        // })
+        // profileButton.html(username)
         authPanel.hide()
     }
 

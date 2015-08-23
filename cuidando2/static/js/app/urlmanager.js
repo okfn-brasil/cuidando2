@@ -1,7 +1,6 @@
-define(['jquery', 'pubsub', 'urlmanagerlib', "app/auth"], function($, pubsub, UrlManager) {
+define(['jquery', 'pubsub', 'urlmanagerlib', "app/first"], function($, pubsub, UrlManager) {
 
     'use strict'
-
 
     var routes = [{
             format: 'ano/{{year}}',

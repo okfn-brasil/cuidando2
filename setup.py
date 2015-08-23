@@ -16,6 +16,7 @@ setup(
         'Frozen-Flask',
         'Flask-Assets',
         'Flask-Script',
+        'markdown',
     ],
     keywords=['budget'],
     classifiers=[

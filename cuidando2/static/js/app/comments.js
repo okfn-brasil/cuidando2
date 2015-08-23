@@ -15,7 +15,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         comListTemplate = templates.get("comments-list", true)
         comEditTemplate = templates.get("comment-edit")
         comTemplate = templates.get("comments")
-        $(containerId).html(comTemplate({}))
+        templates.apply($(containerId), comTemplate, {})
         commentTextarea = $("#comment-textarea"),
         comListContainer = $("#comments-list-container"),
 
@@ -162,12 +162,10 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         var commentId = event.currentTarget.dataset.commentId
         var commentBody = $('#comment-body-' + commentId)
         var oldText = commentBody.html()
-        commentBody.html(
-            comEditTemplate({
-                'text': oldText,
-                'id': commentId
-            })
-        )
+        templates.apply(commentBody, comEditTemplate, {
+            'text': oldText,
+            'id': commentId
+        })
         $('#comment-edit-send-button-' + commentId).click(function(event) {
             auth.validateMicroTokenTime(
                 editComment,
@@ -220,7 +218,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             }
         })
         // Add HTML to page
-        comListContainer.html(comListTemplate(data))
+        templates.apply(comListContainer, comListTemplate, data)
         // Activate edit buttons
         $('.edit-comment-button').click(editButtonClicked)
         // Activate delete buttons
