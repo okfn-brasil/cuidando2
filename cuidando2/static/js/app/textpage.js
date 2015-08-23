@@ -33,7 +33,9 @@ define(["jquery", 'app/urlmanager', 'pubsub', 'showutils', 'app/templates'], fun
             // type       : 'POST',
         })
             .done(function(data) {
-                $(containerId).html(data)
+                var container = $(containerId)
+                container.html(data)
+                templates.activateLinks(container)
             })
             .fail(function(data, error, errorName) {
                 console.log(data, error, errorName)

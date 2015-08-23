@@ -23,12 +23,17 @@ define(['jquery', 'app/urlmanager', 'handlebars.runtime', 'compiled_templates/ha
         return false
     }
 
+    // Activate links specialy marked to use routing
+    function activateLinks(element) {
+        // element.find('[data-route]').click(routeFromElement)
+        element.find("[href^='@']").click(routeFromElement)
+    }
+
     // Apply a template to an element passing data
     // Also activate anchors
     function applyTemplate(element, template, data) {
         element.html(template(data))
-        // element.find('[data-route]').click(routeFromElement)
-        element.find("[href^='@']").click(routeFromElement)
+        activateLinks(element)
     }
 
     // Helper to apply a template based on its name
@@ -44,5 +49,6 @@ define(['jquery', 'app/urlmanager', 'handlebars.runtime', 'compiled_templates/ha
         get: getTemplate,
         apply: applyTemplate,
         smartApply: smartApply,
+        activateLinks: activateLinks,
     }
 })
