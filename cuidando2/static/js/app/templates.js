@@ -1,10 +1,16 @@
-define(['jquery', 'app/urlmanager', 'handlebars.runtime', 'compiled_templates/handlebars'], function($, urlManager, Handlebars) {
+define(['jquery', 'app/urlmanager', 'app/multilang', 'handlebars.runtime', 'compiled_templates/handlebars'], function($, urlManager, multilang, Handlebars) {
 
     'use strict'
 
+    var i18nTemplate = getTemplate('i18n-element')
+
+    // i18n helper
     Handlebars.registerHelper('t',
         function(str){
-            return (I18n != undefined ? I18n.t(str) : str);
+            return new Handlebars.SafeString(i18nTemplate({
+                'str': str,
+                'translated': multilang.translate(str),
+            }))
         }
     )
 
@@ -15,6 +21,7 @@ define(['jquery', 'app/urlmanager', 'handlebars.runtime', 'compiled_templates/ha
 	      return Handlebars.templates[name];
     }
 
+    // Use the mark in a clicked element to set route
     function routeFromElement (event) {
         // var route = event.currentTarget.dataset.route.split('/')
         console.log(event)

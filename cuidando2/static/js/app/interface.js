@@ -1,4 +1,4 @@
-define(["jquery", 'pubsub', 'app/urlmanager', 'app/templates'], function($, pubsub, urlManager, templates) {
+define(["jquery", 'pubsub', 'app/urlmanager', 'app/templates', 'app/multilang'], function($, pubsub, urlManager, templates, multilang) {
 
     'use strict';
 
@@ -9,6 +9,7 @@ define(["jquery", 'pubsub', 'app/urlmanager', 'app/templates'], function($, pubs
     // }
 
     templates.smartApply('menu', {})
+    multilang.init()
 
     var visible = []
 
