@@ -69,25 +69,26 @@ def create_app(config=None):
 
     # Prepare assets
     app.assets = Environment(app)
-    requirejs = Bundle('vendor/requirejs/js/require.js',
-                       filters=MyRequireJSFilter,
-                       output='build/app/main.js',
-                       depends='js/app/*')
-    app.assets.register('requirejs', requirejs)
-
     handlebars = Bundle('../templates/handlebars/*',
                         filters='handlebars',
-                        output='js/compiled_templates/handlebars.js',
+                        output='../js/src/compiled_templates/handlebars.js',
                         )
     app.assets.register('handlebars', handlebars)
 
     textpages = Bundle('../templates/textpages/*/*',
                        filters=TextpagesFilter,
-                       output='js/compiled_templates/textpages.js',
+                       output='../js/src/compiled_templates/textpages.js',
                        depends='../templates/textpages/*/*',
                        # extra={'static_folder': 'textpages/'},
                        )
     app.assets.register('textpages', textpages)
+
+    requirejs = Bundle('../js/bower_components/requirejs/require.js',
+                       filters=MyRequireJSFilter,
+                       # filters='requirejs',
+                       output='main.js',
+                       depends='../js/src/app/*')
+    app.assets.register('requirejs', requirejs)
 
     app.assets.debug = app.config['DEBUG']
 

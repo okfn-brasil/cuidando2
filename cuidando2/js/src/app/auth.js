@@ -2,7 +2,6 @@ define(["jquery", "app/jwt", 'app/templates', 'app/interface'], function($, deco
 
     'use strict';
 
-
     var hasLocalStorage = true
 
     // Test localStorage

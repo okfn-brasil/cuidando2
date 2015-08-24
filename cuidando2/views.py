@@ -23,8 +23,17 @@ def root():
 
 @bp.route('/textpages/<path:path>')
 def send_textpages(path):
+    ''' Send texpages. '''
     folder_path = os.path.join(os.getcwd(), 'cuidando2/templates/textpages/')
     return send_from_directory(folder_path, path)
+
+
+@bp.route('/js/<path:path>')
+def send_js(path):
+    ''' Send JSs. '''
+    folder_path = os.path.join(os.getcwd(), 'cuidando2/js/')
+    return send_from_directory(folder_path, path)
+
 
 # @app.route('/handlebars_templates/<path:path>')
 # def send_templates(path):

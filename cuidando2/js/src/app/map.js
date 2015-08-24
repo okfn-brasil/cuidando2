@@ -95,6 +95,20 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
 			          },
             })
 
+            // // Corrent or Capital
+	          // var corrente = L.layerGroup()
+	          // var capital = L.layerGroup()
+	          // var naoident = L.layerGroup()
+	          // map.addLayer(corrente)
+	          // map.addLayer(capital)
+	          // map.addLayer(naoident)
+            // var controle = L.control.layers();
+            // controle.addOverlay(corrente, "Corrente");
+            // controle.addOverlay(capital, "Capital");
+            // controle.addOverlay(naoident, "Não identificado");
+            // controle.addTo(map)
+            // window.c = controle
+
             // Get list of points from server
             console.log("MAP Year", year)
             // var year = urlManager.getParam('code').split('.')[0]
@@ -105,7 +119,18 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
 
 			                      pointToLayer: function (feature, latlng) {
                                 console.log("AAAAAAAA", feature)
-				                        return L.marker(latlng, {icon: getcolor(feature.properties.state)})
+
+                                var marker = L.marker(latlng, {icon: getcolor(feature.properties.state)})
+                                // var capcor = feature.properties.cap_cor
+				                        // if (capcor == "corrente") {
+					                      //     corrente.addLayer(marker)
+				                        // }else if(capcor == "capital") {
+					                      //     capital.addLayer(marker)
+				                        // }else{
+					                      //     naoident.addLayer(marker)
+				                        // }
+
+				                        return marker
 			                      },
 
 			                      // onEachFeature: onEachFeature

@@ -77,7 +77,7 @@ class MyExternalTool(ExternalTool):
                         cls.name or cls.__name__, 
                         proc.returncode, stdout, stderr))
             else:
-                with open("static/build/app/main.js", 'rb') as f:
+                with open("cuidando2/js/main.js", 'rb') as f:
                     out.write(f.read().decode('utf-8'))
                 # if output_file.created:
                 #     with open(output_file.filename, 'rb') as f:
@@ -224,16 +224,17 @@ class MyRequireJSFilter(MyExternalTool):
             filter(
                 None,
                 ['-o',
-                 "static/js/build.js",
+                 "cuidando2/js/src/build.js",
                  # rel_config if self.config else None,
                  # 'name={modname}',
                  # 'out={{output}}',
                  # 'baseUrl=' + self.baseUrl if self.baseUrl else None,
                  'optimize=' + self.optimize if self.optimize else None,
-             ])
+                 ])
         )
         if self.extras:
             self.argv.extend(shlex.split(self.extras))
+        print('Args:',self.argv)
 
     def open(self, out, source_path, **kw):
         if self.ctx.debug and not self.run_in_debug:
