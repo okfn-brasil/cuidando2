@@ -13,6 +13,7 @@ define(['jquery', 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
         'Another': 'Outra',
         'Login': 'Entrar',
         'Register': 'Registrar',
+        'Locate': 'Localizar',
     }
 
     dicts['en'] = {

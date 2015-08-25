@@ -195,4 +195,8 @@ define(["jquery", "leaflet", 'pubsub', 'app/urlmanager', 'showutils', 'app/point
     // TODO: remover isso:
     window.up = updateMap
     window.p = pubsub
-});
+
+    function getMap() { return map }
+
+    return getMap
+})
