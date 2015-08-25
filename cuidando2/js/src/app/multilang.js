@@ -37,6 +37,7 @@ define(['jquery', 'pubsub', 'app/urlmanager'], function($, pubsub, urlManager) {
             $('[data-i18n]').each(function (index, element) {
                 element.innerHTML = translate(element.dataset.i18n)
             })
+            $('html').attr('lang', lang)
         })
     }
 
