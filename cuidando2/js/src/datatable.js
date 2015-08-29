@@ -51,6 +51,7 @@ define(['jquery', 'datatables', 'pubsub', 'showutils', 'app/urlmanager'], functi
 
   DataTable.prototype = {
     init: function(el, opts) {
+
       this.$el = $(el);
       if (!this.$el.is('table')) {
         this.$el = $('<table>');
@@ -132,15 +133,18 @@ define(['jquery', 'datatables', 'pubsub', 'showutils', 'app/urlmanager'], functi
         // Subscribe to params changes.
         $.each(this.params, function(paramName, value) {
 
-            console.log("DT - showsub param:", paramName, datatable.containerId)
+            // console.log("DT - showsub param:", paramName, datatable.containerId)
 
             var func = function(msg, content) {
-                console.log("DT - received publish", msg, content)
+                // console.log("DT ------------ received publish", msg, content)
                 var paramValue = typeof content !== 'undefined' ? content.value : urlManager.getParam(paramName)
                 // Tries to ignore changes published by this instance
-                if (!content || (content.sender != datatable && paramValue != datatable.getParam(paramName))) {
-                    console.log("UPDATE", paramName, paramValue, content)
-                    datatable.setParam(paramName, paramValue);
+                // if (!content || (content.sender != datatable && paramValue != datatable.getParam(paramName))) {
+                if (paramValue != datatable.getParam(paramName)) {
+                    // if (content && (content.sender != datatable)) {
+                            // console.log("*********************** UPDATE", paramName, paramValue, datatable.getParam(paramName), content)
+                            datatable.setParam(paramName, paramValue)
+                    // }
                 }
             }
 
@@ -236,5 +240,5 @@ define(['jquery', 'datatables', 'pubsub', 'showutils', 'app/urlmanager'], functi
 
   }
 
-  return DataTable;
+  return DataTable
 })
