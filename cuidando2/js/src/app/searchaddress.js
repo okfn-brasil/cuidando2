@@ -5,8 +5,6 @@ define(['jquery', 'pubsub', 'showutils', 'app/urlmanager', 'app/templates', 'app
     var buttonId = '#search-address-button'
     var inputId = '#search-address-input'
 
-    console.log("AAAAAAAAAAAAAA")
-
     function findAddress() {
         var address = $(inputId).val()
         var link = 'http://nominatim.openstreetmap.org/search/' + address + '?format=json&limit=1&countrycodes=br&viewbox=-47.16,-23.36,-45.97,-23.98&bounded=1'
