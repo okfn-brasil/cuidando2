@@ -29,7 +29,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
 
     // Add comment to a thread
     function sendComment() {
-        var url = COMMENTS_API_URL + "/thread/" + urlManager.getParam('code') + "/add"
+        var url = COMMENTS_API_URL + "/thread/" + urlManager.getParam('code')
         var data = {
             'token': localStorage.microToken,
             'text': commentTextarea.val(),
@@ -53,13 +53,11 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
 
 
     // Edit comment from a thread
-    function editComment(commentId) {
-        var url = COMMENTS_API_URL + "/thread/" +
-            urlManager.getParam('code') + "/" +
-            commentId + "/edit"
+    function editComment(args) {
+        var url = COMMENTS_API_URL + args.url
         var data = {
             'token': localStorage.microToken,
-            'text': $('#comment-edit-textarea-' + commentId).val(),
+            'text': $('#comment-edit-textarea-' + args.commentId).val(),
         }
         $.ajax({
             url        : url,
@@ -73,17 +71,15 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             drawComments(data)
         })
         .fail(function(data, error, errorName) {
-            console.log(data)
+            console.log(data, error, errorName)
             alert(data.responseJSON.message)
         })
     }
 
 
     // Delete comment from a thread
-    function deleteComment(commentId) {
-        var url = COMMENTS_API_URL + "/thread/" +
-            urlManager.getParam('code') + "/" +
-            commentId + "/delete"
+    function deleteComment(deleteUrl) {
+        var url = COMMENTS_API_URL + deleteUrl
         var data = {
             'token': localStorage.microToken,
         }
@@ -107,10 +103,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
     // Like/dislike comment from a thread
     // vote == true: like; vote == false: dislike
     function voteComment(args) {
-        var commentId = args.commentId
-        var url = COMMENTS_API_URL + "/thread/" +
-            urlManager.getParam('code') + "/" +
-            commentId + "/vote"
+        var url = COMMENTS_API_URL + args.url
         var data = {
             'token': localStorage.microToken,
             'vote': args.vote,
@@ -133,10 +126,8 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
 
 
     // Delete comment from a thread
-    function reportComment(commentId) {
-        var url = COMMENTS_API_URL + "/thread/" +
-            urlManager.getParam('code') + "/" +
-            commentId + "/report"
+    function reportComment(reportUrl) {
+        var url = COMMENTS_API_URL + reportUrl
         // var data = {
         //     'token': localStorage.microToken,
         // }
@@ -158,18 +149,22 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
 
     // Creates textarea for edition
     function editButtonClicked(event) {
-        console.log(event)
         var commentId = event.currentTarget.dataset.commentId
+        var editUrl = event.currentTarget.dataset.url
         var commentBody = $('#comment-body-' + commentId)
         var oldText = commentBody.html()
         templates.apply(commentBody, comEditTemplate, {
             'text': oldText,
-            'id': commentId
+            'url': editUrl,
+            'id': commentId,
         })
         $('#comment-edit-send-button-' + commentId).click(function(event) {
             auth.validateMicroTokenTime(
                 editComment,
-                event.currentTarget.dataset.commentId
+                {
+                    'commentId': event.currentTarget.dataset.commentId,
+                    'url': event.currentTarget.dataset.url,
+                }
             )
             return false
         })
@@ -191,7 +186,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
     function updateComments(event, data) {
         if (!comTemplate) initComments()
 
-        console.log("UPADETE-COMENTS", event, data, urlManager.getParam('code'))
+        // console.log("UPADETE-COMENTS", event, data, urlManager.getParam('code'))
         var code = typeof data !== 'undefined' ? data.value : urlManager.getParam('code')
         $.getJSON(
             COMMENTS_API_URL + '/thread/' + code
@@ -225,13 +220,13 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         $('.delete-comment-button').click(function(event) {
             auth.validateMicroTokenTime(
                 deleteComment,
-                event.currentTarget.dataset.commentId
+                event.currentTarget.dataset.url
             )
             return false
         })
         // Activate report buttons
         $('.report-comment-button').click(function(event) {
-            reportComment(event.currentTarget.dataset.commentId)
+            reportComment(event.currentTarget.dataset.url)
             return false
         })
         // Activate like buttons
@@ -239,7 +234,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             auth.validateMicroTokenTime(
                 voteComment,
                 {
-                    'commentId': event.currentTarget.dataset.commentId,
+                    'url': event.currentTarget.dataset.url,
                     'vote': true
                 }
             )
@@ -250,7 +245,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             auth.validateMicroTokenTime(
                 voteComment,
                 {
-                    'commentId': event.currentTarget.dataset.commentId,
+                    'url': event.currentTarget.dataset.url,
                     'vote': false
                 }
             )

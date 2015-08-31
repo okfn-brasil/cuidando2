@@ -4,14 +4,14 @@
         <div class="panel-footer">
             <a href="@pessoa/{{author}}">{{author}}</a>
             {{#if userIsAuthor}}
-                <button data-comment-id="{{id}}" class="btn btn-default delete-comment-button">Deletar</button>
-                <button id="comment-edit-button-{{id}}" data-comment-id="{{id}}" class="btn btn-default edit-comment-button">Editar</button>
-                <button id="comment-edit-cancel-button-{{id}}" data-comment-id="{{id}}" class="btn btn-default edit-comment-cancel-button probably-hidden">Cancelar</button>
+                <button data-url="{{url}}" class="btn btn-default delete-comment-button">Deletar</button>
+                <button id="comment-edit-button-{{id}}" data-comment-id="{{id}}" data-url="{{url}}" class="btn btn-default edit-comment-button">Editar</button>
+                <button id="comment-edit-cancel-button-{{id}}" data-url="{{url}}" class="btn btn-default edit-comment-cancel-button probably-hidden">Cancelar</button>
             {{/if}}
             {{#if userNotAuthor}}
-                <button data-comment-id="{{id}}" class="btn btn-default like-comment-button">+1</button>
-                <button data-comment-id="{{id}}" class="btn btn-default dislike-comment-button">-1</button>
-                <button data-comment-id="{{id}}" class="btn btn-default report-comment-button">Denunciar</button>
+                <button data-url="{{vote_url}}" class="btn btn-default like-comment-button">+1</button>
+                <button data-url="{{vote_url}}" class="btn btn-default dislike-comment-button">-1</button>
+                <button data-url="{{report_url}}" class="btn btn-default report-comment-button">Denunciar</button>
             {{/if}}
             <span>Gostaram: {{likes}}</span>
             <span>Não gostaram: {{dislikes}}</span>
