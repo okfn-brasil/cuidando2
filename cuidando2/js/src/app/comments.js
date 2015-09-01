@@ -6,11 +6,14 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         commentsTemplate = null,
         comListTemplate = null,
         comEditTemplate = null,
+        comReplyTemplate = null,
         commentTextarea = null,
         comListContainer = null,
         comTemplate = null
 
 
+    // Get data from the dataset of the closest parent element to the
+    // currentTarget of the event
     function get_parent_data(event, data) {
         var words = data.split('-')
         var dataShort = words[0]
@@ -22,11 +25,29 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
     }
 
 
+    function smartAjax(url, data, verb, done) {
+        var params = {
+            url        : url,
+            dataType   : 'json',
+            contentType: 'application/json; charset=UTF-8',
+            type       : verb,
+        }
+        if (data) params['data'] = JSON.stringify(data)
+        $.ajax(params)
+            .done(done)
+            .fail(function(data, error, errorName) {
+                console.log(data)
+                alert(data.responseJSON.message)
+            })
+    }
+
+
     // Init comments interface
     function initComments() {
         comListTemplate = templates.get("comments-list", true)
         comTemplate = templates.get("comment", true)
         comEditTemplate = templates.get("comment-edit")
+        comReplyTemplate = templates.get("comment-reply")
         commentsTemplate = templates.get("comments")
         templates.apply($(containerId), commentsTemplate, {})
         commentTextarea = $("#comment-textarea"),
@@ -47,21 +68,25 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             'token': localStorage.microToken,
             'text': commentTextarea.val(),
         }
-        $.ajax({
-            url        : url,
-            dataType   : 'json',
-            contentType: 'application/json; charset=UTF-8',
-            data       : JSON.stringify(data),
-            type       : 'POST',
+        smartAjax(url, data, 'POST', function(data) {
+            commentTextarea.val("")
+            drawComments(data)
         })
-            .done(function(data) {
-                commentTextarea.val("")
-                drawComments(data)
-            })
-            .fail(function(data, error, errorName) {
-                console.log(data)
-                alert(data.responseJSON.message)
-            })
+    }
+
+
+    // Reply to a comment
+    function replyComment(args) {
+        var url = COMMENTS_API_URL + get_parent_data(args.event, 'comment-url')
+        var replyTextarea = $('#comment-reply-textarea-' + args.commentId)
+        var data = {
+            'token': localStorage.microToken,
+            'text': replyTextarea.val(),
+        }
+        smartAjax(url, data, 'POST', function(data) {
+            // replyTextarea.val("")
+            drawComments(data)
+        })
     }
 
 
@@ -72,20 +97,9 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             'token': localStorage.microToken,
             'text': $('#comment-edit-textarea-' + args.commentId).val(),
         }
-        $.ajax({
-            url        : url,
-            dataType   : 'json',
-            contentType: 'application/json; charset=UTF-8',
-            data       : JSON.stringify(data),
-            type       : 'PUT',
-        })
-        .done(function(data) {
+        smartAjax(url, data, 'PUT', function(data) {
             commentTextarea.val("")
             drawComments(data)
-        })
-        .fail(function(data, error, errorName) {
-            console.log(data, error, errorName)
-            alert(data.responseJSON.message)
         })
     }
 
@@ -96,20 +110,9 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         var data = {
             'token': localStorage.microToken,
         }
-        $.ajax({
-            url        : url,
-            dataType   : 'json',
-            contentType: 'application/json; charset=UTF-8',
-            data       : JSON.stringify(data),
-            type       : 'DELETE',
+        smartAjax(url, data, 'DELETE', function(data) {
+            drawComments(data)
         })
-            .done(function(data) {
-                drawComments(data)
-            })
-            .fail(function(data, error, errorName) {
-                console.log(data, error, errorName)
-                alert(data.responseJSON.message)
-            })
     }
 
 
@@ -121,20 +124,9 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             'token': localStorage.microToken,
             'vote': args.vote,
         }
-        $.ajax({
-            url        : url,
-            dataType   : 'json',
-            contentType: 'application/json; charset=UTF-8',
-            data       : JSON.stringify(data),
-            type       : 'POST',
+        smartAjax(url, data, 'POST', function(data) {
+            drawComments(data)
         })
-            .done(function(data) {
-                drawComments(data)
-            })
-            .fail(function(data, error, errorName) {
-                console.log(data, error, errorName)
-                alert(data.responseJSON.message)
-            })
     }
 
 
@@ -144,20 +136,36 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         // var data = {
         //     'token': localStorage.microToken,
         // }
-        $.ajax({
-            url        : url,
-            dataType   : 'json',
-            contentType: 'application/json; charset=UTF-8',
-            // data       : JSON.stringify(data),
-            type       : 'POST',
+        smartAjax(url, null, 'POST', function(data) {
+            alert('Reportado!')
         })
-            .done(function(data) {
-                alert('Reportado!')
-            })
-            .fail(function(data, error, errorName) {
-                console.log(data, error, errorName)
-                alert(data.responseJSON.message)
-            })
+    }
+
+    // Creates textarea for edition
+    function replyButtonClicked(event) {
+        var commentId = get_parent_data(event, 'comment-id')
+        var commentReplyContainer = $('#comment-reply-container-' + commentId)
+        templates.apply(commentReplyContainer, comReplyTemplate, {
+            'id': commentId,
+        })
+        $('#comment-reply-send-button-' + commentId).click(function(event) {
+            auth.validateMicroTokenTime(
+                replyComment,
+                {'commentId': commentId, 'event': event}
+            )
+            return false
+        })
+        var replyButton = $('#comment-reply-button-' + commentId)
+        var cancelButton = $('#comment-reply-cancel-button-' + commentId)
+        // Cancel button function: go back text and switch buttons
+        cancelButton.click(function(event) {
+            commentReplyContainer.html('')
+            cancelButton.hide()
+            replyButton.show()
+        })
+        replyButton.hide()
+        cancelButton.show()
+        return false
     }
 
     // Creates textarea for edition
@@ -172,7 +180,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         $('#comment-edit-send-button-' + commentId).click(function(event) {
             auth.validateMicroTokenTime(
                 editComment,
-                {'commentId': commentId, 'event': event,}
+                {'commentId': commentId, 'event': event}
             )
             return false
         })
@@ -222,20 +230,22 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
         })
         // Add HTML to page
         templates.apply(comListContainer, comListTemplate, data)
+        // Activate reply buttons
+        $('.comment-reply-button').click(replyButtonClicked)
         // Activate edit buttons
-        $('.edit-comment-button').click(editButtonClicked)
+        $('.comment-edit-button').click(editButtonClicked)
         // Activate delete buttons
-        $('.delete-comment-button').click(function(event) {
+        $('.comment-delete-button').click(function(event) {
             auth.validateMicroTokenTime(deleteComment, event)
             return false
         })
         // Activate report buttons
-        $('.report-comment-button').click(function(event) {
+        $('.comment-report-button').click(function(event) {
             reportComment(event)
             return false
         })
         // Activate upvote buttons
-        $('.upvote-comment-button').click(function(event) {
+        $('.comment-upvote-button').click(function(event) {
             auth.validateMicroTokenTime(
                 voteComment,
                 {'event': event, 'vote': true}
@@ -243,7 +253,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
             return false
         })
         // Activate downvote buttons
-        $('.downvote-comment-button').click(function(event) {
+        $('.comment-downvote-button').click(function(event) {
             auth.validateMicroTokenTime(
                 voteComment,
                 {'event': event, 'vote': false}

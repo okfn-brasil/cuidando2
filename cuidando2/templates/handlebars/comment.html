@@ -7,20 +7,27 @@
     <div id="comment-body-{{id}}" class="panel-body">{{text}}</div>
     <div class="panel-footer">
         <a href="@pessoa/{{author}}">{{author}}</a>
+        <button id="comment-reply-button-{{id}}" class="btn btn-default comment-reply-button">{{t "Reply"}}</button>
         {{#if userIsAuthor}}
-            <button class="btn btn-default delete-comment-button">Deletar</button>
-            <button id="comment-edit-button-{{id}}" class="btn btn-default edit-comment-button">Editar</button>
-            <button id="comment-edit-cancel-button-{{id}}" class="btn btn-default edit-comment-cancel-button probably-hidden">Cancelar</button>
+            <button class="btn btn-danger comment-delete-button">{{t "Delete"}}</button>
+            <button id="comment-edit-button-{{id}}" class="btn btn-default comment-edit-button">Editar</button>
+            <button id="comment-edit-cancel-button-{{id}}" class="btn btn-warning probably-hidden">{{t "Cancel"}}</button>
         {{/if}}
         {{#if userNotAuthor}}
-            <button class="btn btn-default upvote-comment-button">+1</button>
-            <button class="btn btn-default downvote-comment-button">-1</button>
-            <button class="btn btn-default report-comment-button">Denunciar</button>
+            <button class="btn btn-default comment-upvote-button">+1</button>
+            <button class="btn btn-default comment-downvote-button">-1</button>
+            <button class="btn btn-danger comment-report-button">Denunciar</button>
         {{/if}}
         <span>Gostaram: {{upvotes}}</span>
         <span>Não gostaram: {{downvotes}}</span>
         <span>Criado: {{created}}</span>
         <span>Modificado: {{modified}}</span>
+        <div id="comment-reply-container-{{id}}"></div>
     </div>
+    {{#each replies}}
+        <div style="margin-left: 20px; margin-top: 20px">
+            {{> comment }}
+        </div>
+    {{/each}}
 </div>
 
