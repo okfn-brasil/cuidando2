@@ -15,6 +15,14 @@ define(["jquery", "app/jwt", 'app/templates', 'app/interface'], function($, deco
     }
 
 
+    // The page was reloaded and a getToken is pending.
+    // Needed when browser has no support for window.history
+    if (localStorage.queryForToken) {
+        getTokens(localStorage.queryForToken)
+        localStorage.queryForToken = ""
+    }
+
+
     templates.smartApply('auth', {})
 
     // ------------- Auth panel -------------------
@@ -48,7 +56,7 @@ define(["jquery", "app/jwt", 'app/templates', 'app/interface'], function($, deco
 
 
     function getTokens(query) {
-        var url = AUTH_API_URL + "/complete/facebook/" + query
+        var url = AUTH_API_URL + "/complete/manual/facebook" + query
         console.log("QUERY", url)
         $.ajax({
             url        : url,
@@ -167,7 +175,7 @@ define(["jquery", "app/jwt", 'app/templates', 'app/interface'], function($, deco
 
     // Local Login
     $("#login-form-button").click(function(e) {
-        var url = AUTH_API_URL + "/login_local"
+        var url = AUTH_API_URL + "/login/local"
         var data = {
             'username': $("#login-form-username").val(),
             'password': $("#login-form-password").val(),
@@ -191,7 +199,7 @@ define(["jquery", "app/jwt", 'app/templates', 'app/interface'], function($, deco
     // Local Register
     $("#register-form-button").click(function(e) {
         var username = $("#register-form-username").val()
-        var url = AUTH_API_URL + "/users/" + username + "/register"
+        var url = AUTH_API_URL + "/user/" + username
 
         var password = $("#register-form-password").val()
         if (password != $("#register-form-password2").val()) {
@@ -261,7 +269,7 @@ define(["jquery", "app/jwt", 'app/templates', 'app/interface'], function($, deco
         //     // }
         // })
         console.log(AUTH_API_URL)
-        $.getJSON(AUTH_API_URL + '/login/facebook/')
+        $.getJSON(AUTH_API_URL + '/login/external/manual/facebook')
             .done(function(responseData) {
                 var origRedirect = responseData.redirect
                 var thisUrl = window.location.origin

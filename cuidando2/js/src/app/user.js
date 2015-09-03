@@ -21,7 +21,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
 
     // Update user info
     function sendInfo() {
-        var url = AUTH_API_URL + '/users/' + username + '/edit'
+        var url = AUTH_API_URL + '/user/' + username
         var data = {
             'token': localStorage.microToken,
             'description': $("#user-form-textarea").val(),
@@ -53,7 +53,7 @@ define(["jquery", 'app/urlmanager', 'showutils', 'app/templates', 'app/auth'], f
 
         // TODO: ver se é o próprio user para pegar o e-mail também?
         $.getJSON(
-            AUTH_API_URL + '/users/' + username
+            AUTH_API_URL + '/user/' + username
         )
             .done(function(data) {
                 // TODO: caso seja a página do próprio usuário, deixar alterar dados
