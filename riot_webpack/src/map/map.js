@@ -1,6 +1,9 @@
-import L from 'leaflet'
+// import leaflet from 'leaflet'
+import config from '../config.js'
+import ajax from '../utils/ajax.js'
+import stores from '../stores'
 
-// var MQ = require('imports?L=leaflet!exports?MQ!./mapquest.es5')
+// var MQ = require('imports?leaflet=leaflet!exports?MQ!./mapquest.es5')
 var MQ = require('exports?MQ!./mapquest.es5')
 
 
@@ -8,23 +11,23 @@ var MQ = require('exports?MQ!./mapquest.es5')
 
 
 //icones
-var greenIcon = L.icon({
-    iconUrl: 'static/img/verde.png',
+var greenIcon = leaflet.icon({
+    iconUrl: 'assets/img/verde.png',
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
-var blueIcon = L.icon({
-    iconUrl: 'static/img/azul.png',
+var blueIcon = leaflet.icon({
+    iconUrl: 'assets/img/azul.png',
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
-var redIcon = L.icon({
-    iconUrl: 'static/img/vermelho.png',
+var redIcon = leaflet.icon({
+    iconUrl: 'assets/img/vermelho.png',
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
-var yellowIcon = L.icon({
-    iconUrl: 'static/img/amarelo.png',
+var yellowIcon = leaflet.icon({
+    iconUrl: 'assets/img/amarelo.png',
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
@@ -34,12 +37,12 @@ function getcolor(state) {
     if(state == "atualizado") return yellowIcon
     if(state == "empenhado") return greenIcon
     if(state == "liquidado") return blueIcon
+    return null
 }
 
-L.Icon.Default.imagePath = "static/img/leaflet"
+leaflet.Icon.Default.imagePath = "assets/img/leaflet"
 
-var mapId = '#map-container',
-    popup = null,
+var popup = null,
     map = null,
     year = null
 
@@ -62,19 +65,42 @@ function markerClicked(event) {
 }
 
 
-// Update map
-function updateMap(msg, content) {
-    if (!map) initMap()
+class Map {
 
-    var newYear = content ? content.value : urlManager.getParam('year')
-    // Avoids realoading data if year didn't change
-    if (newYear != year) {
-        year = newYear
-        // Remove possible previous markers layer
-        if (map.yearMarkers) map.removeLayer(map.yearMarkers)
+    initMap(domId) {
+        this.domId = domId
+        console.log("INIT MAP")
+        popup = new leaflet.Popup()
+
+        this.map = leaflet.map(domId, {
+            layers: MQ.mapLayer(),
+            center: [-23.58098, -46.61293],
+            zoom: 12,
+            // maxZoom: 20
+        })
+
+        // $.getJSON('assets/geojson/subprefeituras.json')
+        //     .done(function(response_data) {
+        //         leaflet.geoJson(response_data).addTo(map);
+        //     });
+
+    }
+
+    updateMap(points) {
+        console.log(this, this.map, points)
+        if (!this.map) this.initMap(this.domId)
+        console.log(this, this.map, points)
+
+        // var newYear = content ? content.value : urlManager.getParam('year')
+
+        // Avoids realoading data if year didn't change
+        // if (newYear != year) {
+            // year = newYear
+            // Remove possible previous markers layer
+        if (this.map.yearMarkers) this.map.removeLayer(this.map.yearMarkers)
 
         // Create new cluster layer
-        var markers = new L.MarkerClusterGroup({
+        var markers = new leaflet.MarkerClusterGroup({
             maxClusterRadius: 60,
             spiderfyOnMaxZoom: true,
             showCoverageOnHover: false,
@@ -82,91 +108,32 @@ function updateMap(msg, content) {
             iconCreateFunction: function (cluster) {
                 var markers = cluster.getAllChildMarkers()
                 // var html = markers.length
-                return L.divIcon({
+                return leaflet.divIcon({
                     html: markers.length,
                     className: 'cluster-circle',
-                    iconSize: L.point(32, 32)
+                    iconSize: leaflet.point(32, 32)
                 })
-
-                // var markers = cluster.getAllChildMarkers()
-                // window.markers = markers
-                // var n = 0;
-                // for (var i = 0; i < markers.length; i++) {
-                //     n += markers[i].number
-                // }
-                // return L.divIcon({ html: n, className: 'mycluster', iconSize: L.point(40, 40) });
             },
         })
 
-        // // Corrent or Capital
-        // var corrente = L.layerGroup()
-        // var capital = L.layerGroup()
-        // var naoident = L.layerGroup()
-        // map.addLayer(corrente)
-        // map.addLayer(capital)
-        // map.addLayer(naoident)
-        // var controle = L.control.layers();
-        // controle.addOverlay(corrente, "Corrente");
-        // controle.addOverlay(capital, "Capital");
-        // controle.addOverlay(naoident, "Não identificado");
-        // controle.addTo(map)
-        // window.c = controle
-
-        // Get list of points from server
-        console.log("MAP Year", year)
-        // var year = urlManager.getParam('code').split('.')[0]
-        $.getJSON(API_URL + '/execucao/minlist/' + year + '?state=1&capcor=1')
-            .done(function(response_data) {
-                $.each(response_data.FeatureColletion, function(index, item) {
-                    var marker = L.geoJson(item, {
-
-                        pointToLayer: function (feature, latlng) {
-                            console.log("AAAAAAAA", feature)
-
-                            var marker = L.marker(latlng, {icon: getcolor(feature.properties.state)})
-                            // var capcor = feature.properties.cap_cor
-                            // if (capcor == "corrente") {
-                            //     corrente.addLayer(marker)
-                            // }else if(capcor == "capital") {
-                            //     capital.addLayer(marker)
-                            // }else{
-                            //     naoident.addLayer(marker)
-                            // }
-
-                            return marker
-                        },
-
-                        // onEachFeature: onEachFeature
-                    })
-                    console.log(item, marker)
-
-                    marker.on('click', markerClicked);
-                    markers.addLayer(marker);
-                })
+        for (let point of points.FeatureColletion) {
+            var marker = leaflet.geoJson(point, {
+                pointToLayer: this.pointToLayer
             })
+            marker.on('click', markerClicked)
+            markers.addLayer(marker)
+        }
+        this.map.addLayer(markers);
+        this.map.yearMarkers = markers
+    }
 
-        map.addLayer(markers);
-        map.yearMarkers = markers
+    pointToLayer (feature, latlng) {
+        var marker = leaflet.marker(latlng, {icon: getcolor(feature.properties.state)})
+        return marker
     }
 }
 
 
-function initMap() {
-    console.log("INIT MAP")
-    popup = new L.Popup()
-
-    map = L.map(mapId.slice(1), {
-        layers: MQ.mapLayer(),
-        center: [-23.58098, -46.61293],
-        zoom: 12,
-        // maxZoom: 20
-    });
-
-    $.getJSON('static/geojson/subprefeituras.json')
-        .done(function(response_data) {
-            L.geoJson(response_data).addTo(map);
-        });
-}
 
 // Update popup with the new data
 function updatePopup(event, data) {
@@ -193,12 +160,10 @@ function updatePopup(event, data) {
 }
 
 
-// showutils.showSubscribe("year.changed", mapId, true, updateMap)
-// showutils.showSubscribe("pointdata.changed", mapId, false, updatePopup)
-// // TODO: remover isso:
-// window.up = updateMap
-// window.p = pubsub
+let instance = new Map()
 
-function getMap() { return map }
+riot.control.on(riot.SE.POINTS_CHANGED, (points) => {
+    instance.updateMap(points)
+})
 
-export default getMap
+export default instance

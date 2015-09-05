@@ -1,6 +1,6 @@
 import './component/menubar.html'
 import './component/yearselector.html'
-// import './component/postcell.html'
+import './component/map.html'
 
 // import './view/posts-view.html'
 // import './view/categories-view.html'

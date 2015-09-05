@@ -17,11 +17,12 @@ riot.control = RiotControl
 // store events
 riot.SE = {
     YEARS_CHANGED: 'se_years_changed',
+    YEAR_CHANGED: 'se_year_changed',
+    POINTS_CHANGED: 'se_poins_changed',
 }
 // view events
 riot.VE = {
-    // RESET_DATA: 've_reset_data',
-    // LIKE_POST: 've_like_post',
     LOAD_YEARS: 've_load_years',
     CHANGE_YEAR: 've_change_year',
+    LOAD_POINTS: 've_load_points',
 }

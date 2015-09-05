@@ -13,7 +13,9 @@ module.exports = {
     },
     module: {
         loaders: [
+            { test: /\.png$/, include: /assets/, loader: "file" },
             { test: /\.css$/, include: /src/, loader: 'style!css' },
+            { test: /\.sass$/, include: /src/, loader: 'style!css!sass?indentedSyntax' },
             { test: /\.html$/, include: /src/, loader: 'riotjs' },
             // { test: /\.es5\.js5$/, include: /src/, loader: 'script' },
             { test: /\.js$/,
@@ -26,6 +28,7 @@ module.exports = {
     plugins: [
       new webpack.ProvidePlugin({
           riot: 'riot',
+          leaflet: 'leaflet',
           'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
       }),
       new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")

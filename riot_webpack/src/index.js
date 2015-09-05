@@ -4,4 +4,6 @@ import './utils/basemixin.js'
 import './stores.js'
 import './riotTags.js'
 
+import './css/app.sass'
+
 riot.mount('app')

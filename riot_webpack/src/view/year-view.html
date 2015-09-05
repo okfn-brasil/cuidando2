@@ -1,15 +1,13 @@
 <year-view>
     <div class="container">
-        <p>aaaaaaaaaaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaaaaaaaaaa</p>
-        <p>aaaaaaaaaaaaaaaaaaaa</p>
-        <h1>YEAR { opts.data.name }</h1>
+        <h1>YEAR { s.year }</h1>
         <year-selector></year-selector>
     </div>
+    <map></map>
 
 
     <script type="es6">
-    console.log(opts)
+    this.mixin('base')
+    this.watch('year')
     </script>
 </year-view>

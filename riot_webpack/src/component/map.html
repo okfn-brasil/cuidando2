@@ -1,0 +1,14 @@
+<map>
+    <div id="map-container"></div>
+
+
+    <script type="es6">
+    import map from '../map/map'
+    this.mixin('base')
+
+    this.one('mount', () => {
+        riot.control.trigger(riot.VE.LOAD_POINTS)
+        map.initMap('map-container')
+    })
+    </script>
+</map>
