@@ -1,0 +1,23 @@
+<year-selector>
+    <select onchange={ selectedYear }>
+        <option each={ year, i in years } value="{ year }">{ year }</option>
+    </select>
+
+
+    <script type="es6">
+    this.mixin('base')
+
+    this.on('mount', () => {
+        riot.control.trigger(riot.VE.LOAD_YEARS)
+    })
+
+    riot.control.on(riot.SE.YEARS_CHANGED, years => {
+        this.years = years
+        this.update()
+    })
+
+    this.selectedYear = (event) => {
+        riot.control.trigger(riot.VE.CHANGE_YEAR, event.target.value)
+    }
+    </script>
+</year-selector>
