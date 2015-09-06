@@ -1,7 +1,7 @@
 // import leaflet from 'leaflet'
 import config from '../config'
 import ajax from '../utils/ajax'
-import router from '../utils/router'
+import router from '../store/router'
 import stores from '../stores'
 
 // var MQ = require('imports?leaflet=leaflet!exports?MQ!./mapquest.es5')
@@ -57,8 +57,9 @@ class Map {
         self = this
     }
 
-    initMap(domId) {
+    initMap(domId, tag) {
         this.domId = domId
+        this.tag = tag
         console.log("INIT MAP")
         this.popup = new leaflet.Popup()
 
@@ -159,9 +160,5 @@ class Map {
 
 
 let instance = new Map()
-
-riot.control.on(riot.SE.POINTS_CHANGED, (points) => {
-    instance.updateMap(points)
-})
 
 export default instance

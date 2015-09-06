@@ -14,12 +14,18 @@ class Years {
 
 let instance = new Years()
 
-instance.one(riot.VE.LOAD_YEARS, () => {
-    let url = config.apiurl_money + '/execucao/info'
-    if (!instance._years) ajax(url, 'get').then((response) => {
-        instance._years = response.data.years
-        instance.trigger(riot.SE.YEARS_CHANGED, instance._years)
-    })
+instance.on(riot.VEL('years'), () => {
+    if (!instance._years) {
+        let url = config.apiurl_money + '/execucao/info'
+        ajax(url, 'get').then((response) => {
+            instance._years = response.data.years
+            console.log('SEC-years:', instance._years)
+            instance.trigger(riot.SEC('years'), instance._years)
+        })
+    } else {
+        console.log('SEC-years:', instance._years)
+        instance.trigger(riot.SEC('years'), instance._years)
+    }
 })
 
 // register to riot control by myself

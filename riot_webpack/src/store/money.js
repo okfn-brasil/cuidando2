@@ -2,25 +2,22 @@ import config from '../config.js'
 import ajax from '../utils/ajax.js'
 import stores from '../stores'
 
+console.log('NNNNNNNNNNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
+
 class Points {
     constructor() {
         riot.observable(this)
 
-        this._points = {}
-
-        // this.on(riot.VEL('points'), (year) => {
-        //     console.log('LOADDDDDD POINTS', year)
-        //     this.loadPoints(year)
-        // })
+        this._codes = {}
     }
 
     get() {return this._points[stores.year]}
 
-    loadPoints(year) {
+    load(params) {
         // If doesn't have current year data, load
         if (!(year in this._points)) {
             let api = config.apiurl_money,
-                url = `${api}/execucao/minlist/${year}?state=1&capcor=1`
+                url = `${api}/execucao/list?${query}`
             ajax(url, 'get').then((response) => {
                 this._points[year] = response
                 this.triggerChanged(year)
@@ -31,15 +28,18 @@ class Points {
     }
 
     triggerChanged(year) {
-        this.trigger(riot.SEC('points'),
-                     {year, points:this._points[year]})
+        this.trigger(riot.SEC('points'), this._points[year])
     }
 }
 
 
 let instance = new Points()
 
-// riot.control.on(riot.SE.YEAR_CHANGED, (year) => {
+instance.on(riot.VEL('points'), () => {
+    instance.loadPoints()
+})
+
+// riot.control.on(riot.SEC.YEAR_CHANGED, (year) => {
 //     instance.loadPoints()
 // })
 

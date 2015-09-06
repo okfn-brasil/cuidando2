@@ -2,10 +2,7 @@ import './component/menubar.html'
 import './component/yearselector.html'
 import './component/map.html'
 
-// import './view/posts-view.html'
-// import './view/categories-view.html'
-// import './view/detail-view.html'
-import './view/textpage-view.html'
-import './view/year-view.html'
+import './view/texto-view.html'
+import './view/ano-view.html'
 
 import './app.html'

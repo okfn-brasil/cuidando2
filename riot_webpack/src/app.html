@@ -1,38 +1,17 @@
 <app>
     <menubar></menubar>
-    <map></map>
+    <!--     <map></map> -->
 
     <div class="container">
         <div id="mainview"></div>
     </div>
-  <!-- <section> -->
-  <!--   <header> -->
-  <!--     <nav> -->
-  <!--       <ul> -->
-  <!--         <li><a href="#posts">Posts</a></li> -->
-  <!--         <li><a href="#categories">Categories</a></li> -->
-  <!--       </ul> -->
-  <!--     </nav> -->
-  <!--   </header> -->
-  <!--   <article> -->
-  <!--     <div id="mainview"></div> -->
-  <!--   </article> -->
-  <!--   <footer> -->
-  <!--     <nav> -->
-  <!--       <a onclick={resetData}>Reset Data</a> -->
-  <!--     </nav> -->
-  <!--   </footer> -->
-  <!-- </section> -->
+
 
     <script type="es6">
-    import router from './utils/router.js'
-
-    this.resetData = () => {
-        riot.control.trigger(riot.VE.RESET_DATA)
-    }
+    this.mixin('base')
 
     this.on('mount', () => {
-        router.goDefaultRoute()
+        this.router.init()
     })
     </script>
 </app>

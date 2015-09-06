@@ -26,16 +26,15 @@ let globalParams = {
 
 // Checks if a property of two objs is equals
 function diff(prop, a, b) {
-    console.log(prop, a, b)
-    console.log(a.hasOwnProperty(prop))
-    console.log(!(a.hasOwnProperty(prop) && (a[prop] == b[prop])))
     return !(a.hasOwnProperty(prop) && (a[prop] == b[prop]))
 }
 
 
 class Router {
 
-    constructor(routes, parsers, globalParams) {
+    constructor(routes, defaultRoute, defaultParams, parsers, globalParams) {
+        riot.observable(this)
+
         this._currentView = null
 
         this._innerRouteMark = '$'
@@ -47,22 +46,59 @@ class Router {
 
         this._query = ''
         this._oldUrl = ''
-        this.params = {}
+        this.params = defaultParams
+        console.log('params:', this.params)
 
         this.routes = {}
         // Hash routes by name
         for (let route of routes) {
             let name = route.format.split(this._hashParamMark)[0]
+            // Add view name for route
+            route.view = `${name}-view`
+            route.mainParamsNames = this._getMainParamsNames(route.format)
             this.routes[name] = route
         }
-
+        this._defaultRoute = defaultRoute
         this.parsers = parsers
         this.globalParams = globalParams
+        this._allPossibleParamsNames = this._listAllPossibleParamsNames()
+        this._registerLoadEvents()
 
         // Change url parser
         riot.route.parser(this.urlAutoParser.bind(this))
         // Change route callback
         riot.route(this.studyRoute.bind(this))
+    }
+
+    init() {
+        if(location.hash) {
+            this.studyRoute(this.urlAutoParser(location.hash.slice(1)))
+        } else {
+            this.routeDefault()
+        }
+
+    }
+
+    _registerLoadEvents() {
+        for (let name of this._allPossibleParamsNames) {
+            this.on(riot.VEL(name), () => {
+                this.trigger(riot.SEC(name), this.params[name])
+            })
+
+            this.on(riot.VEC(name), (value) => {
+                this.params[name] = value
+                window.location.hash = this._createUrl(this.params)
+                console.log('---------', location.hash, '----------')
+            })
+        }
+    }
+
+    // Returns all the possible params names (main params or query)
+    _listAllPossibleParamsNames() {
+        return new Set(Object.keys(this.routes)
+            .map(k => this.routes[k].mainParamsNames)
+            .reduce((prev, cur) => prev.concat(cur),
+                Object.keys(this.globalParams)))
     }
 
     buildRoute() {
@@ -77,35 +113,25 @@ class Router {
         return match ? match[0].replace(/#.*/, '') : ''
     }
 
-    loadView(viewName, id) {
+    loadView(viewName) {
         if (this._currentView) {
             this._currentView.unmount(true)
         }
-        this._currentView = riot.mountTo('div#mainview', viewName, {data: id})[0]
+        this._currentView = riot.mount('div#mainview', viewName)[0]
+                                       // {aaaaa: "raaaaaa"})[0]
+                                       // {data: this.params})[0]
     }
 
     studyRoute(parsed) {
         if (parsed === undefined) {
-            this.loadView('year-view')
+            this.loadView(this._defaultRoute)
         }
         else if (!parsed.repeated) {
-            riot.control.trigger(riot.VE.CHANGE_URL, parsed)
-            switch(parsed.paths[0]) {
-                case 'texto':
-                    this.loadView('textpage-view', {name: parsed.paths[1]})
-                    break
-                case 'ano':
-                    this.loadView('year-view')
-                    break
-                case 'detail':
-                    this.loadView('detail-view')
-                    break
-                case 'posts':
-                    this.loadView('posts-view')
-                    break
-                default:
-                    this.loadView('year-view')
-            }
+            // riot.control.trigger(riot.VE.CHANGE_URL, parsed)
+            let routeData = this.routes[parsed.params._root]
+            console.log(routeData)
+            if (routeData) this.loadView(routeData.view)
+            else this.loadView(this._defaultRoute)
         }
     }
 
@@ -115,10 +141,17 @@ class Router {
             parsed = this.parseUrl(url)
             if (parsed.innerRoute) {
                 this._oldUrl = parsed.url
-                if (history === undefined) location.hash = parsed.url
-                else history.replaceState(null, null, this._hashMark + parsed.url)
+                if (location.hash != parsed.url) {
+                    if (history === undefined) location.hash = parsed.url
+                    else history.replaceState(null, null, this._hashMark + parsed.url)
+                    console.log('---------', location.hash, '----------')
+                }
             }
             parsed.repeated = false
+
+            this._updateParams(parsed.params)
+            console.log('after-update-params:', this.params)
+
         } else parsed.repeated = true
         return parsed
     }
@@ -139,7 +172,7 @@ class Router {
         let raw = url.split(this._queryMark),
             paths = raw[0].split(this._hashParamMark),
             query = raw[1],
-            params = {}
+            params = this._mainParamsToObj(paths)
 
         this._query = query
         if (query) {
@@ -150,20 +183,24 @@ class Router {
         }
 
         return {
-            url: url,
-            paths: paths,
+            url: this._createUrl(params),
             params: params,
             innerRoute: innerRoute,
         }
     }
 
     getParam(name) {
-        return this.params[name]
+        console.log('getParams-name:', name, 'params:', this.params)
+        let val = this.params[name]
+        if (val) return val
+        // val = this.
+        // if () return this.param
+        return 'TODO: aaaaaaaaaaaaaaa'
     }
 
-    goDefaultRoute() {
-        // Start default view
-        riot.route.exec(this.studyRoute.bind(this))
+    // Start default view
+    routeDefault() {
+        this.route(this._defaultRoute)
     }
 
     _getMainParamsNames(template) {
@@ -173,6 +210,16 @@ class Router {
         })
     }
 
+    _mainParamsToObj(mainParamsValues) {
+        let _root = mainParamsValues.shift(),
+            names = this.routes[_root].mainParamsNames,
+            obj = {_root}
+        for (let i in mainParamsValues) {
+            obj[names[i]] = mainParamsValues[i]
+        }
+        return obj
+    }
+
     // Possibilities:
     // 'root id1 id2' {id3=id3, q1=q1}
     // {root=root, id1=id1}
@@ -180,25 +227,21 @@ class Router {
     route(param1, params2) {
         let roots = null,
             root = null,
-            params = null
+            params = {}
 
         // If the param1 is a string of route parts repared with ' '
         if (param1 && typeof param1 === 'string') {
             roots = param1.split(' ')
             // TODO: take care of other roots
-            root = roots[0]
-            params = params2
-            params._root = root
+            params = this._mainParamsToObj(roots)
+            if (params2) Object.assign(params, params2)
         } else {
             // param1 is an Obj, there is no param2
             params = param1
         }
 
-        let diffs = this._updateParams(params)
-        this._broadcastParams(diffs)
-
         window.location.hash = this._createUrl(params)
-        console.log(this._createUrl(params))
+        console.log('---------', location.hash, '----------')
     }
 
     _updateParams(newParams) {
@@ -209,16 +252,16 @@ class Router {
             if (diff(name, this.params, newParams)) diffs.push(name)
             this.params[name] = newParams[name]
         }
+        this._broadcastParams(diffs)
         return diffs
     }
 
     _broadcastParams(names) {
         // Broadcast params that changed
         for (let name of names) {
-            let signal = `change_${name}`
-            riot.control.trigger(riot.VE[signal.toUpperCase()],
+            riot.control.trigger(riot.SEC(name),
                                  this.params[name])
-            console.log(name)
+            console.log("router-broadcast", name)
         }
     }
 
@@ -226,8 +269,9 @@ class Router {
         let rootData = this.routes[params._root],
             url = rootData.format
         // Replace main params to str
-        for (let name of this._getMainParamsNames(rootData.format)) {
-            url = url.replace('{' + name + '}', this.params[name])
+        let mainParams = Object.assign({}, this.params, params)
+        for (let name of rootData.mainParamsNames) {
+            url = url.replace('{' + name + '}', mainParams[name])
         }
         // Add query params if needed
         let nonDefault = [],
@@ -236,16 +280,16 @@ class Router {
         for (let name in defaultParams) {
             if (queryParams[name] != defaultParams[name])
                 nonDefault.push(name + this._queryAttrMark + params[name])
-            console.log(name, params, defaultParams)
         }
         if (nonDefault.length) {
             url += this._queryMark + nonDefault.join(this._queryParamMark)
         }
         return url
     }
-
 }
 
-let router = new Router(routes, parsers, globalParams)
-
-export default router
+let instance = new Router(routes, 'ano',
+                          {year: new Date().getFullYear().toString()},
+                          parsers, globalParams)
+riot.control.addStore(instance)
+export default instance

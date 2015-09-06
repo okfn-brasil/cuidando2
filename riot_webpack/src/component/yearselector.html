@@ -1,8 +1,8 @@
 <year-selector>
     <select id="yearselector" onchange={ selectedYear }>
-        <option each={ _year, i in s.years }
+        <option each={ _year, i in years }
                 value="{ _year }"
-                selected={ _year == s.year } >
+                selected={ _year == year } >
             { _year }
         </option>
     </select>
@@ -10,18 +10,20 @@
 
     <script type="es6">
     this.mixin('base')
-    this.watch('years')
+    this.watch('years year')
 
-    this.on('mount', () => {
-        riot.control.trigger(riot.VE.LOAD_YEARS)
-    })
+         /*     this.year = this.router.getParam('year') */
+
+    // this.on('mount', () => {
+    //     riot.control.trigger(riot.VEL('years'))
+    // })
 
     this.selectedYear = (event) => {
-        riot.control.trigger(riot.VE.CHANGE_YEAR, event.target.value)
+        this.triggerChange('year', event.target.value)
     }
 
-    riot.control.on(riot.SE.YEAR_CHANGED, year => {
-        yearselector.value = year
-    })
+    // riot.control.on(riot.SE.YEAR_CHANGED, year => {
+    //     yearselector.value = year
+    // })
     </script>
 </year-selector>

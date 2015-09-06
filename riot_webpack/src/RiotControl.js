@@ -14,15 +14,26 @@ _RiotControlApi.forEach(api => {
 
 // since riot is auto loaded by ProvidePlugin, merge the control into the riot object
 riot.control = RiotControl
-// store events
-riot.SE = {
-    YEARS_CHANGED: 'se_years_changed',
-    YEAR_CHANGED: 'se_year_changed',
-    POINTS_CHANGED: 'se_poins_changed',
+
+// store event change
+riot.SEC = function(name) {
+    return `se_${name}_changed`
 }
-// view events
-riot.VE = {
-    LOAD_YEARS: 've_load_years',
-    CHANGE_YEAR: 've_change_year',
-    LOAD_POINTS: 've_load_points',
+// view event change
+riot.VEC = function(name) {
+    return `ve_change_${name}`
 }
+// view event load
+riot.VEL = function(name) {
+    return `ve_load_${name}`
+}
+// // store events
+// riot.SE = {
+//     YEARS_CHANGED: 'se_years_changed',
+//     POINTS_CHANGED: 'se_poins_changed',
+// }
+// // view events
+// riot.VE = {
+//     LOAD_YEARS: 've_load_years',
+//     LOAD_POINTS: 've_load_points',
+// }

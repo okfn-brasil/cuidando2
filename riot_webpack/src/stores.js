@@ -1,12 +1,13 @@
 import years from './store/years'
-import year from './store/year'
+// import year from './store/year'
 import points from './store/points'
+import router from './store/router'
 
-const stores_list = { years, year, points }
+// const stores_list = { years, year, points }
 
 class Stores {
     get years () {return years.get()}
-    get year () {return year.get()}
+    // get year () {return year.get()}
     get points () {return points.get()}
 }
 

@@ -5,10 +5,19 @@
     <script type="es6">
     import map from '../map/map'
     this.mixin('base')
+    this.watch('year')
+    this.year = this.router.getParam('year')
+    console.log('NNNNNNNNNNOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO')
 
     this.one('mount', () => {
         map.initMap('map-container')
-        riot.control.trigger(riot.VE.LOAD_POINTS)
+        console.log('tag-map-VEL-points-year:', this.year)
+        riot.control.trigger(riot.VEL('points'), this.year)
     })
+
+    riot.control.on(riot.SEC('points'), (points) => {
+        map.updateMap(points)
+    })
+
     </script>
 </map>
