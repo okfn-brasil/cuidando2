@@ -1,6 +1,7 @@
 // import leaflet from 'leaflet'
-import config from '../config.js'
-import ajax from '../utils/ajax.js'
+import config from '../config'
+import ajax from '../utils/ajax'
+import router from '../utils/router'
 import stores from '../stores'
 
 // var MQ = require('imports?leaflet=leaflet!exports?MQ!./mapquest.es5')
@@ -42,35 +43,24 @@ function getcolor(state) {
 
 leaflet.Icon.Default.imagePath = "assets/img/leaflet"
 
-var popup = null,
-    map = null,
-    year = null
 
 // This flag is used to know if the user clicked the marker (so the map
 // already panned to it) or if the "code" was changed another way, so the
 // map still needs to pan to it.
 var justClickedMarker = false
 
-// Called when a marker is clicked
-function markerClicked(event) {
-    var code = event.layer.feature.properties.uid
-    if (urlManager.getParam('code') != code) popup.setContent("Carregando...")
-    popup.setLatLng(event.latlng)
-    map.openPopup(popup)
-    // map.setView(event.latlng, 1, true);
-    map.panTo(event.latlng)
-    justClickedMarker = true
-    // pubsub.publish('code.changed', {value: code})
-    urlManager.route('despesa', urlManager.getParam('year'), code)
-}
 
 
 class Map {
 
+    constructor() {
+        self = this
+    }
+
     initMap(domId) {
         this.domId = domId
         console.log("INIT MAP")
-        popup = new leaflet.Popup()
+        this.popup = new leaflet.Popup()
 
         this.map = leaflet.map(domId, {
             layers: MQ.mapLayer(),
@@ -87,9 +77,7 @@ class Map {
     }
 
     updateMap(points) {
-        console.log(this, this.map, points)
         if (!this.map) this.initMap(this.domId)
-        console.log(this, this.map, points)
 
         // var newYear = content ? content.value : urlManager.getParam('year')
 
@@ -113,14 +101,14 @@ class Map {
                     className: 'cluster-circle',
                     iconSize: leaflet.point(32, 32)
                 })
-            },
+            }
         })
 
         for (let point of points.FeatureColletion) {
             var marker = leaflet.geoJson(point, {
                 pointToLayer: this.pointToLayer
             })
-            marker.on('click', markerClicked)
+            marker.on('click', this.markerClicked)
             markers.addLayer(marker)
         }
         this.map.addLayer(markers);
@@ -131,31 +119,41 @@ class Map {
         var marker = leaflet.marker(latlng, {icon: getcolor(feature.properties.state)})
         return marker
     }
-}
 
+    // Called when a marker is clicked
+    markerClicked(event) {
+        let code = event.layer.feature.properties.uid
+        if (router.getParam('code') != code) self.popup.setContent("Carregando...")
+        self.popup.setLatLng(event.latlng)
+        self.map.openPopup(self.popup)
+        // map.setView(event.latlng, 1, true);
+        self.map.panTo(event.latlng)
+        justClickedMarker = true
+        router.route('despesa', {year:stores.year, code})
+    }
 
-
-// Update popup with the new data
-function updatePopup(event, data) {
-    console.log("MAP - pointdata changed")
-    if (data && data.ds_projeto_atividade) {
-        console.log(data)
-        // If row has geometry (is mapped)
-        if (data.geometry) {
-            if (justClickedMarker) {
-                justClickedMarker = false
+    // Update popup with the new data
+    updatePopup(event, data) {
+        console.log("MAP - pointdata changed")
+        if (data && data.ds_projeto_atividade) {
+            console.log(data)
+            // If row has geometry (is mapped)
+            if (data.geometry) {
+                if (justClickedMarker) {
+                    justClickedMarker = false
+                } else {
+                    var coords = data.geometry.coordinates
+                    // Inversion of coords needed... Leaflet standard != geoJSON
+                    if (data.geometry) self.map.panTo([coords[1], coords[0]])
+                }
+                self.popup.setContent(data.ds_projeto_atividade)
+                // TODO: add something to comment and else
+                // If row has no geometry, ...
             } else {
-                var coords = data.geometry.coordinates
-                // Inversion of coords needed... Leaflet standard != geoJSON
-                if (data.geometry) map.panTo([coords[1], coords[0]])
             }
-            popup.setContent(data.ds_projeto_atividade)
-        // TODO: add something to comment and else
-        // If row has no geometry, ...
         } else {
+            self.popup.setContent("Erro: descrição não encontrada!")
         }
-    } else {
-        popup.setContent("Erro: descrição não encontrada!")
     }
 }
 

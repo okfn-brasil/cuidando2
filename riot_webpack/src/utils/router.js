@@ -1,6 +1,41 @@
+let routes = [{
+    format: 'ano/{year}',
+    params: {
+        page: 0,
+        per_page_num: 25
+    },
+}, {
+    format: 'despesa/{year}/{code}',
+}, {
+    format: 'pessoa/{username}',
+}, {
+    format: 'pedido/{protocolo}',
+}, {
+    format: 'texto/{text}',
+}]
+
+let parsers = {
+    year: parseInt,
+    page: parseInt,
+    per_page_num: parseInt
+}
+
+let globalParams = {
+    lang: 'pt-br',
+}
+
+// Checks if a property of two objs is equals
+function diff(prop, a, b) {
+    console.log(prop, a, b)
+    console.log(a.hasOwnProperty(prop))
+    console.log(!(a.hasOwnProperty(prop) && (a[prop] == b[prop])))
+    return !(a.hasOwnProperty(prop) && (a[prop] == b[prop]))
+}
+
+
 class Router {
 
-    constructor() {
+    constructor(routes, parsers, globalParams) {
         this._currentView = null
 
         this._innerRouteMark = '$'
@@ -12,31 +47,17 @@ class Router {
 
         this._query = ''
         this._oldUrl = ''
+        this.params = {}
 
-        var routes = [{
-                format: 'ano/{{year}}',
-                params: {
-                    page: 0,
-                    per_page_num: 25
-                },
-                parsers: {
-                    year: parseInt,
-                    page: parseInt,
-                    per_page_num: parseInt
-                },
-            }, {
-                format: 'despesa/{{year}}/{{code}}',
-                parsers: {
-                    year: parseInt,
-                }
-            }, {
-                format: 'pessoa/{{username}}',
-            }, {
-                format: 'pedido/{{protocolo}}',
-            }, {
-                format: 'texto/{{text}}',
-            }
-        ]
+        this.routes = {}
+        // Hash routes by name
+        for (let route of routes) {
+            let name = route.format.split(this._hashParamMark)[0]
+            this.routes[name] = route
+        }
+
+        this.parsers = parsers
+        this.globalParams = globalParams
 
         // Change url parser
         riot.route.parser(this.urlAutoParser.bind(this))
@@ -136,12 +157,95 @@ class Router {
         }
     }
 
+    getParam(name) {
+        return this.params[name]
+    }
+
     goDefaultRoute() {
         // Start default view
         riot.route.exec(this.studyRoute.bind(this))
     }
+
+    _getMainParamsNames(template) {
+        let match = template.replace(/\?.*/).match(/{([^}]*)}/g);
+        return match.map((param) => {
+            return param.substring(1, param.length - 1)
+        })
+    }
+
+    // Possibilities:
+    // 'root id1 id2' {id3=id3, q1=q1}
+    // {root=root, id1=id1}
+    // {id2=id2}
+    route(param1, params2) {
+        let roots = null,
+            root = null,
+            params = null
+
+        // If the param1 is a string of route parts repared with ' '
+        if (param1 && typeof param1 === 'string') {
+            roots = param1.split(' ')
+            // TODO: take care of other roots
+            root = roots[0]
+            params = params2
+            params._root = root
+        } else {
+            // param1 is an Obj, there is no param2
+            params = param1
+        }
+
+        let diffs = this._updateParams(params)
+        this._broadcastParams(diffs)
+
+        window.location.hash = this._createUrl(params)
+        console.log(this._createUrl(params))
+    }
+
+    _updateParams(newParams) {
+        let diffs = []
+        // Replace with new parameters
+        for (let name in newParams) {
+            // Keep track of changed params
+            if (diff(name, this.params, newParams)) diffs.push(name)
+            this.params[name] = newParams[name]
+        }
+        return diffs
+    }
+
+    _broadcastParams(names) {
+        // Broadcast params that changed
+        for (let name of names) {
+            let signal = `change_${name}`
+            riot.control.trigger(riot.VE[signal.toUpperCase()],
+                                 this.params[name])
+            console.log(name)
+        }
+    }
+
+    _createUrl(params) {
+        let rootData = this.routes[params._root],
+            url = rootData.format
+        // Replace main params to str
+        for (let name of this._getMainParamsNames(rootData.format)) {
+            url = url.replace('{' + name + '}', this.params[name])
+        }
+        // Add query params if needed
+        let nonDefault = [],
+            defaultParams = Object.assign({}, this.globalParams, rootData.params),
+            queryParams = Object.assign({}, defaultParams, params)
+        for (let name in defaultParams) {
+            if (queryParams[name] != defaultParams[name])
+                nonDefault.push(name + this._queryAttrMark + params[name])
+            console.log(name, params, defaultParams)
+        }
+        if (nonDefault.length) {
+            url += this._queryMark + nonDefault.join(this._queryParamMark)
+        }
+        return url
+    }
+
 }
 
-let router = new Router()
+let router = new Router(routes, parsers, globalParams)
 
 export default router

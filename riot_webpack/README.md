@@ -1,3 +1,15 @@
+## Install
+
+npm i
+
+## Dev
+
+npm run dev
+
+## Build
+
+npm run dist
+
 ## Use webpack and ES6(babel) to build Riotjs app
 
 This tiny example shows how to write ES6 with Riotjs, and use webpack to build the bundled target js to run in the browser environment.

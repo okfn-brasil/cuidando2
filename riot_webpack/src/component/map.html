@@ -7,8 +7,8 @@
     this.mixin('base')
 
     this.one('mount', () => {
-        riot.control.trigger(riot.VE.LOAD_POINTS)
         map.initMap('map-container')
+        riot.control.trigger(riot.VE.LOAD_POINTS)
     })
     </script>
 </map>
