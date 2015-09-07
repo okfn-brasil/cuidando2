@@ -1,4 +1,5 @@
 import years from './store/years'
+import pointinfo from './store/pointinfo'
 // import year from './store/year'
 import points from './store/points'
 import router from './store/router'

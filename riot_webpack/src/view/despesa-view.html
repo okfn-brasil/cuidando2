@@ -1,0 +1,36 @@
+<despesa-view>
+    <h1>Despesa: { code }</h1>
+    <button class="btn btn-default center-block"
+            onclick={fRoute('ano')}>
+        Voltar
+    </button>
+    <ul>
+        <li each={key, i in keys}>
+            {key} : {this.pointinfo[key]}
+        </li>
+    </ul>
+
+
+    <script type="es6">
+    this.mixin('base')
+    this.code = opts.code
+     /*     this.watch('code') */
+
+    riot.control.on(riot.SEC('pointinfo'), data => {
+        if (data.code == this.code) {
+            this.pointinfo = data.pointinfo
+            this.keys = Object.keys(this.pointinfo)
+            this.update()
+        }
+    })
+
+    riot.control.on(riot.SEC('code'), (code) => {
+        if (this.code != code) {
+            this.code = code
+            riot.control.trigger(riot.VEL('pointinfo'), this.code)
+        }
+    })
+
+    riot.control.trigger(riot.VEL('pointinfo'), this.code)
+    </script>
+</despesa-view>

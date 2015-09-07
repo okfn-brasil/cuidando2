@@ -12,8 +12,12 @@ var BaseMixin = {
         return translator.translate(...arguments)
     },
 
-    route: function() {
+    tRoute: function() {
         return router.buildRoute(...arguments)
+    },
+
+    fRoute: function() {
+        return () => router.route(...arguments)
     },
 
     router: router,

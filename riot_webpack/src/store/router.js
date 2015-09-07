@@ -238,7 +238,6 @@ class Router {
         // If the param1 is a string of route parts repared with ' '
         if (param1 && typeof param1 === 'string') {
             roots = param1.split(' ')
-            // TODO: take care of other roots
             params = this._mainParamsToObj(roots)
             if (params2) Object.assign(params, params2)
         } else {

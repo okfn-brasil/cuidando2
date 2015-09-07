@@ -130,7 +130,7 @@ class Map {
         // map.setView(event.latlng, 1, true);
         self.map.panTo(event.latlng)
         justClickedMarker = true
-        router.route('despesa', {year:stores.year, code})
+        router.route('despesa', {code})
     }
 
     // Update popup with the new data

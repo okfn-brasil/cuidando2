@@ -9,19 +9,15 @@
     this.one('mount', () => {
         this.year = this.router.getParam('year')
         map.initMap('map-container')
-        console.log('tag-map:mount-VEL-points-year:', this.year)
 
         riot.control.on(riot.SEC('points'), data => {
-            console.log('map:points-changed', data.year, data.points)
             if (data.year == this.year) {
-                console.log('updating')
                 map.updateMap(data.points)
             }
         })
 
         riot.control.on(riot.SEC('year'), (year) => {
             if (this.year != year) {
-                console.log('tag-map:yearChanged-VEL-points-year:', this.year)
                 this.year = year
                 riot.control.trigger(riot.VEL('points'), this.year, 'MAP:year-change!')
             }

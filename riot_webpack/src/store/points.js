@@ -8,15 +8,14 @@ class Points {
 
         this._points = {}
 
-        this.on(riot.VEL('points'), (year, tag) => {
-            console.log('LOADDDDDD POINTS', year, 'from:', tag)
-            if (year) this.loadPoints(year)
+        this.on(riot.VEL('points'), (year) => {
+            if (year) this.load(year)
         })
     }
 
     get() {return this._points[stores.year]}
 
-    loadPoints(year) {
+    load(year) {
         // If doesn't have current year data, load
         if (!(year in this._points)) {
             let api = config.apiurl_money,
@@ -40,7 +39,7 @@ class Points {
 let instance = new Points()
 
 // riot.control.on(riot.SE.YEAR_CHANGED, (year) => {
-//     instance.loadPoints()
+//     instance.load()
 // })
 
 // register to riot control by myself
