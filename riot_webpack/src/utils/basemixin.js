@@ -24,12 +24,12 @@ var BaseMixin = {
     watch: function(names) {
         names = names.split(' ')
         for (let name of names) {
-            console.log(`starting to watch ${name}`)
+            console.log(`starting to watch ${name} in`, this.root)
             let watcher = (val) => {
-                console.log(`watched-SEC-${name}-change from:`, this[name], `to`, val, 'in', this)
-                // TODO: ver porque as vezes this[name] === undefined mesmo depois de iniciado
+                console.log(`watched-SEC-${name}-change from:`, this[name], `to`, val, 'in', this.root)
                 if (this[name] != val) {
                     this[name] = val
+                    console.log('updating')
                     this.update()
                 }
             }

@@ -26,7 +26,7 @@ let globalParams = {
 
 // Checks if a property of two objs is equals
 function diff(prop, a, b) {
-    return !(a.hasOwnProperty(prop) && (a[prop] == b[prop]))
+    return 
 }
 
 
@@ -35,7 +35,7 @@ class Router {
     constructor(routes, defaultRoute, defaultParams, parsers, globalParams) {
         riot.observable(this)
 
-        this._currentView = null
+        this._currentView = {}
 
         this._innerRouteMark = '$'
         this._hashMark = '#'
@@ -62,7 +62,7 @@ class Router {
         this.parsers = parsers
         this.globalParams = globalParams
         this._allPossibleParamsNames = this._listAllPossibleParamsNames()
-        this._registerLoadEvents()
+        this._registerViewEvents()
 
         // Change url parser
         riot.route.parser(this.urlAutoParser.bind(this))
@@ -79,15 +79,18 @@ class Router {
 
     }
 
-    _registerLoadEvents() {
+    _registerViewEvents() {
         for (let name of this._allPossibleParamsNames) {
             this.on(riot.VEL(name), () => {
                 this.trigger(riot.SEC(name), this.params[name])
             })
 
             this.on(riot.VEC(name), (value) => {
-                this.params[name] = value
-                window.location.hash = this._createUrl(this.params)
+                // this.params[name] = value
+                // this._updateParams({[name]: value})
+                // window.location.hash = this._createUrl(this.params)
+                window.location.hash = this._createUrl(
+                    Object.assign({}, this.params, {[name]: value}))
                 console.log('---------', location.hash, '----------')
             })
         }
@@ -114,24 +117,27 @@ class Router {
     }
 
     loadView(viewName) {
-        if (this._currentView) {
-            this._currentView.unmount(true)
+        if (this._currentView.root) {
+            this._currentView.root.unmount(true)
         }
-        this._currentView = riot.mount('div#mainview', viewName)[0]
-                                       // {aaaaa: "raaaaaa"})[0]
-                                       // {data: this.params})[0]
+        this._currentView = {
+            name: viewName,
+            root: riot.mount('div#mainview', viewName)[0],
+        }
     }
 
     studyRoute(parsed) {
+        console.log('router:studyRoute')
         if (parsed === undefined) {
             this.loadView(this._defaultRoute)
         }
         else if (!parsed.repeated) {
-            // riot.control.trigger(riot.VE.CHANGE_URL, parsed)
             let routeData = this.routes[parsed.params._root]
             console.log(routeData)
-            if (routeData) this.loadView(routeData.view)
-            else this.loadView(this._defaultRoute)
+            let newViewName = this._defaultRoute
+            if (routeData) newViewName = routeData.view
+            // Loads new view if different from current
+            if (newViewName != this._currentView.name) this.loadView(newViewName)
         }
     }
 
@@ -150,7 +156,7 @@ class Router {
             parsed.repeated = false
 
             this._updateParams(parsed.params)
-            console.log('after-update-params:', this.params)
+            console.log('router:after-update-params:', this.params)
 
         } else parsed.repeated = true
         return parsed
@@ -249,7 +255,7 @@ class Router {
         // Replace with new parameters
         for (let name in newParams) {
             // Keep track of changed params
-            if (diff(name, this.params, newParams)) diffs.push(name)
+            if (this.params[name] != newParams[name]) diffs.push(name)
             this.params[name] = newParams[name]
         }
         this._broadcastParams(diffs)
@@ -259,9 +265,9 @@ class Router {
     _broadcastParams(names) {
         // Broadcast params that changed
         for (let name of names) {
-            riot.control.trigger(riot.SEC(name),
-                                 this.params[name])
-            console.log("router-broadcast", name)
+            console.log("router:broadcast:", name)
+            debugger;
+            this.trigger(riot.SEC(name), this.params[name])
         }
     }
 
