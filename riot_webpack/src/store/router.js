@@ -122,7 +122,7 @@ class Router {
         }
         this._currentView = {
             name: viewName,
-            root: riot.mount('div#mainview', viewName)[0],
+            root: riot.mount('div#mainview', viewName, this.params)[0],
         }
     }
 
@@ -266,7 +266,6 @@ class Router {
         // Broadcast params that changed
         for (let name of names) {
             console.log("router:broadcast:", name)
-            debugger;
             this.trigger(riot.SEC(name), this.params[name])
         }
     }

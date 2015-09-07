@@ -8,10 +8,10 @@ class Points {
 
         this._points = {}
 
-        // this.on(riot.VEL('points'), (year) => {
-        //     console.log('LOADDDDDD POINTS', year)
-        //     this.loadPoints(year)
-        // })
+        this.on(riot.VEL('points'), (year, tag) => {
+            console.log('LOADDDDDD POINTS', year, 'from:', tag)
+            if (year) this.loadPoints(year)
+        })
     }
 
     get() {return this._points[stores.year]}

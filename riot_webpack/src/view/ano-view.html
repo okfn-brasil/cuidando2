@@ -1,15 +1,13 @@
 <ano-view>
     <div class="container">
-        <h1>YEAR { year }</h1>
-        <h1>YEAR { year }</h1>
-        <h1>YEAR { year }</h1>
-        <h1>YEAR { year }</h1>
-        <year-selector></year-selector>
+        <h1>Ano: { year }</h1>
+        <year-selector year={year}></year-selector>
     </div>
 
 
     <script type="es6">
     this.mixin('base')
+    this.year = opts.year
     this.watch('year')
     </script>
 </ano-view>
