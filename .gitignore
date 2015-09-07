@@ -70,4 +70,7 @@ build.tar.xz
 cuidando2/js/main.js
 cuidando2/static/textpages
 
+fabfile.py
+prod_settings.py
+
 node_modules/
