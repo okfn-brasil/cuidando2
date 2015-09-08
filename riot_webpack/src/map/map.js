@@ -126,8 +126,7 @@ class Map {
         let code = event.layer.feature.properties.uid
         if (router.getParam('code') != code) self.popup.setContent("Carregando...")
         self.popup.setLatLng(event.latlng)
-        self.map.openPopup(self.popup)
-        // map.setView(event.latlng, 1, true);
+        // self.map.openPopup(self.popup)
         self.map.panTo(event.latlng)
         justClickedMarker = true
         router.route('despesa', {code})
