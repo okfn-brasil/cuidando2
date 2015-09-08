@@ -21,8 +21,10 @@
                     <!-- <li class="active"><a href="/">Home</a></li> -->
                 <!--                 </ul> -->
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{ route('texto', 'sobre') }">{ t("About") }</a></li>
-                    <li><a href="{ route('texto', 'outra') }">{ t("Another") }</a></li>
+                    <!--                     <li><a href="{ route('texto', 'sobre') }">{ t("About") }</a></li>
+                    <li><a href="{ route('texto', 'outra') }">{ t("Another") }</a></li> -->
+                    <li><a href="#" onclick={ fRoute('texto sobre') }>{ t("About") }</a></li>
+                    <li><a href="#" onclick={ fRoute('texto outra') }>{ t("Another") }</a></li>
                     <li><a id="share-button" href="#">{ t("Share") }</a></li>
                     <li id="user-profile-button-container"></li>
                     <li><a id="login-button" href="#">{ t("Login") }</a></li>

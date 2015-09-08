@@ -152,6 +152,9 @@ class Router {
     }
 
     _urlToParams() {
+        // TODO: Quando não acha a rota está indo para default,
+        // será que não deveria mostrar 404?
+
         let hash = location.hash.slice(1),
             params = {_root: this.defaultParams._root}
 
