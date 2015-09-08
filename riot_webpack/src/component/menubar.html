@@ -58,6 +58,8 @@
 
     this.selectedLang = (event) => {
         this.triggerChange('lang', event.target.value)
+        // Prevent update, translator will do it
+        event.preventUpdate = true
     }
     </script>
 </menubar>
