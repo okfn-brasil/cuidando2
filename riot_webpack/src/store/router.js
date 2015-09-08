@@ -20,19 +20,19 @@ let parsers = {
     per_page_num: parseInt
 }
 
-let globalParams = {
-    lang: 'pt-br',
+let defaultParams = {
+    _root: 'ano',
+    year: new Date().getFullYear().toString(),
 }
 
-// Checks if a property of two objs is equals
-function diff(prop, a, b) {
-    return 
+let globalParams = {
+    lang: 'pt-br',
 }
 
 
 class Router {
 
-    constructor(routes, defaultRoute, defaultParams, parsers, globalParams) {
+    constructor(routes, defaultParams, parsers, globalParams) {
         riot.observable(this)
 
         this._currentView = {}
@@ -58,7 +58,7 @@ class Router {
             route.mainParamsNames = this._getMainParamsNames(route.format)
             this.routes[name] = route
         }
-        this._defaultRoute = defaultRoute
+        this._defaultRoute = defaultParams._root
         this.parsers = parsers
         this.globalParams = globalParams
         this._allPossibleParamsNames = this._listAllPossibleParamsNames()
@@ -68,24 +68,26 @@ class Router {
         riot.route.parser(this.urlAutoParser.bind(this))
         // Change route callback
         riot.route(this.studyRoute.bind(this))
+        // Init params
+        this.urlAutoParser(location.hash.slice(1))
     }
 
     init() {
         if(location.hash) {
-            this.studyRoute(this.urlAutoParser(location.hash.slice(1)))
+            this.studyRoute({params: this.params})
         } else {
             this.routeDefault()
         }
-
     }
 
     _registerViewEvents() {
         for (let name of this._allPossibleParamsNames) {
             this.on(riot.VEL(name), () => {
-                this.trigger(riot.SEC(name), this.params[name])
+                this.trigger(riot.SEC(name), this.getParam(name))
             })
 
             this.on(riot.VEC(name), (value) => {
+                console.log('router:VEC name:', name, 'value:', value)
                 // this.params[name] = value
                 // this._updateParams({[name]: value})
                 // window.location.hash = this._createUrl(this.params)
@@ -143,6 +145,7 @@ class Router {
 
     urlAutoParser(url) {
         let parsed = {}
+        console.log('router:urlAutoParser url:', url, 'oldUrl:', this._oldUrl)
         if (url != this._oldUrl) {
             parsed = this.parseUrl(url)
             if (parsed.innerRoute) {
@@ -182,11 +185,12 @@ class Router {
 
         this._query = query
         if (query) {
-            for (let pair in query.split(this._queryParamMark)) {
+            for (let pair of query.split(this._queryParamMark)) {
                 pair = pair.split(this._queryAttrMark)
                 params[pair[0]] = pair[1]
             }
         }
+        console.log('router:parseUrl - url:', url, 'params:', params)
 
         return {
             url: this._createUrl(params),
@@ -196,12 +200,11 @@ class Router {
     }
 
     getParam(name) {
-        console.log('getParams-name:', name, 'params:', this.params)
+        // console.log('getParams-name:', name, 'params:', this.params, 'this', this)
         let val = this.params[name]
-        if (val) return val
-        // val = this.
-        // if () return this.param
-        return 'TODO: aaaaaaaaaaaaaaa'
+        if (!val) val = this.routes[this.params._root].params[name]
+        if (!val) val = this.globalParams[name]
+        return val
     }
 
     // Start default view
@@ -250,6 +253,16 @@ class Router {
     }
 
     _updateParams(newParams) {
+        console.log('router:_updateParams:', newParams)
+
+        // For global params that are not more in the url,
+        // so we should back to default
+        for (let name in this.globalParams) {
+            if (name in this.params && !(name in newParams)) {
+                newParams[name] = this.globalParams[name]
+            }
+        }
+
         let diffs = []
         // Replace with new parameters
         for (let name in newParams) {
@@ -257,6 +270,7 @@ class Router {
             if (this.params[name] != newParams[name]) diffs.push(name)
             this.params[name] = newParams[name]
         }
+
         this._broadcastParams(diffs)
         return diffs
     }
@@ -292,8 +306,6 @@ class Router {
     }
 }
 
-let instance = new Router(routes, 'ano',
-                          {year: new Date().getFullYear().toString()},
-                          parsers, globalParams)
+let instance = new Router(routes, defaultParams, parsers, globalParams)
 riot.control.addStore(instance)
 export default instance
