@@ -1,9 +1,13 @@
 <despesa-view>
-    <h1>Despesa: { code }</h1>
+    <h1>Despesa: { this.pointinfo.ds_projeto_atividade }</h1>
     <button class="btn btn-default center-block"
             onclick={fRoute('ano')}>
         Voltar
     </button>
+    <p>Planejado: {this.planejado}</p>
+    <p>Empenhado: {this.empenhado}</p>
+    <p>Liquidado: {this.liquidado}</p>
+    <p>Orgão: {this.orgao}</p>
     <ul>
         <li each={key, i in keys}>
             {key} : {this.pointinfo[key]}
@@ -20,6 +24,14 @@
         if (data.code == this.code) {
             this.pointinfo = data.pointinfo
             this.keys = Object.keys(this.pointinfo)
+
+            this.planejado = this.pointinfo.sld_orcado_ano
+            if (this.pointinfo.vl_atualizado)
+                this.planejado = this.pointinfo.vl_atualizado
+            this.empenhado = this.pointinfo.vl_empenhadoliquido
+            this.liquidado = this.pointinfo.vl_liquidado
+            this.orgao = this.pointinfo.ds_orgao
+
             this.update()
         }
     })
