@@ -74,3 +74,4 @@ fabfile.py
 prod_settings.py
 
 node_modules/
+.tern-port
