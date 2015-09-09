@@ -1,0 +1,39 @@
+<charts>
+    <p>Mapeadas: {yearinfo.rows.mapped}</p>
+    <p>Não mapeadas: {yearinfo.rows.total - yearinfo.rows.mapped}</p>
+    <donut/>
+
+
+    <script type="es6">
+    this.mixin('base')
+
+    this.year = opts.year
+    this.yearinfo = ''
+
+    riot.control.on(riot.SEC('yearinfo'), data => {
+        if (data.year == this.year) {
+
+            this.yearinfo = data.yearinfo
+            this.yearinfo.rows["mapped-per"] = Math.round(this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
+            this.yearinfo.rows["region-per"] = Math.round(this.yearinfo.rows.region / this.yearinfo.rows.total * 100)
+            // Values table
+            this.yearinfo.values.forEach((index, valueElement) => {
+                valueElement.unmapped = valueElement.total - valueElement.mapped
+                valueElement.percentage = Math.round(valueElement.mapped / valueElement.total * 100)
+            })
+
+            this.update()
+        }
+    })
+
+    riot.control.on(riot.SEC('year'), (year) => {
+        if (this.year != year) {
+            this.year = year
+            riot.control.trigger(riot.VEL('yearinfo'), this.year)
+        }
+    })
+
+    riot.control.trigger(riot.VEL('yearinfo'), this.year)
+
+    </script>
+</charts>
