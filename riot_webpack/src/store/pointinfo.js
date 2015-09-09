@@ -1,6 +1,5 @@
 import config from '../config.js'
 import ajax from '../utils/ajax.js'
-import stores from '../stores'
 
 class PointInfo {
     constructor() {
@@ -12,8 +11,6 @@ class PointInfo {
             if (code) this.load(code)
         })
     }
-
-    // get() {return this._pointinfo[stores.code]}
 
     load(code) {
         // If doesn't have current code data, load

@@ -1,6 +1,5 @@
 import config from '../config.js'
 import ajax from '../utils/ajax.js'
-import stores from '../stores'
 
 class Points {
     constructor() {
@@ -12,8 +11,6 @@ class Points {
             if (year) this.load(year)
         })
     }
-
-    get() {return this._points[stores.year]}
 
     load(year) {
         // If doesn't have current year data, load
@@ -37,10 +34,6 @@ class Points {
 
 
 let instance = new Points()
-
-// riot.control.on(riot.SE.YEAR_CHANGED, (year) => {
-//     instance.load()
-// })
 
 // register to riot control by myself
 riot.control.addStore(instance)

@@ -9,26 +9,13 @@
 
 
     <script type="es6">
-     /*      console.log('RUNNNNNNNNNNNNNNNN-SELECET-------------') */
     this.mixin('base')
 
-         /*     this.year = 'select-initialYEAR'
-            this.years = ['aaa'] */
     this.year = opts.year
     this.watch('years year')
-
-         /*     this.year = this.router.getParam('year') */
-
-    // this.on('mount', () => {
-    //     riot.control.trigger(riot.VEL('years'))
-    // })
 
     this.selectedYear = (event) => {
         this.triggerChange('year', event.target.value)
     }
-
-    // riot.control.on(riot.SE.YEAR_CHANGED, year => {
-    //     yearselector.value = year
-    // })
     </script>
 </year-selector>

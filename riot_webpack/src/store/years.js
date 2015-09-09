@@ -6,27 +6,32 @@ class Years {
         riot.observable(this)
 
         this._years = null
+
+        this.on(riot.VEL('years'), () => {
+            this.load()
+        })
     }
 
-    get() {return this._years}
+    load() {
+        if (!this._years) {
+            let url = config.apiurl_money + '/execucao/info'
+            ajax(url, 'get').then((response) => {
+                this._years = response.data.years
+                this.triggerChanged()
+            })
+        } else {
+            this.triggerChanged()
+        }
+    }
+
+    triggerChanged() {
+        this.trigger(riot.SEC('years'), this._years)
+    }
 }
 
 
 let instance = new Years()
 
-instance.on(riot.VEL('years'), () => {
-    if (!instance._years) {
-        let url = config.apiurl_money + '/execucao/info'
-        ajax(url, 'get').then((response) => {
-            instance._years = response.data.years
-            console.log('SEC-years:', instance._years)
-            instance.trigger(riot.SEC('years'), instance._years)
-        })
-    } else {
-        console.log('SEC-years:', instance._years)
-        instance.trigger(riot.SEC('years'), instance._years)
-    }
-})
 
 // register to riot control by myself
 riot.control.addStore(instance)
