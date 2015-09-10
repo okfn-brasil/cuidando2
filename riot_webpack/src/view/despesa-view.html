@@ -23,32 +23,42 @@
     <script type="es6">
     this.mixin('base')
     this.code = opts.code
-     /*     this.watch('code') */
 
-    riot.control.on(riot.SEC('pointinfo'), data => {
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data)
-        if (data.key == this.code) {
-            this.pointinfo = data.value
-            this.keys = Object.keys(this.pointinfo)
-
-            this.planejado = this.pointinfo.sld_orcado_ano
-            if (this.pointinfo.vl_atualizado)
-                this.planejado = this.pointinfo.vl_atualizado
-            this.empenhado = this.pointinfo.vl_empenhadoliquido
-            this.liquidado = this.pointinfo.vl_liquidado
-            this.orgao = this.pointinfo.ds_orgao
-
-            this.update()
-        }
+    this.watchDepends('pointinfo', 'code', () => {
+        this.keys = Object.keys(this.pointinfo)
+        this.planejado = this.pointinfo.sld_orcado_ano
+        if (this.pointinfo.vl_atualizado)
+            this.planejado = this.pointinfo.vl_atualizado
+        this.empenhado = this.pointinfo.vl_empenhadoliquido
+        this.liquidado = this.pointinfo.vl_liquidado
+        this.orgao = this.pointinfo.ds_orgao
+        this.update()
     })
 
-    riot.control.on(riot.SEC('code'), (code) => {
-        if (this.code != code) {
-            this.code = code
-            riot.control.trigger(riot.VEL('pointinfo'), this.code)
-        }
-    })
+    // riot.control.on(riot.SEC('pointinfo'), data => {
+    //     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data)
+    //     if (data.key == this.code) {
+    //         this.pointinfo = data.value
+    //         this.keys = Object.keys(this.pointinfo)
 
-    riot.control.trigger(riot.VEL('pointinfo'), this.code)
+    //         this.planejado = this.pointinfo.sld_orcado_ano
+    //         if (this.pointinfo.vl_atualizado)
+    //             this.planejado = this.pointinfo.vl_atualizado
+    //         this.empenhado = this.pointinfo.vl_empenhadoliquido
+    //         this.liquidado = this.pointinfo.vl_liquidado
+    //         this.orgao = this.pointinfo.ds_orgao
+
+    //         this.update()
+    //     }
+    // })
+
+    // riot.control.on(riot.SEC('code'), (code) => {
+    //     if (this.code != code) {
+    //         this.code = code
+    //         riot.control.trigger(riot.VEL('pointinfo'), this.code)
+    //     }
+    // })
+
+    // riot.control.trigger(riot.VEL('pointinfo'), this.code)
     </script>
 </despesa-view>

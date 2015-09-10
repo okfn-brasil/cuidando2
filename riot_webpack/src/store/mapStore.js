@@ -1,14 +1,20 @@
 import ajax from '../utils/ajax2.js'
 
 export default class MapStore {
-    constructor(signal, ajaxParams, processResponse) {
+    constructor(signal) {
+        this.init(signal)
+    }
+
+    // These need to be defined
+    // ajaxParams(key) { return params }
+    // processResponse(response) { return response }
+
+    init(signal) {
         riot.observable(this)
 
         this._map = {}
 
         this.signal = signal
-        this.ajaxParams = ajaxParams
-        this.processResponse = processResponse
 
         this.on(riot.VEL(this.signal), (key) => {
             if (key) this.load(key)

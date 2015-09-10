@@ -18,30 +18,44 @@
     this.perNotMapped = 10
     this.perMapped = 10
 
-    riot.control.on(riot.SEC('yearinfo'), data => {
-        if (data.key == this.year) {
-            this.yearinfo = data.value
-            this.yearinfo.rows["mapped-per"] = Math.round(this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
-            this.perNotMapped = 100 - this.yearinfo.rows["mapped-per"]
-            this.perMapped = this.yearinfo.rows["mapped-per"]
-            // Values table
-            this.yearinfo.values.forEach((index, valueElement) => {
-                valueElement.unmapped = valueElement.total - valueElement.mapped
-                valueElement.percentage = Math.round(valueElement.mapped / valueElement.total * 100)
-            })
 
-            this.update()
-        }
+    this.watchDepends('yearinfo', 'year', () => {
+        this.yearinfo.rows["mapped-per"] = Math.round(this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
+        this.perNotMapped = 100 - this.yearinfo.rows["mapped-per"]
+        this.perMapped = this.yearinfo.rows["mapped-per"]
+        // Values table
+        this.yearinfo.values.forEach((index, valueElement) => {
+            valueElement.unmapped = valueElement.total - valueElement.mapped
+            valueElement.percentage = Math.round(valueElement.mapped / valueElement.total * 100)
+        })
+
+        this.update()
     })
 
-    riot.control.on(riot.SEC('year'), (year) => {
-        if (this.year != year) {
-            this.year = year
-            riot.control.trigger(riot.VEL('yearinfo'), this.year)
-        }
-    })
+    // riot.control.on(riot.SEC('yearinfo'), data => {
+    //     if (data.key == this.year) {
+    //         this.yearinfo = data.value
+    //         this.yearinfo.rows["mapped-per"] = Math.round(this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
+    //         this.perNotMapped = 100 - this.yearinfo.rows["mapped-per"]
+    //         this.perMapped = this.yearinfo.rows["mapped-per"]
+    //         // Values table
+    //         this.yearinfo.values.forEach((index, valueElement) => {
+    //             valueElement.unmapped = valueElement.total - valueElement.mapped
+    //             valueElement.percentage = Math.round(valueElement.mapped / valueElement.total * 100)
+    //         })
 
-    riot.control.trigger(riot.VEL('yearinfo'), this.year)
+    //         this.update()
+    //     }
+    // })
+
+    // riot.control.on(riot.SEC('year'), (year) => {
+    //     if (this.year != year) {
+    //         this.year = year
+    //         riot.control.trigger(riot.VEL('yearinfo'), this.year)
+    //     }
+    // })
+
+    // riot.control.trigger(riot.VEL('yearinfo'), this.year)
 
     </script>
 </charts>

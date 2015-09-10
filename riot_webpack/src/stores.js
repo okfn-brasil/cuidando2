@@ -1,11 +1,12 @@
 import config from './config.js'
 
 import years from './store/years'
+import comments from './store/comments'
 // import yearinfo from './store/yearinfo'
 // import pointinfo from './store/pointinfo'
 // import points from './store/points'
 import router from './store/router'
-import mapStore from './store/mapStore'
+import MapStore from './store/mapStore'
 
 // const stores_list = { years, year, points }
 
@@ -24,52 +25,45 @@ import mapStore from './store/mapStore'
 // let stores = new Proxy(stores_list, handler)
 
 
-// Pointinfo Store
-new mapStore(
-    'pointinfo',
-    // Ajax Params
-    (key) => {
+class PointInfo extends MapStore {
+    ajaxParams(key) {
         let api = config.apiurl_money,
             url = `${api}/execucao/list?code=${key}`,
             method = 'get'
         return {url, method}
-    },
-    // Process Response
-    (response) => {
+    }
+    processResponse(response) {
         return response.data[0]
     }
-)
+}
+let pointinfo = new PointInfo('pointinfo')
 
-// Points Store
-new mapStore(
-    'points',
-    // Ajax Params
-    (key) => {
+
+class Points extends MapStore {
+    ajaxParams(key) {
         let api = config.apiurl_money,
             url = `${api}/execucao/minlist/${key}?state=1&capcor=1`,
             method = 'get'
         return {url, method}
-    },
-    // Process Response
-    (response) => {
+    }
+    processResponse(response) {
         return response
     }
-)
+}
+let points = new Points('points')
 
-// Yearinfo Store
-new mapStore(
-    'yearinfo',
-    // Ajax Params
-    (key) => {
+
+class YearInfo extends MapStore {
+    ajaxParams(key) {
         let api = config.apiurl_money,
             url = `${api}/execucao/info/${key}`,
             method = 'get'
         return {url, method}
-    },
-    // Process Response
-    (response) => {
+    }
+    processResponse(response) {
         return response.data
     }
-)
+}
+let yearinfo = new YearInfo('yearinfo')
 
 // export default stores
