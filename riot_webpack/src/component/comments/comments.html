@@ -1,0 +1,25 @@
+<comments>
+    <h2>Acompanhe os comentários sobre essa despesa</h2>
+
+    <form class="form-inline">
+        <div class="form-group">
+            <label class="sr-only" for="comment-textarea">Comment</label>
+            <textarea class="form-control"
+                      rows="3"
+                      placeholder="Comentario!!!"/>
+        </div>
+        <button type="submit"
+                class="btn btn-default">
+            Enviar comentário
+        </button>
+    </form>
+
+    <div>
+        <comment each={comment in comments}/>
+    </div>
+
+
+    <script type="es6">
+     /*     this.mixin('base') */
+    </script>
+</comments>

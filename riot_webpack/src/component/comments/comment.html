@@ -1,0 +1,38 @@
+<comment>
+    <div class="panel panel-default">
+        <div class="panel-body">{text}</div>
+        <div class="panel-footer">
+            <a href="@pessoa/{author}">{author}</a>
+            <button class="btn btn-default comment-reply-button">
+                { t("Reply") }
+            </button>
+            <!--             {#if userIsAuthor}
+            <button class="btn btn-danger comment-delete-button">{t "Delete"}</button>
+            <button id="comment-edit-button-{id}" class="btn btn-default comment-edit-button">Editar</button>
+            <button id="comment-edit-cancel-button-{id}" class="btn btn-warning probably-hidden">{t "Cancel"}</button>
+            {/if}
+            {#if userNotAuthor}
+            <button class="btn btn-default comment-upvote-button">+1</button>
+            <button class="btn btn-default comment-downvote-button">-1</button>
+            <button class="btn btn-danger comment-report-button">Denunciar</button>
+            {/if}
+            <span>Gostaram: {upvotes}</span>
+            <span>Não gostaram: {downvotes}</span>
+            <span>Criado: {created}</span>
+            <span>Modificado: {modified}</span>
+            <div id="comment-reply-container-{id}"></div> -->
+        </div>
+        <comment each={comment in replies}
+                 style="margin-left: 20px; margin-top: 20px"/>
+    </div>
+
+
+    <script type="es6">
+    this.mixin('base')
+
+         /*         data-comment-id="{id}"
+            data-comment-url="{url}"
+            data-comment-report-url="{report_url}"
+            data-comment-vote-url="{vote_url}" */
+    </script>
+</comment>

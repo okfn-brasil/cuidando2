@@ -11,8 +11,8 @@
         map.initMap('map-container')
 
         riot.control.on(riot.SEC('points'), data => {
-            if (data.year == this.year) {
-                map.updateMap(data.points)
+            if (data.key == this.year) {
+                map.updateMap(data.value)
             }
         })
 

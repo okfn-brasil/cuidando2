@@ -19,8 +19,8 @@
     this.perMapped = 10
 
     riot.control.on(riot.SEC('yearinfo'), data => {
-        if (data.year == this.year) {
-            this.yearinfo = data.yearinfo
+        if (data.key == this.year) {
+            this.yearinfo = data.value
             this.yearinfo.rows["mapped-per"] = Math.round(this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
             this.perNotMapped = 100 - this.yearinfo.rows["mapped-per"]
             this.perMapped = this.yearinfo.rows["mapped-per"]

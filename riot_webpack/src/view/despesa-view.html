@@ -1,18 +1,23 @@
 <despesa-view>
     <h1>Despesa: { this.pointinfo.ds_projeto_atividade }</h1>
+
     <button class="btn btn-default center-block"
             onclick={fRoute('ano')}>
         Voltar
     </button>
+
     <p>Planejado: {this.planejado}</p>
     <p>Empenhado: {this.empenhado}</p>
     <p>Liquidado: {this.liquidado}</p>
     <p>Orgão: {this.orgao}</p>
+
     <ul>
         <li each={key, i in keys}>
             {key} : {this.pointinfo[key]}
         </li>
     </ul>
+
+    <perg-com-tabs/>
 
 
     <script type="es6">
@@ -21,8 +26,9 @@
      /*     this.watch('code') */
 
     riot.control.on(riot.SEC('pointinfo'), data => {
-        if (data.code == this.code) {
-            this.pointinfo = data.pointinfo
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data)
+        if (data.key == this.code) {
+            this.pointinfo = data.value
             this.keys = Object.keys(this.pointinfo)
 
             this.planejado = this.pointinfo.sld_orcado_ano
