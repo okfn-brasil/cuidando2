@@ -1,17 +1,20 @@
 <donut>
-    <div id="wrapper">
-        <canvas id="canvas1" width="200" height="200" style="position: absolute;"></canvas>
-        <span id="a">10,4%</span>
+    <div class="canvas-wrapper">
+        <canvas id="{canvasId}" class="donut" width="{width}" height="{height}"></canvas>
+        <span class="canvas-text">{opts.percentage}%</span>
     </div>
 
     <style>
-        #a {
+        .canvas-text {
             display: table-cell;
             vertical-align: middle;
             text-align: center;
         }
-        #wrapper {
+        canvas.donut {
+            z-index: -1;
             position: absolute;
+        }
+        .canvas-wrapper {
             width: 200px;
             height: 200px;
             display: table;
@@ -20,29 +23,16 @@
     </style>
 
     <script type="es6">
-    this.mixin('base')
-    this.on('mount', () => {
-        var canvas = this.canvas1;
-        var context = canvas.getContext('2d');
-        var x = canvas.width / 2;
-        var y = canvas.height / 2;
-        var radius = 75;
-        var startAngle = 1.5 * Math.PI;
-        var endAngle = 2.7 * Math.PI;
-        var counterClockwise = false;
+    import {drawDonut} from './chart-utils'
 
-        context.beginPath();
-        context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-        context.lineWidth = 15;
+    this.width = 200
+    this.height = 200
+    this.canvasId = "canvas" + this.opts.color
 
-        // line color
-        context.strokeStyle = 'orange';
-        context.stroke();
-
-        context.beginPath();
-        context.arc(x, y, radius, endAngle + 0.03, startAngle - 0.03, counterClockwise);
-        context.strokeStyle = 'lightgray';
-        context.stroke();
+    this.on('update', () => {
+        let canvas = document.getElementById(this.canvasId)
+        if (canvas)
+            drawDonut(canvas, '#' + this.opts.color, this.opts.percentage)
     })
     </script>
 </donut>

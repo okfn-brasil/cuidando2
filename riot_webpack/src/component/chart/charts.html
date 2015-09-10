@@ -1,7 +1,10 @@
 <charts>
     <p>Mapeadas: {yearinfo.rows.mapped}</p>
     <p>Não mapeadas: {yearinfo.rows.total - yearinfo.rows.mapped}</p>
-    <donut/>
+    <bar color={colorNM} percentage={perNotMapped}/>
+    <bar color={colorM} percentage={perMapped}/>
+    <donut color={colorNM} percentage={perNotMapped}/>
+    <donut color={colorM} percentage={perMapped}/>
 
 
     <script type="es6">
@@ -9,13 +12,18 @@
 
     this.year = opts.year
     this.yearinfo = ''
+    this.colorM = "00F"
+    this.colorNM = "Fa0"
+
+    this.perNotMapped = 10
+    this.perMapped = 10
 
     riot.control.on(riot.SEC('yearinfo'), data => {
         if (data.year == this.year) {
-
             this.yearinfo = data.yearinfo
             this.yearinfo.rows["mapped-per"] = Math.round(this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
-            this.yearinfo.rows["region-per"] = Math.round(this.yearinfo.rows.region / this.yearinfo.rows.total * 100)
+            this.perNotMapped = 100 - this.yearinfo.rows["mapped-per"]
+            this.perMapped = this.yearinfo.rows["mapped-per"]
             // Values table
             this.yearinfo.values.forEach((index, valueElement) => {
                 valueElement.unmapped = valueElement.total - valueElement.mapped
