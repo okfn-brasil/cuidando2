@@ -9,7 +9,7 @@ let routes = [{
 }, {
     format: 'despesa/{year}/{code}',
 }, {
-    format: 'pessoa/{username}',
+    format: 'pessoa/{user}',
 }, {
     format: 'pedido/{protocolo}',
 }, {
@@ -97,6 +97,7 @@ class Router {
 
     _registerViewEvents() {
         for (let name of this._allPossibleParamsNames) {
+            console.log('router: register for VEC:', name)
             // Accepts loads like the other stores, even if
             // params could be accessed by getParam
             this.on(riot.VEL(name), () => {
@@ -104,7 +105,7 @@ class Router {
             })
 
             this.on(riot.VEC(name), (value) => {
-                // console.log('router:VEC name:', name, 'value:', value)
+                console.log('router:VEC name:', name, 'value:', value)
                 this.params[name] = value
                 this._paramsToUrl()
             })
@@ -113,10 +114,10 @@ class Router {
 
     // Returns all the possible params names (main params or query)
     _listAllPossibleParamsNames() {
-        return new Array(new Set(Object.keys(this.routes)
+        return new Set(Object.keys(this.routes)
             .map(k => this.routes[k].mainParamsNames)
             .reduce((prev, cur) => prev.concat(cur),
-                    Object.keys(this.defaultParams))))
+                    Object.keys(this.defaultParams))).values()
     }
 
     // Returns all the possible query params names
