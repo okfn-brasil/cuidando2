@@ -1,4 +1,4 @@
-import ajax from '../utils/ajax2.js'
+import ajax from '../utils/ajax.js'
 
 export default class MapStore {
     constructor(signal) {
@@ -34,6 +34,7 @@ export default class MapStore {
                     this._map[key] = response
                     this.triggerChanged(key)
                 })
+                .catch(error => console.log('CATEEI', error))
         } else {
             this.triggerChanged(key)
         }

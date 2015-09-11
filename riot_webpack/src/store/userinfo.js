@@ -1,8 +1,8 @@
-import ajax from '../utils/ajax2'
+import ajax from '../utils/ajax'
 import config from '../config.js'
 import MapStore from './mapStore'
 
-class UserInfo extends MapStore{
+class UserInfo extends MapStore {
     constructor(signal) {
         super(signal)
         // this.init(signal)

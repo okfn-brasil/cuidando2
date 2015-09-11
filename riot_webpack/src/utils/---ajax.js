@@ -15,7 +15,7 @@ function parseJSON(response) {
     return response.json()
 }
 
-function ajax(params) {
+function ajax(url, method, data) {
     // return xr({
     //     method: method.toUpperCase(),
     //     dataType   : 'json',
@@ -30,17 +30,10 @@ function ajax(params) {
     //         }
     //     }
     // })
-    let fParams = {
-        method: params.method,
-    }
-    if (params.data) {
-        fParams.body = JSON.stringify(params.data)
-        fParams.headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    }
-    return fetch(params.url, fParams)
+    return fetch(url, {
+        method: method,
+        // body: new FormData(form)
+    })
     .then(checkStatus)
     .then(parseJSON)
     .then(function(data) {

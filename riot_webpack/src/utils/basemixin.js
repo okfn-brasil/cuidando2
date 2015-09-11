@@ -1,6 +1,5 @@
 import translator from '../utils/translator'
 import router from '../store/router'
-import ajax from '../utils/ajax'
 import config from '../config'
 import stores from '../stores'
 
@@ -22,7 +21,6 @@ var BaseMixin = {
 
     router: router,
     config: config,
-    ajax: ajax,
     s: stores,
 
     watch: function(names) {
@@ -49,6 +47,7 @@ var BaseMixin = {
 
     // Watch var nameData, and request more data for it when nameDepends change
     watchDepends: function(nameData, nameDepends, onChange) {
+        // Watch changes on main var
         riot.control.on(riot.SEC(nameData), data => {
             if ((data.key == this[nameDepends]) &&
                 (this[nameData] != data.value)) {
@@ -57,6 +56,7 @@ var BaseMixin = {
             }
         })
 
+        // Watch changes on var which main depends
         riot.control.on(riot.SEC(nameDepends), (valueDepends) => {
             if (this[nameDepends] != valueDepends) {
                 this[nameDepends] = valueDepends
@@ -64,6 +64,7 @@ var BaseMixin = {
             }
         })
 
+        // Load both vars
         console.log('mixing: trigger var:', nameData, 'key:', this[nameDepends])
         riot.control.trigger(riot.VEL(nameDepends))
         riot.control.trigger(riot.VEL(nameData), this[nameDepends])

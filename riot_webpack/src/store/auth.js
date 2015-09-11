@@ -1,5 +1,5 @@
 import decodeToken from 'jwt-decode'
-import ajax from '../utils/ajax2'
+import ajax from '../utils/ajax'
 import config from '../config.js'
 
 let hasLocalStorage = true

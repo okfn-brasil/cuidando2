@@ -15,7 +15,7 @@ function parseJSON(response) {
     return response.json()
 }
 
-function ajax(url, method, data) {
+function ajax(params) {
     // return xr({
     //     method: method.toUpperCase(),
     //     dataType   : 'json',
@@ -30,18 +30,26 @@ function ajax(url, method, data) {
     //         }
     //     }
     // })
-    return fetch(url, {
-        method: method,
-        // body: new FormData(form)
-    })
+    let fParams = {
+        method: params.method,
+    }
+    if (params.data) {
+        fParams.body = JSON.stringify(params.data)
+        fParams.headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+    return fetch(params.url, fParams)
     .then(checkStatus)
     .then(parseJSON)
     .then(function(data) {
         console.log('request succeeded with JSON response', data)
         return data
-    }).catch(function(error) {
-        console.log('request failed', error)
     })
+    // .catch(function(error) {
+    //     console.log('request failed', error)
+    // })
 }
 
 export default ajax
