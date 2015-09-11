@@ -15,11 +15,17 @@
     </form>
 
     <div>
-        <comment each={comment in comments}/>
+        <comment each={comments} data="{this}"/>
     </div>
 
 
     <script type="es6">
     this.mixin('base')
+    this.watchDepends('comments', 'code', () => {
+        // Sort comments by creation time
+        this.comments = this.comments.sort(
+            (a, b) => a.created > b.created ? 1 : -1)
+        this.update()
+    })
     </script>
 </comments>

@@ -9,8 +9,7 @@ class Comments extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        console.log("aaaaaaaaaaaaaaaaaaaaaaaaa commets chegaram!", response)
-        return response.data[0]
+        return response.comments
     }
 }
 
