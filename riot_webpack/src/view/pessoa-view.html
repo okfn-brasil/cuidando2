@@ -1,8 +1,15 @@
 <pessoa-view>
-    <h1>{user}</h1>
+    <h1>{userinfo.username}</h1>
+    <p>{description}</p>
 
-  <script type="es6">
-  this.mixin('base')
-  this.watch('user')
-  </script>
+    <script type="es6">
+    this.mixin('base')
+
+    this.watchDepends('userinfo', 'user', () => {
+        this.description = this.userinfo.description
+        if (!this.description) this.description = 'Sem descrição...'
+        console.log(this.description)
+        this.update()
+    })
+    </script>
 </pessoa-view>
