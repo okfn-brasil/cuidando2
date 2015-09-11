@@ -46,7 +46,7 @@ class Router {
         this.params = defaultParams
         this.defaultParams = defaultParams
         this._oldParams = {}
-        console.log('params:', this.params)
+        // console.log('params:', this.params)
 
         this.routes = {}
         // Hash routes by name
@@ -101,7 +101,7 @@ class Router {
             })
 
             this.on(riot.VEC(name), (value) => {
-                console.log('router:VEC name:', name, 'value:', value)
+                // console.log('router:VEC name:', name, 'value:', value)
                 this.params[name] = value
                 this._paramsToUrl()
             })
@@ -182,13 +182,13 @@ class Router {
                 params[pair[0]] = pair[1]
             }
         }
-        console.log('router:parseHash - hash:', hash, 'params:', params)
+        // console.log('router:parseHash - hash:', hash, 'params:', params)
 
         return params
     }
 
     _paramsToUrl() {
-        console.log('router:paramsToUrl')
+        // console.log('router:paramsToUrl')
 
         // Loads new view if different from current
         let newViewName = this.routes[this.params._root].view
@@ -275,7 +275,7 @@ class Router {
 
         // Broadcast params that changed
         for (let name of diff) {
-            console.log("router:broadcast:", name)
+            // console.log("router:broadcast:", name)
             this.trigger(riot.SEC(name), this.params[name])
         }
     }

@@ -24,6 +24,7 @@ class Translator {
             'Register': 'Registrar',
             'Locate': 'Localizar',
             'Year': 'Ano',
+            'reply': 'comentar',
         }
 
         this.dicts.en = {
@@ -49,9 +50,9 @@ class Translator {
     }
 
     translate(str) {
-        console.log(`translator:translate: ${str} using:`, this._currentLang)
+        // console.log(`translator:translate: ${str} using:`, this._currentLang)
         let translated = this.dicts[this._currentLang][str]
-        console.log(`resulted: ${translated}`)
+        // console.log(`resulted: ${translated}`)
         return translated ? translated : str
     }
 }

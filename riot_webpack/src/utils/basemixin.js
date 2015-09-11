@@ -68,7 +68,6 @@ var BaseMixin = {
 
     // Trigger a change in stores
     triggerChange: function(name, value) {
-        // riot.control.trigger(riot.VE.CHANGE_YEAR, event.target.value)
         riot.control.trigger(riot.VEC(name), value)
     },
 }
