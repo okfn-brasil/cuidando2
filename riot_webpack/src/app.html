@@ -1,6 +1,6 @@
 <app>
     <menubar/>
-    <map/>
+    <map if={ checkMapVisibility() }/>
 
     <div class="container">
         <div id="mainview"></div>
@@ -9,6 +9,15 @@
 
     <script type="es6">
     this.mixin('base')
+    this.watch('_root')
+
+    // Views that should display the map
+    this.showMapIn = ['home', 'ano', 'despesa']
+
+    // Check if the map should be displayed or not
+    this.checkMapVisibility = () => {
+        return this.showMapIn.indexOf(this['_root']) != -1
+    }
 
     this.on('mount', () => {
         this.router.init()
