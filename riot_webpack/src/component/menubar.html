@@ -29,7 +29,10 @@
                     <li><a href="#" onclick={ fRoute('texto sobre') }>{ t("About") }</a></li>
                     <li><a href="#" onclick={ fRoute('texto outra') }>{ t("Another") }</a></li>
                     <li><a href="#" onclick={ share }>{ t("Share") }</a></li>
-                    <li if={ username }><a href="#">{ username }</a></li>
+                    <li if={ username }><a href="#"
+                                           onclick={ fRoute('pessoa ' + username) }>
+                        { username }
+                    </a></li>
                     <li if={ !username }><a href="#"
                                             onclick={ tags['login-form'].openLoginForm }>
                         { t("Login") }
