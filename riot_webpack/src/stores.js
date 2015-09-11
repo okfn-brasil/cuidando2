@@ -1,8 +1,9 @@
 import config from './config.js'
 
-import years from './store/years'
+// import years from './store/years'
 import comments from './store/comments'
 import auth from './store/auth'
+import userinfo from './store/userinfo'
 // import yearinfo from './store/yearinfo'
 // import pointinfo from './store/pointinfo'
 // import points from './store/points'
@@ -66,5 +67,20 @@ class YearInfo extends MapStore {
     }
 }
 let yearinfo = new YearInfo('yearinfo')
+
+
+class Years extends MapStore {
+    ajaxParams(key) {
+        let api = config.apiurl_money,
+            url = `${api}/execucao/info`,
+            method = 'get'
+        return {url, method}
+    }
+    processResponse(response) {
+        return response.data.years
+    }
+}
+let years = new Years('years')
+years.forceKey = 'years'
 
 // export default stores

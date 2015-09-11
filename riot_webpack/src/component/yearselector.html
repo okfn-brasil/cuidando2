@@ -1,6 +1,6 @@
 <year-selector>
     <select id="yearselector" onchange={ selectedYear }>
-        <option each={ _year, i in years }
+        <option each={ _year, i in years.value }
                 value="{ _year }"
                 selected={ _year == year } >
             { _year }
