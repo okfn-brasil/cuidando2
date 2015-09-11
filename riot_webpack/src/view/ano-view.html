@@ -2,11 +2,13 @@
     <h1>{ t('Year') }: { year }</h1>
     <year-selector year={year}/>
     <charts year={year}/>
+    <!--     <dyntable/> -->
 
 
     <script type="es6">
     this.mixin('base')
-    this.year = opts.year
+     /*     this.year = opts.year */
+    this.year = this.router.getParam('year')
     this.watch('year')
     </script>
 </ano-view>
