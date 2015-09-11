@@ -29,7 +29,7 @@
     this.height = 200
     this.canvasId = "canvas" + this.opts.color
 
-    this.on('update', () => {
+    this.on('mount update', () => {
         let canvas = document.getElementById(this.canvasId)
         if (canvas)
             drawDonut(canvas, '#' + this.opts.color, this.opts.percentage)
