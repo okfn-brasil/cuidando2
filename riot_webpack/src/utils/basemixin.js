@@ -5,8 +5,8 @@ import config from '../config'
 import stores from '../stores'
 
 var BaseMixin = {
-    init: function() {
-    },
+    // init: function() {
+    // },
 
     t: function() {
         return translator.translate(...arguments)
@@ -31,7 +31,7 @@ var BaseMixin = {
             let watcher = (val) => {
                 if (this[name] != val) {
                     this[name] = val
-                    console.log('updating')
+                    // console.log('updating because of', name, 'to', val)
                     this.update()
                 }
             }
@@ -50,7 +50,8 @@ var BaseMixin = {
     // Watch var nameData, and request more data for it when nameDepends change
     watchDepends: function(nameData, nameDepends, onChange) {
         riot.control.on(riot.SEC(nameData), data => {
-            if (data.key == this[nameDepends]) {
+            if ((data.key == this[nameDepends]) &&
+                (this[nameData] != data.value)) {
                 this[nameData] = data.value
                 onChange()
             }
@@ -63,6 +64,8 @@ var BaseMixin = {
             }
         })
 
+        console.log('mixing: trigger var:', nameData, 'key:', this[nameDepends])
+        riot.control.trigger(riot.VEL(nameDepends))
         riot.control.trigger(riot.VEL(nameData), this[nameDepends])
     },
 
