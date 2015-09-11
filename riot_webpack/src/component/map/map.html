@@ -1,0 +1,18 @@
+<map>
+    <div id="map-container"></div>
+
+
+    <script type="es6">
+    import map from './map'
+    this.mixin('base')
+
+    this.one('mount', () => {
+        this.year = this.router.getParam('year')
+        map.initMap('map-container')
+
+        this.watchDepends('points', 'year', () => map.updateMap(this.points))
+    })
+
+
+    </script>
+</map>

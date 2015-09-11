@@ -1,8 +1,5 @@
 // import leaflet from 'leaflet'
-import config from '../config'
-import ajax from '../utils/ajax'
-import router from '../store/router'
-import stores from '../stores'
+import router from '../../store/router'
 
 // var MQ = require('imports?leaflet=leaflet!exports?MQ!./mapquest.es5')
 var MQ = require('exports?MQ!./mapquest.es5')
