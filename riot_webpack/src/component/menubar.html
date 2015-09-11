@@ -13,7 +13,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a id="home-button" class="navbar-brand" href="{ route('ano' ) }">Cuidando</a>
+                <a id="home-button"
+                   class="navbar-brand"
+                   onclick="{ fRoute('home') }"
+                   href="#">
+                    Cuidando
+                </a>
             </div>
 
             <div id="navbar" class="collapse navbar-collapse">
@@ -21,16 +26,18 @@
                     <!-- <li class="active"><a href="/">Home</a></li> -->
                 <!--                 </ul> -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!--                     <li><a href="{ route('texto', 'sobre') }">{ t("About") }</a></li>
-                    <li><a href="{ route('texto', 'outra') }">{ t("Another") }</a></li> -->
                     <li><a href="#" onclick={ fRoute('texto sobre') }>{ t("About") }</a></li>
                     <li><a href="#" onclick={ fRoute('texto outra') }>{ t("Another") }</a></li>
-                    <li><a href="#">{ t("Share") }</a></li>
+                    <li><a href="#" onclick={ share }>{ t("Share") }</a></li>
                     <li if={ username }><a href="#">{ username }</a></li>
-                    <li if={ !username }><a href="#" onclick={ tags['login-form'].openLoginForm }>
+                    <li if={ !username }><a href="#"
+                                            onclick={ tags['login-form'].openLoginForm }>
                         { t("Login") }
                     </a></li>
-                    <li if={ username }><a href="#">{ t("Logout") }</a></li>
+                    <li if={ username }><a href="#"
+                                           onclick={ sendLogout }>
+                        { t("Logout") }
+                    </a></li>
                     <li>
                         <select class="navbar-btn" onchange={ selectedLang }>
                             <option each={ _lang in langs }
@@ -46,46 +53,6 @@
     </nav>
 
     <login-form/>
-    <!-- <div style="display: block;" id="myModal" class="mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" if={ loginFormIsOpen }> -->
-    <!--     <button onclick={ closeLoginForm }>&times;</button> -->
-    <!-- </div> -->
-
-
-    <style>
-        .mymodal {
-            position: fixed;
-            top: 0px;
-            right: 0px;
-            bottom: 0px;
-            left: 0px;
-            z-index: 1050;
-            display: none;
-            overflow: hidden;
-            outline: 0px none;
-            opacity: 0.5;
-            overflow-x: hidden;
-            overflow-y: auto;
-            background-color: #000;
-            /*             transition: opacity 1s linear 0s; */
-        }
-        .login-modal {
-            z-index: 1000;
-            position: fixed;
-            top: 60px;
-            left: 60px;
-            width: 500px;
-            height: 500px;
-        }
-        .mhide {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .mshow {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-    </style>
 
 
     <script type="es6">
@@ -107,6 +74,14 @@
         this.triggerChange('lang', event.target.value)
         // Prevent update, translator will do it
         event.preventUpdate = true
+    }
+
+    this.sendLogout = () => this.triggerChange('logout')
+
+    this.share = () => {
+        let page = encodeURIComponent(location.href),
+            title = "Cuidando 2"
+        location.href = `http://www.facebook.com/sharer.php?u=${page}&t=${title}`
     }
     </script>
 </menubar>

@@ -69,6 +69,7 @@
 
                             <button type="submit"
                                     class="btn btn-default"
+                                    onclick={ sendLogin }
                                     if={ !isRegisterForm }>
                                 { t("Login") }
                             </button>
@@ -88,6 +89,7 @@
                         </button>
                         <span>ou</span>
                         <button id="login-facebook"
+                                onclick={ startFacebookLogin }
                                 class="btn btn-default" >
                             Login Facebook
                         </button>
@@ -99,6 +101,39 @@
 
 
     <style>
+        .mymodal {
+            position: fixed;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            z-index: 1050;
+            display: none;
+            overflow: hidden;
+            outline: 0px none;
+            opacity: 0.5;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #000;
+            /*             transition: opacity 1s linear 0s; */
+        }
+        .login-modal {
+            z-index: 1000;
+            position: fixed;
+            top: 60px;
+            left: 60px;
+            width: 500px;
+            height: 500px;
+        }
+        .mhide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .mshow {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
     </style>
 
 
@@ -108,27 +143,38 @@
     isRegisterForm = false
     this.prepareRegister = () => {isRegisterForm = true}
 
-    loginFormIsOpen = true
+     /*     loginFormIsOpen = true */
     this.openLoginForm = () => {loginFormIsOpen = true}
     this.closeLoginForm = () => {
         loginFormIsOpen = false
         isRegisterForm = false
     }
 
+    sendLogin = () => {
+        this.triggerChange('login', {
+            username: this['login-form-username'].value,
+            password: this['login-form-password'].value,
+        })
+    }
+
     sendRegister = () => {
-        console.log('login-event')
         if(this['login-form-password'].value !=
             this['login-form-confirm-password'].value) {
             alert("Senhas não batem!")
         } else {
-            console.log('login-send!')
             this.triggerChange('register', {
                 username: this['login-form-username'].value,
                 password: this['login-form-password'].value,
                 email: this['login-form-email'].value,
             })
         }
-     }
-    /*     this.openLoginForm = () => {document.getElementById("myModal").modal('show')} */
+    }
+
+    startFacebookLogin = () => this.triggerChange('loginFacebook')
+
+    riot.control.on(riot.SEC('username'), data => {
+        this.closeLoginForm()
+        this.update()
+    })
     </script>
 </login-form>
