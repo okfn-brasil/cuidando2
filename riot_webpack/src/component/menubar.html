@@ -25,10 +25,12 @@
                     <li><a href="{ route('texto', 'outra') }">{ t("Another") }</a></li> -->
                     <li><a href="#" onclick={ fRoute('texto sobre') }>{ t("About") }</a></li>
                     <li><a href="#" onclick={ fRoute('texto outra') }>{ t("Another") }</a></li>
-                    <li><a id="share-button" href="#">{ t("Share") }</a></li>
-                    <li id="user-profile-button-container"></li>
-                    <li><a id="login-button" href="#">{ t("Login") }</a></li>
-                    <li><a id="logout-button" href="#">{ t("Logout") }</a></li>
+                    <li><a href="#">{ t("Share") }</a></li>
+                    <li if={ username }><a href="#">{ username }</a></li>
+                    <li if={ !username }><a href="#" onclick={ tags['login-form'].openLoginForm }>
+                        { t("Login") }
+                    </a></li>
+                    <li if={ username }><a href="#">{ t("Logout") }</a></li>
                     <li>
                         <select class="navbar-btn" onchange={ selectedLang }>
                             <option each={ _lang in langs }
@@ -43,11 +45,54 @@
         </div>
     </nav>
 
+    <login-form/>
+    <!-- <div style="display: block;" id="myModal" class="mymodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" if={ loginFormIsOpen }> -->
+    <!--     <button onclick={ closeLoginForm }>&times;</button> -->
+    <!-- </div> -->
+
+
+    <style>
+        .mymodal {
+            position: fixed;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            z-index: 1050;
+            display: none;
+            overflow: hidden;
+            outline: 0px none;
+            opacity: 0.5;
+            overflow-x: hidden;
+            overflow-y: auto;
+            background-color: #000;
+            /*             transition: opacity 1s linear 0s; */
+        }
+        .login-modal {
+            z-index: 1000;
+            position: fixed;
+            top: 60px;
+            left: 60px;
+            width: 500px;
+            height: 500px;
+        }
+        .mhide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .mshow {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+    </style>
+
 
     <script type="es6">
     import translator from '../utils/translator'
     import router from '../store/router'
     this.mixin('base')
+    this.watch('username')
     this.langs = translator.getLangs()
 
     riot.control.on(riot.SEC('lang'), (lang) => {

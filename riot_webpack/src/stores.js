@@ -2,6 +2,7 @@ import config from './config.js'
 
 import years from './store/years'
 import comments from './store/comments'
+import auth from './store/auth'
 // import yearinfo from './store/yearinfo'
 // import pointinfo from './store/pointinfo'
 // import points from './store/points'

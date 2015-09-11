@@ -1,4 +1,5 @@
 import './component/menubar.html'
+import './component/loginform.html'
 import './component/yearselector.html'
 import './component/map.html'
 

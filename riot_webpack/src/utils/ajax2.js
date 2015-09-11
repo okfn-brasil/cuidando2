@@ -30,10 +30,17 @@ function ajax(params) {
     //         }
     //     }
     // })
-    return fetch(params.url, {
+    let fParams = {
         method: params.method,
-        // body: new FormData(form)
-    })
+    }
+    if (params.data) {
+        fParams.body = JSON.stringify(params.data)
+        fParams.headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    }
+    return fetch(params.url, fParams)
     .then(checkStatus)
     .then(parseJSON)
     .then(function(data) {

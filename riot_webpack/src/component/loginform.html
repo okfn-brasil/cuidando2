@@ -1,0 +1,134 @@
+<login-form>
+    <!-- Modal -->
+    <div if={ loginFormIsOpen }>
+        <div class="modal-backdrop" style="opacity: 0.5"></div>
+        <div class="modal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel"
+             style="display:block;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button"
+                                class="close"
+                                onclick={ closeLoginForm }
+                                aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Cuidando</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+
+                            <div class="form-group">
+                                <label class="sr-only"
+                                       for="login-form-username">
+                                    Username
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="login-form-username"
+                                       placeholder="Username">
+                            </div>
+
+                            <div class="form-group"
+                                 if={ isRegisterForm }>
+                                <label class="sr-only"
+                                       for="login-form-email">
+                                    E-mail
+                                </label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="login-form-email"
+                                       placeholder="E-mail">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="sr-only"
+                                       for="login-form-password">
+                                    Password
+                                </label>
+                                <input type="password"
+                                       class="form-control"
+                                       id="login-form-password"
+                                       placeholder="Password">
+                            </div>
+
+                            <div class="form-group"
+                                 if={ isRegisterForm }>
+                                <label class="sr-only"
+                                       for="login-form-confirm-password">
+                                    { t("Confirm Password") }
+                                </label>
+                                <input type="password"
+                                       class="form-control"
+                                       id="login-form-confirm-password"
+                                       placeholder="{ t('Confirm Password') }">
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-default"
+                                    if={ !isRegisterForm }>
+                                { t("Login") }
+                            </button>
+
+                            <button type="submit"
+                                    class="btn btn-default"
+                                    onclick={ sendRegister }
+                                    if={ isRegisterForm }>
+                                { t("Register") }
+                            </button>
+                        </form>
+
+                        <button class="btn btn-default"
+                                onclick={ prepareRegister }
+                                if={ !isRegisterForm }>
+                            { t("Register") }
+                        </button>
+                        <span>ou</span>
+                        <button id="login-facebook"
+                                class="btn btn-default" >
+                            Login Facebook
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+    </style>
+
+
+    <script type="es6">
+    this.mixin('base')
+
+    isRegisterForm = false
+    this.prepareRegister = () => {isRegisterForm = true}
+
+    loginFormIsOpen = true
+    this.openLoginForm = () => {loginFormIsOpen = true}
+    this.closeLoginForm = () => {
+        loginFormIsOpen = false
+        isRegisterForm = false
+    }
+
+    sendRegister = () => {
+        console.log('login-event')
+        if(this['login-form-password'].value !=
+            this['login-form-confirm-password'].value) {
+            alert("Senhas não batem!")
+        } else {
+            console.log('login-send!')
+            this.triggerChange('register', {
+                username: this['login-form-username'].value,
+                password: this['login-form-password'].value,
+                email: this['login-form-email'].value,
+            })
+        }
+     }
+    /*     this.openLoginForm = () => {document.getElementById("myModal").modal('show')} */
+    </script>
+</login-form>
