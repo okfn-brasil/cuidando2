@@ -25,20 +25,23 @@ export default class MapStore {
 
     load(key) {
         // If doesn't have current key data, load
-        if (!(key in this._map)) {
+        let current = this._map[key]
+        if (current === undefined) {
+            this._map[key] = 'loading'
             ajax(this.ajaxParams(key))
                 .then(this.processResponse)
                 .then((response) => {
-                this._map[key] = response
-                this.triggerChanged(key)
-            })
+                    this._map[key] = response
+                    this.triggerChanged(key)
+                })
         } else {
             this.triggerChanged(key)
         }
     }
 
     triggerChanged(key) {
-        this.trigger(riot.SEC(this.signal),
-                     {key, value:this._map[key]})
+        let value = this._map[key]
+        if (value == 'loading') value = undefined
+        this.trigger(riot.SEC(this.signal), {key, value})
     }
 }
