@@ -11,8 +11,11 @@
     "babel-loader": "^5.0.0",
     "css-loader": "^0.10.1",
     "exports-loader": "^0",
+    "file-loader": "^0.8.4",
     "imports-loader": "^0.6.4",
+    "jwt-decode": "^1.4.0",
     "leaflet": "^0.7.5",
+    "leaflet.markercluster": "^0.4.0",
     "light-server": "^1.0.1",
     "node-sass": "^3.3.2",
     "riot": "^2.0.15",
@@ -21,8 +24,6 @@
     "style-loader": "^0.10.2",
     "webpack": "^1.8.4",
     "webpack-dev-server": "^1.8.0",
-    "whatwg-fetch": "^0.9.0",
-    "file-loader": "^0.8.4",
-    "leaflet.markercluster": "^0.4.0"
+    "whatwg-fetch": "^0.9.0"
   }
 }
