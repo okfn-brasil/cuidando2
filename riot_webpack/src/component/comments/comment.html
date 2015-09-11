@@ -2,7 +2,10 @@
     <div class="panel panel-default">
         <div class="panel-body">{text}</div>
         <div class="panel-footer">
-            <a href="@pessoa/{author}">{author}</a>
+            <a href="#"
+               onclick={ fRoute('pessoa ' + author) }>
+                {author}
+            </a>
             <button class="btn btn-default comment-reply-button">
                 { t("reply") }
             </button>
