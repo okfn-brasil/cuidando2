@@ -1,4 +1,6 @@
 let routes = [{
+    format: 'home',
+}, {
     format: 'ano/{year}',
     // params: {
     //     page: 0,
@@ -21,7 +23,7 @@ let parsers = {
 }
 
 let defaultParams = {
-    _root: 'ano',
+    _root: 'home',
     year: new Date().getFullYear().toString(),
     lang: 'pt-br',
     page: 0,
@@ -87,6 +89,7 @@ class Router {
 
     _getMainParamsNames(template) {
         let match = template.replace(/\?.*/).match(/{([^}]*)}/g);
+        if (!match) match = []
         return match.map((param) => {
             return param.substring(1, param.length - 1)
         })
@@ -110,10 +113,10 @@ class Router {
 
     // Returns all the possible params names (main params or query)
     _listAllPossibleParamsNames() {
-        return new Set(Object.keys(this.routes)
+        return new Array(new Set(Object.keys(this.routes)
             .map(k => this.routes[k].mainParamsNames)
             .reduce((prev, cur) => prev.concat(cur),
-                Object.keys(this.defaultParams)))
+                    Object.keys(this.defaultParams))))
     }
 
     // Returns all the possible query params names

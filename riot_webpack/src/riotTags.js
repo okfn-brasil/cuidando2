@@ -12,6 +12,7 @@ import './component/chart/charts.html'
 import './component/chart/donut.html'
 import './component/chart/bar.html'
 
+import './view/home-view.html'
 import './view/texto-view.html'
 import './view/ano-view.html'
 import './view/despesa-view.html'
