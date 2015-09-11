@@ -34,7 +34,7 @@ module.exports = {
       new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")
     ],
     devServer: {
-        port: 5555
+        port: 5001
     },
     devtool: "source-map"
 }
