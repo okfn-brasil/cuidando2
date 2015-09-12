@@ -1,7 +1,7 @@
 import translator from '../utils/translator'
 import router from '../store/router'
-import config from '../config'
-import stores from '../stores'
+// import config from '../config'
+// import stores from '../stores'
 
 var BaseMixin = {
     // init: function() {
@@ -20,8 +20,8 @@ var BaseMixin = {
     },
 
     router: router,
-    config: config,
-    s: stores,
+    // config: config,
+    // s: stores,
 
     watch: function(names) {
         names = names.split(' ')

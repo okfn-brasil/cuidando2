@@ -97,7 +97,8 @@ class Router {
 
     _registerViewEvents() {
         for (let name of this._allPossibleParamsNames) {
-            console.log('router: register for VEC:', name)
+            // console.log('router: register for VEC:', name)
+
             // Accepts loads like the other stores, even if
             // params could be accessed by getParam
             this.on(riot.VEL(name), () => {
