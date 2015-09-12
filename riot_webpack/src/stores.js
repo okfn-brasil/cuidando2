@@ -35,7 +35,7 @@ class PointInfo extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        return response.data[0]
+        return response.json.data[0]
     }
 }
 let pointinfo = new PointInfo('pointinfo')
@@ -49,7 +49,7 @@ class Points extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        return response
+        return response.json
     }
 }
 let points = new Points('points')
@@ -63,10 +63,27 @@ class YearInfo extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        return response.data
+        return response.json.data
     }
 }
 let yearinfo = new YearInfo('yearinfo')
+
+
+class TableData extends MapStore {
+    ajaxParams(key) {
+        let [ year, page ] = key.split('-'),
+            api = config.apiurl_money,
+            url = `${api}/execucao/list?year=${year}&page=${page}&per_page_num=25`,
+            method = 'get'
+        return {url, method}
+    }
+    processResponse(response) {
+        this.totalRows = response.response.headers.get('X-Total-Count')
+        return response.json.data
+    }
+    getTotal() { return this.totalRows }
+}
+let tabledata = new TableData('tabledata')
 
 
 class Years extends MapStore {
@@ -77,10 +94,10 @@ class Years extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        return response.data.years
+        return response.json.data.years
     }
 }
 let years = new Years('years')
 years.forceKey = 'years'
 
-// export default stores
+export default {tabledata}

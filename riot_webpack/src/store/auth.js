@@ -56,10 +56,10 @@ class Auth {
         riot.control.addStore(this)
     }
 
-    saveTokens(data) {
+    saveTokens(response) {
         // document.cookie = "token=" + data.token
-        localStorage.mainToken = data.mainToken
-        this.saveMicroToken(data)
+        localStorage.mainToken = response.json.mainToken
+        this.saveMicroToken(response.json)
         this.username = this.getUsername()
         this.trigger(riot.SEC('username'), this.username)
     }

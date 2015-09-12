@@ -29,12 +29,13 @@ export default class MapStore {
         if (current === undefined) {
             this._map[key] = 'loading'
             ajax(this.ajaxParams(key))
-                .then(this.processResponse)
+                .then(this.processResponse.bind(this))
                 .then((response) => {
                     this._map[key] = response
                     this.triggerChanged(key)
                 })
-                .catch(error => console.log('CATEEI', error))
+                // TODO: como tratar erros?
+                // .catch(error => console.log('CATEEI', error))
         } else {
             this.triggerChanged(key)
         }

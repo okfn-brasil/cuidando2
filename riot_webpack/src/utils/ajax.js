@@ -11,25 +11,12 @@ function checkStatus(response) {
     }
 }
 
-function parseJSON(response) {
-    return response.json()
-}
+// function parseJSON(response) {
+
+//     return {json: response.json().then(json =>)}
+// }
 
 function ajax(params) {
-    // return xr({
-    //     method: method.toUpperCase(),
-    //     dataType   : 'json',
-    //     contentType: 'application/json; charset=UTF-8',
-    //     url: url,
-    //     // params: {take: 5},
-    //     events: {
-    //         [xr.Events.PROGRESS]: (xhr, xhrProgressEvent) => {
-    //             console.log("xhr", xhr);
-
-    //             console.log("progress", xhrProgressEvent);
-    //         }
-    //     }
-    // })
     let fParams = {
         method: params.method,
     }
@@ -42,7 +29,8 @@ function ajax(params) {
     }
     return fetch(params.url, fParams)
     .then(checkStatus)
-    .then(parseJSON)
+    .then(response => response.json().then(json => {return {response, json}}))
+    // .then(parseJSON)
     .then(function(data) {
         console.log('request succeeded with JSON response', data)
         return data

@@ -9,7 +9,7 @@ class Comments extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        return response.comments
+        return response.json.comments
     }
 }
 

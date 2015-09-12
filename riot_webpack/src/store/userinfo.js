@@ -14,7 +14,7 @@ class UserInfo extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        return response
+        return response.json
     }
 }
 
