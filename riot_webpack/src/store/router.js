@@ -95,6 +95,11 @@ class Router {
         })
     }
 
+    _applyParser(name, value) {
+        let parser = this.parsers[name]
+        return parser ? parser(value) : value
+    }
+
     _registerViewEvents() {
         for (let name of this._allPossibleParamsNames) {
             // console.log('router: register for VEC:', name)
@@ -107,7 +112,7 @@ class Router {
 
             this.on(riot.VEC(name), (value) => {
                 console.log('router:VEC name:', name, 'value:', value)
-                this.params[name] = value
+                this.params[name] = this._applyParser(name, value)
                 this._paramsToUrl()
             })
         }
@@ -132,10 +137,10 @@ class Router {
             .filter((el) => mainParamsNames.indexOf(el) == -1)
     }
 
-    buildRoute() {
-        let hash = [].slice.apply(arguments).join('/')// + query
-        return this._hashMark + hash + this._innerRouteMark
-    }
+    // buildRoute() {
+    //     let hash = [].slice.apply(arguments).join('/')// + query
+    //     return this._hashMark + hash + this._innerRouteMark
+    // }
 
     loadView(viewName) {
         if (this._currentView.root) {
@@ -150,10 +155,10 @@ class Router {
     getParam(name) {
         // console.log('getParams-name:', name, 'params:', this.params, 'this', this)
         return this.params[name]
-        // let val = this.params[name]
-        // if (!val) val = this.routes[this.params._root].params[name]
-        // if (!val) val = this.globalParams[name]
-        // return val
+    }
+
+    getDefaultParam(name) {
+        return this.defaultParams[name]
     }
 
     _urlToParams() {
@@ -188,13 +193,15 @@ class Router {
             }
         }
         // console.log('router:parseHash - hash:', hash, 'params:', params)
+        for (let name in params) {
+            params[name] = this._applyParser(name, params[name])
+        }
 
         return params
     }
 
     _paramsToUrl() {
         // console.log('router:paramsToUrl')
-
         // Loads new view if different from current
         let newViewName = this.routes[this.params._root].view
         if (newViewName != this._currentView.name)
@@ -239,7 +246,7 @@ class Router {
 
         // Update params
         for (let name in params)
-            this.params[name] = params[name]
+            this.params[name] = this._applyParser(name, params[name])
 
         this._paramsToUrl()
     }
