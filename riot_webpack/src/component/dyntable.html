@@ -1,5 +1,5 @@
 <dyntable>
-    <h2>Table!!!! { totalRows }</h2>
+    <h2>Table!!!! { totalRows }, {lastPage}</h2>
     <div class="table-responsive">
         <table class="table table-hover">
             <!--             <colgroup>
@@ -21,6 +21,30 @@
             </tr>
         </table>
     </div>
+    <a onclick="{ fRoute({page:0}) }"
+        if="{ page != 0 }"
+        href="#">
+        Primeira
+    </a>
+    <a each={ num, i in pageIndexes }
+        onclick="{ fRoute({page:num}) }"
+        class="{disabled: num == page }"
+        role="button"
+        href="#">
+        { num + 1 }
+    </a>
+    <a onclick="{ fRoute({page:lastPage}) }"
+        if="{ page != lastPage }"
+        href="#">
+        Última
+    </a>
+
+    <style>
+     a.disabled {
+         color: gray;
+        pointer-events: none;
+     }
+    </style>
 
 
     <script type="es6">
@@ -29,6 +53,8 @@
 
     this.year = this.router.getParam('year')
     this.page = this.router.getParam('page')
+    this.defaultPage = this.router.getDefaultParam('page')
+    this.per_page_num = this.router.getParam('per_page_num')
     this.totalRows = 0
 
     // Variables which this table relies on
@@ -40,35 +66,45 @@
         return this.dependVars.map((x) => this[x]).join('-')
     }
 
-    // Watch table data changes
-    riot.control.on(riot.SEC('tabledata'), data => {
+    this.updateTable = data => {
         if ((data.key == this.currKey()) &&
             (this.tabledata != data.value)) {
             this.tabledata = data.value
-            this.updateTable()
+
+            // Calculate last page
+            this.totalRows = stores.tabledata.getTotal()
+            this.lastPage = Math.floor(this.totalRows / this.per_page_num)
+
+            // Page index numbers
+            let numShownPages = 7
+            this.pageIndexes = Array(...Array(numShownPages))
+                .map((_, i) => i + this.page - Math.floor(numShownPages/2))
+                .filter(i => i >= 0 && i <= this.lastPage)
+
+            this.update()
         }
-    })
+    }
+
+    // Watch table data changes
+    this.onControl(riot.SEC('tabledata'), this.updateTable)
 
     // Watch depends vars
-    riot.control.on(this.dependSignal, (signal, value) => {
+    this.onControl(this.dependSignal, (signal, value) => {
         let varName = riot.SECtoVar(signal)
-        console.log('MISTIOUS SIGNAL', value, signal)
-
         if (this[varName] != value) {
+            // Resets page when other var changes
+            if (varName != 'page' && this.page != this.defaultPage) {
+                this.page = this.defaultPage
+                this.triggerChange('page', this.defaultPage)
+            }
             this[varName] = value
             riot.control.trigger(riot.VEL('tabledata'), this.currKey())
         }
     })
 
     // Load both vars
-    console.log('dyntable: trigger var:', this.tabledata, 'key:', this.currKey())
     riot.control.trigger(this.dependSignal)
     riot.control.trigger(riot.VEL('tabledata'), this.currKey())
-
-    this.updateTable = () => {
-        this.totalRows = stores.tabledata.getTotal()
-        this.update()
-    }
 
     this.calcPlanejado = (orcado, atualizado) => {
         return atualizado ? atualizado : orcado
