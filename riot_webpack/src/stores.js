@@ -78,7 +78,7 @@ class TableData extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        this.totalRows = response.response.headers.get('X-Total-Count')
+        this.totalRows = response.meta.headers.get('X-Total-Count')
         return response.json.data
     }
     getTotal() { return this.totalRows }

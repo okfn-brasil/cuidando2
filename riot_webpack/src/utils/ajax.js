@@ -29,7 +29,8 @@ function ajax(params) {
     }
     return fetch(params.url, fParams)
     .then(checkStatus)
-    .then(response => response.json().then(json => {return {response, json}}))
+    .then(response => response.json()
+            .then(json => {return {meta:response, json}}))
     // .then(parseJSON)
     .then(function(data) {
         console.log('request succeeded with JSON response', data)
