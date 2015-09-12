@@ -11,9 +11,9 @@ var BaseMixin = {
         return translator.translate(...arguments)
     },
 
-    tRoute: function() {
-        return router.buildRoute(...arguments)
-    },
+    // tRoute: function() {
+    //     return router.buildRoute(...arguments)
+    // },
 
     fRoute: function() {
         return () => router.route(...arguments)
@@ -74,6 +74,12 @@ var BaseMixin = {
     triggerChange: function(name, value) {
         riot.control.trigger(riot.VEC(name), value)
     },
+
+    // Register a func to run on control event. Unregister at unmount.
+    onControl: function(signal, func) {
+        riot.control.on(signal, func)
+        this.on('unmount', () => riot.control.off(signal, func))
+    }
 }
 
 riot.mixin('base', BaseMixin)
