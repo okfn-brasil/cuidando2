@@ -65,10 +65,12 @@
     this.watch('username')
     this.langs = translator.getLangs()
 
-    riot.control.on(riot.SEC('lang'), (lang) => {
+    this.onControl(riot.SEC('lang'), (lang) => {
         if (this.lang != lang) {
             this.lang = lang
-            // Update not needed here, because translator will do it.
+            translator.setLang(lang)
+            // Update EVERYTHING!
+            riot.update()
         }
     })
     this.lang = router.getParam('lang')

@@ -172,7 +172,7 @@
 
     startFacebookLogin = () => this.triggerChange('loginFacebook')
 
-    riot.control.on(riot.SEC('username'), data => {
+    this.onControl(riot.SEC('username'), data => {
         this.closeLoginForm()
         this.update()
     })

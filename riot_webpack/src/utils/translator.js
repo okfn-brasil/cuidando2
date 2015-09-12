@@ -5,9 +5,6 @@ class Translator {
     constructor() {
         this.dicts = {}
 
-        riot.control.on(riot.SEC('lang'), (lang) => {
-            this.setLang(lang)
-        })
         // this._currentLang = this.getCurrentLang()
         this._currentLang = router.getParam('lang')
         console.log('translator: initial lang:', this._currentLang)
@@ -45,7 +42,6 @@ class Translator {
     setLang(lang) {
         if(this._currentLang != lang) {
             this._currentLang = lang
-            riot.update()
         }
     }
 
