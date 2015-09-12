@@ -22,6 +22,11 @@ riot.control = RiotControl
 riot.SEC = function(name) {
     return `se_${name}_changed`
 }
+// Signal to var name
+riot.SECtoVar = function(signal) {
+    return signal.split('_')[1]
+}
+
 // view event change
 riot.VEC = function(name) {
     return `ve_change_${name}`

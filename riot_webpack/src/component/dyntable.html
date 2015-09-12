@@ -1,9 +1,78 @@
 <dyntable>
-    <h2>Table!@!!!!</h2>
+    <h2>Table!!!! { totalRows }</h2>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <!--             <colgroup>
+            <col style="color: #ff0">
+            </colgroup> -->
+            <tr>
+                <th>Descrição</th>
+                <th>Planejado</th>
+                <th>Empenhado</th>
+                <th>Liquidado</th>
+                <th>Órgão</th>
+            </tr>
+            <tr each={ tabledata }>
+                <td>{ ds_projeto_atividade }</td>
+                <td>{ calcPlanejado(sld_orcado_ano, vl_atualizado) }</td>
+                <td>{ vl_empenhadoliquido }</td>
+                <td>{ vl_liquidado }</td>
+                <td>{ ds_orgao }</td>
+            </tr>
+        </table>
+    </div>
 
 
     <script type="es6">
+    import stores from '../stores'
     this.mixin('base')
+
+    this.year = this.router.getParam('year')
+    this.page = this.router.getParam('page')
+    this.totalRows = 0
+
+    // Variables which this table relies on
+    this.dependVars = ['year', 'page']
+    this.dependSignal = this.dependVars.map((x) => riot.SEC(x)).join(' ')
+
+    // Key to be used to index tabledatas
+    this.currKey = () => {
+        return this.dependVars.map((x) => this[x]).join('-')
+    }
+
+    // Watch table data changes
+    riot.control.on(riot.SEC('tabledata'), data => {
+        if ((data.key == this.currKey()) &&
+            (this.tabledata != data.value)) {
+            this.tabledata = data.value
+            this.updateTable()
+        }
+    })
+
+    // Watch depends vars
+    riot.control.on(this.dependSignal, (signal, value) => {
+        let varName = riot.SECtoVar(signal)
+        console.log('MISTIOUS SIGNAL', value, signal)
+
+        if (this[varName] != value) {
+            this[varName] = value
+            riot.control.trigger(riot.VEL('tabledata'), this.currKey())
+        }
+    })
+
+    // Load both vars
+    console.log('dyntable: trigger var:', this.tabledata, 'key:', this.currKey())
+    riot.control.trigger(this.dependSignal)
+    riot.control.trigger(riot.VEL('tabledata'), this.currKey())
+
+    this.updateTable = () => {
+        this.totalRows = stores.tabledata.getTotal()
+        this.update()
+    }
+
+    this.calcPlanejado = (orcado, atualizado) => {
+        return atualizado ? atualizado : orcado
+    }
 
     </script>
 </dyntable>
