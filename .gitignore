@@ -75,3 +75,6 @@ prod_settings.py
 
 node_modules/
 .tern-port
+
+bundle.js.map
+vendor.bundle.js.map

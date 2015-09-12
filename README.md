@@ -35,10 +35,10 @@ Para instalar todos os repositórios necessários para executar esse projeto, h�
 Caso só queira instalar esse repositório, clone-o e rode dentro dele:
 
 ```
-$ python setup.py develop
+$ npm i
 ```
 
-Depois configure um `settings/local_settings.py`.
+Depois configure um `src/config.js`.
 
 
 ## Rodando
@@ -46,10 +46,10 @@ Depois configure um `settings/local_settings.py`.
 Para rodar o site:
 
 ```
-$ python manage.py run
+$ npm run dev
 ```
 
-Depois acesse `localhost:5001` em um navegador.
+Depois acesse `localhost:5001` em um navegador. Se quiser que o código atualize automaticamente conforme editar os arquivos, acesse `localhost:5001/webpack-dev-server/`.
 
 Como o esse projeto depende de vários micro serviços, sugiro que você tenha um script para rodar todos eles quando quiser. Há um exemplo [aqui](doc/run.py).
 
@@ -59,26 +59,20 @@ Como o esse projeto depende de vários micro serviços, sugiro que você tenha u
 Para compilar o site para produção, rode:
 
 ```
-$ python manage.py build
+$ npm run dist
 ```
 
-Caso queira usar um arquivo de configuração diferente do `local_settings.py`, por exemplo um `prod_settings.py` use:
+Caso queira usar um arquivo de configuração diferente do `config.js`, por exemplo um `config_prod.js` use:
 
 ```
-$ python manage.py -c prod build
+$ NAO SEI....
 ```
 
 O site compilado (estático, com JS minificado etc) deverá estar na pasta `build`.
 Você pode testá-lo entrando na pasta, servindo-o com o comando a seguir e abrindo o endereço em um navegador:
 
 ```
-$ python -m http.server
-```
-
-Caso algo saia errado, tente remover os arquivos de build e tentar novamente:
-
-```
-$ rm -rf build static/build static/.webassets-cache
+$ npm run viewdist
 ```
 
 
@@ -86,3 +80,7 @@ $ rm -rf build static/build static/.webassets-cache
 
 - [localStorage](http://caniuse.com/#feat=namevalue-storage): IE8+
 - [history](http://caniuse.com/#feat=history): IE10+ (suporte manual minimamente implementado)
+- Muitos outros...
+
+
+A estrutura do código foi inspirada em: https://github.com/txchen/feplay/tree/gh-pages/riot_webpack
