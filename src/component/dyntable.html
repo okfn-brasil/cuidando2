@@ -12,7 +12,7 @@
                 <th>Liquidado</th>
                 <th>Órgão</th>
             </tr>
-            <tr each={ tabledata }>
+            <tr each={ tabledata } onclick="{ fRoute('despesa', {code:code}) }">
                 <td>{ ds_projeto_atividade }</td>
                 <td>{ calcPlanejado(sld_orcado_ano, vl_atualizado) }</td>
                 <td>{ vl_empenhadoliquido }</td>
