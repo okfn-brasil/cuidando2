@@ -22,13 +22,20 @@ module.exports = {
               exclude: /\.es5\.js$/,
               include: /src/,
               loader: 'babel',
-              query: {modules: 'common'} }
+              query: {
+                  modules: 'common',
+                  // stage: 1,
+                  // optional: 'runtime',
+              }
+            }
         ]
     },
     plugins: [
       new webpack.ProvidePlugin({
           riot: 'riot',
           leaflet: 'leaflet',
+          regeneratorRuntime: 'regeneratorRuntime',
+          // TODO: carregar como os outros polyfills
           'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
       }),
       new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")

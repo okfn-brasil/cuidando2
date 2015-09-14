@@ -1,6 +1,32 @@
 <comment>
     <div class="panel panel-default">
-        <div class="panel-body">{text}</div>
+        <div class="panel-body">
+
+            <!-- Comment content -->
+            <p if="{ !isEditting }">
+                {text}
+            </p>
+
+            <!-- Edit form -->
+            <form class="form-inline" if="{ isEditting }">
+                <div class="form-group">
+                    <label class="sr-only" for="comment-edit-textarea-{id}">
+                        Edit Comment
+                    </label>
+                    <textarea id="comment-edit-textarea-{id}"
+                              class="form-control"
+                              rows="3">
+                        {text}
+                    </textarea>
+                </div>
+                <button type="submit"
+                        onclick="{ sendEdit }"
+                        class="btn btn-default">
+                    { t("Send") }
+                </button>
+            </form>
+
+        </div>
         <div class="panel-footer">
             <a href="#"
                onclick={ fRoute('pessoa ' + author) }>
@@ -10,20 +36,44 @@
                     onclick="{ openReplyArea }">
                 { t("reply") }
             </button>
-            <!--             {#if userIsAuthor}
-            <button class="btn btn-danger comment-delete-button">{t "Delete"}</button>
-            <button id="comment-edit-button-{id}" class="btn btn-default comment-edit-button">Editar</button>
-            <button id="comment-edit-cancel-button-{id}" class="btn btn-warning probably-hidden">{t "Cancel"}</button>
-            {/if}
-            {#if userNotAuthor}
-            <button class="btn btn-default comment-upvote-button">+1</button>
-            <button class="btn btn-default comment-downvote-button">-1</button>
-            <button class="btn btn-danger comment-report-button">Denunciar</button>
-            {/if}
+
+            <!-- Author buttons -->
+            <div if="{ checkIsAuthor() }">
+                <button class="btn btn-danger comment-delete-button"
+                        onclick="{ sendDelete }">
+                    { t("Delete") }
+                </button>
+                <button class="btn btn-default comment-edit-button"
+                        onclick="{ openEditArea }">
+                    { t("Edit") }
+                </button>
+                <button class="btn btn-warning probably-hidden"
+                        if="{ isEditting }"
+                        onclick="{ closeEditArea }">
+                    { t("Cancel") }
+                </button>
+            </div>
+
+            <!-- Not Author buttons -->
+            <div if="{ !checkIsAuthor() }">
+                <button class="btn btn-default comment-upvote-button"
+                        onclick="{ sendUpvote }">
+                    +1
+                </button>
+                <button class="btn btn-default comment-downvote-button"
+                        onclick="{ sendDownvote }">
+                    -1
+                </button>
+                <button class="btn btn-danger comment-report-button"
+                        onclick="{ sendReport }">
+                    Denunciar
+                </button>
+            </div>
+
             <span>Gostaram: {upvotes}</span>
             <span>Não gostaram: {downvotes}</span>
             <span>Criado: {created}</span>
-            <span>Modificado: {modified}</span> -->
+            <span>Modificado: {modified}</span>
 
             <!-- Reply form -->
             <form class="form-inline"
@@ -59,25 +109,56 @@
 
     <script type="es6">
     this.mixin('base')
+    this.watch('username')
+
 
     this.isReplying = false
+    this.isEditting = false
 
-    this.openReplyArea = () => {
-        this.isReplying = true
-    }
-
-    this.closeReplyArea = () => {
-        this.isReplying = false
-    }
+    this.openReplyArea = () => this.isReplying = true
+    this.closeReplyArea = () => this.isReplying = false
+    this.openEditArea = () => this.isEditting = true
+    this.closeEditArea = () => this.isEditting = false
+    this.checkIsAuthor = () => this.author == this.username
 
     this.sendReply = () => {
         this.triggerChange('sendReply', {
             text: document.getElementById(
                 `comment-reply-textarea-${this.id}`).value,
             url: this.url,
-            code: this.code,
         })
         this.closeReplyArea()
+    }
+
+    this.sendEdit = () => {
+        this.triggerChange('sendEdit', {
+            text: document.getElementById(
+                `comment-edit-textarea-${this.id}`).value,
+            url: this.url,
+        })
+        this.closeEditArea()
+    }
+
+    this.sendDelete = () => {
+        this.triggerChange('sendDelete', {url: this.url,})
+    }
+
+    this.sendReport = () => {
+        this.triggerChange('sendReport', {url: this['report_url']})
+    }
+
+    this.sendUpvote = () => {
+        this.triggerChange('sendVote', {
+            url: this['vote_url'],
+            vote: true,
+        })
+    }
+
+    this.sendDownvote = () => {
+        this.triggerChange('sendVote', {
+            url: this['vote_url'],
+            vote: false,
+        })
     }
 
     </script>

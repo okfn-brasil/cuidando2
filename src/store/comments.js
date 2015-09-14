@@ -8,8 +8,18 @@ var api = config.apiurl_comments
 class Comments extends MapStore {
     constructor(signal) {
         super(signal)
-        this.on(riot.VEC('sendComment'), params => this.sendComment(params))
-        this.on(riot.VEC('sendReply'), params => this.sendReply(params))
+        // Register signals
+        for (let endname of ['Comment', 'Delete', 'Report',
+                             'Reply', 'Edit', 'Vote']) {
+            let name = `send${endname}`
+            this.on(riot.VEC(name), params => this[name](params))
+        }
+        // this.on(riot.VEC('sendComment'), params => this.sendComment(params))
+        // this.on(riot.VEC('sendDelete'), params => this.sendDelete(params))
+        // this.on(riot.VEC('sendReport'), params => this.sendReport(params))
+        // this.on(riot.VEC('sendReply'), params => this.sendReply(params))
+        // this.on(riot.VEC('sendEdit'), params => this.sendEdit(params))
+        // this.on(riot.VEC('sendVote'), params => this.sendVote(params))
     }
     ajaxParams(key) {
         let url = `${api}/thread/${key}`,
@@ -20,8 +30,9 @@ class Comments extends MapStore {
         return response.json.comments
     }
 
-    updateThread(key, comments) {
-        this._map[key] = comments
+    updateThread(response) {
+        let key = response.json.name
+        this._map[key] = response.json.comments
         this.triggerChanged(key)
     }
 
@@ -32,8 +43,7 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        this.updateThread(params.code, this.processResponse(
-            await ajax({url, data, method: 'post'})))
+        this.updateThread(await ajax({url, data, method: 'post'}))
             // .then(this.processResponse.bind(this))
             // .then((response) => {
             //     this._map[params.code] = response
@@ -49,8 +59,46 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        this.updateThread(params.code, this.processResponse(
-            await ajax({url, data, method: 'post'})))
+        this.updateThread(await ajax({url, data, method: 'post'}))
+    }
+
+    // Edit a comment
+    async sendEdit(params) {
+        let url = api + params.url,
+            data = {
+                'token': await auth.getMicroToken(),
+                'text': params.text,
+            }
+        this.updateThread(await ajax({url, data, method: 'put'}))
+    }
+
+    // Delete a comment
+    async sendDelete(params) {
+        let url = api + params.url,
+            data = {
+                'token': await auth.getMicroToken(),
+            }
+        this.updateThread(await ajax({url, data, method: 'delete'}))
+    }
+
+    // Report a comment
+    async sendReport(params) {
+        let url = api + params.url
+            // data = {
+            //     'token': await auth.getMicroToken(),
+            // }
+        this.updateThread(await ajax({url, method: 'post'}))
+    }
+
+    // Upvote/downvote comment from a thread
+    // vote == true: upvote; vote == false: downvote
+    async sendVote(params) {
+        let url = api + params.url,
+            data = {
+                'token': await auth.getMicroToken(),
+                'vote': params.vote
+            }
+        this.updateThread(await ajax({url, data, method: 'post'}))
     }
 }
 
