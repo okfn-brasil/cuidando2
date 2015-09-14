@@ -5,27 +5,44 @@
         <div class="form-group">
             <label class="sr-only" for="comment-textarea">Comment</label>
             <textarea class="form-control"
+                      id="comment-textarea"
                       rows="3"
                       placeholder="Comentario!!!"/>
         </div>
         <button type="submit"
+                onclick="{ sendComment }"
                 class="btn btn-default">
             Enviar comentário
         </button>
     </form>
 
     <div>
-        <comment each={comments} data="{this}"/>
+        <comment each="{ comments }"
+            <!--                  data="{ this }" -->
+                 code="{opts.code}">
+            <!--                  replies="{this.replies}"> -->
+            <!--                  data="{comment}"
+            code="{code}"/> -->
     </div>
 
 
     <script type="es6">
     this.mixin('base')
     this.watchDepends('comments', 'code', () => {
+            console.log('NEW DATA', this.comments)
         // Sort comments by creation time
         this.comments = this.comments.sort(
             (a, b) => a.created > b.created ? 1 : -1)
+        // commentTextarea.val("")
         this.update()
     })
+
+    sendComment = () => {
+        this.triggerChange('sendComment', {
+            text: this['comment-textarea'].value,
+            code: this.code,
+        })
+    }
+
     </script>
 </comments>

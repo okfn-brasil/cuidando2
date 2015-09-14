@@ -6,7 +6,8 @@
                onclick={ fRoute('pessoa ' + author) }>
                 {author}
             </a>
-            <button class="btn btn-default comment-reply-button">
+            <button class="btn btn-default comment-reply-button"
+                    onclick="{ openReplyArea }">
                 { t("reply") }
             </button>
             <!--             {#if userIsAuthor}
@@ -22,20 +23,62 @@
             <span>Gostaram: {upvotes}</span>
             <span>Não gostaram: {downvotes}</span>
             <span>Criado: {created}</span>
-            <span>Modificado: {modified}</span>
-            <div id="comment-reply-container-{id}"></div> -->
+            <span>Modificado: {modified}</span> -->
+
+            <!-- Reply form -->
+            <form class="form-inline"
+                  if="{ isReplying }">
+                <div class="form-group">
+                    <label class="sr-only"
+                           for="comment-reply-textarea-{id}">
+                        Reply Comment
+                    </label>
+                    <textarea id="comment-reply-textarea-{id}"
+                              class="form-control"
+                              rows="3"/>
+                </div>
+                <button type="submit"
+                        onclick="{ sendReply }"
+                        class="btn btn-default">
+                    { t("Send") }
+                </button>
+                <button class="btn btn-warning"
+                        onclick="{ closeReplyArea }">
+                    { t("Cancel") }
+                </button>
+            </form>
         </div>
-        <comment each={comment in replies}
+
+        <!-- Replies list -->
+        <comment each="{replies}"
                  style="margin-left: 20px; margin-top: 20px"/>
+            <!--                  data="{ this }"
+            replies="{opts.replies}" -->
     </div>
 
 
     <script type="es6">
     this.mixin('base')
 
-         /*         data-comment-id="{id}"
-            data-comment-url="{url}"
-            data-comment-report-url="{report_url}"
-            data-comment-vote-url="{vote_url}" */
+    this.isReplying = false
+
+    this.openReplyArea = () => {
+        this.isReplying = true
+    }
+
+    this.closeReplyArea = () => {
+        this.isReplying = false
+    }
+
+    this.sendReply = () => {
+        this.triggerChange('sendReply', {
+            text: document.getElementById(
+                `comment-reply-textarea-${this.id}`).value,
+            url: this.url,
+            code: this.code,
+        })
+        this.closeReplyArea()
+    }
+
     </script>
 </comment>
