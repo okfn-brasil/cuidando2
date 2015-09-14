@@ -120,10 +120,12 @@ class Router {
 
     // Returns all the possible params names (main params or query)
     _listAllPossibleParamsNames() {
-        return new Set(Object.keys(this.routes)
+        return Object.keys(this.routes)
             .map(k => this.routes[k].mainParamsNames)
             .reduce((prev, cur) => prev.concat(cur),
-                    Object.keys(this.defaultParams))).values()
+                    Object.keys(this.defaultParams))
+            .filter((item, pos, self) =>
+                    self.indexOf(item) == pos)
     }
 
     // Returns all the possible query params names
