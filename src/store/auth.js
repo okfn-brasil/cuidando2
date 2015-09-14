@@ -32,7 +32,6 @@ if (/^\?redirect_state=/.test(location.search)) {
     }
 }
 
-
 class Auth {
     constructor(signal) {
         riot.observable(this)
@@ -74,6 +73,24 @@ class Auth {
         // for checks instead of the exp field in the tokens because server and
         // clients may differ time settings.
         localStorage.microTokenValidTime = now.getTime() + data.microTokenValidPeriod * 60000
+    }
+
+    async getMicroToken() {
+        var now = new Date()
+
+        // Check if micro token is still valid for 30s
+        if (now < localStorage.microTokenValidTime - 30000) {
+            console.log('auth:getMicroToken: no need to renew token')
+        } else {
+            let url = config.apiurl_auth + "/renew_micro_token",
+                data = {
+                    'token': localStorage.mainToken
+                }
+            console.log('auth:getMicroToken: renewing token with:', data)
+            data = await ajax({url, data, method: 'post'})
+            this.saveMicroToken(data.json)
+        }
+        return localStorage.microToken
     }
 
     getUsername() {
