@@ -17,6 +17,7 @@ export default class MapStore {
         this.signal = signal
 
         this.on(riot.VEL(this.signal), (key) => {
+            console.log('mapstore:signal', this.signal, 'key:', key)
             if (this.forceKey) key = this.forceKey
             if (key) this.load(key)
         })

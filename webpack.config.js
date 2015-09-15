@@ -24,7 +24,6 @@ module.exports = {
               loader: 'babel',
               query: {
                   modules: 'common',
-                  // stage: 1,
                   // optional: 'runtime',
               }
             }
