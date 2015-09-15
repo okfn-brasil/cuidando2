@@ -1,11 +1,7 @@
 <year-selector>
-    <select id="yearselector" onchange={ selectedYear }>
-        <option each={ _year, i in years.value }
-                value="{ _year }"
-                selected={ _year == year } >
-            { _year }
-        </option>
-    </select>
+    <styled-select options="{ prepareYearsList() }"
+                   current="{ year }"
+                   onchange={ selectedYear }/>
 
 
     <script type="es6">
@@ -14,8 +10,16 @@
     this.year = opts.year
     this.watch('years year')
 
-    this.selectedYear = (event) => {
-        this.triggerChange('year', event.target.value)
+    this.selectedYear = (year) => {
+        this.triggerChange('year', year)
+    }
+
+    this.prepareYearsList = () => {
+        if (this.years) {
+            return this.years.value.map((x) => {return {key: x, value: x}})
+        } else {
+            return []
+        }
     }
     </script>
 </year-selector>

@@ -1,0 +1,36 @@
+<styled-select>
+    <div onclick="{ toggleList }"
+         aria-expanded="{ isOpen ? true : false }"
+         role="listbox">
+        { getCurrent() }
+        <span class="caret"/>
+    </div>
+    <ul if="{ isOpen }">
+        <li each="{ opts.options }"
+            data-key="{ key }"
+            onclick="{ optionSelected }"
+            role="option">
+            { value }
+        </li>
+    </ul>
+
+
+    <script type="es6">
+    this.isOpen = false
+    this.toggleList = () => {
+        this.isOpen = !this.isOpen
+    }
+
+    this.optionSelected = (event) => {
+        opts.onchange(event.target.dataset.key)
+        this.isOpen = false
+    }
+
+    this.getCurrent = () => {
+        for (let pair of opts.options) {
+            if (pair.key == opts.current) return pair.value
+        }
+    }
+
+    </script>
+</styled-select>

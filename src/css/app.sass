@@ -1,4 +1,15 @@
+$main-color: #06A3C6
+$main-color-dark: #00667D
+$secondary-color: #F65F2D
 $navbar-height: 50px
+
+.navbar
+  background-color: $main-color
+  z-index: 3000
+  //height: $navbar-height
+  a
+    color: white
+    text-decoration: none
 
 body
   margin-top: $navbar-height
@@ -10,8 +21,75 @@ body
   color: white
   width: 32px
   height: 32px
-  /* background-color: greenyellow; */
+  /* background-color: greenyellow */
   text-align: center
   font-size: 24px
   line-height: 32px
   background-image: url('/assets/img/cluster_circle.png')
+
+
+styled-select
+  /* background-color: grey
+  cursor: pointer
+  width: 150px
+  display: block
+  text-align: center
+  line-height: 40px
+  position: relative
+
+  border: 1px solid white
+  border-radius: 2px
+  color: white
+
+  ul
+    text-align: center
+    position: absolute
+    top: 100%
+    right: 0px
+    left: 0px
+    background-color: $main-color
+    border-radius: 4px
+    z-index: 2000
+    margin: 2px
+    padding: 0px
+    list-style: outside none none
+    box-shadow: 2px 2px #000
+    li:hover
+      background-color: $main-color-dark
+
+
+year-selector > styled-select
+  background-color: white
+  color: $main-color
+  top: 265px
+  position: absolute
+  border-color: $secondary-color
+  border-radius: 3px
+  text-align: left
+  padding: 0px 10px
+  width: 90px
+  ul
+    background-color: white
+    color: $main-color
+  .caret
+    color: $secondary-color
+    float: right
+    top: 17px
+    position: relative
+  .caret::before
+    content: ""
+    border-left: 1px solid gray
+    position: relative
+    top: -23px
+    left: -12px
+
+
+.caret
+  display: inline-block
+  width: 0px
+  height: 0px
+  margin-left: 2px
+  vertical-align: middle
+  border-top: 4px solid
+  border-right: 4px solid transparent
+  border-left: 4px solid transparent

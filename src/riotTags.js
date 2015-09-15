@@ -1,3 +1,5 @@
+import './component/styledselect.html'
+
 import './component/menubar.html'
 import './component/loginform.html'
 import './component/yearselector.html'
