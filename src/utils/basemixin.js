@@ -7,6 +7,8 @@ var BaseMixin = {
     // init: function() {
     // },
 
+    router: router,
+
     t: function() {
         return translator.translate(...arguments)
     },
@@ -25,9 +27,17 @@ var BaseMixin = {
         this.on('unmount', () => riot.control.off(signal, func))
     },
 
-    router: router,
-    // config: config,
-    // s: stores,
+    // Run a function if enter was pressed
+    ifEnter: function(func) {
+        return (event) => {
+				    if(event.keyCode == 13){
+						    func()
+				    } else {
+                // If is not Enter, run default
+                return true
+            }
+        }
+    },
 
     watch: function(names) {
         names = names.split(' ')

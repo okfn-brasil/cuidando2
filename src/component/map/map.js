@@ -1,5 +1,6 @@
 // import leaflet from 'leaflet'
 import router from '../../store/router'
+import ajax from '../../utils/ajax.js'
 
 // var MQ = require('imports?leaflet=leaflet!exports?MQ!./mapquest.es5')
 var MQ = require('exports?MQ!./mapquest.es5')
@@ -151,6 +152,15 @@ class Map {
         } else {
             self.popup.setContent("Erro: descrição não encontrada!")
         }
+    }
+
+    async locateAddress(address) {
+        let base = "https://nominatim.openstreetmap.org/search/",
+            query = "?format=json&limit=1&countrycodes=br&viewbox=-47.16,-23.36,-45.97,-23.98&bounded=1",
+            url = base + address + query
+        let data = (await ajax({url})).json
+        if (data.length) this.map.setView([data[0].lat,data[0].lon], 16)
+        else alert('Endereço não encontrado...')
     }
 }
 

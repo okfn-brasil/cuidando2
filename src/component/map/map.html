@@ -1,5 +1,18 @@
 <map>
     <div id="map-container"></div>
+    <form class="form">
+        <input id="search-address-input"
+               class="input-medium search-query"
+               type="text"
+               style="width: 400px;"
+               onkeypress="{ ifEnter(locateAddress) }"
+               placeholder="Coloque aqui um endereço para procurar no mapa">
+        <button onclick="{ locateAddress }"
+                class="btn btn-primary"
+                type="button">
+            { t("Locate") }
+        </button>
+    </form>
 
 
     <script type="es6">
@@ -13,6 +26,8 @@
         this.watchDepends('points', 'year', () => map.updateMap(this.points))
     })
 
-
+    this.locateAddress = () => {
+        map.locateAddress(this['search-address-input'].value)
+    }
     </script>
 </map>

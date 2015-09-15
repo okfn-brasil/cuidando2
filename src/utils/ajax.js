@@ -18,6 +18,7 @@ function checkStatus(response) {
 
 function ajax(params) {
     let fParams = {
+        // If method is undefined, will default to 'get'
         method: params.method,
     }
     if (params.data) {
