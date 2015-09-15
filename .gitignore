@@ -71,6 +71,7 @@ cuidando2/js/main.js
 cuidando2/static/textpages
 
 fabfile.py
+fabfile.OLD.py
 prod_settings.py
 
 node_modules/
