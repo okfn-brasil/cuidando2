@@ -22,7 +22,8 @@
 
     <script type="es6">
     this.mixin('base')
-    this.code = opts.code
+    // this.code = opts.code
+    this.code = this.router.getParam('code')
 
     this.watchDepends('pointinfo', 'code', () => {
         this.keys = Object.keys(this.pointinfo)
