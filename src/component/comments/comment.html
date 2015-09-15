@@ -57,11 +57,13 @@
             <!-- Not Author buttons -->
             <div if="{ !checkIsAuthor() }">
                 <button class="btn btn-default comment-upvote-button"
-                        onclick="{ sendUpvote }">
+                        data-vote="up"
+                        onclick="{ sendVote }">
                     +1
                 </button>
                 <button class="btn btn-default comment-downvote-button"
-                        onclick="{ sendDownvote }">
+                        data-vote="down"
+                        onclick="{ sendVote }">
                     -1
                 </button>
                 <button class="btn btn-danger comment-report-button"
@@ -102,8 +104,6 @@
         <!-- Replies list -->
         <comment each="{replies}"
                  style="margin-left: 20px; margin-top: 20px"/>
-            <!--                  data="{ this }"
-            replies="{opts.replies}" -->
     </div>
 
 
@@ -147,19 +147,11 @@
         this.triggerChange('sendReport', {url: this['report_url']})
     }
 
-    this.sendUpvote = () => {
+    this.sendVote = (event) => {
         this.triggerChange('sendVote', {
             url: this['vote_url'],
-            vote: true,
+            vote: event.target.dataset.vote == 'up' ? true : false,
         })
     }
-
-    this.sendDownvote = () => {
-        this.triggerChange('sendVote', {
-            url: this['vote_url'],
-            vote: false,
-        })
-    }
-
     </script>
 </comment>
