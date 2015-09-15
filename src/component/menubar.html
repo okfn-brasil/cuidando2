@@ -4,6 +4,7 @@
             <div class="navbar-header">
                 <button type="button"
                         class="navbar-toggle collapsed"
+                        onclick="{ toggleExpanded }"
                         data-toggle="collapse"
                         data-target="#navbar"
                         aria-expanded="false"
@@ -15,32 +16,48 @@
                 </button>
                 <a id="home-button"
                    class="navbar-brand"
-                   onclick="{ fRoute('home') }"
+                   onclick="{ specialRoute('home') }"
                    href="#">
                     Cuidando
                 </a>
             </div>
 
-            <div id="navbar" class="collapse navbar-collapse">
+            <div id="navbar"
+                 class="collapse navbar-collapse {in: isExpanded}">
                 <!--                 <ul class="nav navbar-nav"> -->
                     <!-- <li class="active"><a href="/">Home</a></li> -->
                 <!--                 </ul> -->
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" onclick={ fRoute('texto sobre') }>{ t("About") }</a></li>
-                    <li><a href="#" onclick={ fRoute('texto outra') }>{ t("Another") }</a></li>
-                    <li><a href="#" onclick={ share }>{ t("Share") }</a></li>
-                    <li if={ username }><a href="#"
-                                           onclick={ fRoute('pessoa ' + username) }>
+                    <li><a href="#" onclick={ specialRoute('texto sobre') }>
+                        { t("About") }
+                    </a></li>
+                    <li><a href="#" onclick={ specialRoute('texto outra') }>
+                        { t("Another") }
+                    </a></li>
+
+                    <li>
+                        <a href="#" onclick={ share }>
+                            { t("Share") }
+                        </a>
+                    </li>
+
+                    <li if={ username }>
+                        <a href="#"
+                           onclick={ specialRoute('pessoa ' + username) }>
                         { username }
-                    </a></li>
-                    <li if={ !username }><a href="#"
-                                            onclick={ tags['login-form'].openLoginForm }>
+                        </a>
+                    </li>
+                    <li if={ !username }>
+                        <a href="#"
+                           onclick={ openLoginForm }>
                         { t("Login") }
-                    </a></li>
+                        </a>
+                    </li>
                     <li if={ username }><a href="#"
                                            onclick={ sendLogout }>
                         { t("Logout") }
                     </a></li>
+
                     <li>
                         <select class="navbar-btn" onchange={ selectedLang }>
                             <option each={ _lang in langs }
@@ -65,6 +82,15 @@
     this.watch('username')
     this.langs = translator.getLangs()
 
+    this.isExpanded = false
+    this.toggleExpanded = () => this.isExpanded = !this.isExpanded
+    this.closeExpanded = () => this.isExpanded = false
+
+    this.openLoginForm = () => {
+       this.closeExpanded()
+       this.tags['login-form'].openLoginForm()
+    }
+
     this.onControl(riot.SEC('lang'), (lang) => {
         if (this.lang != lang) {
             this.lang = lang
@@ -76,17 +102,27 @@
     this.lang = router.getParam('lang')
 
     this.selectedLang = (event) => {
+        this.closeExpanded()
         this.triggerChange('lang', event.target.value)
         // Prevent update, translator will do it
-        event.preventUpdate = true
+        //event.preventUpdate = true
     }
 
     this.sendLogout = () => this.triggerChange('logout')
 
     this.share = () => {
+        this.closeExpanded()
         let page = encodeURIComponent(location.href),
             title = "Cuidando 2"
         location.href = `http://www.facebook.com/sharer.php?u=${page}&t=${title}`
+    }
+
+    // A wrapper to route that also closes the menu if is expanded
+    this.specialRoute = (a, b) => {
+        return () => {
+            this.closeExpanded()
+            this.router.route(a, b)
+        }
     }
     </script>
 </menubar>
