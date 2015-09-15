@@ -13,8 +13,10 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.png$/, include: /assets/, loader: "file" },
-            { test: /\.css$/, include: /src/, loader: 'style!css' },
+            // { test: /\.png$/, include: /assets/, loader: "file" },
+            { test: /\.png$/, loader: "file" },
+            { test: /\.css$/, loader: 'style!css' },
+            { test: /\.scss$/, include: /src/, loader: 'style!css!sass' },
             { test: /\.sass$/, include: /src/, loader: 'style!css!sass?indentedSyntax' },
             { test: /\.html$/, include: /src/, loader: 'riotjs' },
             // { test: /\.es5\.js5$/, include: /src/, loader: 'script' },

@@ -11,5 +11,6 @@ import 'core-js/fn/promise.js'
 
 import 'riot'
 import 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster'
 import 'regeneratorRuntime'
