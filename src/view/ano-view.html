@@ -12,9 +12,16 @@
 
     <charts year={year}/>
     <dyntable/>
-    <a class="btn btn-default" href="http://site.gastosabertos.org/static-downloads/execucao/" target="_blank">
-        { t("Download table") }
-    </a>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <a class="btn center-block download-table"
+            href="http://site.gastosabertos.org/static-downloads/execucao/"
+            target="_blank">
+                { t("Download table") }
+            </a>
+        </div>
+    </div>
 
 
     <script type="es6">
@@ -22,5 +29,8 @@
      /*     this.year = opts.year */
     this.year = this.router.getParam('year')
     this.watch('year')
+
+    this.openExternal = () =>
+        window.open("http://site.gastosabertos.org/static-downloads/execucao/")
     </script>
 </ano-view>
