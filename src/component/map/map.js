@@ -34,7 +34,7 @@ var yellowIcon = leaflet.icon({
 });
 
 function getcolor(state) {
-    if(state == "orcado") return redIcon
+    if(state == "orcado") return yellowIcon
     if(state == "atualizado") return yellowIcon
     if(state == "empenhado") return greenIcon
     if(state == "liquidado") return blueIcon
