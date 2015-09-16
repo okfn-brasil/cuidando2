@@ -1,17 +1,22 @@
 <map>
     <div id="map-container"></div>
-    <form class="form">
+    <div class="input-group search-address">
         <input id="search-address-input"
-               class="input-medium search-query"
+               class="input-medium search-query form-control"
                type="text"
                style="width: 400px;"
                onkeypress="{ ifEnter(locateAddress) }"
-               placeholder="Coloque aqui um endereço para procurar no mapa">
-        <button onclick="{ locateAddress }"
-                class="btn btn-primary"
-                type="button">
-            { t("Locate") }
-        </button>
+               placeholder="Procure pelo bairro ou endereço">
+        <span class="input-group-btn">
+            <button onclick="{ locateAddress }"
+                    class="btn btn-color-sec"
+                    type="button">
+                { t("Locate") }
+            </button>
+        </span>
+    </div>
+</div>
+
     </form>
 
 

@@ -13,29 +13,29 @@ var MQ = require('exports?MQ!./mapquest.es5')
 
 //icones
 var greenIcon = leaflet.icon({
-    iconUrl: 'assets/img/verde.png',
+    iconUrl: 'assets/img/empenhado.png',
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
 var blueIcon = leaflet.icon({
-    iconUrl: 'assets/img/azul.png',
+    iconUrl: 'assets/img/liquidado.png',
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
 var redIcon = leaflet.icon({
-    iconUrl: 'assets/img/vermelho.png',
+    iconUrl: 'assets/img/planejado.png',
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
-var yellowIcon = leaflet.icon({
-    iconUrl: 'assets/img/amarelo.png',
-    iconSize: [25, 41],
-    popupAnchor: [0, -10],
-});
+// var yellowIcon = leaflet.icon({
+//     iconUrl: 'assets/img/amarelo.png',
+//     iconSize: [25, 41],
+//     popupAnchor: [0, -10],
+// });
 
 function getcolor(state) {
-    if(state == "orcado") return yellowIcon
-    if(state == "atualizado") return yellowIcon
+    if(state == "orcado") return redIcon
+    if(state == "atualizado") return redIcon
     if(state == "empenhado") return greenIcon
     if(state == "liquidado") return blueIcon
     return null
