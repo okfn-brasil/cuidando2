@@ -1,7 +1,11 @@
+
 $main-color: #06A3C6
 $main-color-dark: #00667D
 $secondary-color: #F65F2D
 $navbar-height: 50px
+
+.navbar-brand
+  height: 15px
 
 .navbar
   background-color: $main-color
@@ -61,7 +65,7 @@ styled-select
 year-selector > styled-select
   background-color: white
   color: $main-color
-  top: 265px
+  top: 75px
   position: absolute
   border-color: $secondary-color
   border-radius: 3px
@@ -93,3 +97,12 @@ year-selector > styled-select
   border-top: 4px solid
   border-right: 4px solid transparent
   border-left: 4px solid transparent
+
+.text-center
+  text-align: center
+
+.inline-block
+  display: inline-block
+
+
+@import _charts.sass

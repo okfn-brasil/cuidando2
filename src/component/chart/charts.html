@@ -1,34 +1,77 @@
 <charts>
-    <p>Mapeadas: {yearinfo.rows.mapped}</p>
-    <p>Não mapeadas: {yearinfo.rows.total - yearinfo.rows.mapped}</p>
-    <bar color={colorNM} percentage={perNotMapped}/>
-    <bar color={colorM} percentage={perMapped}/>
-    <donut color={colorNM} percentage={perNotMapped}/>
-    <donut color={colorM} percentage={perMapped}/>
+    <div class="row">
+        <div class="inline-block donut-group not-mapped">
+            <donut color={colorNM} percentage={perNotMapped}/>
+            <p class="abs-number">{rowsNotMapped}</p>
+            <p>Não mapeadas</p>
+        </div>
+
+        <div class="inline-block donut-group mapped">
+            <donut color={colorM} percentage={perMapped}/>
+            <p class="abs-number">{rowsMapped}</p>
+            <p>Mapeadas</p>
+        </div>
+
+        <div class="inline-block values-block">
+            <div each="{ values }" class="value-block">
+                <div class="icon-block">
+                    <img src="assets/img/{name}.png"/>
+                    <span>{ capitalize(name) }</span>
+                </div>
+                <div class="bar-block">
+                    <bar color={colorNM} percentage={notMapped.per}/>
+                    <bar color={colorM} percentage={mapped.per}/>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script type="es6">
+    import {format, capitalize} from '../../utils/helpers'
+    this.capitalize = capitalize
     this.mixin('base')
 
     this.year = opts.year
     this.yearinfo = ''
-    this.colorM = "00F"
-    this.colorNM = "Fa0"
+    this.colorM = "06A3C6"
+    this.colorNM = "F65F2D"
 
-    this.perNotMapped = 0
-    this.perMapped = 0
-
+    //this.perNotMapped = 0
+    //this.perMapped = 0
+    //values = {
+    //    mapped: {per: 0},
+    //    notmapped: {per: 0},
+    //}
 
     this.watchDepends('yearinfo', 'year', () => {
-        this.yearinfo.rows["mapped-per"] = Math.round(this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
-        this.perNotMapped = 100 - this.yearinfo.rows["mapped-per"]
-        this.perMapped = this.yearinfo.rows["mapped-per"]
-        // Values table
-        this.yearinfo.values.forEach((index, valueElement) => {
-            valueElement.unmapped = valueElement.total - valueElement.mapped
-            valueElement.percentage = Math.round(valueElement.mapped / valueElement.total * 100)
-        })
+        // Rows
+        this.perMapped = Math.round(
+            this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
+        this.perNotMapped = 100 - this.perMapped
+        this.rowsNotMapped = format(this.yearinfo.rows.total - this.yearinfo.rows.mapped)
+        this.rowsMapped = format(this.yearinfo.rows.mapped)
 
+        // Values
+        // remove orcado
+        this.yearinfo.values.shift()
+        this.values = []
+        for (let info of this.yearinfo.values) {
+            if (info.name != 'orcado') {
+                let notMapped = info.total - info.mapped
+                this.values.push({
+                    name: info.name == 'atualizado' ? 'planejado' : info.name,
+                    mapped: {
+                        abs: info.mapped,
+                        per: Math.round(info.mapped / info.total * 100)
+                    },
+                    notMapped: {
+                        abs: notMapped,
+                        per: Math.round(notMapped / info.total * 100)
+                    }
+                })
+            }
+        }
         this.update()
     })
     </script>
