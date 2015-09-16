@@ -24,10 +24,20 @@ donut
   color: $main-color
 
 
+.bar
+  position: relative
+
+
+$bar-height: 20px
+
 .outer-bar
   width: 360px
-  height: 20px
+  height: $bar-height
   margin: 2px 10px
+  position: relative
+
+  .tooltip
+    bottom: $bar-height / 2 + 5px
 
 .inner-bar
   height: 100%

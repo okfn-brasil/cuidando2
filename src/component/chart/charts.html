@@ -1,5 +1,6 @@
 <charts>
     <div class="row">
+        <!--
         <div class="col-lg-6 margin-bottom">
             <div class="inline-block donut-group not-mapped">
                 <donut color={colorNM} percentage={perNotMapped}/>
@@ -12,6 +13,7 @@
                 <p>Mapeadas</p>
             </div>
         </div>
+        -->
 
         <div class="col-lg-6">
             <div class="inline-block values-block">
@@ -21,8 +23,16 @@
                         <span>{ capitalize(name) }</span>
                     </div>
                     <div class="bar-block">
-                        <bar color={colorNM} percentage={notMapped.per}/>
-                        <bar color={colorM} percentage={mapped.per}/>
+                        <bar color={colorNM}
+                             class="not-mapped"
+                             title="Não mapeado"
+                             absolute={notMapped.abs}
+                             percentage={notMapped.per}/>
+                        <bar color={colorM}
+                             class="mapped"
+                             title="Mapeado"
+                             absolute={mapped.abs}
+                             percentage={mapped.per}/>
                     </div>
                 </div>
             </div>
@@ -65,12 +75,12 @@
                 this.values.push({
                     name: info.name == 'atualizado' ? 'planejado' : info.name,
                     mapped: {
-                        abs: info.mapped,
-                        per: Math.round(info.mapped / info.total * 100)
+                        abs: `R$${format(info.mapped)}`,
+                        per: Math.round(info.mapped / info.total * 100),
                     },
                     notMapped: {
-                        abs: notMapped,
-                        per: Math.round(notMapped / info.total * 100)
+                        abs: `R$${format(notMapped)}`,
+                        per: Math.round(notMapped / info.total * 100),
                     }
                 })
             }

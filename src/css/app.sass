@@ -70,6 +70,8 @@ year-selector > styled-select
   background-color: white
   color: $main-color
   top: 75px
+  left: 60px
+  font-weight: bold
   position: absolute
   border-color: $secondary-color
   border-radius: 3px
@@ -101,6 +103,52 @@ year-selector > styled-select
   border-top: 4px solid
   border-right: 4px solid transparent
   border-left: 4px solid transparent
+
+
+.tooltip
+  position: absolute
+  background: white
+  border: 1px solid $main-color
+  padding: 7px
+  border-radius: 3px
+  /* top: 0px
+  /* left: 0px
+  z-index: 1050
+
+  &.not-mapped
+    border-color: $secondary-color
+
+  .number
+    font-weight: bold
+
+/* .mapped
+/*   border-color: $main-color
+
+.tooltip:after, .tooltip:before
+  top: 100%
+  left: 50%
+  border: solid transparent
+  content: " "
+  height: 0
+  width: 0
+  position: absolute
+  pointer-events: none
+
+.tooltip:after
+  border-color: rgba(136, 183, 213, 0)
+  border-top-color: white
+  border-width: 5px
+  margin-left: -5px
+
+.tooltip:before
+  border-color: rgba(212, 245, 0, 0)
+  border-top-color: $main-color
+  border-width: 6px
+  margin-left: -6px
+
+.tooltip.not-mapped:before
+  border-top-color: $secondary-color
+
 
 .text-center
   text-align: center
