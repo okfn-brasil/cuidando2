@@ -150,8 +150,15 @@ year-selector > styled-select
   border-top-color: $secondary-color
 
 
+
 .text-center
   text-align: center
+
+.text-right
+  text-align: right
+
+.text-left
+  text-align: left
 
 .inline-block
   display: inline-block
@@ -159,5 +166,16 @@ year-selector > styled-select
 .margin-bottom
   margin-bottom: 50px
 
+.relative
+  position: relative
+
+.clickable
+  cursor: pointer
+
+a.disabled
+  color: gray !important
+  pointer-events: none
+
 
 @import _charts.sass
+@import _table.sass

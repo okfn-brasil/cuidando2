@@ -64,8 +64,6 @@
         this.rowsMapped = format(this.yearinfo.rows.mapped)
 
         // Values
-        // remove orcado
-        this.yearinfo.values.shift()
         this.values = []
         for (let info of this.yearinfo.values) {
             if (info.name != 'orcado') {

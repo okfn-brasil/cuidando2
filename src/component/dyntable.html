@@ -1,54 +1,62 @@
 <dyntable>
-    <h2>Table com { totalRows } linhas</h2>
+    <!--     <h2>Table com { totalRows } linhas</h2> -->
     <div class="table-responsive">
         <table class="table table-hover">
             <!--             <colgroup>
             <col style="color: #ff0">
             </colgroup> -->
             <tr>
-                <th>Descrição</th>
+                <th class="text-left relative">
+                    Descrição
+                    <span class="table-header-mark"/>
+                </th>
                 <th>Planejado</th>
                 <th>Empenhado</th>
                 <th>Liquidado</th>
-                <th>Órgão</th>
+                <th class="text-left">Órgão</th>
             </tr>
-            <tr each={ tabledata } onclick="{ fRoute('despesa', {code:code}) }">
-                <td>{ ds_projeto_atividade }</td>
-                <td>{ calcPlanejado(sld_orcado_ano, vl_atualizado) }</td>
-                <td>{ vl_empenhadoliquido }</td>
-                <td>{ vl_liquidado }</td>
+            <tr each={ tabledata }
+                class="clickable"
+                onclick="{ fRoute('despesa', {code:code}) }">
+                <td class="main-cell">{ ds_projeto_atividade }</td>
+                <td class="text-right">
+                    { formatCur(calcPlanejado(sld_orcado_ano, vl_atualizado)) }
+                </td>
+                <td class="text-right">
+                    { formatCur(vl_empenhadoliquido) }
+                </td>
+                <td class="text-right">
+                    { formatCur(vl_liquidado) }
+                </td>
                 <td>{ ds_orgao }</td>
             </tr>
         </table>
     </div>
-    <a onclick="{ fRoute({page:0}) }"
-        if="{ page != 0 }"
-        href="#">
-        Primeira
-    </a>
-    <a each={ num, i in pageIndexes }
-        onclick="{ fRoute({page:num}) }"
-        class="{disabled: num == page }"
-        role="button"
-        href="#">
-        { num + 1 }
-    </a>
-    <a onclick="{ fRoute({page:lastPage}) }"
-        if="{ page != lastPage }"
-        href="#">
-        Última
-    </a>
-
-    <style>
-     a.disabled {
-         color: gray;
-        pointer-events: none;
-     }
-    </style>
+    <div class="text-right table-controls">
+        <a onclick="{ fRoute({page:0}) }"
+            if="{ page != 0 }"
+            href="#">
+            primeira
+        </a>
+        <a each={ num, i in pageIndexes }
+            onclick="{ fRoute({page:num}) }"
+            class="{disabled: num == page }"
+            role="button"
+            href="#">
+            { num + 1 }
+        </a>
+        <a onclick="{ fRoute({page:lastPage}) }"
+            if="{ page != lastPage }"
+            href="#">
+            última
+        </a>
+    </div>
 
 
     <script type="es6">
     import stores from '../stores'
+    import {formatCur} from '../utils/helpers'
+    this.formatCur = formatCur
     this.mixin('base')
 
     this.year = this.router.getParam('year')

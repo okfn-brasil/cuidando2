@@ -1,0 +1,36 @@
+.table
+  width: 100%
+
+td, th
+  padding: 8px
+  padding-left: 30px
+
+.table > tbody > tr > th
+  text-transform: uppercase
+  padding-bottom: 20px
+  border-top-width: 0px
+
+
+tr
+  padding-left: 20px
+  border-top-width: 0px
+  border-bottom: 1px solid #DDD
+  &.clickable:hover
+    background-color: #EDEDED
+
+.main-cell
+  color: $secondary-color
+  max-width: 300px
+
+.table-controls
+  margin: 10px 30px
+  a
+    color: $secondary-color
+
+.table-header-mark
+  height: 3px
+  width: 80px
+  background-color: $secondary-color
+  display: block
+  position: absolute
+  bottom: 0px
