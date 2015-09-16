@@ -1,26 +1,29 @@
 <charts>
     <div class="row">
-        <div class="inline-block donut-group not-mapped">
-            <donut color={colorNM} percentage={perNotMapped}/>
-            <p class="abs-number">{rowsNotMapped}</p>
-            <p>Não mapeadas</p>
+        <div class="col-lg-6 margin-bottom">
+            <div class="inline-block donut-group not-mapped">
+                <donut color={colorNM} percentage={perNotMapped}/>
+                <p class="abs-number">{rowsNotMapped}</p>
+                <p>Não mapeadas</p>
+            </div>
+            <div class="inline-block donut-group mapped">
+                <donut color={colorM} percentage={perMapped}/>
+                <p class="abs-number">{rowsMapped}</p>
+                <p>Mapeadas</p>
+            </div>
         </div>
 
-        <div class="inline-block donut-group mapped">
-            <donut color={colorM} percentage={perMapped}/>
-            <p class="abs-number">{rowsMapped}</p>
-            <p>Mapeadas</p>
-        </div>
-
-        <div class="inline-block values-block">
-            <div each="{ values }" class="value-block">
-                <div class="icon-block">
-                    <img src="assets/img/{name}.png"/>
-                    <span>{ capitalize(name) }</span>
-                </div>
-                <div class="bar-block">
-                    <bar color={colorNM} percentage={notMapped.per}/>
-                    <bar color={colorM} percentage={mapped.per}/>
+        <div class="col-lg-6">
+            <div class="inline-block values-block">
+                <div each="{ values }" class="value-block">
+                    <div class="icon-block">
+                        <img src="assets/img/{name}.png"/>
+                        <span>{ capitalize(name) }</span>
+                    </div>
+                    <div class="bar-block">
+                        <bar color={colorNM} percentage={notMapped.per}/>
+                        <bar color={colorM} percentage={mapped.per}/>
+                    </div>
                 </div>
             </div>
         </div>
