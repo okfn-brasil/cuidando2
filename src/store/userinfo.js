@@ -1,6 +1,8 @@
 import ajax from '../utils/ajax'
-import config from '../config.js'
+import config from 'config'
 import MapStore from './mapStore'
+
+let api = config.apiurl_auth
 
 class UserInfo extends MapStore {
     constructor(signal) {
@@ -8,8 +10,7 @@ class UserInfo extends MapStore {
         // this.init(signal)
     }
     ajaxParams(key) {
-        let api = config.apiurl_auth,
-            url = `${api}/user/${key}`,
+        let url = `${api}/user/${key}`,
             method = 'get'
         return {url, method}
     }

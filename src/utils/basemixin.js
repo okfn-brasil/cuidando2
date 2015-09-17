@@ -1,7 +1,5 @@
 import translator from '../utils/translator'
 import router from '../store/router'
-// import config from '../config'
-// import stores from '../stores'
 
 var BaseMixin = {
     // init: function() {

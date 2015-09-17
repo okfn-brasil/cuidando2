@@ -1,7 +1,19 @@
 var webpack = require('webpack')
 
+function getConfig() {
+    var env = process.env.CONFIG_FILE_ENV
+    if (env) {
+        var configFile = 'config_' + env + '.js'
+    } else {
+        var configFile = 'config.js'
+    }
+    console.log("Using this config file: ", configFile)
+    return __dirname + '/configs/' + configFile
+}
+
 module.exports = {
     cache: true,
+    resolve: { alias: {config: getConfig()} },
     entry: {
       app: './src/index.js',
       vendor: './src/vendor.js',
@@ -19,10 +31,10 @@ module.exports = {
             { test: /\.scss$/, include: /src/, loader: 'style!css!sass' },
             { test: /\.sass$/, include: /src/, loader: 'style!css!sass?indentedSyntax' },
             { test: /\.html$/, include: /src/, loader: 'riotjs' },
-            // { test: /\.es5\.js5$/, include: /src/, loader: 'script' },
             { test: /\.js$/,
               exclude: /\.es5\.js$/,
-              include: /src/,
+              // include: /src/,
+              include: [ /configs/, /src/ ],
               loader: 'babel',
               query: {
                   modules: 'common',
@@ -37,12 +49,15 @@ module.exports = {
           leaflet: 'leaflet',
           regeneratorRuntime: 'regeneratorRuntime',
           // TODO: carregar como os outros polyfills
-          'fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+          fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
       }),
-      new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")
+      new webpack.optimize.CommonsChunkPlugin(
+          /* chunkName= */"vendor",
+          /* filename= */"vendor.bundle.js")
     ],
     devServer: {
         port: 5001
     },
-    devtool: "source-map"
+    // devtool: "source-map"
+    devtool: "eval"
 }

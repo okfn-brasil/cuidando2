@@ -1,4 +1,4 @@
-import config from '../config.js'
+import config from 'config'
 import ajax from '../utils/ajax.js'
 import MapStore from './mapStore'
 import auth from './auth'

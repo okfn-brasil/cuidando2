@@ -62,10 +62,10 @@ Para compilar o site para produção, rode:
 $ npm run dist
 ```
 
-Caso queira usar um arquivo de configuração diferente do `config.js`, por exemplo um `config_prod.js` use:
+Caso queira usar um arquivo de configuração diferente do `config.js`, por exemplo um `config_prod.js`, passe a especificação desse arquivo através da variável de ambiente `CONFIG_FILE_ENV`. Para o arquivo `config_prod.js` ela deveria ser ajustada para `prod`. A seguinte linha geraria o site compilado usando a configuração de produção:
 
 ```
-$ NAO SEI....
+$ CONFIG_FILE_ENV=prod npm run dist
 ```
 
 O site compilado (estático, com JS minificado etc) deverá estar na pasta `build`.

@@ -1,6 +1,8 @@
 import decodeToken from 'jwt-decode'
 import ajax from '../utils/ajax'
-import config from '../config.js'
+import config from 'config'
+
+let api = config.apiurl_auth
 
 let hasLocalStorage = true
 
@@ -82,7 +84,7 @@ class Auth {
         if (now < localStorage.microTokenValidTime - 30000) {
             console.log('auth:getMicroToken: no need to renew token')
         } else {
-            let url = config.apiurl_auth + "/renew_micro_token",
+            let url = api + "/renew_micro_token",
                 data = {
                     'token': localStorage.mainToken
                 }
@@ -108,7 +110,7 @@ class Auth {
 
     register(params) {
         ajax({
-            url: config.apiurl_auth + "/user/" + params.username,
+            url: api + "/user/" + params.username,
             data: {password: params.password, email: params.email},
             method: 'post',
         }).then(this.saveTokens.bind(this))
@@ -116,7 +118,7 @@ class Auth {
 
     login(params) {
         ajax({
-            url: config.apiurl_auth + "/login/local",
+            url: api + "/login/local",
             data: {username: params.username, password: params.password},
             method: 'post',
         }).then(this.saveTokens.bind(this))
@@ -124,7 +126,7 @@ class Auth {
 
     loginFacebook() {
         ajax({
-            url: config.apiurl_auth + '/login/external/manual/facebook',
+            url: api + '/login/external/manual/facebook',
             method: 'get',
         }).then(response => {
             let origRedirect = response.redirect,
@@ -143,14 +145,14 @@ class Auth {
     // Complete Facebook login after redirect
     completeFacebook(query) {
         ajax({
-            url: config.apiurl_auth + "/complete/manual/facebook" + query,
+            url: api + "/complete/manual/facebook" + query,
             method: 'post',
         }).then(this.saveTokens.bind(this))
     }
 
     logout() {
         ajax({
-            url: config.apiurl_auth + "/logout",
+            url: api + "/logout",
             data: {'token': localStorage.mainToken},
             method: 'post',
         })

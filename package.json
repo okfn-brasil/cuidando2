@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --progress --colors",
-    "dist": "webpack -p -d",
+    "dist": "CONFIG_FILE_ENV=prod webpack -p -d",
     "viewdist": "light-server -s . -p 5001"
   },
   "devDependencies": {

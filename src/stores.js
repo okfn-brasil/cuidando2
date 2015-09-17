@@ -1,12 +1,8 @@
-import config from './config.js'
+import config from 'config'
 
-// import years from './store/years'
 import comments from './store/comments'
 import auth from './store/auth'
 import userinfo from './store/userinfo'
-// import yearinfo from './store/yearinfo'
-// import pointinfo from './store/pointinfo'
-// import points from './store/points'
 import router from './store/router'
 import MapStore from './store/mapStore'
 
@@ -27,10 +23,13 @@ import MapStore from './store/mapStore'
 // let stores = new Proxy(stores_list, handler)
 
 
+let api = config.apiurl_money
+
+
+// Store for details about a point
 class PointInfo extends MapStore {
     ajaxParams(key) {
-        let api = config.apiurl_money,
-            url = `${api}/execucao/list?code=${key}`,
+        let url = `${api}/execucao/list?code=${key}`,
             method = 'get'
         return {url, method}
     }
@@ -41,10 +40,10 @@ class PointInfo extends MapStore {
 let pointinfo = new PointInfo('pointinfo')
 
 
+// Store for list of points for map
 class Points extends MapStore {
     ajaxParams(key) {
-        let api = config.apiurl_money,
-            url = `${api}/execucao/minlist/${key}?state=1&capcor=1`,
+        let url = `${api}/execucao/minlist/${key}?state=1&capcor=1`,
             method = 'get'
         return {url, method}
     }
@@ -55,10 +54,10 @@ class Points extends MapStore {
 let points = new Points('points')
 
 
+// Store for general data about an year
 class YearInfo extends MapStore {
     ajaxParams(key) {
-        let api = config.apiurl_money,
-            url = `${api}/execucao/info/${key}`,
+        let url = `${api}/execucao/info/${key}`,
             method = 'get'
         return {url, method}
     }
@@ -69,10 +68,10 @@ class YearInfo extends MapStore {
 let yearinfo = new YearInfo('yearinfo')
 
 
+// Store for dynamic table
 class TableData extends MapStore {
     ajaxParams(key) {
         let [ year, page ] = key.split('-'),
-            api = config.apiurl_money,
             url = `${api}/execucao/list?year=${year}&page=${page}&per_page_num=25`,
             method = 'get'
         return {url, method}
@@ -86,10 +85,10 @@ class TableData extends MapStore {
 let tabledata = new TableData('tabledata')
 
 
+// Store for year list
 class Years extends MapStore {
     ajaxParams(key) {
-        let api = config.apiurl_money,
-            url = `${api}/execucao/info`,
+        let url = `${api}/execucao/info`,
             method = 'get'
         return {url, method}
     }
