@@ -1,6 +1,13 @@
 <app>
     <menubar/>
-    <map if={ checkMapVisibility() }/>
+            <map if={ checkMapVisibility() }
+                big="{ this.bigmap }"/>
+    <!--
+    <div class="container{-fluid: this.bigmap}">
+        <div class="row">
+        </div>
+    </div>
+    -->
 
     <div class="container">
         <div id="mainview"></div>
@@ -21,6 +28,10 @@
 
     this.on('mount', () => {
         this.router.init()
+    })
+
+    this.on('update', () => {
+        this.bigmap = this._root == 'despesa' ? false : true
     })
     </script>
 </app>

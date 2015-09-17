@@ -77,6 +77,10 @@ class Map {
 
     }
 
+    redraw() {
+        if (this.map) this.map.invalidateSize()
+    }
+
     updateMap(points) {
         if (!this.map) this.initMap(this.domId)
 

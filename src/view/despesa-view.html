@@ -1,16 +1,33 @@
 <despesa-view>
-    <h1>Despesa: { this.pointinfo.ds_projeto_atividade }</h1>
+    <div class="row relative">
+        <a class="back-to-year left-arrow"
+        href="#"
+        onclick={fRoute('ano')}>
+            voltar para o ano
+        </a>
 
-    <button class="btn btn-default center-block"
-            onclick={fRoute('ano')}>
-        Voltar
-    </button>
+        <div class="col-md-offset-5 col-md-7 col-lg-8 col-lg-offset-4 main-data">
+            <h2>Despesa: { this.pointinfo.ds_projeto_atividade }</h2>
 
-    <p>Planejado: {this.planejado}</p>
-    <p>Empenhado: {this.empenhado}</p>
-    <p>Liquidado: {this.liquidado}</p>
+            <div each="{ cat, i in categories }" class="col-md-4 category">
+                <div class="title">{ cat }</div>
+                <img src="assets/img/{cat}.png"/>
+                <div class="value">R$ { formatCur(this[cat]) }</div>
+            </div>
+            <!--
+            <div class="col-md-4">
+                <span class="title">Empenhado</span>
+                <span>{this.empenhado}</span>
+            </div>
+            <div class="col-md-4">
+                <span class="title">Liquidado</span>
+                <span>{this.liquidado}</span>
+            </div>
+            -->
+        </div>
+    </div>
+
     <p>Orgão: {this.orgao}</p>
-
     <ul>
         <li each={key, i in keys}>
             {key} : {this.pointinfo[key]}
@@ -21,9 +38,13 @@
 
 
     <script type="es6">
+    import {formatCur} from '../utils/helpers'
+    this.formatCur = formatCur
     this.mixin('base')
     // this.code = opts.code
     this.code = this.router.getParam('code')
+
+    this.categories = ['planejado', 'empenhado', 'liquidado']
 
     this.watchDepends('pointinfo', 'code', () => {
         this.keys = Object.keys(this.pointinfo)

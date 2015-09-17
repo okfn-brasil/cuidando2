@@ -1,6 +1,9 @@
 <map>
-    <div id="map-container"></div>
-    <div class="input-group search-address">
+    <div id="map-parent-container" class="{ map-big: opts.big }">
+        <div id="map-container"/>
+    </div>
+    <div class="input-group search-address"
+         if="{ opts.big }">
         <input id="search-address-input"
                class="input-medium search-query form-control"
                type="text"
@@ -15,7 +18,6 @@
             </button>
         </span>
     </div>
-</div>
 
     </form>
 
@@ -27,12 +29,20 @@
     this.one('mount', () => {
         this.year = this.router.getParam('year')
         map.initMap('map-container')
-
+            window.m = map
         this.watchDepends('points', 'year', () => map.updateMap(this.points))
+    })
+
+    this.on('updated', () => {
+        /*         map.setSizeBig(opts.big) */
+        map.redraw()
     })
 
     this.locateAddress = () => {
         map.locateAddress(this['search-address-input'].value)
     }
+
+    console.log('MAP BIG:', opts.big)
+
     </script>
 </map>
