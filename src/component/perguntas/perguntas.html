@@ -6,12 +6,14 @@
         <span class="right-arrow"/>
     </button>
 
-    <new-pergunta-form/>
+    <modal>
+        <new-pergunta-form/>
+    </modal>
 
     <script type="es6">
     this.mixin('base')
     this.openNewPerguntaForm = () => {
-       this.tags['new-pergunta-form'].openForm()
+       this.tags.modal.openModal()
     }
     </script>
 </perguntas>

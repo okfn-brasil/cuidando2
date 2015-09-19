@@ -1,11 +1,59 @@
 <new-pergunta-form>
-    <h2>O que deseja perguntar?</h2>
+    <div class="modal-body">
+        <h2>O que deseja perguntar?</h2>
 
-    <p>Lembre-se que...
-        <a href="#">veja as dicas para elaborar uma pergunta.</a>
-    </p>
+        <p>Lembre-se que...
+            <a href="#">veja as dicas para elaborar uma pergunta.</a>
+        </p>
+
+        <styled-select class="separated-caret text-left"
+                       options="{ mainDests }"
+                       current="{ mainDest }"
+                       onchange={ mainDestSelected }/>
+
+        <p>Pergunta referente à despesa ...</p>
+
+        <form class="form">
+            <div class="form-group">
+                <label class="sr-only" for="new-pergunta-textarea">
+                    Pergunta
+                </label>
+                <textarea id="new-pergunta-textarea"
+                            class="form-control"
+                            rows="5">
+                </textarea>
+            </div>
+            <button type="submit"
+                    onclick="{ sendPedido }"
+                    class="btn btn-color-sec float-right">
+                { t("Send") }
+            </button>
+        </form>
+
+        <p>Li e concordo com os <a href="#">termos de uso</a>.</p>
+
+    </div>
 
     <script type="es6">
     this.mixin('base')
+
+    this.mainDests = [
+        {key: 'camara', value: 'camara'},
+        {key: 'prefeitura', value: 'prefeitura'}
+    ]
+
+    this.mainDest = 'prefeitura'
+
+    this.mainDestSelected = (option) => {
+        console.log(option)
+        this.mainDest = option
+        this.update()
+    }
+
+    this.sendPedido = () => {
+        let text = this['new-pergunta-textarea'].value
+        console.log(text)
+    }
+
     </script>
 </new-pergunta-form>

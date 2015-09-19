@@ -4,6 +4,7 @@ $main-color-dark: #00667D
 $secondary-color: #F65F2D
 $secondary-color-light: #F59B7D
 $neutral-color-light: gray
+$neutral-color-dark: gray
 $error-color: #FE2F55
 $error-color-light: #FFE0E6
 
@@ -19,6 +20,9 @@ $navbar-height: 50px
   a
     color: white
     text-decoration: none
+
+a
+  color: $secondary-color
 
 body
   margin-top: $navbar-height
@@ -73,17 +77,22 @@ year-selector > styled-select
   ul
     background-color: white
     color: $main-color
+
+
+.separated-caret
   .caret
     color: $secondary-color
-    float: right
-    top: 17px
-    position: relative
+    top: 50%
+    right: 7px
+    position: absolute
   .caret::before
     content: ""
     border-left: 1px solid gray
-    position: relative
-    top: -23px
+    position: absolute
+    top: -18px
     left: -12px
+    height: 30px
+    display: block
 
 
 .caret
@@ -198,6 +207,9 @@ year-selector > styled-select
   margin-left: auto
   display: block
 
+.float-right
+  float: right
+
 .text-center
   text-align: center
 
@@ -234,3 +246,4 @@ a.disabled
 @import _comments.sass
 @import _tabs.sass
 @import _modal.sass
+@import _perguntas.sass

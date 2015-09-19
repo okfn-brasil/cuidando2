@@ -49,7 +49,7 @@
                     </li>
                     <li if={ !username }>
                         <a href="#"
-                           onclick={ openLoginForm }>
+                           onclick={ openLoginModal }>
                         { t("Login") }
                         </a>
                     </li>
@@ -95,7 +95,7 @@
     this.toggleExpanded = () => this.isExpanded = !this.isExpanded
     this.closeExpanded = () => this.isExpanded = false
 
-    this.openLoginForm = () => {
+    this.openLoginModal = () => {
        this.closeExpanded()
        this.tags.modal.openModal()
     }
