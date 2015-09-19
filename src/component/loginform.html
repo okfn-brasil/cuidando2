@@ -119,22 +119,27 @@
     isRegisterForm = false
     loginFormIsOpen = true
 
+    // Clears error message
     this.clearError = () => this.authError = undefined
 
+    // Open fields needed for register
     this.prepareRegister = () => {
         this.clearError()
         isRegisterForm = true
     }
 
+    // Open the modal
     this.openLoginForm = () => {
         loginFormIsOpen = true
     }
+    // Close the modal
     this.closeLoginForm = () => {
         loginFormIsOpen = false
         isRegisterForm = false
         this.clearError()
     }
 
+    // Set an error message and the incorrect fields
     this.setError = (msg, fields) => {
         this.authError = {
             message: msg,
@@ -142,6 +147,7 @@
         }
     }
 
+    // Check if fields are not empty
     this.checkNotEmpty = (names) => {
         names = names.split(' ')
         for (let name of names) {
@@ -153,6 +159,7 @@
         return true
     }
 
+    // Tries to login user with current fields data
     sendLogin = () => {
         if(this.checkNotEmpty('username password')) {
             this.triggerChange('login', {
@@ -162,6 +169,7 @@
         }
     }
 
+    // Tries to register user with current fields data
     sendRegister = () => {
         if(this.checkNotEmpty('username password')) {
             if(this['login-form-password'].value !=
@@ -178,8 +186,10 @@
         }
     }
 
+    // Facebook login
     startFacebookLogin = () => this.triggerChange('loginFacebook')
 
+    // Closes modal when user changes (should mean a successfully login...)
     this.onControl(riot.SEC('username'), data => {
         this.closeLoginForm()
         this.update()
