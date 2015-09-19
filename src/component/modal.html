@@ -26,14 +26,18 @@
 
     <script type="es6">
     this.mixin('base')
+
     this.modalIsOpen = false
+
     // Open the modal
     this.openModal = () => {
         this.modalIsOpen = true
     }
+
     // Close the modal
     this.closeModal = () => {
         this.modalIsOpen = false
+        // Run "onModalClose" of children
         for (let k in this.tags) {
             if (this.tags[k].onModalClose) this.tags[k].onModalClose()
         }
