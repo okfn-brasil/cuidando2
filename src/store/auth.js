@@ -173,6 +173,7 @@ class Auth {
         })
         localStorage.removeItem("mainToken")
         localStorage.removeItem("microToken")
+        // TODO: Make userinfo store forget extra data about this user
         this.trigger(riot.SEC('username'), null)
     }
 }

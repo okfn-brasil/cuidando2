@@ -1,15 +1,111 @@
 <pessoa-view>
-    <h1>{userinfo.username}</h1>
-    <p>{description}</p>
+
+    <div class="top-bar relative margin-top">
+        <span class="block-decorator"/>
+        <h1>{userinfo.username}</h1>
+
+        <!-- Description -->
+        <div if="{ !isEdittingDescr }">
+            <p>
+                {description}
+                <a href="#"
+                   if="{ checkIsUser() }"
+                   onclick="{ openEditDescr }">editar</a>
+            </p>
+        </div>
+
+        <!-- Edit Description -->
+        <div if="{ isEdittingDescr }">
+            <div class="form-group form-inline"
+                <label class="sr-only"
+                        for="user-edit-description">
+                    Description
+                </label>
+                <textarea class="form-control"
+                          rows="3"
+                          id="user-edit-description"
+                          value="{ userinfo.description }"
+                          placeholder="{ t('Description') }"/>
+                <button type="submit"
+                        onclick="{ sendEdit }"
+                        class="btn btn-color-sec">
+                    Update
+                </button>
+                <button class="btn btn-color-sec"
+                        onclick="{ closeEditDescr }">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="top-bar bottom-bar"
+         if="{ checkIsUser() }">
+
+        <p>Essas são suas informações pessoais, visíveis apenas para você:</p>
+
+        <!-- Email -->
+        <div if="{ !isEdittingEmail }">
+            <b>Email:</b> {userinfo.email} -
+            <a href="#" onclick="{ openEditEmail }">editar</a>
+        </div>
+
+        <!-- Edit Email -->
+        <div if="{ isEdittingEmail }">
+            <div class="form-group form-inline"
+                <label class="sr-only"
+                        for="user-edit-email">
+                    E-mail
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="user-edit-email"
+                       value="{ userinfo.email }"
+                       placeholder="E-mail">
+                <button type="submit"
+                        onclick="{ sendEdit }"
+                        class="btn btn-color-sec">
+                    Update
+                </button>
+                <button class="btn btn-color-sec"
+                        onclick="{ closeEditEmail }">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
 
     <script type="es6">
     this.mixin('base')
+    this.watch('username')
+
+    this.isEdittingDescr = false
+    this.isEdittingEmail = false
 
     this.watchDepends('userinfo', 'user', () => {
         this.description = this.userinfo.description
-        if (!this.description) this.description = 'Sem descrição...'
-        console.log(this.description)
+        if (!this.description)
+            this.description = this.t('No user description...')
+        this.isEdittingDescr = false
+        this.isEdittingEmail = false
         this.update()
     })
+
+    this.openEditDescr = () => {this.isEdittingDescr = true}
+    this.closeEditDescr = () => {this.isEdittingDescr = false}
+    this.openEditEmail = () => {this.isEdittingEmail = true}
+    this.closeEditEmail = () => {this.isEdittingEmail = false}
+    this.checkIsUser = () => this.user == this.username
+
+    this.sendEdit = () => {
+        let data = {username: this.userinfo.username}
+        if (this.isEdittingEmail)
+            data.email = this['user-edit-email'].value
+        if (this.isEdittingDescr)
+            data.description = this['user-edit-description'].value
+        this.triggerChange('sendEditUserinfo', data)
+            /*         this.closeEditArea() */
+    }
     </script>
 </pessoa-view>

@@ -26,12 +26,6 @@ class Comments extends MapStore {
             let name = `send${endname}`
             this.on(riot.VEC(name), params => this[name](params))
         }
-        // this.on(riot.VEC('sendComment'), params => this.sendComment(params))
-        // this.on(riot.VEC('sendDelete'), params => this.sendDelete(params))
-        // this.on(riot.VEC('sendReport'), params => this.sendReport(params))
-        // this.on(riot.VEC('sendReply'), params => this.sendReply(params))
-        // this.on(riot.VEC('sendEdit'), params => this.sendEdit(params))
-        // this.on(riot.VEC('sendVote'), params => this.sendVote(params))
     }
     ajaxParams(key) {
         let url = `${api}/thread/${key}`,
@@ -39,13 +33,13 @@ class Comments extends MapStore {
         return {url, method}
     }
     processResponse(response) {
+        orderComments(response.json.comments)
         return response.json
     }
 
     updateThread(response) {
         let key = response.json.name
-        orderComments(response.json.comments)
-        this._map[key] = response.json
+        this._map[key] = this.processResponse(response)
         this.triggerChanged(key)
     }
 

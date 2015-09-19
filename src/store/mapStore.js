@@ -24,19 +24,15 @@ export default class MapStore {
         riot.control.addStore(this)
     }
 
-    load(key) {
+    async load(key) {
         // If doesn't have current key data, load
         let current = this._map[key]
         if (current === undefined) {
             this._map[key] = 'loading'
-            ajax(this.ajaxParams(key))
-                .then(this.processResponse.bind(this))
-                .then((response) => {
-                    this._map[key] = response
-                    this.triggerChanged(key)
-                })
-                // TODO: como tratar erros?
-                // .catch(error => console.log('CATEEI', error))
+            this._map[key] = this.processResponse(
+                await ajax(
+                    await this.ajaxParams(key)))
+            this.triggerChanged(key)
         } else {
             this.triggerChanged(key)
         }
