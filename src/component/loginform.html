@@ -111,17 +111,13 @@
         this.isRegisterForm = true
     }
 
-    //// Open the modal
-    //this.openModal = () => {
-    //    this.tags.modal.openModal()
-    //}
     // Extra function to be run when the modal is closed
     this.onModalClose = () => {
         this.isRegisterForm = false
         this.clearError()
     }
     // Get a field value from the modal
-    this.getFieldValue = (id) => this[id].value
+    this.getFieldValue = (name) => this[`login-form-${name}`].value
 
     // Set an error message and the incorrect fields
     this.setError = (msg, fields) => {
@@ -135,7 +131,7 @@
     this.checkNotEmpty = (names) => {
         names = names.split(' ')
         for (let name of names) {
-            if (!this.getFieldValue(`login-form-${name}`)) {
+            if (!this.getFieldValue(name)) {
                 this.setError(`${name} cannot be empty...`, [name])
                 return false
             }
@@ -147,8 +143,8 @@
     sendLogin = () => {
         if(this.checkNotEmpty('username password')) {
             this.triggerChange('login', {
-                username: this.getFieldValue('login-form-username'),
-                password: this.getFieldValue('login-form-password')
+                username: this.getFieldValue('username'),
+                password: this.getFieldValue('password')
             })
         }
     }
@@ -156,15 +152,15 @@
     // Tries to register user with current fields data
     sendRegister = () => {
         if(this.checkNotEmpty('username password')) {
-            if(this.getFieldValue('login-form-password') !=
-                this.getFieldValue('login-form-confirm-password')) {
+            if(this.getFieldValue('password') !=
+                this.getFieldValue('confirm-password')) {
                 this.setError('Different passwords',
                               ['password', 'confirm-password'])
             } else {
                 this.triggerChange('register', {
-                    username: this.getFieldValue('login-form-username'),
-                    password: this.getFieldValue('login-form-password'),
-                    email: this.getFieldValue('login-form-email')
+                    username: this.getFieldValue('username'),
+                    password: this.getFieldValue('password'),
+                    email: this.getFieldValue('email')
                 })
             }
         }
@@ -176,7 +172,7 @@
     // Closes modal when user changes (should mean a successfully login...)
     this.onControl(riot.SEC('username'), data => {
         this.parent.closeModal()
-        this.update()
+        this.parent.update()
     })
 
     // Returns the class to mark an input field as incorrect,
