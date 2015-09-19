@@ -77,7 +77,9 @@
         </div>
     </nav>
 
-    <login-form/>
+    <modal>
+        <login-form/>
+    </modal>
 
 
     <script type="es6">
@@ -95,7 +97,7 @@
 
     this.openLoginForm = () => {
        this.closeExpanded()
-       this.tags['login-form'].openLoginForm()
+       this.tags.modal.openModal()
     }
 
     this.onControl(riot.SEC('lang'), (lang) => {

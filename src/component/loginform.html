@@ -1,114 +1,98 @@
 <login-form>
     <!-- Modal -->
-    <div if={ loginFormIsOpen }>
-        <div class="modal-backdrop"></div>
-        <div class="modal"
-             tabindex="-1"
-             role="dialog"
-             aria-labelledby="myModalLabel"
-             style="display:block;">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button"
-                                class="btn btn-color-sec close"
-                                onclick={ closeLoginForm }
-                                aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title">Cuidando</h4>
-                    </div>
+    <div class="modal-header">
+        <h4 class="modal-title">Cuidando</h4>
+    </div>
 
-                    <div class="modal-body">
+    <div class="modal-body">
 
-                        <!-- Error messages -->
-                        <p class="text-center error-message">
-                            { t(authError.message) }
-                        </p>
+        <!-- Error messages -->
+        <p class="text-center error-message">
+            { t(authError.message) }
+        </p>
 
-                        <form class="form">
+        <form class="form">
 
-                            <div class="form-group">
-                                <label class="sr-only"
-                                       for="login-form-username">
-                                    Username
-                                </label>
-                                <input type="text"
-                                       class="form-control { checkFieldError('username') }"
-                                       id="login-form-username"
-                                       placeholder="Username">
-                            </div>
+            <div class="form-group">
+                <label class="sr-only"
+                        for="login-form-username">
+                    Username
+                </label>
+                <input type="text"
+                        class="form-control { checkFieldError('username') }"
+                        id="login-form-username"
+                        placeholder="Username">
+            </div>
 
-                            <div class="form-group"
-                                 if={ isRegisterForm }>
-                                <label class="sr-only"
-                                       for="login-form-email">
-                                    E-mail
-                                </label>
-                                <input type="text"
-                                       class="form-control"
-                                       id="login-form-email"
-                                       placeholder="E-mail">
-                            </div>
+            <div class="form-group"
+                    if={ isRegisterForm }>
+                <label class="sr-only"
+                        for="login-form-email">
+                    E-mail
+                </label>
+                <input type="text"
+                        class="form-control"
+                        id="login-form-email"
+                        placeholder="E-mail">
+            </div>
 
-                            <div class="form-group">
-                                <label class="sr-only"
-                                       for="login-form-password">
-                                    Password
-                                </label>
-                                <input type="password"
-                                       class="form-control { checkFieldError('password') }"
-                                       id="login-form-password"
-                                       placeholder="Password">
-                            </div>
+            <div class="form-group">
+                <label class="sr-only"
+                        for="login-form-password">
+                    Password
+                </label>
+                <input type="password"
+                        class="form-control { checkFieldError('password') }"
+                        id="login-form-password"
+                        placeholder="Password">
+            </div>
 
-                            <div class="form-group"
-                                 if={ isRegisterForm }>
-                                <label class="sr-only"
-                                       for="login-form-confirm-password">
-                                    { t("Confirm Password") }
-                                </label>
-                                <input type="password"
-                                       class="form-control { checkFieldError('confirm-password') }"
-                                       id="login-form-confirm-password"
-                                       placeholder="{ t('Confirm Password') }">
-                            </div>
+            <div class="form-group"
+                    if={ isRegisterForm }>
+                <label class="sr-only"
+                        for="login-form-confirm-password">
+                    { t("Confirm Password") }
+                </label>
+                <input type="password"
+                        class="form-control { checkFieldError('confirm-password') }"
+                        id="login-form-confirm-password"
+                        placeholder="{ t('Confirm Password') }">
+            </div>
 
-                            <button type="submit"
-                                    class="btn btn-color-sec modal-button"
-                                    onclick={ sendLogin }
-                                    if={ !isRegisterForm }>
-                                { t("Login") }
-                            </button>
+            <button type="submit"
+                    class="btn btn-color-sec modal-button"
+                    onclick={ sendLogin }
+                    if={ !isRegisterForm }>
+                { t("Login") }
+            </button>
 
-                            <button type="submit"
-                                    class="btn btn-color-sec modal-button"
-                                    onclick={ sendRegister }
-                                    if={ isRegisterForm }>
-                                { t("Register") }
-                            </button>
-                        </form>
+            <button type="submit"
+                    class="btn btn-color-sec modal-button"
+                    onclick={ sendRegister }
+                    if={ isRegisterForm }>
+                { t("Register") }
+            </button>
+        </form>
 
-                        <a class="text-center center-block modal-anchor"
-                                onclick={ prepareRegister }
-                                if={ !isRegisterForm }>
-                            { t("Register") }
-                        </a>
-                        <div class="relative separator-block">
-                            <span class="bar-decorator"/>
-                            <div class="center-block separator">
-                                <span>ou</span>
-                            </div>
-                        </div>
-                        <button id="login-facebook"
-                                onclick={ startFacebookLogin }
-                                class="btn modal-button login-facebook">
-                            Login Facebook
-                        </button>
-                    </div>
-                </div>
+        <a class="text-center center-block modal-anchor"
+                onclick={ prepareRegister }
+                if={ !isRegisterForm }>
+            { t("Register") }
+        </a>
+
+        <div class="relative separator-block">
+            <span class="bar-decorator"/>
+            <div class="center-block separator">
+                <span>ou</span>
             </div>
         </div>
+
+        <!-- Facebook Login -->
+        <button id="login-facebook"
+                onclick={ startFacebookLogin }
+                class="btn modal-button login-facebook">
+            Login Facebook
+        </button>
     </div>
 
 
@@ -116,8 +100,7 @@
     this.mixin('base')
     this.watch('authError')
 
-    isRegisterForm = false
-    loginFormIsOpen = true
+    this.isRegisterForm = false
 
     // Clears error message
     this.clearError = () => this.authError = undefined
@@ -125,19 +108,20 @@
     // Open fields needed for register
     this.prepareRegister = () => {
         this.clearError()
-        isRegisterForm = true
+        this.isRegisterForm = true
     }
 
-    // Open the modal
-    this.openLoginForm = () => {
-        loginFormIsOpen = true
-    }
-    // Close the modal
-    this.closeLoginForm = () => {
-        loginFormIsOpen = false
-        isRegisterForm = false
+    //// Open the modal
+    //this.openModal = () => {
+    //    this.tags.modal.openModal()
+    //}
+    // Extra function to be run when the modal is closed
+    this.onModalClose = () => {
+        this.isRegisterForm = false
         this.clearError()
     }
+    // Get a field value from the modal
+    this.getFieldValue = (id) => this[id].value
 
     // Set an error message and the incorrect fields
     this.setError = (msg, fields) => {
@@ -151,7 +135,7 @@
     this.checkNotEmpty = (names) => {
         names = names.split(' ')
         for (let name of names) {
-            if (!this[`login-form-${name}`].value) {
+            if (!this.getFieldValue(`login-form-${name}`)) {
                 this.setError(`${name} cannot be empty...`, [name])
                 return false
             }
@@ -163,8 +147,8 @@
     sendLogin = () => {
         if(this.checkNotEmpty('username password')) {
             this.triggerChange('login', {
-                username: this['login-form-username'].value,
-                password: this['login-form-password'].value,
+                username: this.getFieldValue('login-form-username'),
+                password: this.getFieldValue('login-form-password')
             })
         }
     }
@@ -172,15 +156,15 @@
     // Tries to register user with current fields data
     sendRegister = () => {
         if(this.checkNotEmpty('username password')) {
-            if(this['login-form-password'].value !=
-                this['login-form-confirm-password'].value) {
+            if(this.getFieldValue('login-form-password') !=
+                this.getFieldValue('login-form-confirm-password')) {
                 this.setError('Different passwords',
                               ['password', 'confirm-password'])
             } else {
                 this.triggerChange('register', {
-                    username: this['login-form-username'].value,
-                    password: this['login-form-password'].value,
-                    email: this['login-form-email'].value,
+                    username: this.getFieldValue('login-form-username'),
+                    password: this.getFieldValue('login-form-password'),
+                    email: this.getFieldValue('login-form-email')
                 })
             }
         }
@@ -191,7 +175,7 @@
 
     // Closes modal when user changes (should mean a successfully login...)
     this.onControl(riot.SEC('username'), data => {
-        this.closeLoginForm()
+        this.parent.closeModal()
         this.update()
     })
 

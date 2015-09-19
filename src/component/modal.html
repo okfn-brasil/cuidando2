@@ -1,0 +1,42 @@
+<modal>
+    <!-- Modal -->
+    <div if={ modalIsOpen }>
+        <div class="modal-backdrop"></div>
+        <div class="modal"
+             tabindex="-1"
+             role="dialog"
+             aria-labelledby="myModalLabel"
+             style="display:block;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <button type="button"
+                            class="btn btn-color-sec close"
+                            onclick={ closeModal }
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <yield/>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="es6">
+    this.mixin('base')
+    this.modalIsOpen = false
+    // Open the modal
+    this.openModal = () => {
+        this.modalIsOpen = true
+    }
+    // Close the modal
+    this.closeModal = () => {
+        this.modalIsOpen = false
+        for (let k in this.tags) {
+            if (this.tags[k].onModalClose) this.tags[k].onModalClose()
+        }
+    }
+    </script>
+</modal>
