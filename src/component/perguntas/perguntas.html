@@ -1,8 +1,17 @@
 <perguntas>
-    <h2>Perguntas!</h2>
+    <h2>Acompanhe as perguntas sobre essa despesa</h2>
+    <button onclick={ openNewPerguntaForm }
+            class="btn btn-color-sec block-right">
+        Quero perguntar
+        <span class="right-arrow"/>
+    </button>
 
+    <new-pergunta-form/>
 
     <script type="es6">
-     /*     this.mixin('base') */
+    this.mixin('base')
+    this.openNewPerguntaForm = () => {
+       this.tags['new-pergunta-form'].openForm()
+    }
     </script>
 </perguntas>

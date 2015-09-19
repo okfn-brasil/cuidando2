@@ -6,6 +6,7 @@ import './component/yearselector.html'
 import './component/map/map.html'
 import './component/dyntable.html'
 
+import './component/perguntas/newperguntaform.html'
 import './component/perguntas/perguntas.html'
 import './component/comments/comments.html'
 import './component/comments/comment.html'

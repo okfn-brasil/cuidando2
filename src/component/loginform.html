@@ -1,7 +1,7 @@
 <login-form>
     <!-- Modal -->
     <div if={ loginFormIsOpen }>
-        <div class="modal-backdrop" style="opacity: 0.5"></div>
+        <div class="modal-backdrop"></div>
         <div class="modal"
              tabindex="-1"
              role="dialog"
@@ -11,7 +11,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button"
-                                class="close"
+                                class="btn btn-color-sec close"
                                 onclick={ closeLoginForm }
                                 aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -68,29 +68,34 @@
                             </div>
 
                             <button type="submit"
-                                    class="btn btn-default"
+                                    class="btn btn-color-sec modal-button"
                                     onclick={ sendLogin }
                                     if={ !isRegisterForm }>
                                 { t("Login") }
                             </button>
 
                             <button type="submit"
-                                    class="btn btn-default"
+                                    class="btn btn-color-sec modal-button"
                                     onclick={ sendRegister }
                                     if={ isRegisterForm }>
                                 { t("Register") }
                             </button>
                         </form>
 
-                        <button class="btn btn-default"
+                        <a class="text-center center-block modal-anchor"
                                 onclick={ prepareRegister }
                                 if={ !isRegisterForm }>
                             { t("Register") }
-                        </button>
-                        <span>ou</span>
+                        </a>
+                        <div class="relative separator-block">
+                            <span class="bar-decorator"/>
+                            <div class="center-block separator">
+                                <span>ou</span>
+                            </div>
+                        </div>
                         <button id="login-facebook"
                                 onclick={ startFacebookLogin }
-                                class="btn btn-default">
+                                class="btn modal-button login-facebook">
                             Login Facebook
                         </button>
                     </div>
@@ -100,51 +105,17 @@
     </div>
 
 
-    <style>
-        .mymodal {
-            position: fixed;
-            top: 0px;
-            right: 0px;
-            bottom: 0px;
-            left: 0px;
-            z-index: 1050;
-            display: none;
-            overflow: hidden;
-            outline: 0px none;
-            opacity: 0.5;
-            overflow-x: hidden;
-            overflow-y: auto;
-            background-color: #000;
-            /*             transition: opacity 1s linear 0s; */
-        }
-        .login-modal {
-            z-index: 1000;
-            position: fixed;
-            top: 60px;
-            left: 60px;
-            width: 500px;
-            height: 500px;
-        }
-        .mhide {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .mshow {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-    </style>
-
-
     <script type="es6">
     this.mixin('base')
 
     isRegisterForm = false
+    loginFormIsOpen = true
+
     this.prepareRegister = () => {isRegisterForm = true}
 
-     /*     loginFormIsOpen = true */
-    this.openLoginForm = () => {loginFormIsOpen = true}
+    this.openLoginForm = () => {
+        loginFormIsOpen = true
+    }
     this.closeLoginForm = () => {
         loginFormIsOpen = false
         isRegisterForm = false
