@@ -2,6 +2,8 @@
 $main-color: #06A3C6
 $main-color-dark: #00667D
 $secondary-color: #F65F2D
+$secondary-color-light: #F59B7D
+$neutral-color-light: gray
 $navbar-height: 50px
 
 .navbar-brand
@@ -161,9 +163,23 @@ year-selector > styled-select
 
 
 
+.block-decorator
+  height: 3px
+  width: 80px
+  background-color: $secondary-color
+  display: block
+  position: absolute
+  top: -1px
+
+
+
 .center-block
   margin-left: auto
   margin-right: auto
+  display: block
+
+.block-right
+  margin-left: auto
   display: block
 
 .text-center
@@ -196,3 +212,5 @@ a.disabled
 @import _table.sass
 @import _map.sass
 @import _despesa.sass
+@import _comments.sass
+@import _tabs.sass

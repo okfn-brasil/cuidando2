@@ -5,6 +5,18 @@ import auth from './auth'
 
 var api = config.apiurl_comments
 
+
+function commentCompare(a, b) {return a.created > b.created ? 1 : -1}
+
+function orderComments(comments) {
+    comments.sort(commentCompare)
+    for (let com of comments) {
+        if (com.replies) orderComments(com.replies)
+    }
+    return comments
+}
+
+
 class Comments extends MapStore {
     constructor(signal) {
         super(signal)
@@ -27,12 +39,13 @@ class Comments extends MapStore {
         return {url, method}
     }
     processResponse(response) {
-        return response.json.comments
+        return response.json
     }
 
     updateThread(response) {
         let key = response.json.name
-        this._map[key] = response.json.comments
+        orderComments(response.json.comments)
+        this._map[key] = response.json
         this.triggerChanged(key)
     }
 

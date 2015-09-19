@@ -59,5 +59,5 @@ module.exports = {
         port: 5001
     },
     // devtool: "source-map"
-    devtool: "eval"
+    devtool: "source-map"
 }

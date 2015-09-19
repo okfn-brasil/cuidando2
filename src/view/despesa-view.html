@@ -14,25 +14,27 @@
                 <img src="assets/img/{cat}.png"/>
                 <div class="value">R$ { formatCur(this[cat]) }</div>
             </div>
-            <!--
-            <div class="col-md-4">
-                <span class="title">Empenhado</span>
-                <span>{this.empenhado}</span>
-            </div>
-            <div class="col-md-4">
-                <span class="title">Liquidado</span>
-                <span>{this.liquidado}</span>
-            </div>
-            -->
         </div>
     </div>
 
-    <p>Orgão: {this.orgao}</p>
-    <ul>
+    <!--
+    <div class="row text-right">
+        <p>dados atualizados em: ???</p>
+    </div>
+
+    <div class="orgao-box">
+        <span class="block-decorator"/>
+        <span class="key">Orgão responsável:</span>
+        <span class="value">{this.orgao}</span>
+    </div>
+
+    <ul class="despesa-details-list">
         <li each={key, i in keys}>
-            {key} : {this.pointinfo[key]}
+            <span class="key">{key}:</span>
+            <span>{this.pointinfo[key]}</span>
         </li>
     </ul>
+    -->
 
     <perg-com-tabs/>
 

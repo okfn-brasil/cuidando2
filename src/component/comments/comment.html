@@ -1,14 +1,13 @@
 <comment>
     <div class="panel panel-default">
         <div class="panel-body">
-
             <!-- Comment content -->
-            <p if="{ !isEditting }">
+            <p if="{ !checkIsEditting() }">
                 {text}
             </p>
 
             <!-- Edit form -->
-            <form class="form-inline" if="{ isEditting }">
+            <form class="form-inline" if="{ checkIsEditting() }">
                 <div class="form-group">
                     <label class="sr-only" for="comment-edit-textarea-{id}">
                         Edit Comment
@@ -48,7 +47,7 @@
                     { t("Edit") }
                 </button>
                 <button class="btn btn-warning probably-hidden"
-                        if="{ isEditting }"
+                        if="{ checkIsEditting() }"
                         onclick="{ closeEditArea }">
                     { t("Cancel") }
                 </button>
@@ -79,7 +78,7 @@
 
             <!-- Reply form -->
             <form class="form-inline"
-                  if="{ isReplying }">
+                  if="{ checkIsReplying() }">
                 <div class="form-group">
                     <label class="sr-only"
                            for="comment-reply-textarea-{id}">
@@ -103,7 +102,7 @@
 
         <!-- Replies list -->
         <comment each="{replies}"
-                 style="margin-left: 20px; margin-top: 20px"/>
+                 style="margin: 40px;"/>
     </div>
 
 
@@ -111,17 +110,27 @@
     this.mixin('base')
     this.watch('username')
 
+    //this.tree = {}
+    //this.tree[this.id] = {
+    //    'isReplying': false,
+    //    'isEditting': false,
+    //}
 
-    this.isReplying = false
-    this.isEditting = false
+    // RiotJS makes tags inherit parent. This tag uses recursion, so "this"
+    // variables were inheriting from parent giving a BIG mess. To avoid this
+    // we place local variables at "this.opts"
+    this.opts.isReplying = false
+    this.opts.isEditting = false
 
-    this.openReplyArea = () => this.isReplying = true
-    this.closeReplyArea = () => this.isReplying = false
-    this.openEditArea = () => this.isEditting = true
-    this.closeEditArea = () => this.isEditting = false
-    this.checkIsAuthor = () => this.author == this.username
+    this.openEditArea = function() {this.opts.isEditting = true}
+    this.openReplyArea = function() {this.opts.isReplying = true}
+    this.closeEditArea = function() {this.opts.isEditting = false}
+    this.closeReplyArea = function() {this.opts.isReplying = false}
+    this.checkIsReplying = function() {return this.opts.isReplying}
+    this.checkIsEditting = function() {return this.opts.isEditting}
+    this.checkIsAuthor = function() {return this.author == this.username}
 
-    this.sendReply = () => {
+    this.sendReply = function() {
         this.triggerChange('sendReply', {
             text: document.getElementById(
                 `comment-reply-textarea-${this.id}`).value,
@@ -130,7 +139,7 @@
         this.closeReplyArea()
     }
 
-    this.sendEdit = () => {
+    this.sendEdit = function() {
         this.triggerChange('sendEdit', {
             text: document.getElementById(
                 `comment-edit-textarea-${this.id}`).value,
@@ -139,19 +148,20 @@
         this.closeEditArea()
     }
 
-    this.sendDelete = () => {
+    this.sendDelete = function() {
         this.triggerChange('sendDelete', {url: this.url,})
     }
 
-    this.sendReport = () => {
+    this.sendReport = function() {
         this.triggerChange('sendReport', {url: this['report_url']})
     }
 
-    this.sendVote = (event) => {
+    this.sendVote = function(event) {
         this.triggerChange('sendVote', {
             url: this['vote_url'],
             vote: event.target.dataset.vote == 'up' ? true : false,
         })
     }
+
     </script>
 </comment>

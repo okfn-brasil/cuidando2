@@ -1,25 +1,25 @@
 <comments>
     <h2>Acompanhe os comentários sobre essa despesa</h2>
 
-    <form class="form-inline">
+    <form class="form">
         <div class="form-group">
             <label class="sr-only" for="comment-textarea">Comment</label>
             <textarea class="form-control"
-                      id="comment-textarea"
-                      rows="3"
-                      placeholder="Comentario!!!"/>
+                    id="comment-textarea"
+                    rows="3"
+                    placeholder="Comentario!!!"/>
         </div>
         <button type="submit"
                 onclick="{ sendComment }"
-                class="btn btn-default">
+                class="btn btn-color-sec block-right">
             Enviar comentário
         </button>
     </form>
 
-    <div>
-        <comment each="{ comments }"
-            <!--                  data="{ this }" -->
-                 code="{opts.code}">
+    <div class="comments-block">
+        <comment each="{ comments.comments }"
+                 data="{ this }"
+                 code="{opts.code}"/>
             <!--                  replies="{this.replies}"> -->
             <!--                  data="{comment}"
             code="{code}"/> -->
@@ -31,9 +31,7 @@
     this.watch('username')
     this.watchDepends('comments', 'code', () => {
             console.log('NEW DATA', this.comments)
-        // Sort comments by creation time
-        this.comments = this.comments.sort(
-            (a, b) => a.created > b.created ? 1 : -1)
+
         // commentTextarea.val("")
         this.update()
     })

@@ -1,48 +1,34 @@
 <perg-com-tabs>
     <ul class="list--bare">
-        <li each={ tab, i in tabs }
-            class="tab { is-active: parent.isActiveTab(tab.ref) }"
-            onclick={ parent.toggleTab }>
-            {tab.title}
-        </li>
+        <div class="row">
+            <li class="col-sm-6 tab { is-active: parent.isActiveTab(tab.ref) }"
+                each={ tab, i in tabs }
+                onclick={ parent.toggleTab }>
+                <span class="block-decorator"/>
+                <div class="number">{tab.count}</div>
+                <div>{tab.title}</div>
+            </li>
+        </div>
     </ul>
 
     <div class="tabContent">
-        <div class="tabContent__item" if={ is-active: isActiveTab('c') }>
+        <div class="tabContent__item"
+             if={ is-active: isActiveTab('c') }>
             <comments/>
         </div>
-        <div class="tabContent__item" if={ is-active: isActiveTab('p') }>
+        <div class="tabContent__item"
+             if={ is-active: isActiveTab('p') }>
             <perguntas/>
         </div>
     </div>
 
-    <style>
-        .list--bare {
-            list-style: outside none none;
-            margin: 0px;
-            padding: 0px;
-        }
-        .tab {
-            display: inline-block;
-            vertical-align: middle;
-            width: 200px;
-            height: 45px;
-            line-height: 45px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid;
-            margin-bottom: -1px;
-            margin-right: 5px;
-        }
-        .tab.is-active {
-            border-bottom: medium none;
-        }
-    </style>
 
     <script type="es6">
+    this.mixin('base')
+
     this.tabs = [
-        { title: 'perguntas', ref: 'p' },
-        { title: 'comentários', ref: 'c' },
+        { title: 'perguntas', ref: 'p', count: 0 },
+        { title: 'comentários', ref: 'c', count: 0 },
     ]
 
     this.activeTab = 'c'
@@ -54,5 +40,10 @@
     this.toggleTab = (e) => {
         this.activeTab = e.item.tab.ref
     }
+
+    this.watchDepends('comments', 'code', () => {
+        this.tabs[1].count = this.comments.count
+        this.update()
+    })
     </script>
 </perg-com-tabs>
