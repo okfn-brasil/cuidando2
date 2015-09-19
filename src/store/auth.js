@@ -108,20 +108,35 @@ class Auth {
         return null
     }
 
-    register(params) {
-        ajax({
-            url: api + "/user/" + params.username,
-            data: {password: params.password, email: params.email},
-            method: 'post',
-        }).then(this.saveTokens.bind(this))
+    showErrorMessage(msg) {
+        console.log(msg)
+        this.trigger(riot.SEC('authError'), msg)
     }
 
-    login(params) {
-        ajax({
-            url: api + "/login/local",
-            data: {username: params.username, password: params.password},
-            method: 'post',
-        }).then(this.saveTokens.bind(this))
+    async register(params) {
+        try {
+            this.saveTokens(await ajax({
+                url: api + "/user/" + params.username,
+                data: {password: params.password, email: params.email},
+                method: 'post',
+            }))
+        } catch(err) {
+            this.showErrorMessage(
+                JSON.parse((await err.response.json()).message))
+        }
+    }
+
+    async login(params) {
+        try {
+            this.saveTokens(await ajax({
+                url: api + "/login/local",
+                data: {username: params.username, password: params.password},
+                method: 'post',
+            }))
+        } catch(err) {
+            this.showErrorMessage(
+                JSON.parse((await err.response.json()).message))
+        }
     }
 
     loginFacebook() {

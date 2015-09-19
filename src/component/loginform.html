@@ -18,7 +18,14 @@
                         </button>
                         <h4 class="modal-title">Cuidando</h4>
                     </div>
+
                     <div class="modal-body">
+
+                        <!-- Error messages -->
+                        <p class="text-center error-message">
+                            { t(authError.message) }
+                        </p>
+
                         <form class="form">
 
                             <div class="form-group">
@@ -27,7 +34,7 @@
                                     Username
                                 </label>
                                 <input type="text"
-                                       class="form-control"
+                                       class="form-control { checkFieldError('username') }"
                                        id="login-form-username"
                                        placeholder="Username">
                             </div>
@@ -50,7 +57,7 @@
                                     Password
                                 </label>
                                 <input type="password"
-                                       class="form-control"
+                                       class="form-control { checkFieldError('password') }"
                                        id="login-form-password"
                                        placeholder="Password">
                             </div>
@@ -62,7 +69,7 @@
                                     { t("Confirm Password") }
                                 </label>
                                 <input type="password"
-                                       class="form-control"
+                                       class="form-control { checkFieldError('confirm-password') }"
                                        id="login-form-confirm-password"
                                        placeholder="{ t('Confirm Password') }">
                             </div>
@@ -107,11 +114,17 @@
 
     <script type="es6">
     this.mixin('base')
+    this.watch('authError')
 
     isRegisterForm = false
     loginFormIsOpen = true
 
-    this.prepareRegister = () => {isRegisterForm = true}
+    this.clearError = () => this.authError = undefined
+
+    this.prepareRegister = () => {
+        this.clearError()
+        isRegisterForm = true
+    }
 
     this.openLoginForm = () => {
         loginFormIsOpen = true
@@ -119,25 +132,49 @@
     this.closeLoginForm = () => {
         loginFormIsOpen = false
         isRegisterForm = false
+        this.clearError()
+    }
+
+    this.setError = (msg, fields) => {
+        this.authError = {
+            message: msg,
+            fields: fields
+        }
+    }
+
+    this.checkNotEmpty = (names) => {
+        names = names.split(' ')
+        for (let name of names) {
+            if (!this[`login-form-${name}`].value) {
+                this.setError(`${name} cannot be empty...`, [name])
+                return false
+            }
+        }
+        return true
     }
 
     sendLogin = () => {
-        this.triggerChange('login', {
-            username: this['login-form-username'].value,
-            password: this['login-form-password'].value,
-        })
+        if(this.checkNotEmpty('username password')) {
+            this.triggerChange('login', {
+                username: this['login-form-username'].value,
+                password: this['login-form-password'].value,
+            })
+        }
     }
 
     sendRegister = () => {
-        if(this['login-form-password'].value !=
-            this['login-form-confirm-password'].value) {
-            alert("Senhas não batem!")
-        } else {
-            this.triggerChange('register', {
-                username: this['login-form-username'].value,
-                password: this['login-form-password'].value,
-                email: this['login-form-email'].value,
-            })
+        if(this.checkNotEmpty('username password')) {
+            if(this['login-form-password'].value !=
+                this['login-form-confirm-password'].value) {
+                this.setError('Different passwords',
+                              ['password', 'confirm-password'])
+            } else {
+                this.triggerChange('register', {
+                    username: this['login-form-username'].value,
+                    password: this['login-form-password'].value,
+                    email: this['login-form-email'].value,
+                })
+            }
         }
     }
 
@@ -147,5 +184,15 @@
         this.closeLoginForm()
         this.update()
     })
+
+    // Returns the class to mark an input field as incorrect,
+    // if it is realy incorrect
+    this.checkFieldError = (field) => {
+        if (this.authError) {
+            if (this.authError.fields.indexOf(field) != -1)
+                return 'incorrect-field'
+        }
+        return ''
+    }
     </script>
 </login-form>

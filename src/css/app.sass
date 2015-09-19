@@ -4,6 +4,9 @@ $main-color-dark: #00667D
 $secondary-color: #F65F2D
 $secondary-color-light: #F59B7D
 $neutral-color-light: gray
+$error-color: #FE2F55
+$error-color-light: #FFE0E6
+
 $navbar-height: 50px
 
 .navbar-brand
@@ -153,6 +156,16 @@ year-selector > styled-select
   width: 200px
   height: 45px
   margin: 50px auto
+
+
+.error-message
+  background-color: $error-color-light
+  color: $error-color
+  line-height: 3em
+  border-radius: 3px
+
+.incorrect-field
+  border-color: $error-color
 
 
 
