@@ -29,18 +29,25 @@
     <script type="es6">
     this.mixin('base')
     this.watch('username')
-    this.watchDepends('comments', 'code', () => {
-            console.log('NEW DATA', this.comments)
 
-        // commentTextarea.val("")
+    this.sendingComment = false
+
+    this.watchDepends('comments', 'code', () => {
+        if (this.sendingComment) {
+            this.sendingComment = false
+            this['comment-textarea'].value = ""
+        }
         this.update()
     })
 
     sendComment = () => {
-        this.triggerChange('sendComment', {
-            text: this['comment-textarea'].value,
-            code: this.code,
-        })
+        if (this['comment-textarea'].value) {
+            this.sendingComment = true
+            this.triggerChange('sendComment', {
+                text: this['comment-textarea'].value,
+                code: this.code,
+            })
+        }
     }
 
     </script>
