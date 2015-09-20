@@ -1,8 +1,9 @@
 <modal>
     <!-- Modal -->
     <div if={ modalIsOpen }>
-        <div class="modal-backdrop"></div>
+        <div class="modal-backdrop"/>
         <div class="modal"
+             onclick="{ closeModal }"
              tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel"
