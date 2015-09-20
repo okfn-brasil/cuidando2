@@ -62,21 +62,23 @@ styled-select
       background-color: $main-color-dark
 
 
-year-selector > styled-select
-  background-color: white
-  color: $main-color
-  top: 75px
-  left: 60px
-  font-weight: bold
-  position: absolute
-  border-color: $secondary-color
-  border-radius: 3px
-  text-align: left
-  padding: 0px 10px
-  width: 90px
-  ul
+year-selector
+  styled-select
     background-color: white
     color: $main-color
+    top: 75px
+    left: 60px
+    font-weight: bold
+    position: absolute
+    border-color: $secondary-color
+    border-radius: 3px
+    text-align: left
+    width: 90px
+    .inner
+      padding-left: 10px
+    ul
+      background-color: white
+      color: $main-color
 
 
 .separated-caret
