@@ -25,15 +25,21 @@ export function capitalize(string) {
 // outside of node).
 export function onClickedOutside(node, func, ignoreEvent) {
     if (node) {
+        // Save previous function
+        // Maybe should be using a pile?
+        if (document.onclick) document.prevOnclick = document.onclick
+
         document.onclick = (event) => {
             // Clicked outside of the node
             if (event != ignoreEvent && !event.ignoreEvent
                 && !node.contains(event.target)) {
                 func()
-                document.onclick = undefined
+                document.onclick = document.prevOnclick
+                document.prevOnclick = undefined
             }
         }
     } else {
-        document.onclick = undefined
+        document.onclick = document.prevOnclick
+        document.prevOnclick = undefined
     }
 }
