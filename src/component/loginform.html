@@ -106,9 +106,11 @@
     this.clearError = () => this.authError = undefined
 
     // Open fields needed for register
-    this.prepareRegister = () => {
+    this.prepareRegister = (event) => {
         this.clearError()
         this.isRegisterForm = true
+        // acme to avoid closing modal
+        event.ignoreEvent = true
     }
 
     // Extra function to be run when the modal is closed
