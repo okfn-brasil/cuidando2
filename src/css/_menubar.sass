@@ -1,0 +1,43 @@
+$nav-elements-height: 35px
+$nav-vertical-margins: 30px
+$navbar-height: $nav-elements-height + $nav-vertical-margins
+
+body
+  margin-top: $navbar-height
+
+nav
+  a
+    color: white
+    font-weight: bold
+  .container
+    margin-top: $nav-vertical-margins / 2
+    margin-bottom: $nav-vertical-margins / 2
+  styled-select
+    line-height: $nav-elements-height - 2
+    width: auto
+    .inner
+      padding: 0px 15px
+
+
+.navbar-toggle
+  height: $nav-elements-height
+  margin-top: 0px
+  margin-bottom: 0px
+
+.navbar-nav > li > a
+  border-radius: 3px
+  line-height: $nav-elements-height
+  padding: 0px 10px
+  text-decoration: none
+  margin: 0px 5px
+  &:hover, &:focus
+    color: white
+    background-color: $main-color-dark
+
+.navbar
+  background-color: $main-color
+  z-index: 2000
+
+.navbar-brand
+  padding: 0px
+  height: auto
