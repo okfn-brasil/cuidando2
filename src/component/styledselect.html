@@ -1,5 +1,6 @@
 <styled-select>
-    <div onclick="{ toggleList }"
+    <div class="inner"
+         onclick="{ toggleList }"
          aria-expanded="{ isOpen ? true : false }"
          role="listbox">
         { getCurrent() }
@@ -16,9 +17,19 @@
 
 
     <script type="es6">
+    import {onClickedOutside} from '../utils/helpers'
     this.isOpen = false
     this.toggleList = () => {
         this.isOpen = !this.isOpen
+
+        if (this.isOpen) {
+            onClickedOutside(this.root, () => {
+                this.isOpen = false
+                this.update()
+            })
+        } else {
+            onClickedOutside()
+        }
     }
 
     this.optionSelected = (event) => {

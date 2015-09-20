@@ -17,3 +17,23 @@ export function formatCur(number) {
 export function capitalize(string) {
     return string[0].toUpperCase() + string.slice(1)
 }
+
+
+// Runs a function when an element outside of node is clicked
+// Clears the callback if no node is passed
+// Ignore event if is ignoreEvent (usefull to ignore a initial event originated
+// outside of node).
+export function onClickedOutside(node, func, ignoreEvent) {
+    if (node) {
+        document.onclick = (event) => {
+            // Clicked outside of the node
+            if (event != ignoreEvent && !node.contains(event.target)) {
+                console.log('OUT')
+                func()
+                document.onclick = undefined
+            }
+        }
+    } else {
+        document.onclick = undefined
+    }
+}
