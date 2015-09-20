@@ -1,6 +1,6 @@
 <comment>
     <div class="panel panel-default">
-        <div class="panel-body">
+        <div class="panel-body" if="{ !hidden }">
             <!-- Comment content -->
             <p if="{ !checkIsEditting() }">
                 {text}
@@ -25,6 +25,9 @@
                 </button>
             </form>
 
+        </div>
+        <div if="{ hidden }">
+            <p>Comentário removido.</p>
         </div>
         <div class="panel-footer">
             <a href="#"
