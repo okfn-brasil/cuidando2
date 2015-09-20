@@ -28,7 +28,6 @@ export function onClickedOutside(node, func, ignoreEvent) {
         document.onclick = (event) => {
             // Clicked outside of the node
             if (event != ignoreEvent && !node.contains(event.target)) {
-                console.log('OUT')
                 func()
                 document.onclick = undefined
             }

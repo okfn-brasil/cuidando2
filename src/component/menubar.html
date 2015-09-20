@@ -95,9 +95,9 @@
     this.toggleExpanded = () => this.isExpanded = !this.isExpanded
     this.closeExpanded = () => this.isExpanded = false
 
-    this.openLoginModal = () => {
+    this.openLoginModal = (event) => {
        this.closeExpanded()
-       this.tags.modal.openModal()
+       this.tags.modal.openModal(event)
     }
 
     this.onControl(riot.SEC('lang'), (lang) => {

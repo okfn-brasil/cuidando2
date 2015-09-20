@@ -3,12 +3,13 @@
     <div if={ modalIsOpen }>
         <div class="modal-backdrop"/>
         <div class="modal"
-             onclick="{ closeModal }"
              tabindex="-1"
              role="dialog"
              aria-labelledby="myModalLabel"
              style="display:block;">
-            <div class="modal-dialog" role="document">
+            <div id="modal-dialog"
+                 class="modal-dialog"
+                 role="document">
                 <div class="modal-content">
                     <button type="button"
                             class="btn btn-color-sec close"
@@ -26,17 +27,23 @@
 
 
     <script type="es6">
+    import {onClickedOutside} from '../utils/helpers'
     this.mixin('base')
 
     this.modalIsOpen = false
 
     // Open the modal
-    this.openModal = () => {
+    this.openModal = (event) => {
         this.modalIsOpen = true
+        onClickedOutside(this['modal-dialog'], () => {
+            this.modalIsOpen = false
+            this.update()
+        }, event)
     }
 
     // Close the modal
     this.closeModal = () => {
+        onClickedOutside()
         this.modalIsOpen = false
         // Run "onModalClose" of children
         for (let k in this.tags) {
