@@ -1,6 +1,7 @@
 import decodeToken from 'jwt-decode'
 import ajax from '../utils/ajax'
 import config from 'config'
+import {registerSignals} from '../utils/helpers'
 
 let api = config.apiurl_auth
 
@@ -46,10 +47,14 @@ class Auth {
         }
 
         console.log('register-event')
-        this.on(riot.VEC('register'), params => this.register(params))
-        this.on(riot.VEC('login'), params => this.login(params))
-        this.on(riot.VEC('loginFacebook'), () => this.loginFacebook())
-        this.on(riot.VEC('logout'), () => this.logout())
+        // this.on(riot.VEC('register'), params => this.register(params))
+        // this.on(riot.VEC('login'), params => this.login(params))
+        // this.on(riot.VEC('loginFacebook'), () => this.loginFacebook())
+        // this.on(riot.VEC('logout'), () => this.logout())
+        registerSignals(this,
+            'register login loginFacebook logout forgotPassword resetPassword'
+        )
+
         // View requesting current username
         this.on(riot.VEL('username'), () => {
             this.trigger(riot.SEC('username'), this.getUsername())
@@ -108,7 +113,8 @@ class Auth {
         return null
     }
 
-    showErrorMessage(msg) {
+    async showErrorMessage(err) {
+        let msg = JSON.parse((await err.response.json()).message)
         this.trigger(riot.SEC('authError'), msg)
     }
 
@@ -120,8 +126,7 @@ class Auth {
                 method: 'post',
             }))
         } catch(err) {
-            this.showErrorMessage(
-                JSON.parse((await err.response.json()).message))
+            await this.showErrorMessage(err)
         }
     }
 
@@ -133,8 +138,38 @@ class Auth {
                 method: 'post',
             }))
         } catch(err) {
-            this.showErrorMessage(
-                JSON.parse((await err.response.json()).message))
+            await this.showErrorMessage(err)
+        }
+    }
+
+    async forgotPassword(params) {
+        try {
+            let exp = (await ajax({
+                url: api + "/reset_password",
+                data: {username: params.username, email: params.email},
+                method: 'post',
+            })).json.exp
+            console.log('passwordResetSent!!!!!!!!!!!!!')
+            this.trigger(riot.SEC('passwordResetSent'), exp)
+        } catch(err) {
+            await this.showErrorMessage(err)
+        }
+    }
+
+    async resetPassword(params) {
+        try {
+            this.saveTokens(await ajax({
+                url: api + "/reset_password",
+                data: {
+                    username: params.username,
+                    password: params.password,
+                    email: params.email,
+                    code: params.code
+                },
+                method: 'put',
+            }))
+        } catch(err) {
+            await this.showErrorMessage(err)
         }
     }
 

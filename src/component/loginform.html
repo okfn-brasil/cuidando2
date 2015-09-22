@@ -11,8 +11,13 @@
             { t(authError.message) }
         </p>
 
+        <p if="{ view.forgot2 }">
+            {t('login_form_use_reset_code', {minutes: exp_reset_code})}
+        </p>
+
         <form class="form">
 
+            <!-- Username -->
             <div class="form-group">
                 <label class="sr-only"
                         for="login-form-username">
@@ -24,8 +29,9 @@
                         placeholder="Username">
             </div>
 
+            <!-- Email -->
             <div class="form-group"
-                    if={ isRegisterForm }>
+                    if={ !view.login }>
                 <label class="sr-only"
                         for="login-form-email">
                     E-mail
@@ -36,7 +42,22 @@
                         placeholder="E-mail">
             </div>
 
-            <div class="form-group">
+            <!-- Reset Code -->
+            <div class="form-group"
+                 if={ view.forgot2 }>
+                <label class="sr-only"
+                        for="login-form-code">
+                    { t("Code") }
+                </label>
+                <input type="password"
+                        class="form-control { checkFieldError('code') }"
+                        id="login-form-code"
+                        placeholder="{ t('Code') }">
+            </div>
+
+            <!-- Password -->
+            <div class="form-group"
+                 if="{ !view.forgot1 }">
                 <label class="sr-only"
                         for="login-form-password">
                     Password
@@ -47,8 +68,9 @@
                         placeholder="Password">
             </div>
 
+            <!-- Confirm Password -->
             <div class="form-group"
-                    if={ isRegisterForm }>
+                 if={ view.register || view.forgot2 }>
                 <label class="sr-only"
                         for="login-form-confirm-password">
                     { t("Confirm Password") }
@@ -59,40 +81,66 @@
                         placeholder="{ t('Confirm Password') }">
             </div>
 
+            <!-- Request Login -->
             <button type="submit"
                     class="btn btn-color-sec modal-button"
                     onclick={ sendLogin }
-                    if={ !isRegisterForm }>
+                    if={ view.login }>
                 { t("Login") }
             </button>
 
+            <!-- Request Register -->
             <button type="submit"
                     class="btn btn-color-sec modal-button"
                     onclick={ sendRegister }
-                    if={ isRegisterForm }>
+                    if={ view.register }>
                 { t("Register") }
+            </button>
+
+            <!-- Request Reset Code -->
+            <button type="submit"
+                    class="btn btn-color-sec modal-button"
+                    onclick={ sendForgot1 }
+                    if={ view.forgot1 }>
+                { t("Request reset code") }
+            </button>
+
+            <!-- Request Reset -->
+            <button type="submit"
+                    class="btn btn-color-sec modal-button"
+                    onclick={ sendForgot2 }
+                    if={ view.forgot2 }>
+                { t("Change password and login") }
             </button>
         </form>
 
         <a class="text-center center-block modal-anchor"
-                onclick={ prepareRegister }
-                if={ !isRegisterForm }>
+                onclick="{ fChangeView('register') }"
+                if={ view.login }>
             { t("Register") }
         </a>
 
-        <div class="relative separator-block">
-            <span class="bar-decorator"/>
-            <div class="center-block separator">
-                <span>ou</span>
-            </div>
-        </div>
+        <a class="text-center center-block modal-anchor"
+                onclick={ fChangeView('forgot1') }
+                if={ view.login }>
+            { t("Forgot password") }
+        </a>
 
-        <!-- Facebook Login -->
-        <button id="login-facebook"
-                onclick={ startFacebookLogin }
-                class="btn modal-button login-facebook">
-            Login Facebook
-        </button>
+        <div if="{ view.login || view.register }">
+            <div class="relative separator-block">
+                <span class="bar-decorator"/>
+                <div class="center-block separator">
+                    <span>ou</span>
+                </div>
+            </div>
+
+            <!-- Facebook Login -->
+            <button id="login-facebook"
+                    onclick={ startFacebookLogin }
+                    class="btn modal-button login-facebook">
+                Login Facebook
+            </button>
+        </div>
     </div>
 
 
@@ -100,22 +148,27 @@
     this.mixin('base')
     this.watch('authError')
 
-    this.isRegisterForm = false
+    this.exp_reset_code = 0
+
+    this.view = {login: true}
 
     // Clears error message
     this.clearError = () => this.authError = undefined
 
-    // Open fields needed for register
-    this.prepareRegister = (event) => {
+    // Change modal view
+    this.changeView = (view, event) => {
         this.clearError()
-        this.isRegisterForm = true
+        this.view = {}
+        this.view[view] = true
         // acme to avoid closing modal
-        event.ignoreEvent = true
+        if (event) event.ignoreEvent = true
     }
+    // Wrapper to return a function
+    this.fChangeView = view => event => this.changeView(view, event)
 
     // Extra function to be run when the modal is closed
     this.onModalClose = () => {
-        this.isRegisterForm = false
+        this.view = {login: true}
         this.clearError()
     }
 
@@ -142,6 +195,16 @@
         return true
     }
 
+    // Check if password and confirm-password are the same
+    this.checkPasswordsSame = () => {
+        if(this.getFieldValue('password') !=
+            this.getFieldValue('confirm-password')) {
+            this.setError('Different passwords',
+                          ['password', 'confirm-password'])
+            return false
+        } else return true
+    }
+
     // Tries to login user with current fields data
     sendLogin = () => {
         if(this.checkNotEmpty('username password')) {
@@ -154,18 +217,38 @@
 
     // Tries to register user with current fields data
     sendRegister = () => {
-        if(this.checkNotEmpty('username password')) {
-            if(this.getFieldValue('password') !=
-                this.getFieldValue('confirm-password')) {
-                this.setError('Different passwords',
-                              ['password', 'confirm-password'])
-            } else {
-                this.triggerChange('register', {
-                    username: this.getFieldValue('username'),
-                    password: this.getFieldValue('password'),
-                    email: this.getFieldValue('email')
-                })
-            }
+        console.log('preREGISTER!!!!!!!!!!')
+        if(this.checkNotEmpty('username password') &&
+           this.checkPasswordsSame()) {
+            console.log('sendREGG!!!!!!!!!!')
+            this.triggerChange('register', {
+                username: this.getFieldValue('username'),
+                password: this.getFieldValue('password'),
+                email: this.getFieldValue('email')
+            })
+        }
+    }
+
+    // Request a reset code
+    sendForgot1 = () => {
+        if(this.checkNotEmpty('username email')) {
+            this.triggerChange('forgotPassword', {
+                username: this.getFieldValue('username'),
+                email: this.getFieldValue('email')
+            })
+        }
+    }
+
+    // Tries to reset password and login
+    sendForgot2 = () => {
+        if(this.checkNotEmpty('username password') &&
+           this.checkPasswordsSame()) {
+            this.triggerChange('resetPassword', {
+                username: this.getFieldValue('username'),
+                password: this.getFieldValue('password'),
+                email: this.getFieldValue('email'),
+                code: this.getFieldValue('code')
+            })
         }
     }
 
@@ -178,14 +261,19 @@
         this.parent.update()
     })
 
+    this.onControl(riot.SEC('passwordResetSent'), (exp) => {
+        /*     this.watch('passwordResetSent', () => { */
+        this.exp_reset_code = exp / 60
+        this.changeView('forgot2')
+        this.update()
+    })
+
     // Returns the class to mark an input field as incorrect,
     // if it is realy incorrect
     this.checkFieldError = (field) => {
-        if (this.authError) {
-            if (this.authError.fields.indexOf(field) != -1)
+        if (this.authError && this.authError.fields.indexOf(field) != -1) {
                 return 'incorrect-field'
-        }
-        return ''
+        } else return ''
     }
     </script>
 </login-form>
