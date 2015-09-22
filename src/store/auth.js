@@ -109,7 +109,6 @@ class Auth {
     }
 
     showErrorMessage(msg) {
-        console.log(msg)
         this.trigger(riot.SEC('authError'), msg)
     }
 

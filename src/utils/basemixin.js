@@ -37,13 +37,13 @@ var BaseMixin = {
         }
     },
 
-    watch: function(names) {
+    watch: function(names, func) {
         names = names.split(' ')
         for (let name of names) {
             let watcher = (val) => {
                 if (this[name] != val) {
                     this[name] = val
-                    // console.log('updating because of', name, 'to', val)
+                    if (func) func()
                     this.update()
                 }
             }

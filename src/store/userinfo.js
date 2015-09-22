@@ -30,6 +30,11 @@ class UserInfo extends MapStore {
         return response.json
     }
 
+    showErrorMessage(msg) {
+        console.log(msg)
+        this.trigger(riot.SEC('userError'), msg)
+    }
+
     // Edit user info
     async sendEdit(params) {
         let url = `${api}/user/${params.username}`,
@@ -37,8 +42,15 @@ class UserInfo extends MapStore {
                 'token': await auth.getMicroToken(),
                 'description': params.description,
                 'email': params.email,
+                'password': params.password,
+                'new_password': params['new_password'],
             }
-        this.updateUser(await ajax({url, data, method: 'put'}))
+        try {
+            this.updateUser(await ajax({url, data, method: 'put'}))
+        } catch(err) {
+            this.showErrorMessage(
+                JSON.parse((await err.response.json()).message))
+        }
     }
 
     updateUser(response) {
