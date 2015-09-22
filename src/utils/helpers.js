@@ -43,3 +43,29 @@ export function onClickedOutside(node, func, ignoreEvent) {
         document.prevOnclick = undefined
     }
 }
+
+
+// Register signals to a store
+export function registerSignals(self, signals) {
+    for (let name of signals.split(' ')) {
+
+        if (!self[name]) console.log('function not found for:',
+                                     name, 'in', self)
+        console.log(':::::::', name, 'in', self)
+        self.on(riot.VEC(name), params => {
+            console.log(':::::::', name, 'in', self)
+            self[name](params)
+
+        })
+        console.log('S', name)
+    }
+}
+
+
+// Format a string replacing '{name}' with params[name]
+export function strFormat(str, params) {
+    for (let name in params) {
+        str = str.replace('{' + name + '}', params[name])
+    }
+    return str
+}

@@ -1,3 +1,4 @@
+import {strFormat} from '../utils/helpers'
 import router from '../store/router'
 
 
@@ -22,10 +23,12 @@ class Translator {
             'Locate': 'Localizar',
             'Year': 'Ano',
             'reply': 'comentar',
+            'login_form_use_reset_code': 'Por favor verifique seu e-mail, você deve ter recebido um código para ser usado no formulário abaixo. Você tem {minutes} minutos para usá-lo.'
         }
 
         this.dicts.en = {
             '_lang': 'English',
+            'login_form_use_reset_code': 'Please check your email for the reset code and use it in the form below. You have {minutes} minutes to use it.'
         }
     }
 
@@ -45,11 +48,11 @@ class Translator {
         }
     }
 
-    translate(str) {
-        // console.log(`translator:translate: ${str} using:`, this._currentLang)
+    translate(str, params) {
         let translated = this.dicts[this._currentLang][str]
-        // console.log(`resulted: ${translated}`)
-        return translated ? translated : str
+        translated = translated ? translated : str
+        if (params) translated = strFormat(translated, params)
+        return translated
     }
 }
 
