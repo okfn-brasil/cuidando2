@@ -137,13 +137,6 @@
     <script type="es6">
     this.mixin('base')
     this.watch('userError')
-    this.watch('username', () => {
-        this.clearError()
-        this.clearFields()
-    })
-
-    this.isEditting = {}
-
     // Set an error message and the incorrect fields
     this.setError = (msg, fields) => {
         this.userError = {
@@ -168,6 +161,13 @@
         this['user-edit-confirm-password'].value = ''
         this['user-edit-new-password'].value = ''
     }
+
+    this.watch('username', () => {
+        this.clearError()
+        this.clearFields()
+    })
+
+    this.isEditting = {}
 
     this.watchDepends('userinfo', 'user', () => {
         this.description = this.userinfo.description
