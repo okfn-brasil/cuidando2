@@ -2,6 +2,7 @@ import config from 'config'
 import ajax from '../utils/ajax.js'
 import MapStore from './mapStore'
 import auth from './auth'
+import {registerSignals} from '../utils/helpers'
 
 var api = config.apiurl_comments
 
@@ -20,12 +21,16 @@ function orderComments(comments) {
 class Comments extends MapStore {
     constructor(signal) {
         super(signal)
-        // Register signals
-        for (let endname of ['Comment', 'Delete', 'Report',
-                             'Reply', 'Edit', 'Vote']) {
-            let name = `send${endname}`
-            this.on(riot.VEC(name), params => this[name](params))
-        }
+        // // Register signals
+        // for (let endname of ['Comment', 'Delete', 'Report',
+        //                      'Reply', 'Edit', 'Vote']) {
+        //     let name = `send${endname}`
+        //     this.on(riot.VEC(name), params => this[name](params))
+        // }
+
+        registerSignals(this,
+            'sendComment sendDelete sendReport sendReply sendEdit sendVote'
+        )
     }
     ajaxParams(key) {
         let url = `${api}/thread/${key}`,
