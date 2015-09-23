@@ -5,7 +5,22 @@
         Explore os dados agora
     </button>
 
+    <ul>
+        <li each="{ moneyUpdates.value }"
+            class="clickable"
+            onclick="{ fRoute('despesa', {code:code}) }">
+            {description}
+            mudou de
+            {data.state[0]}
+            para
+            {data.state[1]}
+            em
+            {date}
+        </li>
+    </ul>
+
     <script type="es6">
     this.mixin('base')
+    this.watch('moneyUpdates')
     </script>
 </home-view>

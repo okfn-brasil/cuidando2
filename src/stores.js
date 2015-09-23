@@ -99,4 +99,19 @@ class Years extends MapStore {
 let years = new Years('years')
 years.forceKey = 'years'
 
+
+// Store for money updates
+class MoneyUpdates extends MapStore {
+    ajaxParams(key) {
+        let url = `${api}/execucao/updates?per_page_num=20&has_key=state`,
+            method = 'get'
+        return {url, method}
+    }
+    processResponse(response) {
+        return response.json.data
+    }
+}
+let moneyUpdates = new MoneyUpdates('moneyUpdates')
+moneyUpdates.forceKey = 'moneyUpdates'
+
 export default {tabledata}
