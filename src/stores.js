@@ -25,6 +25,7 @@ import MapStore from './store/mapStore'
 
 let moneyApi = config.apiurl_money
 let commentsApi = config.apiurl_comments
+let esicApi = config.apiurl_esic
 
 
 // Store for details about a point
@@ -129,5 +130,20 @@ class CommentsUpdates extends MapStore {
 }
 let commentsUpdates = new CommentsUpdates('commentsUpdates')
 commentsUpdates.forceKey = 'commentsUpdates'
+
+
+// Store for comments updates
+class Orgaos extends MapStore {
+    ajaxParams(key) {
+        let url = `${esicApi}/orgaos`,
+            method = 'get'
+        return {url, method}
+    }
+    processResponse(response) {
+        return response.json.orgaos.map((x) => {return {key: x, value: x}})
+    }
+}
+let orgaos = new Orgaos('orgaos')
+orgaos.forceKey = 'orgaos'
 
 export default {tabledata}

@@ -3,13 +3,21 @@
         <h2>O que deseja perguntar?</h2>
 
         <p>Lembre-se que...
-            <a href="#">veja as dicas para elaborar uma pergunta.</a>
+            <a>veja as dicas para elaborar uma pergunta.</a>
         </p>
 
+        <!--
         <styled-select class="separated-caret text-left"
                        options="{ mainDests }"
                        current="{ mainDest }"
                        onchange={ mainDestSelected }
+                       outclicklimit="{ parent.root }"/>
+        -->
+
+        <styled-select class="separated-caret text-left"
+                       options="{ orgaos.value }"
+                       current="{ orgao }"
+                       onchange={ secondDestSelected }
                        outclicklimit="{ parent.root }"/>
 
         <p>Pergunta referente à despesa ...</p>
@@ -37,17 +45,28 @@
 
     <script type="es6">
     this.mixin('base')
+    this.watch('orgaos', () => {
+        if(this.orgaos) this.orgao = this.orgaos.value[0].key
+    })
 
-    this.mainDests = [
+    // this.mainDests = [
+    //     {key: 'camara', value: 'camara'},
+    //     {key: 'prefeitura', value: 'prefeitura'}
+    // ]
+    // this.mainDest = 'prefeitura'
+    // this.mainDestSelected = (option) => {
+    //     this.mainDest = option
+    //     this.update()
+    // }
+
+    this.secondDests = [
         {key: 'camara', value: 'camara'},
         {key: 'prefeitura', value: 'prefeitura'}
     ]
-
-    this.mainDest = 'prefeitura'
-
-    this.mainDestSelected = (option) => {
+    this.secondDest = 'prefeitura'
+    this.secondDestSelected = (option) => {
         console.log(option)
-        this.mainDest = option
+        this.orgao = option
         this.update()
     }
 
