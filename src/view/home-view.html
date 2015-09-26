@@ -6,21 +6,35 @@
     </button>
 
     <ul>
+        <li each="{ commentsUpdates.value }"
+            class="clickable"
+            onclick="{ fRoute('despesa', {code:thread_name}) }">
+            ({created}) <b>{author}:</b> {text}
+        </li>
+    </ul>
+
+    <ul>
         <li each="{ moneyUpdates.value }"
             class="clickable"
             onclick="{ fRoute('despesa', {code:code}) }">
-            {description}
-            mudou de
-            {data.state[0]}
-            para
-            {data.state[1]}
-            em
-            {date}
+            <div if="{ event == 'modified' }">
+                <b>{description}</b>
+                mudou de
+                {data.state[0]}
+                para
+                <b>{data.state[1]}</b>
+                em
+                {date}
+            </div>
+            <div if="{ event == 'created' }">
+                Novo: <b>{description}</b>
+            </div>
         </li>
     </ul>
 
     <script type="es6">
     this.mixin('base')
     this.watch('moneyUpdates')
+    this.watch('commentsUpdates')
     </script>
 </home-view>

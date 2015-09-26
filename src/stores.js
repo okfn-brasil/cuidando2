@@ -23,13 +23,14 @@ import MapStore from './store/mapStore'
 // let stores = new Proxy(stores_list, handler)
 
 
-let api = config.apiurl_money
+let moneyApi = config.apiurl_money
+let commentsApi = config.apiurl_comments
 
 
 // Store for details about a point
 class PointInfo extends MapStore {
     ajaxParams(key) {
-        let url = `${api}/execucao/list?code=${key}`,
+        let url = `${moneyApi}/execucao/list?code=${key}`,
             method = 'get'
         return {url, method}
     }
@@ -43,7 +44,7 @@ let pointinfo = new PointInfo('pointinfo')
 // Store for list of points for map
 class Points extends MapStore {
     ajaxParams(key) {
-        let url = `${api}/execucao/minlist/${key}?state=1&capcor=1`,
+        let url = `${moneyApi}/execucao/minlist/${key}?state=1&capcor=1`,
             method = 'get'
         return {url, method}
     }
@@ -57,7 +58,7 @@ let points = new Points('points')
 // Store for general data about an year
 class YearInfo extends MapStore {
     ajaxParams(key) {
-        let url = `${api}/execucao/info/${key}`,
+        let url = `${moneyApi}/execucao/info/${key}`,
             method = 'get'
         return {url, method}
     }
@@ -72,7 +73,7 @@ let yearinfo = new YearInfo('yearinfo')
 class TableData extends MapStore {
     ajaxParams(key) {
         let [ year, page ] = key.split('-'),
-            url = `${api}/execucao/list?year=${year}&page=${page}&per_page_num=25`,
+            url = `${moneyApi}/execucao/list?year=${year}&page=${page}&per_page_num=25`,
             method = 'get'
         return {url, method}
     }
@@ -88,7 +89,7 @@ let tabledata = new TableData('tabledata')
 // Store for year list
 class Years extends MapStore {
     ajaxParams(key) {
-        let url = `${api}/execucao/info`,
+        let url = `${moneyApi}/execucao/info`,
             method = 'get'
         return {url, method}
     }
@@ -103,7 +104,7 @@ years.forceKey = 'years'
 // Store for money updates
 class MoneyUpdates extends MapStore {
     ajaxParams(key) {
-        let url = `${api}/execucao/updates?per_page_num=20&has_key=state`,
+        let url = `${moneyApi}/execucao/updates?per_page_num=20&has_key=state`,
             method = 'get'
         return {url, method}
     }
@@ -113,5 +114,20 @@ class MoneyUpdates extends MapStore {
 }
 let moneyUpdates = new MoneyUpdates('moneyUpdates')
 moneyUpdates.forceKey = 'moneyUpdates'
+
+
+// Store for comments updates
+class CommentsUpdates extends MapStore {
+    ajaxParams(key) {
+        let url = `${commentsApi}/comment`,
+            method = 'get'
+        return {url, method}
+    }
+    processResponse(response) {
+        return response.json.comments
+    }
+}
+let commentsUpdates = new CommentsUpdates('commentsUpdates')
+commentsUpdates.forceKey = 'commentsUpdates'
 
 export default {tabledata}
