@@ -56,32 +56,34 @@
     //}
 
     this.watchDepends('yearinfo', 'year', () => {
-        // Rows
-        this.perMapped = Math.round(
-            this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
-        this.perNotMapped = 100 - this.perMapped
-        this.rowsNotMapped = format(this.yearinfo.rows.total - this.yearinfo.rows.mapped)
-        this.rowsMapped = format(this.yearinfo.rows.mapped)
+        if (this.yearinfo) {
+            // Rows
+            this.perMapped = Math.round(
+                this.yearinfo.rows.mapped / this.yearinfo.rows.total * 100)
+            this.perNotMapped = 100 - this.perMapped
+            this.rowsNotMapped = format(this.yearinfo.rows.total - this.yearinfo.rows.mapped)
+            this.rowsMapped = format(this.yearinfo.rows.mapped)
 
-        // Values
-        this.values = []
-        for (let info of this.yearinfo.values) {
-            if (info.name != 'orcado') {
-                let notMapped = info.total - info.mapped
-                this.values.push({
-                    name: info.name == 'atualizado' ? 'planejado' : info.name,
-                    mapped: {
-                        abs: `R$${format(info.mapped)}`,
-                        per: Math.round(info.mapped / info.total * 100),
-                    },
-                    notMapped: {
-                        abs: `R$${format(notMapped)}`,
-                        per: Math.round(notMapped / info.total * 100),
-                    }
-                })
+            // Values
+            this.values = []
+            for (let info of this.yearinfo.values) {
+                if (info.name != 'orcado') {
+                    let notMapped = info.total - info.mapped
+                    this.values.push({
+                        name: info.name == 'atualizado' ? 'planejado' : info.name,
+                        mapped: {
+                            abs: `R$${format(info.mapped)}`,
+                            per: Math.round(info.mapped / info.total * 100),
+                        },
+                        notMapped: {
+                            abs: `R$${format(notMapped)}`,
+                            per: Math.round(notMapped / info.total * 100),
+                        }
+                    })
+                }
             }
+            this.update()
         }
-        this.update()
     })
     </script>
 </charts>

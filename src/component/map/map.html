@@ -1,6 +1,14 @@
 <map>
     <div id="map-parent-container" class="{ map-big: opts.big }">
         <div id="map-container"/>
+        <div class="map-attribution">
+            <a target="_blank" href="http://www.openstreetmap.org/">OSM</a>
+            <a target="_blank" href="http://opendatacommons.org/licenses/odbl/">ODbL</a>
+            <a target="_blank" href="http://www.mapquest.com/terms-of-use">MQ</a>
+        </div>
+        <div class="map-update-time">
+            dados atualizados em { yearinfo['last_update'] }
+        </div>
     </div>
     <div class="input-group search-address"
          if="{ opts.big }">
@@ -19,18 +27,22 @@
         </span>
     </div>
 
-    </form>
-
 
     <script type="es6">
     import map from './map'
     this.mixin('base')
+    this.yearinfo = ''
 
     this.one('mount', () => {
         this.year = this.router.getParam('year')
         map.initMap('map-container')
             window.m = map
         this.watchDepends('points', 'year', () => map.updateMap(this.points))
+    })
+
+    // Used to get last_update
+    this.watchDepends('yearinfo', 'year', () => {
+        if (this.yearinfo) this.update()
     })
 
     this.on('updated', () => {
