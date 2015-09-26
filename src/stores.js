@@ -1,6 +1,7 @@
 import config from 'config'
 
 import comments from './store/comments'
+import pedidos from './store/pedidos'
 import auth from './store/auth'
 import userinfo from './store/userinfo'
 import router from './store/router'
