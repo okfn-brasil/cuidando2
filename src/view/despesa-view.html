@@ -18,8 +18,8 @@
         </div>
     </div>
 
-    <div class="row text-right">
-        <p>dados atualizados em: ???</p>
+    <div class="row text-right" if="{ updateTime }">
+        <p>dados atualizados em: { updateTime }</p>
     </div>
 
     <div class="top-bar orgao-box">
@@ -47,6 +47,18 @@
 
     this.categories = ['planejado', 'empenhado', 'liquidado']
 
+    this.getUpdateTime = () => {
+        if (this.pointinfo) {
+            if (this.pointinfo.datafinal)
+                return this.pointinfo.datafinal
+            if (this.pointinfo['cd_anoexecucao'])
+                return this.pointinfo['cd_anoexecucao']
+            if (this.pointinfo['cd_exercicio'])
+                return this.pointinfo['cd_exercicio']
+        }
+        return undefined
+    }
+
     this.watchDepends('pointinfo', 'code', () => {
         this.keys = Object.keys(this.pointinfo)
         this.planejado = this.pointinfo.sld_orcado_ano
@@ -55,6 +67,7 @@
         this.empenhado = this.pointinfo.vl_empenhadoliquido
         this.liquidado = this.pointinfo.vl_liquidado
         this.orgao = this.pointinfo.ds_orgao
+        this.updateTime = this.getUpdateTime()
         this.update()
     })
     </script>
