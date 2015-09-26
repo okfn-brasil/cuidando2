@@ -8,7 +8,7 @@ class Translator {
 
         // this._currentLang = this.getCurrentLang()
         this._currentLang = router.getParam('lang')
-        console.log('translator: initial lang:', this._currentLang)
+        // console.log('translator: initial lang:', this._currentLang)
     }
 
     init() {

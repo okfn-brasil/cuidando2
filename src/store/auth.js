@@ -46,7 +46,6 @@ class Auth {
             localStorage.queryForToken = ""
         }
 
-        console.log('register-event')
         // this.on(riot.VEC('register'), params => this.register(params))
         // this.on(riot.VEC('login'), params => this.login(params))
         // this.on(riot.VEC('loginFacebook'), () => this.loginFacebook())
@@ -71,7 +70,6 @@ class Auth {
     }
 
     saveMicroToken(data) {
-        console.log("SAVE", data)
         localStorage.microToken = data.microToken
 
         var now = new Date()
@@ -87,13 +85,13 @@ class Auth {
 
         // Check if micro token is still valid for 30s
         if (now < localStorage.microTokenValidTime - 30000) {
-            console.log('auth:getMicroToken: no need to renew token')
+            // console.log('auth:getMicroToken: no need to renew token')
         } else {
             let url = api + "/renew_micro_token",
                 data = {
                     'token': localStorage.mainToken
                 }
-            console.log('auth:getMicroToken: renewing token with:', data)
+            // console.log('auth:getMicroToken: renewing token with:', data)
             data = await ajax({url, data, method: 'post'})
             this.saveMicroToken(data.json)
         }
@@ -149,7 +147,6 @@ class Auth {
                 data: {username: params.username, email: params.email},
                 method: 'post',
             })).json.exp
-            console.log('passwordResetSent!!!!!!!!!!!!!')
             this.trigger(riot.SEC('passwordResetSent'), exp)
         } catch(err) {
             await this.showErrorMessage(err)
@@ -186,7 +183,6 @@ class Auth {
                     escape("?") + parts[1]
             localStorage.prevhash = location.hash
             // redirect to site for login
-            console.log("NEW-REDIRECT:", newRedirect)
             location.href = newRedirect
         })
     }

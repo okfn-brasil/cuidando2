@@ -75,7 +75,7 @@ var BaseMixin = {
         })
 
         // Load both vars
-        console.log('mixing: trigger var:', nameData, 'key:', this[nameDepends])
+        // console.log('mixing: trigger var:', nameData, 'key:', this[nameDepends])
         riot.control.trigger(riot.VEL(nameDepends))
         riot.control.trigger(riot.VEL(nameData), this[nameDepends])
     },

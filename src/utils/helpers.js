@@ -51,13 +51,10 @@ export function registerSignals(self, signals) {
 
         if (!self[name]) console.log('function not found for:',
                                      name, 'in', self)
-        console.log(':::::::', name, 'in', self)
         self.on(riot.VEC(name), params => {
-            console.log(':::::::', name, 'in', self)
             self[name](params)
 
         })
-        console.log('S', name)
     }
 }
 
