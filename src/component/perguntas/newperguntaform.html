@@ -59,11 +59,11 @@
     //     this.update()
     // }
 
-    this.secondDests = [
-        {key: 'camara', value: 'camara'},
-        {key: 'prefeitura', value: 'prefeitura'}
-    ]
-    this.secondDest = 'prefeitura'
+    //this.secondDests = [
+    //    {key: 'camara', value: 'camara'},
+    //    {key: 'prefeitura', value: 'prefeitura'}
+    //]
+    //this.secondDest = 'prefeitura'
     this.secondDestSelected = (option) => {
         console.log(option)
         this.orgao = option
@@ -71,8 +71,12 @@
     }
 
     this.sendPedido = () => {
-        let text = this['new-pergunta-textarea'].value
-        console.log(text)
+        console.log('THIS', this)
+        this.triggerChange('sendPedido', {
+            text: this['new-pergunta-textarea'].value,
+            orgao: this.tags['styled-select'].getCurrent(),
+            keywords: [this.parent.parent.code]
+        })
     }
 
     </script>
