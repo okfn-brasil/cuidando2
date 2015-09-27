@@ -53,14 +53,9 @@ var justClickedMarker = false
 
 class Map {
 
-    constructor() {
-        self = this
-    }
-
     initMap(domId, tag) {
         this.domId = domId
         this.tag = tag
-        console.log("INIT MAP")
         this.popup = new leaflet.Popup()
 
         this.map = leaflet.map(domId, {
@@ -113,7 +108,7 @@ class Map {
             var marker = leaflet.geoJson(point, {
                 pointToLayer: this.pointToLayer
             })
-            marker.on('click', this.markerClicked)
+            marker.on('click', this.markerClicked.bind(this))
             markers.addLayer(marker)
         }
         this.map.addLayer(markers);
@@ -128,19 +123,17 @@ class Map {
     // Called when a marker is clicked
     markerClicked(event) {
         let code = event.layer.feature.properties.uid
-        if (router.getParam('code') != code) self.popup.setContent("Carregando...")
-        self.popup.setLatLng(event.latlng)
-        // self.map.openPopup(self.popup)
-        self.map.panTo(event.latlng)
+        if (router.getParam('code') != code) this.popup.setContent("Carregando...")
+        this.popup.setLatLng(event.latlng)
+        // this.map.openPopup(this.popup)
+        this.map.panTo(event.latlng)
         justClickedMarker = true
         router.route('despesa', {code})
     }
 
     // Update popup with the new data
     updatePopup(event, data) {
-        console.log("MAP - pointdata changed")
         if (data && data.ds_projeto_atividade) {
-            console.log(data)
             // If row has geometry (is mapped)
             if (data.geometry) {
                 if (justClickedMarker) {
@@ -148,15 +141,15 @@ class Map {
                 } else {
                     var coords = data.geometry.coordinates
                     // Inversion of coords needed... Leaflet standard != geoJSON
-                    if (data.geometry) self.map.panTo([coords[1], coords[0]])
+                    if (data.geometry) this.map.panTo([coords[1], coords[0]])
                 }
-                self.popup.setContent(data.ds_projeto_atividade)
+                this.popup.setContent(data.ds_projeto_atividade)
                 // TODO: add something to comment and else
                 // If row has no geometry, ...
             } else {
             }
         } else {
-            self.popup.setContent("Erro: descrição não encontrada!")
+            this.popup.setContent("Erro: descrição não encontrada!")
         }
     }
 
