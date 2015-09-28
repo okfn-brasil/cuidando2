@@ -5,35 +5,6 @@ import {registerSignals} from '../utils/helpers'
 
 let api = config.apiurl_auth
 
-let hasLocalStorage = true
-
-// Test localStorage
-// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/storage/localstorage.js
-try {
-    localStorage.setItem('t', 't')
-    localStorage.removeItem('t')
-} catch (e) {
-    hasLocalStorage = false
-    alert('Seu navegador parece não suportar localStorage. Por favor use um mais recente, ou você não conseguirá autenticar nesse site...')
-}
-
-// This code is needed to restore the hash after a redirect for login
-// through a third-party.
-// If redicected for login (from Facebook)
-if (/^\?redirect_state=/.test(location.search)) {
-    var url = location.origin + "/" + localStorage.prevhash
-    // Save info to get tokens after page load/reload
-    // If History is supported, tokens should be loaded after page load.
-    // If History isn't supported, tokens should be loaded after page reload.
-    localStorage.queryForToken = location.search
-    if (window.history.replaceState) {
-        window.history.replaceState(null, null, url)
-    } else {
-        // Fallback method that doesn't requires "window.history" but
-        // reloads the page.
-        location.href = url
-    }
-}
 
 class Auth {
     constructor(signal) {
@@ -170,21 +141,21 @@ class Auth {
         }
     }
 
-    loginFacebook() {
-        ajax({
+    async loginFacebook() {
+        let response = await ajax({
             url: api + '/login/external/manual/facebook',
             method: 'get',
-        }).then(response => {
-            let origRedirect = response.redirect,
-                thisUrl = window.location.origin,
-                parts = origRedirect.split(escape("?")),
-                newRedirect = parts[0]
-                    .replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) +
-                    escape("?") + parts[1]
-            localStorage.prevhash = location.hash
-            // redirect to site for login
-            location.href = newRedirect
         })
+        let origRedirect = response.json.redirect,
+            thisUrl = window.location.origin,
+            parts = origRedirect.split(escape("?")),
+            newRedirect = parts[0]
+                .replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) +
+                escape("?") + parts[1]
+        localStorage.prevhash = location.hash
+        // redirect to site for login
+        console.log(location)
+        location.href = newRedirect
     }
 
     // Complete Facebook login after redirect
