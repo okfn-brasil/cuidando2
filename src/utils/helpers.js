@@ -9,8 +9,8 @@ export function format(number, opts) {
 export function formatCur(number) {
     return format(number, {
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2}
-    )
+        maximumFractionDigits: 2
+    })
 }
 
 // Capitalize first letter
