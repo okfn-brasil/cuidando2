@@ -1,9 +1,10 @@
 <!doctype html>
 <html>
   <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
     <title>Cuidando 2</title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+
     <!--     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
     <!--     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script> -->
     <!--     <script src="//raw.githubusercontent.com/tagawa/bootstrap-without-jquery/master/bootstrap3/bootstrap-without-jquery.min.js"></script> -->
@@ -12,11 +13,66 @@
     <!--     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" /> -->
     <!--     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.css" /> -->
     <!--     <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.5/leaflet.js"></script> -->
+
+    <!--     <script src="https://cdn.polyfill.io/v2/polyfill.js?features=fetch"></script> -->
   </head>
   <body>
     <app></app>
-    <!--     <script src="http://localhost:5001/webpack-dev-server.js"></script> -->
-    <script src="dist/vendor.bundle.js"></script>
-    <script src="dist/bundle.js"></script>
+
+    <script id="polyfill-loader">
+    polyfills = {
+        i18n: 'Intl.~locale.pt-BR,Intl.~locale.en',
+        fetch: 'fetch',
+        promise: 'Promise',
+        assign: 'Object.assign',
+    }
+    neededPolyfills = []
+
+    // Fetch
+    if (!(window.fetch)){
+        neededPolyfills.push(polyfills.fetch)
+    }
+    // I18n
+    if (!(window.Intl && typeof window.Intl === "object")){
+        neededPolyfills.push(polyfills.i18n)
+    }
+    // Promise
+    if (!('Promise' in window && 'resolve' in window.Promise &&
+    'reject' in window.Promise && 'all' in window.Promise &&
+    'race' in window.Promise && (function() {var resolve;
+    new window.Promise(function(r) { resolve = r; });
+    return typeof resolve === 'function';}()))) {
+        neededPolyfills.push(polyfills.promise)
+    }
+    // Object.assign
+    if (!(Object.assign)) {
+        neededPolyfills.push(polyfills.assign)
+    }
+
+    function addScript(prevTag, src) {
+        var script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = src
+        script.async = false
+        script.defer = true
+        prevTag.parentNode.insertBefore(script, prevTag.nextSibling)
+        return script
+    }
+
+    var currTag = document.getElementById('polyfill-loader')
+
+    if (neededPolyfills.length) {
+        currTag = addScript(
+            currTag,
+            'https://cdn.polyfill.io/v2/polyfill.js?features='
+          + neededPolyfills.join(',')
+        )
+    }
+
+    currTag = addScript(currTag, 'dist/vendor.bundle.js')
+    addScript(currTag, 'dist/bundle.js')
+    </script>
+    <!--     <script src="dist/vendor.bundle.js"></script>
+    <script src="dist/bundle.js"></script> -->
   </body>
 </html>

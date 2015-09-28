@@ -38,6 +38,8 @@ module.exports = {
               loader: 'babel',
               query: {
                   modules: 'common',
+                  // loose: ['es6.classes'],
+                  // loose: ['all'],
                   // optional: 'runtime',
               }
             }
@@ -49,7 +51,7 @@ module.exports = {
           leaflet: 'leaflet',
           regeneratorRuntime: 'regeneratorRuntime',
           // TODO: carregar como os outros polyfills
-          fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+          // fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
       }),
       new webpack.optimize.CommonsChunkPlugin(
           /* chunkName= */"vendor",
