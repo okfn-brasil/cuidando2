@@ -42,7 +42,11 @@
     }
 
     this.watchDepends('comments', 'code', () => {
-        this.tabs[1].count = this.comments.count
+        if (this.comments) {
+            this.tabs[1].count = this.comments.count
+        } else {
+            this.tabs[1].count = 0
+        }
         this.update()
     })
     </script>
