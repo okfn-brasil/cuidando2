@@ -73,7 +73,11 @@ class Map {
     }
 
     redraw() {
-        if (this.map) this.map.invalidateSize()
+        if (this.map) {
+            let center = this.map.getCenter()
+            this.map.invalidateSize()
+            this.map.setView(center)
+        }
     }
 
     updateMap(points) {

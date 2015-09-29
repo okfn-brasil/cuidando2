@@ -15,7 +15,6 @@
         <input id="search-address-input"
                class="input-medium search-query form-control"
                type="text"
-               style="width: 400px;"
                onkeypress="{ ifEnter(locateAddress) }"
                placeholder="Procure pelo bairro ou endereço">
         <span class="input-group-btn">
@@ -36,7 +35,6 @@
     this.one('mount', () => {
         this.year = this.router.getParam('year')
         map.initMap('map-container')
-            window.m = map
         this.watchDepends('points', 'year', () => map.updateMap(this.points))
     })
 
