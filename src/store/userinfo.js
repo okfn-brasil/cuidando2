@@ -8,7 +8,6 @@ let api = config.apiurl_auth
 class UserInfo extends MapStore {
     constructor(signal) {
         super(signal)
-        // this.init(signal)
         this.on(riot.VEC('sendEditUserinfo'), params => this.sendEdit(params))
     }
     async ajaxParams(key) {

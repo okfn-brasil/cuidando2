@@ -16,18 +16,18 @@ export default class MapStore {
 
         this.signal = signal
 
-        this.on(riot.VEL(this.signal), (key) => {
+        this.on(riot.VEL(this.signal), (key, force) => {
             // console.log('mapstore:signal', this.signal, 'key:', key)
             if (this.forceKey) key = this.forceKey
-            if (key) this.load(key)
+            if (key) this.load(key, force)
         })
         riot.control.addStore(this)
     }
 
-    async load(key) {
+    async load(key, force) {
         // If doesn't have current key data, load
         let current = this._map[key]
-        if (current === undefined) {
+        if (current === undefined || force) {
             this._map[key] = 'loading'
             this._map[key] = this.processResponse(
                 await ajax(
