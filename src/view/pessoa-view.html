@@ -167,7 +167,6 @@
         this.clearFields()
         if (this.username == this.user) {
             // Force update of data, so can get personal data.
-            console.log('pessoa-force update')
             riot.control.trigger(riot.VEL('userinfo'), this.user, true)
         }
     })
