@@ -55,29 +55,37 @@ var BaseMixin = {
         }
     },
 
-    // Watch var nameData, and request more data for it when nameDepends change
-    watchDepends: function(nameData, nameDepends, onChange) {
-        // Watch changes on main var
-        this.onControl(riot.SEC(nameData), data => {
-            if ((data.key == this[nameDepends]) &&
-                (this[nameData] != data.value)) {
-                this[nameData] = data.value
-                onChange()
-            }
-        })
+    // Watch vars mainDataNames, and request more data for them when nameDepends
+    // change
+    watchDepends: function(mainDataNames, nameDepends, ...onChangeFuncs) {
+        let names = mainDataNames.split(' ')
+        // Watch changes on main vars
+        for (let i in names) {
+            this.onControl(riot.SEC(names[i]), data => {
+                if ((data.key == this[nameDepends]) &&
+                    (this[names[i]] != data.value)) {
+                    this[names[i]] = data.value
+                    onChangeFuncs[i]()
+                }
+            })
+        }
 
         // Watch changes on var which main depends
         this.onControl(riot.SEC(nameDepends), (valueDepends) => {
             if (this[nameDepends] != valueDepends) {
                 this[nameDepends] = valueDepends
-                riot.control.trigger(riot.VEL(nameData), this[nameDepends])
+                for (let i in names) {
+                    riot.control.trigger(riot.VEL(names[i]), this[nameDepends])
+                }
             }
         })
 
         // Load both vars
         // console.log('mixing: trigger var:', nameData, 'key:', this[nameDepends])
         riot.control.trigger(riot.VEL(nameDepends))
-        riot.control.trigger(riot.VEL(nameData), this[nameDepends])
+        for (let i in names) {
+            riot.control.trigger(riot.VEL(names[i]), this[nameDepends])
+        }
     },
 
     // Trigger a change in stores
