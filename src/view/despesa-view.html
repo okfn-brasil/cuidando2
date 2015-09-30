@@ -96,7 +96,6 @@
         this.updateTime = this.getUpdateTime()
         if (this.pointinfo.geometry) {
             let [lng, lat] = this.pointinfo.geometry.coordinates
-            console.log(lat, lng, this.pointinfo.geometry.coordinates)
             map.setCenter([lat, lng])
         }
         this.update()
