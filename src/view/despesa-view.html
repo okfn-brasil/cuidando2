@@ -1,25 +1,38 @@
 <despesa-view>
+    <div class="row">
+        <div class="col-sm-12 padded-col">
+            <a class="back-to-year"
+            onclick={fRoute('ano')}>
+                <span class="left-arrow"/>
+                voltar para o ano
+            </a>
+        </div>
+    </div>
     <div class="row relative">
-        <a class="back-to-year"
-        href="#"
-        onclick={fRoute('ano')}>
-            <span class="left-arrow"/>
-            voltar para o ano
-        </a>
+        <div id="minimap-container" class="col-md-4">
+        </div>
 
-        <div class="col-md-offset-5 col-md-7 col-lg-8 col-lg-offset-4 main-data">
-            <h2>Despesa: { this.pointinfo.ds_projeto_atividade }</h2>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Despesa: { this.pointinfo.ds_projeto_atividade }</h2>
+                </div>
+            </div>
 
-            <div each="{ cat, i in categories }" class="col-md-4 category">
-                <div class="title">{ cat }</div>
-                <img src="assets/img/{cat}.png"/>
-                <div class="value">R$ { formatCur(this[cat]) }</div>
+            <div class="row">
+                <div each="{ cat, i in categories }" class="col-sm-4 category">
+                    <div class="title">{ cat }</div>
+                    <img src="assets/img/{cat}.png"/>
+                    <div class="value">R$ { formatCur(this[cat]) }</div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="row text-right" if="{ updateTime }">
-        <p>dados atualizados em: { updateTime }</p>
+        <div class="col-sm-12 padded-col">
+            dados atualizados em: { updateTime }
+        </div>
     </div>
 
     <div class="top-bar orgao-box">
@@ -69,6 +82,16 @@
         this.orgao = this.pointinfo.ds_orgao
         this.updateTime = this.getUpdateTime()
         this.update()
+    })
+
+    this.preunmount = () => {
+        document.getElementById('bigmap-container')
+            .appendChild(document.getElementById('map-parent-container'))
+    }
+
+    this.one('mount', () => {
+        document.getElementById('minimap-container')
+            .appendChild(document.getElementById('map-parent-container'))
     })
     </script>
 </despesa-view>

@@ -1,20 +1,17 @@
-.back-to-year
-  color: $secondary-color
-  position: absolute
-  left: 20px
-  top: 20px
-
-.main-data
-  margin-top: 50px
-  height: 370px
+.padded-col
+  padding: 20px
 
 .category
   border-width: 1px
   border-style: solid none
   border-color: gray
-  height: 240px
-  padding: 15px
+  /* height: 240px
+  padding: 25px
   text-align: center
+  @media (max-width: $screen-xs-max)
+    border-bottom-style: none
+    &:last-child
+      border-bottom-style: solid
   .title
     color: $main-color
     font-weight: bold
@@ -24,15 +21,18 @@
     white-space: nowrap
     padding-top: 35px
 
-.category + .category
-  border-left-style: solid
-  &::before
-    content: "➜"
-    left: -0.5em
-    position: absolute
-    font-size: 3em
-    background-color: white
-    top: 35%
+
+@media (min-width: $screen-sm-min)
+  .category + .category
+    border-left-style: solid
+    &::before
+      content: "➜"
+      left: -0.5em
+      position: absolute
+      font-size: 3em
+      background-color: white
+      top: 35%
+
 
 .orgao-box
   padding: 15px 0px

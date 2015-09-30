@@ -145,8 +145,10 @@ class Router {
     // }
 
     loadView(viewName) {
-        if (this._currentView.root) {
-            this._currentView.root.unmount(true)
+        let root = this._currentView.root
+        if (root) {
+            if (root.preunmount) root.preunmount()
+            root.unmount(true)
         }
         this._currentView = {
             name: viewName,

@@ -1,13 +1,16 @@
 <map>
-    <div id="map-parent-container" class="{ map-big: opts.big }">
-        <div id="map-container"/>
-        <div class="map-attribution">
-            <a target="_blank" href="http://www.openstreetmap.org/">OSM</a>
-            <a target="_blank" href="http://opendatacommons.org/licenses/odbl/">ODbL</a>
-            <a target="_blank" href="http://www.mapquest.com/terms-of-use">MQ</a>
-        </div>
-        <div class="map-update-time">
-            dados atualizados em { yearinfo['last_update'] }
+    <div id="bigmap-container">
+        <div id="map-parent-container" class="{ map-big: opts.big }">
+            <div id="map-container"/>
+            <div class="map-attribution">
+                <a target="_blank" href="http://www.openstreetmap.org/">OSM</a>
+                <a target="_blank" href="http://opendatacommons.org/licenses/odbl/">ODbL</a>
+                <a target="_blank" href="http://www.mapquest.com/terms-of-use">MQ</a>
+            </div>
+            <div if="{ opts.big }"
+                 class="map-update-time">
+                dados atualizados em { yearinfo['last_update'] }
+            </div>
         </div>
     </div>
     <div class="input-group search-address"
