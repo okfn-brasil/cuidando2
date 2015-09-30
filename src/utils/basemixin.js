@@ -55,8 +55,13 @@ var BaseMixin = {
         }
     },
 
-    // Watch vars mainDataNames, and request more data for them when nameDepends
-    // change
+    // Watch vars mainDataNames, and request more data for
+    // them when nameDepends change
+    // E.g.: watchDepends('var1', 'var2', func1) -> will ask for more data
+    // about var1 when var2 changes, and run func1 when the data is received.
+    // E.g.2: watchDepends('var1 var2', 'dep', func1, func2) -> will ask for
+    // more data abourt var1 and var2 when dep changes, and call func1 when
+    // the data abourt var1 comes, and func2 when data about var2 comes.
     watchDepends: function(mainDataNames, nameDepends, ...onChangeFuncs) {
         let names = mainDataNames.split(' ')
         // Watch changes on main vars
