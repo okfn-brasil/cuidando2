@@ -26,7 +26,7 @@ module.exports = {
     module: {
         loaders: [
             // { test: /\.png$/, include: /assets/, loader: "file" },
-            { test: /\.png$/, loader: "file" },
+            { test: /\.(png|otf)$/, loader: "file" },
             { test: /\.css$/, loader: 'style!css' },
             { test: /\.scss$/, include: /src/, loader: 'style!css!sass' },
             { test: /\.sass$/, include: /src/, loader: 'style!css!sass?indentedSyntax' },
