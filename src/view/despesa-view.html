@@ -13,6 +13,12 @@
                 </div>
                 <div class="row relative">
                     <div id="minimap-container" class="col-md-4">
+                        <div if="{ !this.pointinfo.geometry }"
+                             class="not-mapped-msg-container">
+                            <div class="not-mapped-msg">
+                                Não mapeado
+                            </div>
+                        </div>
                     </div>
 
                     <div class="col-md-8">
@@ -59,6 +65,7 @@
 
     <script type="es6">
     import {formatCur} from '../utils/helpers'
+    import map from '../component/map/map.js'
     this.formatCur = formatCur
     this.mixin('base')
     // this.code = opts.code
@@ -87,6 +94,11 @@
         this.liquidado = this.pointinfo.vl_liquidado
         this.orgao = this.pointinfo.ds_orgao
         this.updateTime = this.getUpdateTime()
+        if (this.pointinfo.geometry) {
+            let [lng, lat] = this.pointinfo.geometry.coordinates
+            console.log(lat, lng, this.pointinfo.geometry.coordinates)
+            map.setCenter([lat, lng])
+        }
         this.update()
     })
 

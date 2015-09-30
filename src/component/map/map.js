@@ -124,6 +124,10 @@ class Map {
         return marker
     }
 
+    setCenter(latlng) {
+        this.map.panTo(latlng)
+    }
+
     // Called when a marker is clicked
     markerClicked(event) {
         let code = event.layer.feature.properties.uid
