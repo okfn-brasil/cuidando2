@@ -38,11 +38,17 @@
     this.one('mount', () => {
         this.year = this.router.getParam('year')
         map.initMap('map-container')
-        this.watchDepends('points', 'year', () => map.updateMap(this.points))
+        this.watchDepends('points', 'year', () => {
+            if (this.points) map.updateMap(this.points)
+        })
+
     })
 
     // Used to get last_update
     this.watchDepends('yearinfo', 'year', () => {
+        // acme to also load points. Since this watchDepends will update year,
+        // points' watchDepends will not run by itself
+        riot.control.trigger(riot.VEL('points'), this.year)
         if (this.yearinfo) this.update()
     })
 
