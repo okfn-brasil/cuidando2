@@ -1,52 +1,58 @@
-<despesa-view>
-    <div class="row">
-        <div class="col-sm-12 padded-col">
-            <a class="back-to-year"
-            onclick={fRoute('ano')}>
-                <span class="left-arrow"/>
-                voltar para o ano
-            </a>
-        </div>
-    </div>
-    <div class="row relative">
-        <div id="minimap-container" class="col-md-4">
-        </div>
-
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h2>Despesa: { this.pointinfo.ds_projeto_atividade }</h2>
+<despesa-view class="">
+    <div class="container-fluid light-dark-bg">
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 padded-col">
+                        <a class="back-to-year"
+                        onclick={fRoute('ano')}>
+                            <span class="left-arrow"/>
+                            voltar para o ano
+                        </a>
+                    </div>
                 </div>
-            </div>
+                <div class="row relative">
+                    <div id="minimap-container" class="col-md-4">
+                    </div>
 
-            <div class="row">
-                <div each="{ cat, i in categories }" class="col-sm-4 category">
-                    <div class="title">{ cat }</div>
-                    <img src="assets/img/{cat}.png"/>
-                    <div class="value">R$ { formatCur(this[cat]) }</div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h2>Despesa: { this.pointinfo.ds_projeto_atividade }</h2>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div each="{ cat, i in categories }" class="col-sm-4 category">
+                                <div class="title">{ cat }</div>
+                                <img src="assets/img/{cat}.png">
+                                <div class="value">R$ { formatCur(this[cat]) }</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="row text-right" if="{ updateTime }">
+                    <div class="col-sm-12 padded-col">
+                        dados atualizados em: { updateTime }
+                    </div>
+                </div>
+
+                <div class="top-bar orgao-box">
+                    <span class="block-decorator"/>
+                    <span class="key">Orgão responsável:</span>
+                    <span class="value">{this.orgao}</span>
+                </div>
+
+                <ul class="top-bar bottom-bar despesa-details-list">
+                    <li each={key, i in keys}>
+                        <span class="key">{key}:</span>
+                        <span>{this.pointinfo[key]}</span>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
-
-    <div class="row text-right" if="{ updateTime }">
-        <div class="col-sm-12 padded-col">
-            dados atualizados em: { updateTime }
-        </div>
-    </div>
-
-    <div class="top-bar orgao-box">
-        <span class="block-decorator"/>
-        <span class="key">Orgão responsável:</span>
-        <span class="value">{this.orgao}</span>
-    </div>
-
-    <ul class="top-bar bottom-bar despesa-details-list">
-        <li each={key, i in keys}>
-            <span class="key">{key}:</span>
-            <span>{this.pointinfo[key]}</span>
-        </li>
-    </ul>
 
     <perg-com-tabs/>
 

@@ -12,15 +12,15 @@
     </div>
     -->
 
-    <div class="container">
-        <div id="mainview"></div>
-    </div>
+    <div id="mainview"></div>
+    <!-- <div class="container-fluid"> -->
+    <!-- </div> -->
 
 
     <script type="es6">
     // import router from './store/router'
     this.mixin('base')
-    this.watch('_root', () => console.log('ROOT - APP'))
+    this.watch('_root')
     // this._root = router.getParam('_root')
     // this.bigmap = this._root == 'despesa' ? false : true
 

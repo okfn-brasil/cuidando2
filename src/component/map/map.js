@@ -135,27 +135,27 @@ class Map {
         router.route('despesa', {code})
     }
 
-    // Update popup with the new data
-    updatePopup(event, data) {
-        if (data && data.ds_projeto_atividade) {
-            // If row has geometry (is mapped)
-            if (data.geometry) {
-                if (justClickedMarker) {
-                    justClickedMarker = false
-                } else {
-                    var coords = data.geometry.coordinates
-                    // Inversion of coords needed... Leaflet standard != geoJSON
-                    if (data.geometry) this.map.panTo([coords[1], coords[0]])
-                }
-                this.popup.setContent(data.ds_projeto_atividade)
-                // TODO: add something to comment and else
-                // If row has no geometry, ...
-            } else {
-            }
-        } else {
-            this.popup.setContent("Erro: descrição não encontrada!")
-        }
-    }
+    // // Update popup with the new data
+    // updatePopup(event, data) {
+    //     if (data && data.ds_projeto_atividade) {
+    //         // If row has geometry (is mapped)
+    //         if (data.geometry) {
+    //             if (justClickedMarker) {
+    //                 justClickedMarker = false
+    //             } else {
+    //                 var coords = data.geometry.coordinates
+    //                 // Inversion of coords needed... Leaflet standard != geoJSON
+    //                 if (data.geometry) this.map.panTo([coords[1], coords[0]])
+    //             }
+    //             this.popup.setContent(data.ds_projeto_atividade)
+    //             // TODO: add something to comment and else
+    //             // If row has no geometry, ...
+    //         } else {
+    //         }
+    //     } else {
+    //         this.popup.setContent("Erro: descrição não encontrada!")
+    //     }
+    // }
 
     async locateAddress(address) {
         let base = "https://nominatim.openstreetmap.org/search/",

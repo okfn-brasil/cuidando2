@@ -47,15 +47,11 @@
     })
 
     this.on('updated', () => {
-        /*         map.setSizeBig(opts.big) */
         map.redraw()
     })
 
     this.locateAddress = () => {
         map.locateAddress(this['search-address-input'].value)
     }
-
-    console.log('MAP BIG:', opts.big)
-
     </script>
 </map>

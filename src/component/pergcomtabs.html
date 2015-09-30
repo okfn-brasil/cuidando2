@@ -1,17 +1,23 @@
 <perg-com-tabs>
-    <ul class="list--bare">
-        <div class="row">
-            <li class="tab { is-active: parent.isActiveTab(tab.ref) }"
-                each={ tab, i in tabs }
-                onclick={ parent.toggleTab }>
-                <span class="block-decorator"/>
-                <div class="number">{tab.count}</div>
-                <div>{tab.title}</div>
-            </li>
+    <div class="container-fluid light-dark-bg">
+        <div class="row tabs-row">
+            <div class="container">
+                <ul class="list--bare">
+                    <div class="row">
+                        <li class="tab { is-active: parent.isActiveTab(tab.ref) }"
+                            each={ tab, i in tabs }
+                            onclick={ parent.toggleTab }>
+                            <span class="block-decorator"/>
+                            <div class="number">{tab.count}</div>
+                            <div>{tab.title}</div>
+                        </li>
+                    </div>
+                </ul>
+            </div>
         </div>
-    </ul>
+    </div>
 
-    <div class="tabContent">
+    <div class="container tabContent">
         <div class="tabContent__item"
              if={ is-active: isActiveTab('c') }>
             <comments/>
