@@ -45,7 +45,6 @@
     this.one('mount', () => {
         this.year = this.router.getParam('year')
         map.initMap('map-container')
-            console.log('M?')
         this.watchDepends('points yearinfo', 'year',
                this.pointsChanged, this.yearinfoChanged)
     })
