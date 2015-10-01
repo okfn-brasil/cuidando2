@@ -23,6 +23,7 @@ class Translator {
             'Locate': 'Localizar',
             'Year': 'Ano',
             'reply': 'comentar',
+            'Map legend': 'Legenda do mapa',
             'login_form_use_reset_code': 'Por favor verifique seu e-mail, você deve ter recebido um código para ser usado no formulário abaixo. Você tem {minutes} minutos para usá-lo.'
         }
 

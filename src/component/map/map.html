@@ -2,6 +2,17 @@
     <div id="bigmap-container">
         <div id="map-parent-container" class="{ map-big: opts.big }">
             <div id="map-container"/>
+            <div if="{ opts.big }"
+                 class="map-legend-container">
+                <div class="map-legend">
+                    <b>{ t("Map legend") }:</b>
+                    <div each="{ cat, i in categories }"
+                        class="map-category">
+                        <img src="assets/img/{cat}.png">
+                        { cat }
+                    </div>
+                </div>
+            </div>
             <div class="map-attribution">
                 <a target="_blank" href="http://www.openstreetmap.org/">OSM</a>
                 <a target="_blank" href="http://opendatacommons.org/licenses/odbl/">ODbL</a>
@@ -34,6 +45,7 @@
     import map from './map'
     this.mixin('base')
     this.yearinfo = ''
+    this.categories = ['planejado', 'empenhado', 'liquidado']
 
     this.pointsChanged = () => {
         if (this.points) map.updateMap(this.points)
