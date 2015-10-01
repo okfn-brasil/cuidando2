@@ -56,6 +56,7 @@
                         <span>{el[1]}</span>
                     </li>
                     <a if="{ !showAllInfo }"
+                       class="small-font"
                         onclick="{ () => showAllInfo = true }">
                         mais
                     </a>
@@ -68,6 +69,7 @@
                         <span>{this.pointinfo[key]}</span>
                     </li>
                     <a if="{ showAllInfo }"
+                       class="small-font"
                         onclick="{ () => showAllInfo = false }">
                         esconder
                     </a>
