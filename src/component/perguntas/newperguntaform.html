@@ -25,7 +25,7 @@
         <form class="form">
             <div class="form-group">
                 <label class="sr-only" for="new-pergunta-textarea">
-                    Pergunta
+                    { t('Question') }
                 </label>
                 <textarea id="new-pergunta-textarea"
                             class="form-control"
@@ -71,7 +71,6 @@
     }
 
     this.sendPedido = () => {
-        console.log('THIS', this)
         this.triggerChange('sendPedido', {
             text: this['new-pergunta-textarea'].value,
             orgao: this.tags['styled-select'].getCurrent(),

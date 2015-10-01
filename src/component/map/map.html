@@ -7,9 +7,9 @@
                 <div class="map-legend">
                     <b>{ t("Map legend") }:</b>
                     <div each="{ cat, i in categories }"
-                        class="map-category">
+                        class="capitalize map-category">
                         <img src="assets/img/{cat}.png">
-                        { cat }
+                        { t(cat) }
                     </div>
                 </div>
             </div>
@@ -20,7 +20,7 @@
             </div>
             <div if="{ opts.big }"
                  class="map-update-time">
-                dados atualizados em { yearinfo['last_update'] }
+                { t('data updated at') } { yearinfo['last_update'] }
             </div>
         </div>
     </div>
@@ -30,7 +30,7 @@
                class="input-medium search-query form-control"
                type="text"
                onkeypress="{ ifEnter(locateAddress) }"
-               placeholder="Procure pelo bairro ou endereço">
+               placeholder="{ t('Search for an address') }">
         <span class="input-group-btn">
             <button onclick="{ locateAddress }"
                     class="btn btn-color-sec"

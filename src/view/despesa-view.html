@@ -7,7 +7,7 @@
                         <a class="back-to-year"
                         onclick={fRoute('ano')}>
                             <span class="left-arrow"/>
-                            voltar para o ano
+                            { t('back to year') }
                         </a>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
                         <div if="{ !this.pointinfo.geometry }"
                              class="not-mapped-msg-container">
                             <div class="not-mapped-msg">
-                                Não mapeado
+                                { t('Not mapped') }
                             </div>
                         </div>
                     </div>
@@ -24,13 +24,13 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-sm-12">
-                                <h2>Despesa: { this.pointinfo.ds_projeto_atividade }</h2>
+                                <h2>{ t('Expense') }: { this.pointinfo.ds_projeto_atividade }</h2>
                             </div>
                         </div>
 
                         <div class="row">
                             <div each="{ cat, i in categories }" class="col-sm-4 category">
-                                <div class="title">{ cat }</div>
+                                <div class="title">{ t(cat) }</div>
                                 <img src="assets/img/{cat}.png">
                                 <div class="value">R$ { formatCur(this[cat]) }</div>
                             </div>
@@ -40,13 +40,13 @@
 
                 <div class="row text-right" if="{ updateTime }">
                     <div class="col-sm-12 padded-col">
-                        dados atualizados em: { updateTime }
+                        { t('data updated at') }: { updateTime }
                     </div>
                 </div>
 
                 <div class="top-bar orgao-box">
                     <span class="block-decorator"/>
-                    <span class="key">Orgão responsável:</span>
+                    <span class="key">{ t('Accountable body') }:</span>
                     <span class="value">{this.orgao}</span>
                 </div>
 

@@ -9,7 +9,7 @@
                             onclick={ parent.toggleTab }>
                             <span class="block-decorator"/>
                             <div class="number">{tab.count}</div>
-                            <div>{tab.title}</div>
+                            <div>{ t(tab.title) }</div>
                         </li>
                     </div>
                 </ul>
@@ -33,8 +33,8 @@
     this.mixin('base')
 
     this.tabs = [
-        { title: 'perguntas', ref: 'p', count: 0 },
-        { title: 'comentários', ref: 'c', count: 0 },
+        { title: 'questions', ref: 'p', count: 0 },
+        { title: 'comments', ref: 'c', count: 0 },
     ]
 
     this.activeTab = 'c'

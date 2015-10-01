@@ -10,7 +10,7 @@
             <form class="form-inline" if="{ checkIsEditting() }">
                 <div class="form-group">
                     <label class="sr-only" for="comment-edit-textarea-{id}">
-                        Edit Comment
+                        { t('Edit comment') }
                     </label>
                     <textarea id="comment-edit-textarea-{id}"
                               class="form-control"
@@ -27,11 +27,10 @@
 
         </div>
         <div if="{ hidden }">
-            <p>Comentário removido.</p>
+            <p>{ t('Comment removed.') }</p>
         </div>
         <div class="panel-footer">
-            <a href="#"
-               onclick={ fRoute('pessoa ' + author) }>
+            <a onclick={ fRoute('pessoa ' + author) }>
                 {author}
             </a>
             <button class="btn btn-default comment-reply-button"
@@ -70,7 +69,7 @@
                 </button>
                 <button class="btn btn-danger comment-report-button"
                         onclick="{ sendReport }">
-                    Denunciar
+                    { t('Report') }
                 </button>
             </div>
 
@@ -85,7 +84,7 @@
                 <div class="form-group">
                     <label class="sr-only"
                            for="comment-reply-textarea-{id}">
-                        Reply Comment
+                        { t('Reply Comment') }
                     </label>
                     <textarea id="comment-reply-textarea-{id}"
                               class="form-control"

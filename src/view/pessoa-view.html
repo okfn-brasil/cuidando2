@@ -23,7 +23,7 @@
             <div class="form-group form-inline"
                 <label class="sr-only"
                         for="user-edit-description">
-                    Description
+                    { t('Description') }
                 </label>
                 <textarea class="form-control"
                           rows="3"
@@ -33,11 +33,11 @@
                 <button type="submit"
                         onclick="{ sendEdit }"
                         class="btn btn-color-sec">
-                    Update
+                    { t('Update') }
                 </button>
                 <button class="btn btn-color-sec"
                         onclick="{ closeEdit.bind(this, 'descr') }">
-                    Cancel
+                    { t('Cancel') }
                 </button>
             </div>
         </div>
@@ -50,8 +50,8 @@
 
         <!-- Email -->
         <div if="{ !isEditting.email }">
-            <b>Email:</b> {userinfo.email} -
-            <a href="#" onclick="{ openEdit.bind(this, 'email') }">editar</a>
+            <b>{ t('Email') }:</b> {userinfo.email} -
+            <a onclick="{ openEdit.bind(this, 'email') }">{ t('editar') }</a>
         </div>
 
         <!-- Edit Email -->
@@ -59,29 +59,29 @@
             <div class="form-group form-inline"
                 <label class="sr-only"
                         for="user-edit-email">
-                    E-mail
+                    { t('E-mail') }
                 </label>
                 <input type="text"
                        class="form-control"
                        id="user-edit-email"
                        value="{ userinfo.email }"
-                       placeholder="E-mail">
+                       placeholder="{ t('E-mail') }">
                 <button type="submit"
                         onclick="{ sendEdit }"
                         class="btn btn-color-sec">
-                    Update
+                    { t('Update') }
                 </button>
                 <button class="btn btn-color-sec"
                         onclick="{ closeEdit.bind(this, 'email') }">
-                    Cancel
+                    { t('Cancel') }
                 </button>
             </div>
         </div>
 
         <!-- Password -->
         <div if="{ !isEditting.password }">
-            <b>Password</b> -
-            <a onclick="{ openEdit.bind(this, 'password') }">editar</a>
+            <b>{ t('Password') }</b> -
+            <a onclick="{ openEdit.bind(this, 'password') }">{ t('editar') }</a>
         </div>
 
         <!-- Edit Password -->
@@ -90,23 +90,23 @@
                 <div class="form-group form-inline"
                     <label class="sr-only"
                             for="user-edit-curr-password">
-                        Current password
+                        { t('Current password') }
                     </label>
                     <input type="password"
                         class="form-control { checkFieldError('password') }"
                         id="user-edit-curr-password"
-                        placeholder="Current password">
+                        placeholder="{ t('Current password') }">
                 </div>
 
                 <div class="form-group form-inline"
                     <label class="sr-only"
                             for="user-edit-new-password">
-                        New Password
+                        { t('New Password') }
                     </label>
                     <input type="password"
                             class="form-control { checkFieldError('new_password') }"
                             id="user-edit-new-password"
-                            placeholder="New Password">
+                            placeholder="{ t('New Password') }">
                 </div>
 
                 <div class="form-group form-inline"
@@ -123,11 +123,11 @@
                 <button type="submit"
                         onclick="{ sendEdit }"
                         class="btn btn-color-sec">
-                    Update
+                    { t('Update') }
                 </button>
                 <button class="btn btn-color-sec"
                         onclick="{ closeEdit.bind(this, 'password') }">
-                    Cancel
+                    { t('Cancel') }
                 </button>
             </form>
         </div>

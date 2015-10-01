@@ -1,18 +1,20 @@
 <comments>
-    <h2>Acompanhe os comentários sobre essa despesa</h2>
+    <h2>{ t('See the comments about this expense') }</h2>
 
     <form class="form">
         <div class="form-group">
-            <label class="sr-only" for="comment-textarea">Comment</label>
+            <label class="sr-only" for="comment-textarea">
+                { t('Comment') }
+            </label>
             <textarea class="form-control"
                     id="comment-textarea"
                     rows="3"
-                    placeholder="Comentario!!!"/>
+                    placeholder="{ t('Your comment') }"/>
         </div>
         <button type="submit"
                 onclick="{ sendComment }"
                 class="btn btn-color-sec block-right">
-            Enviar comentário
+            { t('Send comment') }
         </button>
     </form>
 

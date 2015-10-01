@@ -2,9 +2,14 @@ import decodeToken from 'jwt-decode'
 import ajax from '../utils/ajax'
 import config from 'config'
 import {registerSignals} from '../utils/helpers'
+import t from '../utils/translator'
 
 let api = config.apiurl_auth
 
+
+if (!window.hasLocalStorage) {
+    alert(t.translate('local_storage_not_supported'))
+}
 
 class Auth {
     constructor(signal) {
@@ -76,7 +81,7 @@ class Auth {
             } catch(err) {
                 localStorage.removeItem("mainToken")
                 localStorage.removeItem("microToken")
-                alert("Error to decode stored token! Please relogin...")
+                alert(t.translate('error_decode_token'))
             }
         }
         return null
@@ -90,8 +95,10 @@ class Auth {
     async register(params) {
         try {
             this.saveTokens(await ajax({
-                url: api + "/user/" + params.username,
-                data: {password: params.password, email: params.email},
+                url: api + "/users",
+                data: {username: params.username,
+                       password: params.password,
+                       email: params.email},
                 method: 'post',
             }))
         } catch(err) {
@@ -154,7 +161,6 @@ class Auth {
                 escape("?") + parts[1]
         localStorage.prevhash = location.hash
         // redirect to site for login
-        console.log(location)
         location.href = newRedirect
     }
 

@@ -11,7 +11,7 @@ class UserInfo extends MapStore {
         this.on(riot.VEC('sendEditUserinfo'), params => this.sendEdit(params))
     }
     async ajaxParams(key) {
-        let url = `${api}/user/${key}`,
+        let url = `${api}/users/${key}`,
             method = 'get',
             params = {url, method}
 
@@ -36,7 +36,7 @@ class UserInfo extends MapStore {
 
     // Edit user info
     async sendEdit(params) {
-        let url = `${api}/user/${params.username}`,
+        let url = `${api}/users/${params.username}`,
             data = {
                 'token': await auth.getMicroToken(),
                 'description': params.description,

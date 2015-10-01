@@ -7,13 +7,13 @@
             </colgroup> -->
             <tr>
                 <th class="text-left relative">
-                    Descrição
+                    { t('description') }
                     <span class="table-header-mark"/>
                 </th>
-                <th>Planejado</th>
-                <th>Empenhado</th>
-                <th>Liquidado</th>
-                <th class="text-left">Órgão</th>
+                <th>{ t('planejado') }</th>
+                <th>{ t('empenhado') }</th>
+                <th>{ t('liquidado') }</th>
+                <th class="text-left">{ t('body') }</th>
             </tr>
             <tr each={ tabledata }
                 class="clickable"
@@ -34,21 +34,18 @@
     </div>
     <div class="text-right table-controls">
         <a onclick="{ fRoute({page:0}) }"
-            if="{ page != 0 }"
-            href="#">
-            primeira
+            if="{ page != 0 }">
+            { t('first') }
         </a>
         <a each={ num, i in pageIndexes }
             onclick="{ fRoute({page:num}) }"
             class="{disabled: num == page }"
-            role="button"
-            href="#">
+            role="button">
             { num + 1 }
         </a>
         <a onclick="{ fRoute({page:lastPage}) }"
-            if="{ page != lastPage }"
-            href="#">
-            última
+            if="{ page != lastPage }">
+            { t('last') }
         </a>
     </div>
 
@@ -117,6 +114,5 @@
     this.calcPlanejado = (orcado, atualizado) => {
         return atualizado ? atualizado : orcado
     }
-
     </script>
 </dyntable>

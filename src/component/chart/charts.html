@@ -4,12 +4,12 @@
             <div class="inline-block donut-group not-mapped">
                 <donut color={colorNM} percentage={perNotMapped}/>
                 <p class="abs-number">{rowsNotMapped}</p>
-                <p>Não mapeadas</p>
+                <p>{ t('Not mapped') }</p>
             </div>
             <div class="inline-block donut-group mapped">
                 <donut color={colorM} percentage={perMapped}/>
                 <p class="abs-number">{rowsMapped}</p>
-                <p>Mapeadas</p>
+                <p>{ t('Mapped') }</p>
             </div>
         </div>
 
@@ -18,17 +18,17 @@
                 <div each="{ values }" class="value-block">
                     <div class="icon-block">
                         <img src="assets/img/{name}.png">
-                        <span>{ capitalize(name) }</span>
+                        <span class="capitalize">{ { t(name) } }</span>
                     </div>
                     <div class="bar-block">
                         <bar color={colorNM}
                              class="not-mapped"
-                             title="Não mapeado"
+                             title="{ t('Not mapped') }"
                              absolute={notMapped.abs}
                              percentage={notMapped.per}/>
                         <bar color={colorM}
                              class="mapped"
-                             title="Mapeado"
+                             title="{ t('Mapped') }"
                              absolute={mapped.abs}
                              percentage={mapped.per}/>
                     </div>
@@ -39,8 +39,7 @@
 
 
     <script type="es6">
-    import {format, capitalize} from '../../utils/helpers'
-    this.capitalize = capitalize
+    import {format} from '../../utils/helpers'
     this.mixin('base')
 
     this.year = opts.year

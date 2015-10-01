@@ -21,32 +21,31 @@
             <div class="form-group">
                 <label class="sr-only"
                         for="login-form-username">
-                    Username
+                    { t('Username') }
                 </label>
                 <input type="text"
                         class="form-control { checkFieldError('username') }"
                         id="login-form-username"
-                        placeholder="Username">
+                        placeholder="{ t('Username') }">
             </div>
 
             <!-- Email -->
             <div class="form-group"
                     if={ !view.login }>
-                <label class="sr-only"
-                        for="login-form-email">
-                    E-mail
+                <label class="sr-only" for="login-form-email">
+                    { t('E-mail') }
                 </label>
                 <input type="text"
-                        class="form-control { checkFieldError('email') }"
-                        id="login-form-email"
-                        placeholder="E-mail">
+                    class="form-control { checkFieldError('email') }"
+                    id="login-form-email"
+                    placeholder="{ t('E-mail') }">
             </div>
 
             <!-- Reset Code -->
             <div class="form-group"
-                 if={ view.forgot2 }>
+                 if="{ view.forgot2 }">
                 <label class="sr-only"
-                        for="login-form-code">
+                    for="login-form-code">
                     { t("Code") }
                 </label>
                 <input type="password"
@@ -60,12 +59,12 @@
                  if="{ !view.forgot1 }">
                 <label class="sr-only"
                         for="login-form-password">
-                    Password
+                    { t('Password') }
                 </label>
                 <input type="password"
                         class="form-control { checkFieldError('password') }"
                         id="login-form-password"
-                        placeholder="Password">
+                        placeholder="{ t('Password') }">
             </div>
 
             <!-- Confirm Password -->
@@ -130,7 +129,7 @@
             <div class="relative separator-block">
                 <span class="bar-decorator"/>
                 <div class="center-block separator">
-                    <span>ou</span>
+                    <span>{ t('or') }</span>
                 </div>
             </div>
 
@@ -138,13 +137,14 @@
             <button id="login-facebook"
                     onclick={ startFacebookLogin }
                     class="btn modal-button login-facebook">
-                Login Facebook
+                { t('Login Facebook') }
             </button>
         </div>
     </div>
 
 
     <script type="es6">
+    import {capitalize} from '../utils/helpers'
     this.mixin('base')
     this.watch('authError')
 
@@ -188,7 +188,7 @@
         names = names.split(' ')
         for (let name of names) {
             if (!this.getFieldValue(name)) {
-                this.setError(`${name} cannot be empty...`, [name])
+                this.setError(this.t(capitalize(name)) + this.t(' cannot be empty...'), [name])
                 return false
             }
         }
@@ -217,10 +217,8 @@
 
     // Tries to register user with current fields data
     sendRegister = () => {
-        console.log('preREGISTER!!!!!!!!!!')
         if(this.checkNotEmpty('username password') &&
            this.checkPasswordsSame()) {
-            console.log('sendREGG!!!!!!!!!!')
             this.triggerChange('register', {
                 username: this.getFieldValue('username'),
                 password: this.getFieldValue('password'),
