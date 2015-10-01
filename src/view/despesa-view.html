@@ -51,11 +51,28 @@
                 </div>
 
                 <ul class="top-bar bottom-bar despesa-details-list">
+                    <li each={el, i in mainKeys}>
+                        <span class="key">{el[0]}:</span>
+                        <span>{el[1]}</span>
+                    </li>
+                    <a if="{ !showAllInfo }"
+                        onclick="{ () => showAllInfo = true }">
+                        mais
+                    </a>
+                </ul>
+
+                <ul if="{ showAllInfo }"
+                    class="bottom-bar despesa-details-list">
                     <li each={key, i in keys}>
                         <span class="key">{key}:</span>
                         <span>{this.pointinfo[key]}</span>
                     </li>
+                    <a if="{ showAllInfo }"
+                        onclick="{ () => showAllInfo = false }">
+                        esconder
+                    </a>
                 </ul>
+
             </div>
         </div>
     </div>
@@ -70,8 +87,14 @@
     this.mixin('base')
     // this.code = opts.code
     this.code = this.router.getParam('code')
+    this.showAllInfo = false
 
     this.categories = ['planejado', 'empenhado', 'liquidado']
+    this.mainKeysNames = [
+        ['ds_despesa', 'Despesa'],
+        ['ds_fonte', 'Fonte'],
+        ['ds_funcao', 'Função'],
+    ]
 
     this.getUpdateTime = () => {
         if (this.pointinfo) {
@@ -86,7 +109,13 @@
     }
 
     this.watchDepends('pointinfo', 'code', () => {
+        this.mainKeys = []
+        for (let name of this.mainKeysNames) {
+            this.mainKeys.push([name[1], this.pointinfo[name[0]]])
+        }
+
         this.keys = Object.keys(this.pointinfo)
+
         this.planejado = this.pointinfo.sld_orcado_ano
         if (this.pointinfo.vl_atualizado)
             this.planejado = this.pointinfo.vl_atualizado
