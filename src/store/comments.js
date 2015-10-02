@@ -43,9 +43,11 @@ class Comments extends MapStore {
     }
 
     updateThread(json) {
-        let key = json.name
-        this._map[key] = this.processResponse(json)
-        this.triggerChanged(key)
+        if (json) {
+            let key = json.name
+            this._map[key] = this.processResponse(json)
+            this.triggerChanged(key)
+        }
     }
 
     // Add comment to a thread

@@ -166,11 +166,10 @@ class Map {
         let base = "https://nominatim.openstreetmap.org/search/",
             query = "?format=json&limit=1&countrycodes=br&viewbox=-47.16,-23.36,-45.97,-23.98&bounded=1",
             url = base + address + query,
-            response = await ajax({url})
+            json = await ajax({url})
 
-        if (response && response.json) {
-            let data = response.json
-            if (data.length) this.map.setView([data[0].lat,data[0].lon], 16)
+        if (json) {
+            if (json.length) this.map.setView([json[0].lat,json[0].lon], 16)
             else alert(t.translate('address_not_found'))
         }
     }

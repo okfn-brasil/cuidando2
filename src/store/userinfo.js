@@ -26,8 +26,8 @@ class UserInfo extends MapStore {
         return params
     }
 
-    showErrorMessage(msg) {
-        console.log(msg)
+    async showErrorMessage(error) {
+        let msg = JSON.parse((await error.response.json()).message)
         this.trigger(riot.SEC('userError'), msg)
     }
 
@@ -43,16 +43,23 @@ class UserInfo extends MapStore {
             }
         try {
             this.updateUser(await ajax({url, data, method: 'put'}))
-        } catch(err) {
-            this.showErrorMessage(
-                JSON.parse((await err.response.json()).message))
+        } catch(error) {
+            await this.showErrorMessage(error)
         }
     }
 
     updateUser(json) {
-        let key = json.username
-        this._map[key] = json
-        this.triggerChanged(key)
+        if (json) {
+            let key = json.username
+            this._map[key] = json
+            this.triggerChanged(key)
+        }
+    }
+
+    // Forget info about an user. Usefull when user logout,
+    // so no sensible data remains in this store.
+    forgetUser(username) {
+        if (username) this._map[username] = undefined
     }
 }
 

@@ -11,7 +11,7 @@ function checkStatus(response) {
 async function ajax(params) {
     let fParams = {
         // If method is undefined, will default to 'get'
-        method: params.method,
+        method: params.method ? params.method : 'get',
     }
     if (params.data) {
         fParams.body = JSON.stringify(params.data)
@@ -21,25 +21,20 @@ async function ajax(params) {
         }
     }
 
-    let response = await fetch(params.url, fParams)
+    try {
+        var response = await fetch(params.url, fParams)
+    } catch(error) {
+        console.log('ERRO ao tentar pegar:', params.url)
+        return null
+    }
     checkStatus(response)
     console.log('request succeeded', params.url, response)
     // allows whole response return
-    if (params.raw)
+    if (params.raw) {
         return response
-    else
+    } else {
         return await response.json()
-
-
-    // .then(response => response.json()
-    //         .then(json => {return {meta:response, json}}))
-    // .then(function(data) {
-    //     console.log('request succeeded with JSON response', data)
-    //     return data
-    // })
-    // .catch(function(error) {
-    //     console.log('request failed', error)
-    // })
+    }
 }
 
 export default ajax

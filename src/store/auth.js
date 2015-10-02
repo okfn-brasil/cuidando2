@@ -3,6 +3,7 @@ import ajax from '../utils/ajax'
 import config from 'config'
 import {registerSignals} from '../utils/helpers'
 import t from '../utils/translator'
+import userinfo from './userinfo'
 
 let api = config.apiurl_auth
 
@@ -38,7 +39,7 @@ class Auth {
     }
 
     saveTokens(json) {
-        if (json.mainToken) {
+        if (json && json.mainToken) {
             localStorage.mainToken = json.mainToken
             this.saveMicroToken(json)
             this.username = this.getUsername()
@@ -70,8 +71,12 @@ class Auth {
                     'token': localStorage.mainToken
                 }
             // console.log('auth:getMicroToken: renewing token with:', data)
-            data = await ajax({url, data, method: 'post'})
-            this.saveMicroToken(data.json)
+            let json = await ajax({url, data, method: 'post'})
+            if (json) {
+                this.saveMicroToken(json)
+            } else {
+                return null
+            }
         }
         return localStorage.microToken
     }
@@ -122,12 +127,12 @@ class Auth {
 
     async forgotPassword(params) {
         try {
-            let exp = (await ajax({
+            let json = await ajax({
                 url: api + "/reset_password",
                 data: {username: params.username, email: params.email},
                 method: 'post',
-            })).json.exp
-            this.trigger(riot.SEC('passwordResetSent'), exp)
+            })
+            if (json) this.trigger(riot.SEC('passwordResetSent'), json.exp)
         } catch(err) {
             await this.showErrorMessage(err)
         }
@@ -155,15 +160,17 @@ class Auth {
             url: api + '/login/external/manual/facebook',
             method: 'get',
         })
-        let origRedirect = json.redirect,
-            thisUrl = window.location.origin,
-            parts = origRedirect.split(escape("?")),
-            newRedirect = parts[0]
-                .replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) +
-                escape("?") + parts[1]
-        localStorage.prevhash = location.hash
-        // redirect to site for login
-        location.href = newRedirect
+        if (json) {
+            let origRedirect = json.redirect,
+                thisUrl = window.location.origin,
+                parts = origRedirect.split(escape("?")),
+                newRedirect = parts[0]
+                    .replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) +
+                    escape("?") + parts[1]
+            localStorage.prevhash = location.hash
+            // redirect to site for login
+            location.href = newRedirect
+        }
     }
 
     // Complete Facebook login after redirect
@@ -174,15 +181,20 @@ class Auth {
         }).then(this.saveTokens.bind(this))
     }
 
-    logout() {
-        ajax({
-            url: api + "/logout",
-            data: {'token': localStorage.mainToken},
-            method: 'post',
-        })
+    async logout() {
+        let token = localStorage.mainToken
+        userinfo.forgetUser(this.getUsername())
         localStorage.removeItem("mainToken")
         localStorage.removeItem("microToken")
-        // TODO: Make userinfo store forget extra data about this user
+        try {
+            await ajax({
+                url: api + "/logout",
+                data: {token},
+                method: 'post',
+            })
+        } catch(err) {
+            alert('Erro ao tentar deslogar...')
+        }
         this.trigger(riot.SEC('username'), null)
     }
 }

@@ -38,9 +38,11 @@ class Pedidos extends MapStore {
     }
 
     updatePedido(json) {
-        let key = json.keyword
-        this._map[key] = this.processResponse(json)
-        this.triggerChanged(key)
+        if (json) {
+            let key = json.keyword
+            this._map[key] = this.processResponse(json)
+            this.triggerChanged(key)
+        }
     }
 
     // Send a new pedido
