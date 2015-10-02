@@ -7,9 +7,10 @@
                 { t('Comment') }
             </label>
             <textarea class="form-control"
-                    id="comment-textarea"
-                    rows="3"
-                    placeholder="{ t('Your comment') }"/>
+                id="comment-textarea"
+                rows="3"
+                onclick="{ checkIsLogged }"
+                placeholder="{ t('Your comment') }"/>
         </div>
         <button type="submit"
                 onclick="{ sendComment }"
@@ -26,6 +27,8 @@
 
 
     <script type="es6">
+    import {checkIsLogged} from '../../store/auth'
+    this.checkIsLogged = checkIsLogged
     this.mixin('base')
     this.watch('username')
 

@@ -17,15 +17,11 @@
     </ul>
 
     <script type="es6">
-    import auth from '../../store/auth'
+    import {checkIsLogged} from '../../store/auth'
     this.mixin('base')
     this.openNewPerguntaForm = (event) => {
-        if (auth.getUsername()) {
+        if (checkIsLogged(event)) {
             this.tags.modal.openModal(event)
-        } else {
-            let modal = document.getElementById('modal-login')._tag
-            modal.openModal(event)
-            modal.update()
         }
     }
 

@@ -200,5 +200,18 @@ class Auth {
 }
 
 let auth = new Auth()
-
 export default auth
+
+
+// Helper function to check if is logged and open the login modal if not.
+// Requires an event that will be passed to the modal
+export function checkIsLogged(event) {
+    if (auth.getUsername()) {
+        return true
+    } else {
+        let modal = document.getElementById('modal-login')._tag
+        modal.openModal(event)
+        modal.update()
+        return false
+    }
+}

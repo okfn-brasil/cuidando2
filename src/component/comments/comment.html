@@ -109,6 +109,8 @@
 
 
     <script type="es6">
+    import {checkIsLogged} from '../../store/auth'
+    this.checkIsLogged = checkIsLogged
     this.mixin('base')
     this.watch('username')
 
@@ -125,7 +127,9 @@
     this.opts.isEditting = false
 
     this.openEditArea = function() {this.opts.isEditting = true}
-    this.openReplyArea = function() {this.opts.isReplying = true}
+    this.openReplyArea = function(event) {
+        if (this.checkIsLogged(event)) this.opts.isReplying = true
+    }
     this.closeEditArea = function() {this.opts.isEditting = false}
     this.closeReplyArea = function() {this.opts.isReplying = false}
     this.checkIsReplying = function() {return this.opts.isReplying}
@@ -159,10 +163,12 @@
     }
 
     this.sendVote = function(event) {
-        this.triggerChange('sendVote', {
-            url: this['vote_url'],
-            vote: event.target.dataset.vote == 'up' ? true : false,
-        })
+        if (this.checkIsLogged(event)) {
+            this.triggerChange('sendVote', {
+                url: this['vote_url'],
+                vote: event.target.dataset.vote == 'up' ? true : false,
+            })
+        }
     }
 
     </script>
