@@ -3,6 +3,7 @@ import config from 'config'
 import auth from './store/auth'
 import comments from './store/comments'
 import pedidos from './store/pedidos'
+import pointinfo from './store/pointinfo'
 import userinfo from './store/userinfo'
 import router from './store/router'
 import MapStore from './store/mapStore'
@@ -27,20 +28,6 @@ import MapStore from './store/mapStore'
 let moneyApi = config.apiurl_money
 let commentsApi = config.apiurl_comments
 let esicApi = config.apiurl_esic
-
-
-// Store for details about a point
-class PointInfo extends MapStore {
-    ajaxParams(key) {
-        let url = `${moneyApi}/execucao/list?code=${key}`,
-            method = 'get'
-        return {url, method}
-    }
-    processResponse(json) {
-        return json.data[0]
-    }
-}
-let pointinfo = new PointInfo('pointinfo')
 
 
 // Store for list of points for map

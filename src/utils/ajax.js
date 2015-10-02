@@ -22,9 +22,10 @@ async function ajax(params) {
     }
 
     try {
+        console.log('fparams', fParams)
         var response = await fetch(params.url, fParams)
-    } catch(error) {
-        console.log('ERRO ao tentar pegar:', params.url)
+    } catch(err) {
+        console.log('ERRO ao tentar pegar:', params.url, err)
         return null
     }
     checkStatus(response)

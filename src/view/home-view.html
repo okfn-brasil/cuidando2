@@ -10,6 +10,7 @@
             class="clickable"
             onclick="{ fRoute('despesa', {code:thread_name}) }">
             ({created}) <b>{author}:</b> {text}
+            <p if="{ multiPontinfo }">{ multiPontinfo.value[thread_name]['ds_projeto_atividade'] }</p>
         </li>
     </ul>
 
@@ -35,7 +36,25 @@
     <script type="es6">
     this.mixin('base')
     this.watch('moneyUpdates')
-    this.watch('commentsUpdates')
+    this.watch('commentsUpdates', () => {
+        // Group comments by thread
+        this.threads = this.commentsUpdates.value.reduce((threads, curr) => {
+            if (threads[curr.thread_name]) {
+                threads[curr.thread_name].push(curr)
+            } else {
+                threads[curr.thread_name] = [curr]
+            }
+            return threads
+        }, {})
+
+        this.triggerChange('multiPontinfo',
+            {key: 'a', codes: Object.keys(this.threads)})
+            /*         console.log('uhu, comments!', this.threads) */
+    })
+    this.watch('multiPontinfo', () => {
+        console.log(this.multiPontinfo)
+        this.update()
+    })
     // this.on('mount', () => {
     //     console.log('MOOOOOOOOOO')
     //     this.interval = setInterval(() => {
