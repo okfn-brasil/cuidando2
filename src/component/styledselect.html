@@ -39,9 +39,12 @@
     }
 
     this.getCurrent = () => {
-        for (let pair of opts.options) {
-            if (pair.key == opts.current) return pair.value
+        if (opts.options) {
+            for (let pair of opts.options) {
+                if (pair.key == opts.current) return pair.value
+            }
         }
+        return '...'
     }
     </script>
 </styled-select>

@@ -16,7 +16,7 @@
     }
 
     this.prepareYearsList = () => {
-        if (this.years) {
+        if (this.years && this.years.value) {
             return this.years.value.map((x) => {return {key: x, value: x}})
         } else {
             return []
