@@ -25,9 +25,6 @@ class UserInfo extends MapStore {
         }
         return params
     }
-    processResponse(response) {
-        return response.json
-    }
 
     showErrorMessage(msg) {
         console.log(msg)
@@ -52,9 +49,9 @@ class UserInfo extends MapStore {
         }
     }
 
-    updateUser(response) {
-        let key = response.json.username
-        this._map[key] = this.processResponse(response)
+    updateUser(json) {
+        let key = json.username
+        this._map[key] = json
         this.triggerChanged(key)
     }
 }

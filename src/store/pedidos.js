@@ -32,14 +32,14 @@ class Pedidos extends MapStore {
         return {url, method}
     }
 
-    processResponse(response) {
+    processResponse(json) {
         // orderComments(response.json.comments)
-        return response.json.pedidos
+        return json.pedidos
     }
 
-    updatePedido(response) {
-        let key = response.json.keyword
-        this._map[key] = this.processResponse(response)
+    updatePedido(json) {
+        let key = json.keyword
+        this._map[key] = this.processResponse(json)
         this.triggerChanged(key)
     }
 

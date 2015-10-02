@@ -37,12 +37,14 @@ class Auth {
         riot.control.addStore(this)
     }
 
-    saveTokens(response) {
-        // document.cookie = "token=" + data.token
-        localStorage.mainToken = response.json.mainToken
-        this.saveMicroToken(response.json)
-        this.username = this.getUsername()
-        this.trigger(riot.SEC('username'), this.username)
+    saveTokens(json) {
+        if (json.mainToken) {
+            localStorage.mainToken = json.mainToken
+            this.saveMicroToken(json)
+            this.username = this.getUsername()
+            this.trigger(riot.SEC('username'), this.username)
+        }
+        else { console.log('saveTokens: invalid response:', json)}
     }
 
     saveMicroToken(data) {
@@ -149,11 +151,11 @@ class Auth {
     }
 
     async loginFacebook() {
-        let response = await ajax({
+        let json = await ajax({
             url: api + '/login/external/manual/facebook',
             method: 'get',
         })
-        let origRedirect = response.json.redirect,
+        let origRedirect = json.redirect,
             thisUrl = window.location.origin,
             parts = origRedirect.split(escape("?")),
             newRedirect = parts[0]

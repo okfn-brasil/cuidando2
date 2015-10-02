@@ -37,14 +37,14 @@ class Comments extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        orderComments(response.json.comments)
-        return response.json
+    processResponse(json) {
+        orderComments(json.comments)
+        return json
     }
 
-    updateThread(response) {
-        let key = response.json.name
-        this._map[key] = this.processResponse(response)
+    updateThread(json) {
+        let key = json.name
+        this._map[key] = this.processResponse(json)
         this.triggerChanged(key)
     }
 
@@ -56,12 +56,6 @@ class Comments extends MapStore {
                 'text': params.text,
             }
         this.updateThread(await ajax({url, data, method: 'post'}))
-            // .then(this.processResponse.bind(this))
-            // .then((response) => {
-            //     this._map[params.code] = response
-            //     this.triggerChanged(params.code)
-            // })
-            // this.trigger(riot.SEC('comments'), this.username)
     }
 
     // Reply to a comment

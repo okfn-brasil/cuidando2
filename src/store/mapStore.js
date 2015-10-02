@@ -7,7 +7,7 @@ export default class MapStore {
 
     // These need to be defined
     // ajaxParams(key) { return params }
-    // processResponse(response) { return response }
+    processResponse(json) { return json }
 
     init(signal) {
         riot.observable(this)
@@ -32,10 +32,8 @@ export default class MapStore {
             this._map[key] = this.processResponse(
                 await ajax(
                     await this.ajaxParams(key)))
-            this.triggerChanged(key)
-        } else {
-            this.triggerChanged(key)
         }
+        this.triggerChanged(key)
     }
 
     triggerChanged(key) {

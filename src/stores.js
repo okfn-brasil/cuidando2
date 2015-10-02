@@ -36,8 +36,8 @@ class PointInfo extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        return response.json.data[0]
+    processResponse(json) {
+        return json.data[0]
     }
 }
 let pointinfo = new PointInfo('pointinfo')
@@ -50,9 +50,6 @@ class Points extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        return response.json
-    }
 }
 let points = new Points('points')
 
@@ -64,8 +61,8 @@ class YearInfo extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        return response.json.data
+    processResponse(json) {
+        return json.data
     }
 }
 let yearinfo = new YearInfo('yearinfo')
@@ -76,8 +73,9 @@ class TableData extends MapStore {
     ajaxParams(key) {
         let [ year, page ] = key.split('-'),
             url = `${moneyApi}/execucao/list?year=${year}&page=${page}&per_page_num=25`,
-            method = 'get'
-        return {url, method}
+            method = 'get',
+            raw = true
+        return {url, method, raw}
     }
     processResponse(response) {
         this.totalRows = response.meta.headers.get('X-Total-Count')
@@ -95,8 +93,8 @@ class Years extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        return response.json.data.years
+    processResponse(json) {
+        return json.data.years
     }
 }
 let years = new Years('years')
@@ -110,8 +108,8 @@ class MoneyUpdates extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        return response.json.data
+    processResponse(json) {
+        return json.data
     }
 }
 let moneyUpdates = new MoneyUpdates('moneyUpdates')
@@ -125,8 +123,8 @@ class CommentsUpdates extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        return response.json.comments
+    processResponse(json) {
+        return json.comments
     }
 }
 let commentsUpdates = new CommentsUpdates('commentsUpdates')
@@ -140,8 +138,8 @@ class Orgaos extends MapStore {
             method = 'get'
         return {url, method}
     }
-    processResponse(response) {
-        return response.json.orgaos.map((x) => {return {key: x, value: x}})
+    processResponse(json) {
+        return json.orgaos.map((x) => {return {key: x, value: x}})
     }
 }
 let orgaos = new Orgaos('orgaos')

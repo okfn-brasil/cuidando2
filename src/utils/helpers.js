@@ -53,7 +53,6 @@ export function registerSignals(self, signals) {
                                      name, 'in', self)
         self.on(riot.VEC(name), params => {
             self[name](params)
-
         })
     }
 }

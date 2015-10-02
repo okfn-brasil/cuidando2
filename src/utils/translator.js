@@ -37,6 +37,7 @@ class Translator {
             'Different passwords': 'Senhas não batem',
             'Password': 'Senha',
             'or': 'ou',
+            'address_not_found': 'Endereço não encontrado...',
             'comments': 'comentários',
             'Expense': 'Despesa',
             'Explore the data': 'Explore os dados agora',
@@ -79,6 +80,7 @@ class Translator {
             'empenhado': 'committed',
             'liquidado': 'finished',
             'error_decode_token': "Error to decode stored token! Please relogin...",
+            'address_not_found': 'Address not found...',
         }
     }
 

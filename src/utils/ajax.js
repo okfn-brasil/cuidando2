@@ -25,7 +25,11 @@ async function ajax(params) {
     checkStatus(response)
     let json = await response.json()
     console.log('request succeeded', params.url, response)
-    return {json, meta: response}
+    // allows whole response return
+    if (params.raw)
+        return {json, meta: response}
+    else
+        return json
 
 
     // .then(response => response.json()
