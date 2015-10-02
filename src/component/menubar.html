@@ -23,50 +23,35 @@
 
             <div id="navbar"
                  class="collapse navbar-collapse {in: isExpanded}">
-                <!--                 <ul class="nav navbar-nav"> -->
-                    <!-- <li class="active"><a href="/">Home</a></li> -->
-                <!--                 </ul> -->
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" onclick={ specialRoute('texto sobre') }>
+                    <li><a onclick={ specialRoute('texto sobre') }>
                         { t("About") }
                     </a></li>
-                    <li><a href="#" onclick={ specialRoute('texto outra') }>
+                    <li><a onclick={ specialRoute('texto outra') }>
                         { t("Another") }
                     </a></li>
 
                     <li>
-                        <a href="#" onclick={ share }>
+                        <a onclick={ share }>
                             { t("Share") }
                         </a>
                     </li>
 
                     <li if={ username }>
-                        <a href="#"
-                           onclick={ specialRoute('pessoa ' + username) }>
+                        <a onclick={ specialRoute('pessoa ' + username) }>
                         { username }
                         </a>
                     </li>
                     <li if={ !username }>
-                        <a href="#"
-                           onclick={ openLoginModal }>
+                        <a onclick={ openLoginModal }>
                         { t("Login") }
                         </a>
                     </li>
-                    <li if={ username }><a href="#"
-                                           onclick={ sendLogout }>
+                    <li if={ username }><a onclick={ sendLogout }>
                         { t("Logout") }
                     </a></li>
 
                     <li>
-                        <!--
-                        <select class="navbar-btn" onchange={ selectedLang }>
-                            <option each={ _lang in langs }
-                                    value="{ _lang.code }"
-                                    selected={ _lang.code == lang } >
-                                { _lang.name }
-                            </option>
-                        </select>
-                        -->
                         <styled-select options="{ langs }"
                                        current="{ lang }"
                                        onchange={ selectedLang }/>
