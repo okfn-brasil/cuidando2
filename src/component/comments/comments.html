@@ -9,7 +9,7 @@
             <textarea class="form-control"
                 id="comment-textarea"
                 rows="3"
-                onclick="{ checkIsLogged }"
+                onfocus="{ checkIsLogged }"
                 placeholder="{ t('Your comment') }"/>
         </div>
         <button type="submit"
@@ -42,13 +42,15 @@
         this.update()
     })
 
-    sendComment = () => {
-        if (this['comment-textarea'].value) {
-            this.sendingComment = true
-            this.triggerChange('sendComment', {
-                text: this['comment-textarea'].value,
-                code: this.code,
-            })
+    sendComment = event => {
+        if (this.checkIsLogged(event)) {
+            if (this['comment-textarea'].value) {
+                this.sendingComment = true
+                this.triggerChange('sendComment', {
+                    text: this['comment-textarea'].value,
+                    code: this.code,
+                })
+            }
         }
     }
     </script>
