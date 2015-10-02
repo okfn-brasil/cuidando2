@@ -111,7 +111,7 @@ class Router {
             })
 
             this.on(riot.VEC(name), (value) => {
-                console.log('router:VEC name:', name, 'value:', value)
+                // console.log('router:VEC name:', name, 'value:', value)
                 this.params[name] = this._applyParser(name, value)
                 this._paramsToUrl()
             })

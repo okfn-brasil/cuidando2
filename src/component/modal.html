@@ -34,6 +34,7 @@
 
     // Open the modal
     this.openModal = (event) => {
+        console.log('AQUI!!!!!!!!', event)
         this.modalIsOpen = true
         onClickedOutside(this['modal-dialog'], () => {
             this.closeModal()

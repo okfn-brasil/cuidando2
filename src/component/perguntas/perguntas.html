@@ -17,9 +17,16 @@
     </ul>
 
     <script type="es6">
+    import auth from '../../store/auth'
     this.mixin('base')
     this.openNewPerguntaForm = (event) => {
-       this.tags.modal.openModal(event)
+        if (auth.getUsername()) {
+            this.tags.modal.openModal(event)
+        } else {
+            let modal = document.getElementById('modal-login')._tag
+            modal.openModal(event)
+            modal.update()
+        }
     }
 
     this.watchDepends('pedidos', 'code', () => {

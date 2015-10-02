@@ -61,7 +61,7 @@
         </div>
     </nav>
 
-    <modal>
+    <modal id="modal-login">
         <login-form/>
     </modal>
 
@@ -81,7 +81,7 @@
 
     this.openLoginModal = (event) => {
        this.closeExpanded()
-       this.tags.modal.openModal(event)
+       this['modal-login']._tag.openModal(event)
     }
 
     this.onControl(riot.SEC('lang'), (lang) => {
