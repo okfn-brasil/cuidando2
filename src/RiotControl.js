@@ -9,9 +9,6 @@ _RiotControlApi.forEach(api => {
     RiotControl[api] = function() {
         let args = [].slice.call(arguments)
         this._stores.forEach(el => el[api].apply(null, args))
-        // this._stores.forEach(el => {
-        //     console.log('CONTROL: store:', this._stores.indexOf(el), 'api:', api, '|args:', args )
-        //     el[api].apply(null, args)})
     }
 })
 
