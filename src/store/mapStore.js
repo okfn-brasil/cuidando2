@@ -29,7 +29,7 @@ export default class MapStore {
         let current = this._map[key]
         if (current === undefined || force) {
             this._map[key] = 'loading'
-            this._map[key] = this.processResponse(
+            this._map[key] = await this.processResponse(
                 await ajax(
                     await this.ajaxParams(key)))
         }

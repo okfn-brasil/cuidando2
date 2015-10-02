@@ -23,13 +23,12 @@ async function ajax(params) {
 
     let response = await fetch(params.url, fParams)
     checkStatus(response)
-    let json = await response.json()
     console.log('request succeeded', params.url, response)
     // allows whole response return
     if (params.raw)
-        return {json, meta: response}
+        return response
     else
-        return json
+        return await response.json()
 
 
     // .then(response => response.json()
