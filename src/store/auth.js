@@ -193,7 +193,7 @@ class Auth {
                 method: 'post',
             })
         } catch(err) {
-            alert('Erro ao tentar deslogar...')
+            alert('Erro ao tentar deslogar no servidor...')
         }
         this.trigger(riot.SEC('username'), null)
     }

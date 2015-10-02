@@ -21,13 +21,6 @@ function orderComments(comments) {
 class Comments extends MapStore {
     constructor(signal) {
         super(signal)
-        // // Register signals
-        // for (let endname of ['Comment', 'Delete', 'Report',
-        //                      'Reply', 'Edit', 'Vote']) {
-        //     let name = `send${endname}`
-        //     this.on(riot.VEC(name), params => this[name](params))
-        // }
-
         registerSignals(this,
             'sendComment sendDelete sendReport sendReply sendEdit sendVote'
         )

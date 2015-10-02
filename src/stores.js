@@ -140,6 +140,7 @@ class Orgaos extends MapStore {
         return {url, method}
     }
     processResponse(json) {
+        console.log('AAAAAAAAAAAAAAAA', json)
         return json.orgaos.map((x) => {return {key: x, value: x}})
     }
 }

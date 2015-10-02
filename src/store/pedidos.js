@@ -21,9 +21,7 @@ var api = config.apiurl_esic
 class Pedidos extends MapStore {
     constructor(signal) {
         super(signal)
-        registerSignals(this,
-            'sendPedido'
-        )
+        registerSignals(this, 'sendPedido')
     }
 
     ajaxParams(key) {
