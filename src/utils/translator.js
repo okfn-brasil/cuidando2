@@ -58,6 +58,7 @@ class Translator {
             'Reply Comment': 'Responder comentário',
             'Comment removed.': 'Comentário removido.',
             'Edit comment': 'Editar comentário',
+            'Remaining characters': 'Caracteres restantes',
             'error_decode_token': 'Erro ao decodificar token. Por favor entre novamente.',
             'See the comments about this expense': 'Acompanhe os comentários sobre essa despesa',
             'Your comment': 'Seu comentário',

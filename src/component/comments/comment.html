@@ -14,9 +14,8 @@
                     </label>
                     <textarea id="comment-edit-textarea-{id}"
                               class="form-control"
-                              rows="3">
-                        {text}
-                    </textarea>
+                              maxlength="500"
+                              rows="3">{text}</textarea>
                 </div>
                 <button type="submit"
                         onclick="{ sendEdit }"
@@ -88,6 +87,7 @@
                     </label>
                     <textarea id="comment-reply-textarea-{id}"
                               class="form-control"
+                              maxlength="500"
                               rows="3"/>
                 </div>
                 <button type="submit"

@@ -28,8 +28,11 @@
                     { t('Question') }
                 </label>
                 <textarea id="new-pergunta-textarea"
-                            class="form-control"
-                            rows="5"/>
+                    class="form-control"
+                    onkeyup="{ update }"
+                    maxlength="{ maxPedidoLength }"
+                    rows="5"/>
+                    <p>{ t('Remaining characters') }: { remainingChars() }</p>
             </div>
             <button type="submit"
                     onclick="{ sendPedido }"
@@ -44,6 +47,8 @@
 
     <script type="es6">
     this.mixin('base')
+    this.maxPedidoLength = 5000
+
     this.watch('orgaos', () => {
         if(this.orgaos) this.orgao = this.orgaos.value[0].key
     })
@@ -81,6 +86,10 @@
 
     this.onModalClose = () => {
         this['new-pergunta-textarea'].value = ''
+    }
+
+    this.remainingChars = () => {
+        return this.maxPedidoLength - this['new-pergunta-textarea'].value.length
     }
 
     </script>
