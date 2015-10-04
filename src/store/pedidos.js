@@ -11,14 +11,6 @@ function pedidosCompare(a, b) {
     return a.messages[0].received < b.messages[0].received ? 1 : -1
 }
 
-// function orderComments(comments) {
-//     comments.sort(commentCompare)
-//     for (let com of comments) {
-//         if (com.replies) orderComments(com.replies)
-//     }
-//     return comments
-// }
-
 
 class Pedidos extends MapStore {
     constructor(signal) {
@@ -38,7 +30,6 @@ class Pedidos extends MapStore {
         for (let pedido of json.pedidos) {
             console.log(pedido)
             for (let message of pedido.messages) {
-                console.log(message.received)
                 message.received = new Date(message.received)
             }
         }
