@@ -10,6 +10,11 @@ var api = config.apiurl_comments
 function commentCompare(a, b) {return a.created > b.created ? 1 : -1}
 
 function orderComments(comments) {
+    // Substitute strings for Dates
+    for (let comment of comments) {
+        comment.created = new Date(comment.created)
+        comment.modified = new Date(comment.modified)
+    }
     comments.sort(commentCompare)
     for (let com of comments) {
         if (com.replies) orderComments(com.replies)
