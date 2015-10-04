@@ -129,6 +129,25 @@ commentsUpdates.forceKey = 'commentsUpdates'
 
 
 // Store for comments updates
+class PedidosUpdates extends MapStore {
+    ajaxParams(key) {
+        let url = `${esicApi}/messages`,
+            method = 'get'
+        return {url, method}
+    }
+    processResponse(json) {
+        // Substitute strings for Dates
+        for (let msg of json.messages) {
+            msg.received = new Date(msg.received)
+        }
+        return json.messages
+    }
+}
+let pedidosUpdates = new PedidosUpdates('pedidosUpdates')
+pedidosUpdates.forceKey = 'pedidosUpdates'
+
+
+// Store for comments updates
 class Orgaos extends MapStore {
     ajaxParams(key) {
         let url = `${esicApi}/orgaos`,

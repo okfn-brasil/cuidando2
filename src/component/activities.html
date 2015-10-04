@@ -3,19 +3,30 @@
 
     <ul class="top-bar">
         <li each="{ activities }">
+
             <div class="activity-date">
                 { formatDate(date) }
                 <img class="icon" src="assets/img/planejado.png">
-            </div>
+            </div><!--
+                avoid space
+            --><div class="activity-content">
 
-            <div class="activity-content">
                 <!-- If is a thread update -->
                 <div if="{ comments }"
                     class="clickable"
                     onclick="{ fRoute('despesa', {code:thread_name}) }">
                     { comments.length } comentários
                     comentou sobre
-                    <span if="{ multiPontinfo }">{ multiPontinfo.value[thread_name]['ds_projeto_atividade'] }</span>
+                    <span if="{ multiPontinfo }">
+                        { multiPontinfo.value[thread_name]['ds_projeto_atividade'] }
+                    </span>
+                </div>
+
+                <!-- If is a pedido update -->
+                <div if="{ pedido }"
+                    class="clickable"
+                    onclick="{ fRoute('despesa', {code:code}) }">
+                    { pedido.text }
                 </div>
 
                 <!-- If is a money update -->
@@ -33,6 +44,7 @@
                         Novo: <b>{description}</b>
                     </div>
                 </div>
+
             </div>
 
         </li>
@@ -46,19 +58,34 @@
 
     this.activities = []
     this.threads = []
+    this.pedidos = []
     this.moneys = []
 
     this.dateCompare = (a, b) => a.date < b.date ? 1 : -1
 
     this.updateActivities = () => {
-        this.activities = this.threads.concat(this.moneys).sort(this.dateCompare)
-        console.log(this.activities)
+        this.activities = this.pedidos
+                              .concat(this.threads)
+                              .concat(this.moneys)
+                              .sort(this.dateCompare)
     }
 
     this.watch('moneyUpdates', () => {
         this.moneys = []
         for (let row of this.moneyUpdates.value) {
             this.moneys.push(row)
+        }
+        this.updateActivities()
+    })
+
+    this.watch('pedidosUpdates', () => {
+        this.pedidos = []
+        for (let pedido of this.pedidosUpdates.value) {
+            this.pedidos.push({
+                date: pedido.received,
+                code: pedido.keywords[0],
+                pedido
+            })
         }
         this.updateActivities()
     })

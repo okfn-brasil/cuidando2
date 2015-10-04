@@ -1,22 +1,26 @@
 activities
   ul
     padding: 0px
-    width: 580px
+    overflow: hidden
+    /* width: 580px
   li
     position: relative
     list-style-type: none
     height: 100px
+    white-space: nowrap
   .icon
     position: absolute
     top: 50%
     right: 0%
-    transform: translateY(-50%) translateX(50%)
     z-index: 10
+    transform: translateY(-50%) translateX(50%)
 
 .activity-date
-  line-height: 100px
-  float: left
+  /* line-height: 100px
+  /* float: left
   width: 80px
+  display: inline-block
+  /* white-space: normal
   position: relative
   /* position: absolute
   /* top: 50%
@@ -27,13 +31,16 @@ activities
   position: relative
   border-left: 2px dotted
   border-bottom: 1px solid
-  float: left
+  /* float: left
   height: 100px
-  width: 500px
-  white-space: nowrap
-  overflow: hidden
-  text-overflow: ellipsis
+  width: 100%
+  /* white-space: nowrap
+  /* overflow: hidden
+  /* text-overflow: ellipsis
   padding: 30px
+  display: inline-block
+  /* max-width: 700px
+  /* white-space: normal
 
   &:after
     top: 0
