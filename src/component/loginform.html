@@ -169,6 +169,8 @@
     // Extra function to be run when the modal is closed
     this.onModalClose = () => {
         this.view = {login: true}
+        // Clear inputs
+        for (el of this.root.getElementsByTagName('input')) el.value = ''
         this.clearError()
     }
 
