@@ -30,7 +30,7 @@
 
                         <div class="row">
                             <div each="{ cat, i in categories }" class="col-sm-4 category">
-                                <div class="title">{ t(cat) }</div>
+                                <div class="subtitle">{ t(cat) }</div>
                                 <img src="assets/img/{cat}.png">
                                 <div class="value">R$ { formatCur(this[cat]) }</div>
                             </div>

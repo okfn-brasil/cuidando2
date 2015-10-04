@@ -52,6 +52,7 @@ class Translator {
             'Change password and login': 'Alterar senha e entrar',
             'Confirm Password': 'Confirmar Senha',
             'description': 'descrição',
+            'Recent Activities': 'Atividades Recentes',
             'Make a question': 'Quero perguntar',
             'Search for an address': 'Procure pelo bairro ou endereço',
             'Reply Comment': 'Responder comentário',

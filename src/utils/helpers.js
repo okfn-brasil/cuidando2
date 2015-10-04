@@ -5,6 +5,10 @@ export function format(number, opts) {
     return number.toLocaleString(router.getParam('lang'), opts)
 }
 
+export function formatDate(date, opts = { month: '2-digit', day: '2-digit' }) {
+    return date.toLocaleString(router.getParam('lang'), opts)
+}
+
 // Convert number to locale string with 2 decimal digits
 export function formatCur(number) {
     return format(number, {

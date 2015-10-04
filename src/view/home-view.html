@@ -1,66 +1,15 @@
 <home-view class="container">
     <h1>Home!</h1>
     <button onclick={ fRoute('ano') }
-            class="btn btn-default">
+            class="btn btn-color-sec block-right">
         { t('Explore the data') }
+        <span class="right-arrow"/>
     </button>
 
-    <ul>
-        <li each="{ commentsUpdates.value }"
-            class="clickable"
-            onclick="{ fRoute('despesa', {code:thread_name}) }">
-            ({created}) <b>{author}:</b> {text}
-            <p if="{ multiPontinfo }">{ multiPontinfo.value[thread_name]['ds_projeto_atividade'] }</p>
-        </li>
-    </ul>
+    <activities/>
 
-    <ul>
-        <li each="{ moneyUpdates.value }"
-            class="clickable"
-            onclick="{ fRoute('despesa', {code:code}) }">
-            <div if="{ event == 'modified' }">
-                <b>{description}</b>
-                mudou de
-                {data.state[0]}
-                para
-                <b>{data.state[1]}</b>
-                em
-                {date}
-            </div>
-            <div if="{ event == 'created' }">
-                Novo: <b>{description}</b>
-            </div>
-        </li>
-    </ul>
 
     <script type="es6">
     this.mixin('base')
-    this.watch('moneyUpdates')
-    this.watch('commentsUpdates', () => {
-        // Group comments by thread
-        this.threads = this.commentsUpdates.value.reduce((threads, curr) => {
-            if (threads[curr.thread_name]) {
-                threads[curr.thread_name].push(curr)
-            } else {
-                threads[curr.thread_name] = [curr]
-            }
-            return threads
-        }, {})
-
-        this.triggerChange('multiPontinfo',
-            {key: 'a', codes: Object.keys(this.threads)})
-            /*         console.log('uhu, comments!', this.threads) */
-    })
-    this.watch('multiPontinfo', () => {
-        console.log(this.multiPontinfo)
-        this.update()
-    })
-    // this.on('mount', () => {
-    //     console.log('MOOOOOOOOOO')
-    //     this.interval = setInterval(() => {
-    //         console.log('Oi!')
-    //     }, 1000)
-    // })
-    // this.on('unmount', () => window.clearInterval(this.interval))
     </script>
 </home-view>

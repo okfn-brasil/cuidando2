@@ -82,7 +82,7 @@ class Years extends MapStore {
         return {url, method}
     }
     processResponse(json) {
-        return json.data.years
+        return json.data.years.reverse()
     }
 }
 let years = new Years('years')
@@ -97,6 +97,10 @@ class MoneyUpdates extends MapStore {
         return {url, method}
     }
     processResponse(json) {
+        // Substitute strings for Dates
+        for (let row of json.data) {
+            row.date = new Date(row.date)
+        }
         return json.data
     }
 }
@@ -112,6 +116,11 @@ class CommentsUpdates extends MapStore {
         return {url, method}
     }
     processResponse(json) {
+        // Substitute strings for Dates
+        for (let comment of json.comments) {
+            comment.created = new Date(comment.created)
+            comment.modified = new Date(comment.modified)
+        }
         return json.comments
     }
 }
@@ -127,7 +136,6 @@ class Orgaos extends MapStore {
         return {url, method}
     }
     processResponse(json) {
-        console.log('AAAAAAAAAAAAAAAA', json)
         return json.orgaos.map((x) => {return {key: x, value: x}})
     }
 }

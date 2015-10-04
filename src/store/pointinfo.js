@@ -29,7 +29,7 @@ class PointInfo extends MapStore {
 
         let toLoad = params.codes.filter(x => !this._map[x])
 
-        console.log('params', params, 'toLoad', toLoad)
+        // console.log('params', params, 'toLoad', toLoad)
         // for (let code of params.codes) {
         //     if (this._map[code]) {
         //         data.push({key: code, value: this._map[code]})
