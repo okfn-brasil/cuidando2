@@ -29,8 +29,7 @@
                 </label>
                 <textarea id="new-pergunta-textarea"
                             class="form-control"
-                            rows="5">
-                </textarea>
+                            rows="5"/>
             </div>
             <button type="submit"
                     onclick="{ sendPedido }"
@@ -71,11 +70,17 @@
     }
 
     this.sendPedido = () => {
-        this.triggerChange('sendPedido', {
-            text: this['new-pergunta-textarea'].value,
-            orgao: this.tags['styled-select'].getCurrent(),
-            keywords: [this.parent.parent.code]
-        })
+        if (this['new-pergunta-textarea'].value) {
+            this.triggerChange('sendPedido', {
+                text: this['new-pergunta-textarea'].value,
+                orgao: this.tags['styled-select'].getCurrent(),
+                keywords: [this.parent.parent.code]
+            })
+        }
+    }
+
+    this.onModalClose = () => {
+        this['new-pergunta-textarea'].value = ''
     }
 
     </script>

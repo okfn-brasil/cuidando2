@@ -1,5 +1,6 @@
 <perguntas>
-    <h2>Acompanhe as perguntas sobre essa despesa</h2>
+    <h2>Quer perguntar para o governo sobre essa despesa?</h2>
+
     <button onclick={ openNewPerguntaForm }
             class="btn btn-color-sec block-right">
         { t('Make a question') }
@@ -11,13 +12,38 @@
     </modal>
 
     <ul>
-        <li each="{ pedidos }">
-            {protocolo} - {author} - {state}
+        <li class="top-bar"
+            each="{ pedidos }">
+            <img class="icon" src="assets/img/planejado.png">
+            <div>
+                { messages[0].text }
+            </div>
+            <div>
+                { formatDate(messages[0].received) }
+            </div>
+            <div>
+                <a onclick={ fRoute('pessoa ' + author) }>
+                    {author}
+                </a>
+            </div>
+            <a if="{ !visible }"
+                onclick="{ () => this.visible = true }">
+                respostas +
+            </a>
+            <div if="{ visible }">
+                <b>Respostas</b>
+                EXTRA!!!!!!!!!!
+                <a onclick="{ () => this.visible = false }">
+                    respostas -
+                </a>
+            </div>
         </li>
     </ul>
 
     <script type="es6">
     import {checkIsLogged} from '../../store/auth'
+    import {formatDate} from '../../utils/helpers'
+    this.formatDate = formatDate
     this.mixin('base')
     this.openNewPerguntaForm = (event) => {
         if (checkIsLogged(event)) {
@@ -26,12 +52,15 @@
     }
 
     this.watchDepends('pedidos', 'code', () => {
-        console.log(this.pedidos)
+        console.log('PEDIDOS:', this.pedidos)
         /*         if (this.sendingComment) {
            this.sendingComment = false
            this['comment-textarea'].value = ""
            } */
         this.update()
+    })
+    this.watch('pedidoSent', () => {
+        this.tags.modal.closeModal()
     })
     </script>
 </perguntas>

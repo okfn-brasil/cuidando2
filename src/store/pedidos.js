@@ -7,7 +7,9 @@ import {registerSignals} from '../utils/helpers'
 var api = config.apiurl_esic
 
 
-// function commentCompare(a, b) {return a.created > b.created ? 1 : -1}
+function pedidosCompare(a, b) {
+    return a.messages[0].received < b.messages[0].received ? 1 : -1
+}
 
 // function orderComments(comments) {
 //     comments.sort(commentCompare)
@@ -31,17 +33,27 @@ class Pedidos extends MapStore {
     }
 
     processResponse(json) {
-        // orderComments(response.json.comments)
-        return json.pedidos
+        // Substitute strings for Dates
+        console.log(json)
+        for (let pedido of json.pedidos) {
+            console.log(pedido)
+            for (let message of pedido.messages) {
+                console.log(message.received)
+                message.received = new Date(message.received)
+            }
+        }
+        return json.pedidos.sort(pedidosCompare)
     }
 
-    updatePedido(json) {
-        if (json) {
-            let key = json.keyword
-            this._map[key] = this.processResponse(json)
-            this.triggerChanged(key)
-        }
-    }
+    // updatePedido(json) {
+    //     if (json) {
+    //         console.log('map', this._map, 'json', json)
+    //         let key = json.keyword
+    //         this._map[key] = this.processResponse(json)
+    //         this.triggerChanged(key)
+    //         console.log('UPDATE', key, json)
+    //     }
+    // }
 
     // Send a new pedido
     async sendPedido(params) {
@@ -52,7 +64,10 @@ class Pedidos extends MapStore {
                 'orgao': params.orgao,
                 'keywords': params.keywords,
             }
-        this.updatePedido(await ajax({url, data, method: 'post'}))
+        // this.updatePedido(await ajax({url, data, method: 'post'}))
+        await ajax({url, data, method: 'post'})
+        this.trigger(riot.SEC('pedidoSent'), {})
+        this.load(params.keywords[0], true)
     }
 }
 
