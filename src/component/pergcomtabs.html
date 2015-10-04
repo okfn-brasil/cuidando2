@@ -47,13 +47,25 @@
         this.activeTab = e.item.tab.ref
     }
 
-    this.watchDepends('comments', 'code', () => {
+    this.updateCommentCount = () => {
         if (this.comments) {
             this.tabs[1].count = this.comments.count
         } else {
             this.tabs[1].count = 0
         }
         this.update()
-    })
+    }
+
+    this.updatePedidosCount = () => {
+        if (this.pedidos) {
+            this.tabs[0].count = this.pedidos.length
+        } else {
+            this.tabs[0].count = 0
+        }
+        this.update()
+    }
+
+    this.watchDepends('comments pedidos', 'code',
+        this.updateCommentCount, this.updatePedidosCount)
     </script>
 </perg-com-tabs>
