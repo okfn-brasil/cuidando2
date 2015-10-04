@@ -69,10 +69,11 @@ class Translator {
             'local_storage_not_supported': 'Seu navegador parece não suportar localStorage. Por favor use um mais recente, ou você não conseguirá autenticar nesse site...',
             'User not found': 'Usuária não encontrada',
             'Invalid email': 'E-mail inválido',
-            'Invalid username. Needs at least 5 characters.': 'Nome inválido. Precisa de pelo menos 5 caracteres.',
+            'Invalid username size. Must be between 5 and 20 characters.': 'Tamanho de nome inválido. Precisa estar entre 5 e 20 caracteres.',
             'Wrong password...': 'Senha errada...',
             'Invalid characters in username...': 'Caracteres inválidos no nome...',
             'Username seems not registered...': 'O nome de usuária parece não registrado...',
+            'Error to create user. Maybe username is already registered...': 'Erro ao criar usuário. Talvez esse nome já esteja registrado...',
         }
 
         this.dicts.en = {
