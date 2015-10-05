@@ -6,7 +6,7 @@
 
             <div class="activity-date">
                 { formatDate(date) }
-                <img class="icon" src="assets/img/planejado.png">
+                <img class="icon" src="{ assets.planejado }">
             </div><!--
                 avoid space
             --><div class="activity-content">
@@ -26,7 +26,7 @@
                 <div if="{ pedido }"
                     class="clickable"
                     onclick="{ fRoute('despesa', {code:code}) }">
-                    { pedido.text }
+                    Pergunta: { pedido.text }
                 </div>
 
                 <!-- If is a money update -->

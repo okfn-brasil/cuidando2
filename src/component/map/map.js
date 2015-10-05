@@ -2,6 +2,7 @@
 
 // import leaflet from 'leaflet'
 import router from '../../store/router'
+import assets from '../../assets'
 import ajax from '../../utils/ajax.js'
 import {showError} from '../../utils/helpersT'
 
@@ -14,17 +15,17 @@ var MQ = require('exports?MQ!./mapquest.es5')
 
 //icones
 var greenIcon = leaflet.icon({
-    iconUrl: 'assets/img/empenhado.png',
+    iconUrl: assets.empenhado,
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
 var blueIcon = leaflet.icon({
-    iconUrl: 'assets/img/liquidado.png',
+    iconUrl: assets.liquidado,
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
 var redIcon = leaflet.icon({
-    iconUrl: 'assets/img/planejado.png',
+    iconUrl: assets.planejado,
     iconSize: [25, 41],
     popupAnchor: [0, -10],
 });
@@ -42,7 +43,8 @@ function getcolor(state) {
     return null
 }
 
-leaflet.Icon.Default.imagePath = "assets/img/leaflet"
+// leaflet.Icon.Default.imagePath = "assets/img/leaflet"
+// leaflet.Icon.Default.imagePath = assets.planejado
 
 
 // This flag is used to know if the user clicked the marker (so the map

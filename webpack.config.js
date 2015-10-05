@@ -13,7 +13,8 @@ function getConfig() {
 
 module.exports = {
     cache: true,
-    resolve: { alias: {config: getConfig()} },
+    resolve: { alias: {config: getConfig(),
+                       assets: __dirname + '/assets/'} },
     entry: {
       app: './src/index.js',
       vendor: './src/vendor.js',
@@ -26,7 +27,7 @@ module.exports = {
     module: {
         loaders: [
             // { test: /\.png$/, include: /assets/, loader: "file" },
-            { test: /\.(png|otf|svg)$/, loader: "file" },
+            // { test: /\.(png|otf|svg)$/, loader: "file" },
             { test: /\.css$/, loader: 'style!css' },
             { test: /\.scss$/, include: /src/, loader: 'style!css!sass' },
             { test: /\.sass$/, include: /src/, loader: 'style!css!sass?indentedSyntax' },
@@ -42,7 +43,8 @@ module.exports = {
                   // loose: ['all'],
                   // optional: 'runtime',
               }
-            }
+            },
+            { test: /\.(png|otf|svg)$/, loader: "url?limit=25000" }
         ]
     },
     plugins: [

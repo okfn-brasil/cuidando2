@@ -1,11 +1,13 @@
 import translator from '../utils/translator'
 import router from '../store/router'
+import assets from '../assets'
 
 var BaseMixin = {
     // init: function() {
     // },
 
     router: router,
+    assets: assets,
 
     t: function() {
         return translator.translate(...arguments)

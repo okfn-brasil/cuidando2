@@ -9,7 +9,7 @@
                     <b>{ t("Map legend") }:</b>
                     <div each="{ cat, i in categories }"
                         class="capitalize map-category">
-                        <img src="assets/img/{cat}.png">
+                        <img src="{ assets[cat] }">
                         { t(cat) }
                     </div>
                 </div>

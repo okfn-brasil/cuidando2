@@ -17,7 +17,7 @@
             <div class="inline-block values-block">
                 <div each="{ values }" class="value-block">
                     <div class="icon-block">
-                        <img src="assets/img/{name}.png">
+                        <img src="{ assets[name] }">
                         <span class="capitalize">{ { t(name) } }</span>
                     </div>
                     <div class="bar-block">
@@ -47,8 +47,8 @@
 
     // this.colorM = "06A3C6"
     // this.colorNM = "F65F2D"
-    this.colorM = 'assets/patM.png'
-    this.colorNM = 'assets/patNM.png'
+    this.colorM = this.assets.patM
+    this.colorNM = this.assets.patNM
 
     //this.perNotMapped = 0
     //this.perMapped = 0
