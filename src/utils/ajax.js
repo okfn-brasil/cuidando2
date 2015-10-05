@@ -1,3 +1,6 @@
+import {showError} from './helpersT'
+
+
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response
@@ -24,6 +27,7 @@ async function ajax(params) {
     try {
         var response = await fetch(params.url, fParams)
     } catch(err) {
+        showError('Error to access URL')
         console.log('ERRO ao tentar pegar:', params.url, err)
         return null
     }

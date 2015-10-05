@@ -3,7 +3,7 @@
 // import leaflet from 'leaflet'
 import router from '../../store/router'
 import ajax from '../../utils/ajax.js'
-import t from '../../utils/translator'
+import {showError} from '../../utils/helpersT'
 
 // var MQ = require('imports?leaflet=leaflet!exports?MQ!./mapquest.es5')
 var MQ = require('exports?MQ!./mapquest.es5')
@@ -170,7 +170,7 @@ class Map {
 
         if (json) {
             if (json.length) this.map.setView([json[0].lat,json[0].lon], 16)
-            else alert(t.translate('address_not_found'))
+            else showError('address_not_found')
         }
     }
 }

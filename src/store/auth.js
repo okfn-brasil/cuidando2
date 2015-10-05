@@ -2,14 +2,14 @@ import decodeToken from 'jwt-decode'
 import ajax from '../utils/ajax'
 import config from 'config'
 import {registerSignals} from '../utils/helpers'
-import t from '../utils/translator'
+import {showError} from '../utils/helpersT'
 import userinfo from './userinfo'
 
 let api = config.apiurl_auth
 
 
 if (!window.hasLocalStorage) {
-    alert(t.translate('local_storage_not_supported'))
+    showError('local_storage_not_supported')
 }
 
 class Auth {
@@ -88,7 +88,7 @@ class Auth {
             } catch(err) {
                 localStorage.removeItem("mainToken")
                 localStorage.removeItem("microToken")
-                alert(t.translate('error_decode_token'))
+                showError('error_decode_token')
             }
         }
         return null
@@ -193,7 +193,7 @@ class Auth {
                 method: 'post',
             })
         } catch(err) {
-            alert('Erro ao tentar deslogar no servidor...')
+            showError('error_logout_server')
         }
         this.trigger(riot.SEC('username'), null)
     }
