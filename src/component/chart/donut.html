@@ -32,7 +32,8 @@
     this.on('mount update', () => {
         let canvas = document.getElementById(this.canvasId)
         if (canvas)
-            drawDonut(canvas, '#' + this.opts.color, this.opts.percentage)
+            // drawDonut(canvas, '#' + this.opts.color, this.opts.percentage)
+            drawDonut(canvas, this.opts.color, this.opts.percentage)
     })
     </script>
 </donut>

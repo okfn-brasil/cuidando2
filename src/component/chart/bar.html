@@ -3,7 +3,8 @@
         <div class="inner-bar"
              onmouseenter="{ openTooltip }"
              onmouseleave="{ closeTooltip }"
-             style="width:{opts.percentage}%; background-color:#{opts.color};"/>
+             style="width:{opts.percentage}%; background-image:url('{opts.color}');"/>
+            <!--              style="width:{opts.percentage}%; background-color:#{opts.color};"/> -->
             <div class="tooltip { opts.class }"
                 role="tooltip"
                 if="{ isShowingTooltip }">

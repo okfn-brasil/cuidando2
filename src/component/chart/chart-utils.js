@@ -10,19 +10,29 @@ export function drawDonut(canvas, color, percentage) {
         shadowStartAngle = endAngle + whiteSpace,
         shadowEndAngle = startAngle + 2 * Math.PI - whiteSpace
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.beginPath();
-    context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
-    context.lineWidth = 15;
+    var imageObj = new Image()
+    imageObj.onload = function() {
+        var pattern = context.createPattern(imageObj, 'repeat');
+        context.strokeStyle = pattern
+        console.log(pattern)
 
-    // line color
-    context.strokeStyle = color
-    context.stroke()
-
-    if (shadowStartAngle < shadowEndAngle) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
         context.beginPath();
-        context.arc(x, y, radius, shadowStartAngle, shadowEndAngle, counterClockwise);
-        context.strokeStyle = 'lightgray';
-        context.stroke();
+        context.arc(x, y, radius, startAngle, endAngle, counterClockwise);
+        context.lineWidth = 15;
+
+        // line color
+        // context.strokeStyle = color
+        context.stroke()
+
+        if (shadowStartAngle < shadowEndAngle) {
+            context.beginPath();
+            context.arc(x, y, radius, shadowStartAngle, shadowEndAngle, counterClockwise);
+            context.strokeStyle = 'lightgray';
+            context.stroke();
+        }
     }
+    imageObj.src = color
 }
+
+
