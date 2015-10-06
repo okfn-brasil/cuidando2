@@ -9,12 +9,14 @@ let api = config.apiurl_auth
 
 
 if (!window.hasLocalStorage) {
-    showError('local_storage_not_supported')
+    msgs.addError('local_storage_not_supported')
 }
 
 class Auth {
     constructor(signal) {
         riot.observable(this)
+
+        this.loadUsername()
 
         // The page was reloaded and a getToken is pending.
         // Needed when browser has no support for window.history
@@ -38,12 +40,32 @@ class Auth {
         riot.control.addStore(this)
     }
 
+    clearUserData() {
+        if (this._currUsername) userinfo.forgetUser(this._currUsername)
+        localStorage.removeItem("mainToken")
+        localStorage.removeItem("microToken")
+        this.trigger(riot.SEC('username'), null)
+    }
+
+    loadUsername() {
+        if (localStorage.mainToken) {
+            try {
+                this._currUsername = decodeToken(localStorage.mainToken).username
+            } catch(err) {
+                this.clearUserData()
+                msgs.addError('error_decode_token')
+                return null
+            }
+        }
+        return true
+    }
+
     saveTokens(json) {
         if (json && json.mainToken) {
             localStorage.mainToken = json.mainToken
             this.saveMicroToken(json)
-            this.username = this.getUsername()
-            this.trigger(riot.SEC('username'), this.username)
+            if (this.loadUsername())
+                this.trigger(riot.SEC('username'), this._currUsername)
         }
         else { console.log('saveTokens: invalid response:', json)}
     }
@@ -71,27 +93,20 @@ class Auth {
                     'token': localStorage.mainToken
                 }
             // console.log('auth:getMicroToken: renewing token with:', data)
-            let json = await ajax({url, data, method: 'post'})
-            if (json) {
-                this.saveMicroToken(json)
-            } else {
-                return null
+            try {
+                let json = await ajax({url, data, method: 'post'})
+                if (json) this.saveMicroToken(json)
+                else return null
+            } catch(err) {
+                this.clearUserData()
+                msgs.addError('error_renew_token')
             }
         }
         return localStorage.microToken
     }
 
     getUsername() {
-        if (localStorage.mainToken) {
-            try {
-                return decodeToken(localStorage.mainToken).username
-            } catch(err) {
-                localStorage.removeItem("mainToken")
-                localStorage.removeItem("microToken")
-                msgs.addError('error_decode_token')
-            }
-        }
-        return null
+        return this._currUsername
     }
 
     async showErrorMessage(err) {
@@ -183,9 +198,7 @@ class Auth {
 
     async logout() {
         let token = localStorage.mainToken
-        userinfo.forgetUser(this.getUsername())
-        localStorage.removeItem("mainToken")
-        localStorage.removeItem("microToken")
+        this.clearUserData()
         try {
             await ajax({
                 url: api + "/logout",
@@ -195,7 +208,6 @@ class Auth {
         } catch(err) {
             msgs.addError('error_logout_server')
         }
-        this.trigger(riot.SEC('username'), null)
     }
 }
 
