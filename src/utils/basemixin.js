@@ -100,6 +100,35 @@ var BaseMixin = {
     triggerChange: function(name, value) {
         riot.control.trigger(riot.VEC(name), value)
     },
+
+    // Trigger a change in stores only if is not already doing it.
+    // The "store" param is where will be saved the variable keeping track if a
+    // change is in curse.
+    safeTriggerChange: function(name, value, store=this) {
+        // Name of the var (lock) that will record if is waiting or not
+        let varW = name + 'Waiting'
+        // If is not waiting
+        if (!store[varW]) {
+            let signalW = riot.SEC(varW)
+            // The function that should realse the lock
+            let release = data => {
+                // This checks if the returning signal corresponds to
+                // this function call
+                if (data == value) {
+                    store[varW] = false
+                    // Unwatch
+                    riot.control.off(signalW, release)
+                    this.update()
+                }
+            }
+            // Define the watcher to realese the lock
+            this.onControl(signalW, release)
+            // Lock
+            store[varW] = true
+            // Request the change itself
+            this.triggerChange(name, value)
+        }
+    },
 }
 
 riot.mixin('base', BaseMixin)
