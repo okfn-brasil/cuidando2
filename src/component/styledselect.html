@@ -6,7 +6,8 @@
         { getCurrent() }
         <span class="caret"/>
     </div>
-    <ul if="{ isOpen }">
+    <ul if="{ isOpen }"
+        class="no-bullet">
         <li each="{ opts.options }"
             data-key="{ key }"
             onclick="{ optionSelected }"
