@@ -2,7 +2,7 @@
     <div id="bigmap-container">
         <div id="map-parent-container" class="{ map-big: opts.big }"
              if="{ opts.showmap }">
-            <div id="map-container"/>
+            <div id="map-container"></div>
             <div if="{ opts.big }"
                  class="map-legend-container">
                 <div class="map-legend">
@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="input-group search-address"
-         if="{ opts.big }">
+         if="{ opts.big && opts.showmap }">
         <input id="search-address-input"
                class="input-medium search-query form-control"
                type="text"
@@ -55,11 +55,23 @@
         if (this.yearinfo) this.update()
     }
 
+    this.mapInited = false
+    this.initWhenNeeded = () => {
+        console.log('needed?', document.getElementById('map-container') )
+        if (!this.mapInited && opts.showmap
+            && document.getElementById('map-container')) {
+            console.log('YES!')
+            this.mapInited = true
+            map.initMap('map-container')
+            this.watchDepends('points yearinfo', 'year',
+                this.pointsChanged, this.yearinfoChanged)
+        }
+    }
+
     this.one('mount', () => {
+        console.log('MOUNT')
         this.year = this.router.getParam('year')
-        map.initMap('map-container')
-        this.watchDepends('points yearinfo', 'year',
-               this.pointsChanged, this.yearinfoChanged)
+        this.initWhenNeeded()
     })
 
     // // Used to get last_update
@@ -71,6 +83,8 @@
     // })
 
     this.on('updated', () => {
+        console.log('UPDATE')
+        this.initWhenNeeded()
         map.redraw()
     })
 
