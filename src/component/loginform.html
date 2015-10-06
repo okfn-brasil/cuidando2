@@ -170,7 +170,8 @@
     this.onModalClose = () => {
         this.view = {login: true}
         // Clear inputs
-        for (el of this.root.getElementsByTagName('input')) el.value = ''
+        for (let el of Array(this.root.getElementsByTagName('input')))
+            el.value = ''
         this.clearError()
     }
 
