@@ -70,6 +70,7 @@
                         title="{ t('Report comment as inappropriate') }"
                         onclick="{ sendReport }">
                     { t('Report') }
+                    <span if="{ opts.sendReportWaiting }" class="loading"/>
                 </button>
             </div>
 
@@ -160,7 +161,7 @@
     }
 
     this.sendReport = function() {
-        this.triggerChange('sendReport', {url: this['report_url']})
+        this.safeTriggerChange('sendReport', {url: this['report_url']}, opts)
     }
 
     this.sendVote = function(event) {
@@ -171,6 +172,5 @@
             })
         }
     }
-
     </script>
 </comment>
