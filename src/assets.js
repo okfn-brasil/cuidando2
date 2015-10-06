@@ -1,3 +1,5 @@
+// Assets are converted on build to base64 strings, so in Browser they can
+// be used as variables, reducing request number.
 const assets = {
     logo: require('url?once=1!../assets/logo.svg'),
     planejado: require('url?once=1!../assets/img/planejado.png'),
