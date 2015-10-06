@@ -37,6 +37,8 @@ class Translator {
             'Different passwords': 'Senhas não batem',
             'Password': 'Senha',
             'or': 'ou',
+            'Send': 'Enviar',
+            'Question sent': 'Pergunta enviada',
             'address_not_found': 'Endereço não encontrado...',
             'comments': 'comentários',
             'Expense': 'Despesa',
@@ -62,6 +64,8 @@ class Translator {
             'error_decode_token': 'Erro ao decodificar token. Por favor entre novamente.',
             'See the comments about this expense': 'Acompanhe os comentários sobre essa despesa',
             'Your comment': 'Seu comentário',
+
+            'Report comment as inappropriate': 'Denunciar comentário como inapropriado',
             'data updated at': 'dados atualizados em',
             'Map legend': 'Legenda do mapa',
             'Error to access URL': 'Erro ao tentar acessar URL',
