@@ -1,0 +1,33 @@
+<msg-shower>
+    <ul class="list-bare">
+        <li each="{ msg, i in msgList }">
+            <div class="msg { msgClass(msg) }">
+                { t(msg.text) }
+
+                <button type="button"
+                        class="btn"
+                        data-msg="{ i }"
+                        onclick={ removeMsg }
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </li>
+    </ul>
+
+    <script type="es6">
+    this.mixin('base')
+    this.watch('msgList', null, () => this.update())
+
+    this.removeMsg = (ev) => {
+        ev.ignoreEvent = true
+        this.triggerChange('rmMsg', this.msgList[ev.target.dataset.msg])
+    }
+
+    this.msgClass = (msg) => {
+        if (msg.type == 'error') return 'error-msg'
+        if (msg.type == 'success') return 'success-msg'
+    }
+
+    </script>
+</msg-shower>

@@ -2,7 +2,7 @@ import decodeToken from 'jwt-decode'
 import ajax from '../utils/ajax'
 import config from 'config'
 import {registerSignals} from '../utils/helpers'
-import {showError} from '../utils/helpersT'
+import msgs from './msgs'
 import userinfo from './userinfo'
 
 let api = config.apiurl_auth
@@ -88,7 +88,7 @@ class Auth {
             } catch(err) {
                 localStorage.removeItem("mainToken")
                 localStorage.removeItem("microToken")
-                showError('error_decode_token')
+                msgs.addError('error_decode_token')
             }
         }
         return null
@@ -193,7 +193,7 @@ class Auth {
                 method: 'post',
             })
         } catch(err) {
-            showError('error_logout_server')
+            msgs.addError('error_logout_server')
         }
         this.trigger(riot.SEC('username'), null)
     }

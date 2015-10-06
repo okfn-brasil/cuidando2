@@ -3,6 +3,7 @@ import ajax from '../utils/ajax.js'
 import MapStore from './mapStore'
 import auth from './auth'
 import {registerSignals} from '../utils/helpers'
+import msgs from './msgs'
 
 var api = config.apiurl_esic
 
@@ -56,9 +57,13 @@ class Pedidos extends MapStore {
                 'keywords': params.keywords,
             }
         // this.updatePedido(await ajax({url, data, method: 'post'}))
-        await ajax({url, data, method: 'post'})
-        this.trigger(riot.SEC('pedidoSent'), {})
-        this.load(params.keywords[0], true)
+        let ret = await ajax({url, data, method: 'post'})
+        if (ret) {
+            this.trigger(riot.SEC('pedidoSent'), {})
+            // Force pedidos reload for this despesa
+            this.load(params.keywords[0], true)
+            msgs.addSuccess('Question sent')
+        }
     }
 }
 

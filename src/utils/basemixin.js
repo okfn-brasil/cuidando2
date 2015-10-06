@@ -39,7 +39,7 @@ var BaseMixin = {
         }
     },
 
-    watch: function(names, func) {
+    watch: function(names, func, always) {
         names = names.split(' ')
         for (let name of names) {
             let watcher = (val) => {
@@ -48,6 +48,7 @@ var BaseMixin = {
                     if (func) func()
                     this.update()
                 }
+                if(always) always()
             }
             let signal = riot.SEC(name)
             // Watch var changes

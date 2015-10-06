@@ -1,4 +1,5 @@
-import {showError} from './helpersT'
+// import {showError} from './helpersT'
+import msgs from '../store/msgs'
 
 
 function checkStatus(response) {
@@ -27,12 +28,13 @@ async function ajax(params) {
     try {
         var response = await fetch(params.url, fParams)
     } catch(err) {
-        showError('Error to access URL')
+        msgs.addError('Error to access URL')
         console.log('ERRO ao tentar pegar:', params.url, err)
         return null
     }
     checkStatus(response)
-    console.log('request succeeded', params.url, response)
+    // console.log('request succeeded', params.url, response)
+
     // allows whole response return
     if (params.raw) {
         return response
