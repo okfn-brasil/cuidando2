@@ -26,8 +26,10 @@ function orderComments(comments) {
 class Comments extends MapStore {
     constructor(signal) {
         super(signal)
-        registerSignals(this,
-            'sendComment sendDelete sendReport sendReply sendEdit sendVote'
+        registerSignals(
+            this,
+            'sendComment sendDelete sendReport sendReply sendEdit sendVote',
+            true
         )
     }
     ajaxParams(key) {
@@ -93,7 +95,7 @@ class Comments extends MapStore {
             // data = {
             //     'token': await auth.getMicroToken(),
             // }
-        this.updateThread(await ajax({url, method: 'post'}))
+        await ajax({url, method: 'post'})
     }
 
     // Upvote/downvote comment from a thread
