@@ -93,24 +93,26 @@
     this.watch('commentsUpdates', () => {
         this.threads = []
         // Group comments by thread
-        threadsMap = this.commentsUpdates.value.reduce((threads, curr) => {
-            if (threads[curr.thread_name]) {
-                threads[curr.thread_name].push(curr)
-            } else {
-                let comments = [curr]
-                threads[curr.thread_name] = comments
-                this.threads.push({
-                    date: curr.created,
-                    thread_name: curr.thread_name,
-                    comments
-                })
-            }
-            return threads
-        }, {})
+        if (this.commentsUpdates.value) {
+            threadsMap = this.commentsUpdates.value.reduce((threads, curr) => {
+                if (threads[curr.thread_name]) {
+                    threads[curr.thread_name].push(curr)
+                } else {
+                    let comments = [curr]
+                    threads[curr.thread_name] = comments
+                    this.threads.push({
+                        date: curr.created,
+                        thread_name: curr.thread_name,
+                        comments
+                    })
+                }
+                return threads
+            }, {})
 
-        let codes = Object.keys(threadsMap)
-        this.updateActivities()
-        this.triggerChange('multiPontinfo', {key: 'a', codes})
+            let codes = Object.keys(threadsMap)
+            this.updateActivities()
+            this.triggerChange('multiPontinfo', {key: 'a', codes})
+        }
     })
 
     this.watch('multiPontinfo', () => {
