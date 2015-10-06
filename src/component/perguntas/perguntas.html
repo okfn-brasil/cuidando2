@@ -52,15 +52,12 @@
     }
 
     this.watchDepends('pedidos', 'code', () => {
-        console.log('PEDIDOS:', this.pedidos)
+        /*         console.log('PEDIDOS:', this.pedidos) */
         /*         if (this.sendingComment) {
            this.sendingComment = false
            this['comment-textarea'].value = ""
            } */
         this.update()
-    })
-    this.watch('pedidoSent', () => {
-        this.tags.modal.closeModal()
     })
     </script>
 </perguntas>
