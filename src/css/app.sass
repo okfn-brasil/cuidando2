@@ -8,6 +8,8 @@ $neutral-color-light: gray
 $neutral-color-dark: gray
 $error-color: #FE2F55
 $error-color-light: #FFE0E6
+$success-color: #3C763D
+$success-color-light: #DFF0D8
 $light-dark-bg: #F8F8F8
 $light-border: #DDD
 $dark-bg: #F0F0F0
@@ -64,7 +66,6 @@ styled-select
     z-index: 2000
     margin: 0px
     padding: 0px
-    list-style: outside none none
     box-shadow: 2px 2px #000
     max-height: 300px
     overflow-y: auto
@@ -190,9 +191,15 @@ year-selector
   margin: 50px auto
 
 
-.error-message
+.error-msg
   background-color: $error-color-light
   color: $error-color
+  line-height: 3em
+  border-radius: 3px
+
+.success-msg
+  background-color: $success-color-light
+  color: $success-color
   line-height: 3em
   border-radius: 3px
 
@@ -277,8 +284,10 @@ a.disabled
   color: gray !important
   pointer-events: none
 
-.no-bullet
+.list-bare
   list-style: outside none none
+  margin: 0px
+  padding: 0px
 
 
 @import _charts.sass
@@ -291,3 +300,4 @@ a.disabled
 @import _perguntas.sass
 @import _menubar.sass
 @import _activities.sass
+@import _msgs.sass
