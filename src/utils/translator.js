@@ -38,6 +38,7 @@ class Translator {
             'Password': 'Senha',
             'or': 'ou',
             'Send': 'Enviar',
+            'error_renew_token': 'Erro ao tentar renovar token',
             'Question sent': 'Pergunta enviada',
             'address_not_found': 'Endereço não encontrado...',
             'comments': 'comentários',
@@ -90,6 +91,7 @@ class Translator {
             'liquidado': 'finished',
             'error_decode_token': "Error to decode stored token! Please relogin...",
             'address_not_found': 'Address not found...',
+            'error_renew_token': 'Error to renew token',
         }
     }
 
