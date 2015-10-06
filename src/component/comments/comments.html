@@ -17,6 +17,7 @@
                 onclick="{ sendComment }"
                 class="btn btn-color-sec block-right">
             { t('Send comment') }
+            <span if="{ sendCommentWaiting }" class="loading"/>
         </button>
     </form>
 
@@ -32,27 +33,25 @@
     this.checkIsLogged = checkIsLogged
     this.mixin('base')
     this.watch('username')
+    this.watchDepends('comments', 'code', () => this.update())
 
-    this.sendingComment = false
-
-    this.watchDepends('comments', 'code', () => {
-        if (this.sendingComment) {
-            this.sendingComment = false
-            this['comment-textarea'].value = ""
-        }
+    // Clear text-area
+    this.onControl(riot.SEC('sendCommentWaiting'), () => {
+        this['comment-textarea'].value = ""
         this.update()
     })
 
-    sendComment = event => {
+    this.sendComment = event => {
+        console.log(this.code)
         if (this.checkIsLogged(event)) {
             if (this['comment-textarea'].value) {
-                this.sendingComment = true
-                this.triggerChange('sendComment', {
+                this.safeTriggerChange('sendComment', {
                     text: this['comment-textarea'].value,
                     code: this.code,
                 })
             }
         }
     }
+
     </script>
 </comments>
