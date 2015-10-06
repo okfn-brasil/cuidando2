@@ -50,13 +50,16 @@ export function onClickedOutside(node, func, ignoreEvent) {
 
 
 // Register signals to a store
-export function registerSignals(self, signals) {
+export function registerSignals(self, signals, sendRelease) {
     for (let name of signals.split(' ')) {
 
         if (!self[name]) console.log('function not found for:',
                                      name, 'in', self)
-        self.on(riot.VEC(name), params => {
-            self[name](params)
+        self.on(riot.VEC(name), async (params) => {
+            console.log(riot.SEC(name + 'Waiting'), sendRelease)
+            await self[name](params)
+            console.log('Dep')
+            if (sendRelease) self.trigger(riot.SEC(name + 'Waiting'), params)
         })
     }
 }
