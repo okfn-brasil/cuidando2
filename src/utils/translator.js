@@ -63,6 +63,7 @@ class Translator {
             'Edit comment': 'Editar comentário',
             'Remaining characters': 'Caracteres restantes',
             'error_decode_token': 'Erro ao decodificar token. Por favor entre novamente.',
+            'error_token_json': 'Erro na resposta com token.',
             'See the comments about this expense': 'Acompanhe os comentários sobre essa despesa',
             'Your comment': 'Seu comentário',
 
@@ -92,6 +93,7 @@ class Translator {
             'error_decode_token': "Error to decode stored token! Please relogin...",
             'address_not_found': 'Address not found...',
             'error_renew_token': 'Error to renew token',
+            'error_token_json': 'Error in token response',
         }
     }
 

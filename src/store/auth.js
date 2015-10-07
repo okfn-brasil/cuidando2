@@ -67,7 +67,7 @@ class Auth {
             if (this.loadUsername())
                 this.trigger(riot.SEC('username'), this._currUsername)
         }
-        else { console.log('saveTokens: invalid response:', json)}
+        else { msgs.addError('error_token_json')}
     }
 
     saveMicroToken(data) {
