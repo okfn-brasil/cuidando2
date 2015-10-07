@@ -23,7 +23,6 @@ class MsgList {
     }
 
     triggerChanged() {
-        console.log('INDO!', this._msgs, this.signal)
         this.trigger(riot.SEC(this.signal), this._msgs)
     }
 
