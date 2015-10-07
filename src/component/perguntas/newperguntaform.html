@@ -38,6 +38,7 @@
                     onclick="{ sendPedido }"
                     class="btn btn-color-sec float-right">
                 { t("Send") }
+                <span if="{ sendPedidoWaiting }" class="loading"/>
             </button>
         </form>
 
@@ -76,13 +77,21 @@
 
     this.sendPedido = () => {
         if (this['new-pergunta-textarea'].value) {
-            this.triggerChange('sendPedido', {
+            this.safeTriggerChange('sendPedido', {
                 text: this['new-pergunta-textarea'].value,
                 orgao: this.tags['styled-select'].getCurrent(),
                 keywords: [this.parent.parent.code]
             })
         }
     }
+
+    this.onControl(riot.SEC('sendPedidoWaiting'), (params, ret) => {
+        console.log(params, ret, '<<<<<<<<<<<<>>>>>>>>>>>>')
+        if (ret) {
+            this.parent.closeModal()
+            this.update()
+        }
+    })
 
     this.onModalClose = () => {
         this['new-pergunta-textarea'].value = ''
@@ -91,6 +100,5 @@
     this.remainingChars = () => {
         return this.maxPedidoLength - this['new-pergunta-textarea'].value.length
     }
-
     </script>
 </new-pergunta-form>
