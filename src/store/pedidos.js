@@ -16,7 +16,7 @@ function pedidosCompare(a, b) {
 class Pedidos extends MapStore {
     constructor(signal) {
         super(signal)
-        registerSignals(this, 'sendPedido')
+        registerSignals(this, 'sendPedido', true)
     }
 
     ajaxParams(key) {
@@ -27,9 +27,7 @@ class Pedidos extends MapStore {
 
     processResponse(json) {
         // Substitute strings for Dates
-        console.log(json)
         for (let pedido of json.pedidos) {
-            console.log(pedido)
             for (let message of pedido.messages) {
                 message.received = new Date(message.received)
             }
@@ -57,13 +55,15 @@ class Pedidos extends MapStore {
                 'keywords': params.keywords,
             }
         // this.updatePedido(await ajax({url, data, method: 'post'}))
+        console.log('bbbbbbbbb')
         let ret = await ajax({url, data, method: 'post'})
+        console.log(ret)
         if (ret) {
-            this.trigger(riot.SEC('pedidoSent'), {})
             // Force pedidos reload for this despesa
             this.load(params.keywords[0], true)
             msgs.addSuccess('Question sent')
         }
+        return ret
     }
 }
 
