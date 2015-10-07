@@ -55,9 +55,7 @@ class Pedidos extends MapStore {
                 'keywords': params.keywords,
             }
         // this.updatePedido(await ajax({url, data, method: 'post'}))
-        console.log('bbbbbbbbb')
         let ret = await ajax({url, data, method: 'post'})
-        console.log(ret)
         if (ret) {
             // Force pedidos reload for this despesa
             this.load(params.keywords[0], true)
