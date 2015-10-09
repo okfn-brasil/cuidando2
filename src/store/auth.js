@@ -29,9 +29,10 @@ class Auth {
         // this.on(riot.VEC('login'), params => this.login(params))
         // this.on(riot.VEC('loginFacebook'), () => this.loginFacebook())
         // this.on(riot.VEC('logout'), () => this.logout())
-        registerSignals(this,
-            'register login loginFacebook logout forgotPassword resetPassword'
-        )
+        registerSignals(
+            this,
+            'register login loginFacebook logout forgotPassword resetPassword',
+            true)
 
         // View requesting current username
         this.on(riot.VEL('username'), () => {
@@ -147,7 +148,9 @@ class Auth {
                 data: {username: params.username, email: params.email},
                 method: 'post',
             })
-            if (json) this.trigger(riot.SEC('passwordResetSent'), json.exp)
+            // if (json) this.trigger(riot.SEC('passwordResetSent'), json.exp)
+            if (json) return json.exp
+            else return false
         } catch(err) {
             await this.showErrorMessage(err)
         }

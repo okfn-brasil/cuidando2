@@ -43,6 +43,8 @@ class Translator {
             'address_not_found': 'Endereço não encontrado...',
             'comments': 'comentários',
             'Expense': 'Despesa',
+            'Wrong email.': 'E-mail errado.',
+            'Invalid code': 'Código inválido',
             'Explore the data': 'Explore os dados agora',
             'Accountable body': 'Órgão responsável',
             'back to year': 'voltar para o ano',

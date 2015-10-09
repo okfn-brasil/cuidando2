@@ -35,7 +35,7 @@
                 <label class="sr-only" for="login-form-email">
                     { t('E-mail') }
                 </label>
-                <input type="text"
+                <input type="email"
                     class="form-control { checkFieldError('email') }"
                     id="login-form-email"
                     placeholder="{ t('E-mail') }">
@@ -48,9 +48,10 @@
                     for="login-form-code">
                     { t("Code") }
                 </label>
-                <input type="password"
+                <input type="text"
                         class="form-control { checkFieldError('code') }"
                         id="login-form-code"
+                        autocomplete="off"
                         placeholder="{ t('Code') }">
             </div>
 
@@ -86,6 +87,7 @@
                     onclick={ sendLogin }
                     if={ view.login }>
                 { t("Login") }
+                <span if="{ loginWaiting }" class="loading"/>
             </button>
 
             <!-- Request Register -->
@@ -94,6 +96,7 @@
                     onclick={ sendRegister }
                     if={ view.register }>
                 { t("Register") }
+                <span if="{ registerWaiting }" class="loading"/>
             </button>
 
             <!-- Request Reset Code -->
@@ -102,6 +105,7 @@
                     onclick={ sendForgot1 }
                     if={ view.forgot1 }>
                 { t("Request reset code") }
+                <span if="{ forgotPasswordWaiting }" class="loading"/>
             </button>
 
             <!-- Request Reset -->
@@ -110,6 +114,7 @@
                     onclick={ sendForgot2 }
                     if={ view.forgot2 }>
                 { t("Change password and login") }
+                <span if="{ resetPasswordWaiting }" class="loading"/>
             </button>
         </form>
 
@@ -211,7 +216,8 @@
     // Tries to login user with current fields data
     sendLogin = () => {
         if(this.checkNotEmpty('username password')) {
-            this.triggerChange('login', {
+            this.clearError()
+            this.safeTriggerChange('login', {
                 username: this.getFieldValue('username'),
                 password: this.getFieldValue('password')
             })
@@ -222,7 +228,8 @@
     sendRegister = () => {
         if(this.checkNotEmpty('username password') &&
            this.checkPasswordsSame()) {
-            this.triggerChange('register', {
+            this.clearError()
+            this.safeTriggerChange('register', {
                 username: this.getFieldValue('username'),
                 password: this.getFieldValue('password'),
                 email: this.getFieldValue('email')
@@ -233,7 +240,8 @@
     // Request a reset code
     sendForgot1 = () => {
         if(this.checkNotEmpty('username email')) {
-            this.triggerChange('forgotPassword', {
+            this.clearError()
+            this.safeTriggerChange('forgotPassword', {
                 username: this.getFieldValue('username'),
                 email: this.getFieldValue('email')
             })
@@ -242,9 +250,10 @@
 
     // Tries to reset password and login
     sendForgot2 = () => {
-        if(this.checkNotEmpty('username password') &&
+        if(this.checkNotEmpty('username password code') &&
            this.checkPasswordsSame()) {
-            this.triggerChange('resetPassword', {
+            this.clearError()
+            this.safeTriggerChange('resetPassword', {
                 username: this.getFieldValue('username'),
                 password: this.getFieldValue('password'),
                 email: this.getFieldValue('email'),
@@ -262,11 +271,14 @@
         this.parent.update()
     })
 
-    this.onControl(riot.SEC('passwordResetSent'), (exp) => {
-        /*     this.watch('passwordResetSent', () => { */
-        this.exp_reset_code = exp / 60
-        this.changeView('forgot2')
-        this.update()
+    this.onControl(riot.SEC('forgotPasswordWaiting'), (params, exp) => {
+        if (exp) {
+        console.log('EXP!', exp)
+            this.exp_reset_code = exp / 60
+            this.changeView('forgot2')
+            this['login-form-code'].value = ''
+            this.update()
+        }
     })
 
     // Returns the class to mark an input field as incorrect,
