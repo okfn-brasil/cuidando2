@@ -6,8 +6,7 @@ import assets from '../../assets'
 import ajax from '../../utils/ajax.js'
 import msgs from '../../store/msgs'
 
-// var MQ = require('imports?leaflet=leaflet!exports?MQ!./mapquest.es5')
-var MQ = require('exports?MQ!./mapquest.es5')
+// var MQ = require('exports?MQ!./mapquest.es5')
 
 
 // var oms = new OverlappingMarkerSpiderfier(map);
@@ -61,8 +60,18 @@ class Map {
         this.tag = tag
         this.popup = new leaflet.Popup()
 
+        // let tiles = MQ.mapLayer()
+
+        let tiles = leaflet.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            attribution: '',
+            maxZoom: 18,
+            id: 'cuidando.nlj83mlb',
+            accessToken: 'pk.eyJ1IjoiY3VpZGFuZG8iLCJhIjoiY2lmandrYmEzNDBqbml1bHhlZzZtbWc0MSJ9.TZYl7sV3NHwSx5fk8JHqQg'
+        })
+
         this.map = leaflet.map(domId, {
-            layers: MQ.mapLayer(),
+            layers: tiles,
             center: [-23.58098, -46.61293],
             zoom: 12,
             // maxZoom: 20
