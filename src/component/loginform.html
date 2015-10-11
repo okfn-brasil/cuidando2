@@ -273,7 +273,6 @@
 
     this.onControl(riot.SEC('forgotPasswordWaiting'), (params, exp) => {
         if (exp) {
-        console.log('EXP!', exp)
             this.exp_reset_code = exp / 60
             this.changeView('forgot2')
             this['login-form-code'].value = ''
