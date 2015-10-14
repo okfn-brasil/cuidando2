@@ -56,9 +56,9 @@ export function registerSignals(store, signals, sendRelease) {
         if (!store[name]) console.log('function not found for:',
                                      name, 'in', store)
         store.on(riot.VEC(name), async (params) => {
-            console.log(riot.SEC(name + 'Waiting'), sendRelease)
+            // console.log(riot.SEC(name + 'Waiting'), sendRelease)
             let ret = await store[name](params)
-            console.log('Dep')
+            // console.log('Dep', ret)
             if (sendRelease)
                 store.trigger(riot.SEC(name + 'Waiting'), params, ret)
         })

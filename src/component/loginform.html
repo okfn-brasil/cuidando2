@@ -1,7 +1,7 @@
 <login-form>
     <!-- Modal -->
     <div class="modal-header">
-        <img class="center-block" src="{ assets.logo }">
+        <img class="block-center" src="{ assets.logo }">
     </div>
 
     <div class="modal-body">
@@ -118,13 +118,13 @@
             </button>
         </form>
 
-        <a class="text-center center-block modal-anchor"
+        <a class="text-center block-center modal-anchor"
                 onclick="{ fChangeView('register') }"
                 if={ view.login }>
             { t("Register") }
         </a>
 
-        <a class="text-center center-block modal-anchor"
+        <a class="text-center block-center modal-anchor"
                 onclick={ fChangeView('forgot1') }
                 if={ view.login }>
             { t("Forgot password") }
@@ -133,7 +133,7 @@
         <div if="{ view.login || view.register }">
             <div class="relative separator-block">
                 <span class="bar-decorator"/>
-                <div class="center-block separator">
+                <div class="block-center separator">
                     <span>{ t('or') }</span>
                 </div>
             </div>

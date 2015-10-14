@@ -207,20 +207,27 @@ year-selector
   border-color: $error-color
 
 
+.arrow
+  content: "➜"
+  display: inline-block
 
-.left-arrow::before
-  content: "➜"
-  display: inline-block
-  transform: rotate(180deg) translate(0.3em,-0.3em)
 .right-arrow::before
-  content: "➜"
-  display: inline-block
+  @extend .arrow
+.left-arrow::before
+  @extend .arrow
+  transform: rotate(180deg) translate(0.3em,-0.3em)
+.down-arrow::before
+  @extend .arrow
+  transform: rotate(90deg)
+.up-arrow::before
+  @extend .arrow
+  transform: rotate(270deg)
 
 
 .top-bar
   border-top: 1px solid $light-border
 .bottom-bar
-  border-bottom: 1px solid gray
+  border-bottom: 1px solid $light-border
 
 
 .block-decorator
@@ -237,11 +244,17 @@ year-selector
   top: 50%
   transform: translateY(-50%)
 
+.hide-extra
+  white-space: nowrap
+  overflow-x: hidden
 
-.center-block
+.block-center
   margin-left: auto
   margin-right: auto
   display: block
+
+.full-width
+  width: 100%
 
 .block-right
   margin-left: auto
