@@ -28,6 +28,7 @@ class Pedidos extends MapStore {
     processResponse(json) {
         // Substitute strings for Dates
         for (let pedido of json.pedidos) {
+            pedido.date = new Date(pedido.date)
             for (let message of pedido.messages) {
                 message.received = new Date(message.received)
             }
