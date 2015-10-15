@@ -4,7 +4,7 @@
 .category
   border-width: 1px
   border-style: solid none
-  border-color: gray
+  border-color: $neutral-color-light
   /* height: 240px
   padding: 10px
   text-align: center
@@ -15,6 +15,7 @@
   .value
     white-space: nowrap
     padding-top: 10px
+    font-size: 16pt
 
 
 @media (min-width: $screen-sm-min)
@@ -48,11 +49,14 @@
   border-radius: 5px
 
 
+.key
+  font-weight: bold
+  color: $neutral-color-dark
+
 .orgao-box
   padding: 15px 0px
   position: relative
   .key
-    font-weight: bold
     text-transform: uppercase
   .value
     color: $secondary-color
@@ -60,8 +64,6 @@
 .despesa-details-list
   padding: 15px 0px
   /* margin-top: 0px
-  .key
-    font-weight: bold
 
 
 .light-dark-bg

@@ -23,15 +23,18 @@ perg-com-tabs
   width: 50%
   position: relative
   float: left
-  color: $secondary-color-light
+  color: $secondary-color
   .number
     font-weight: bold
+    font-size: 12pt
   .block-decorator
     width: 100%
-    background-color: $secondary-color-light
+    background-color: $secondary-color
     border-radius: 5px 5px 0px 0px
   &.is-active
     border-bottom: medium none
     color: $neutral-color-light
+    .number
+      color: $neutral-color-dark
     .block-decorator
       background-color: $neutral-color-light

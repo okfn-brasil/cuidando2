@@ -1,26 +1,9 @@
 <donut>
     <div class="canvas-wrapper">
         <canvas id="{canvasId}" class="donut" width="{width}" height="{height}"></canvas>
-        <span class="canvas-text">{opts.percentage}%</span>
+        <span class="darker-text canvas-text">{opts.percentage}%</span>
     </div>
 
-    <style>
-        .canvas-text {
-            display: table-cell;
-            vertical-align: middle;
-            text-align: center;
-        }
-        canvas.donut {
-            z-index: -1;
-            position: absolute;
-        }
-        .canvas-wrapper {
-            width: 200px;
-            height: 200px;
-            display: table;
-            font-size: 20pt;
-        }
-    </style>
 
     <script type="es6">
     import {drawDonut} from './chart-utils'

@@ -1,11 +1,11 @@
 @import bootstrap/stylesheets/_bootstrap.scss
 
-$main-color: #06A3C6
+$main-color: #07A3C6
 $main-color-dark: #00667D
-$secondary-color: #F65F2D
-$secondary-color-light: #F59B7D
-$neutral-color-light: gray
-$neutral-color-dark: gray
+$secondary-color: #F44E16
+/* $secondary-color-light: #F59B7D
+$neutral-color-light: #999999
+$neutral-color-dark: #6C6C6C
 $error-color: #FE2F55
 $error-color-light: #FFE0E6
 $success-color: #3C763D
@@ -31,6 +31,10 @@ $liquidado: #35B4CF
 
 body
   font-family: 'Open Sans', sans-serif
+  color: $neutral-color-light
+
+h1, h2, h3
+  color: $neutral-color-dark
 
 .small-font
   font-size: 8pt
@@ -86,11 +90,12 @@ year-selector
     top: 75px
     left: 60px
     font-weight: bold
+    font-size: 18pt
     position: absolute
     border-color: $secondary-color
     border-radius: 3px
     text-align: left
-    width: 90px
+    width: 120px
     z-index: 200
     .inner
       padding-left: 10px
@@ -176,6 +181,8 @@ year-selector
   border-top-color: $secondary-color
 
 
+.darker-text
+  color: $neutral-color-dark
 
 .subtitle
   color: $main-color
@@ -226,6 +233,10 @@ year-selector
 .up-arrow::before
   @extend .arrow
   transform: rotate(270deg)
+.download-arrow::before
+  @extend .down-arrow::before
+  content: "➜|"
+  font-size: 14pt
 
 
 .top-bar
