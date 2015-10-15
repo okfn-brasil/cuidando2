@@ -1,0 +1,10 @@
+<svg xmlns:ns="&amp;#38;ns_ai;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67.73" height="67.73" viewBox="0 0 240 240">
+    <switch transform="translate(-360 -360)">
+        <g ns:extraneous="self">
+            <g fill="#f44e16">
+                <circle cx="479.999" cy="480.001" r="120" opacity=".3"/>
+                <circle cx="479.999" cy="480.001" r="88.695" opacity=".9"/>
+            </g>
+        </g>
+    </switch>
+</svg>

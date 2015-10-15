@@ -8,6 +8,7 @@ import './component/dyntable.html'
 import './component/modal.html'
 import './component/activities.html'
 import './component/msgshower.html'
+import './component/raw.html'
 
 import './component/perguntas/newperguntaform.html'
 import './component/perguntas/perguntas.html'
