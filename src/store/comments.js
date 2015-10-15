@@ -57,7 +57,9 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        this.updateThread(await ajax({url, data, method: 'post'}))
+        let ret = await ajax({url, data, method: 'post'})
+        this.updateThread(ret)
+        return ret
     }
 
     // Reply to a comment
@@ -67,7 +69,9 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        this.updateThread(await ajax({url, data, method: 'post'}))
+        let ret = await ajax({url, data, method: 'post'})
+        this.updateThread(ret)
+        return ret
     }
 
     // Edit a comment
@@ -77,7 +81,9 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        this.updateThread(await ajax({url, data, method: 'put'}))
+        let ret = await ajax({url, data, method: 'put'})
+        this.updateThread(ret)
+        return ret
     }
 
     // Delete a comment
@@ -86,7 +92,9 @@ class Comments extends MapStore {
             data = {
                 'token': await auth.getMicroToken(),
             }
-        this.updateThread(await ajax({url, data, method: 'delete'}))
+        let ret = await ajax({url, data, method: 'delete'})
+        this.updateThread(ret)
+        return ret
     }
 
     // Report a comment
@@ -95,7 +103,7 @@ class Comments extends MapStore {
             // data = {
             //     'token': await auth.getMicroToken(),
             // }
-        await ajax({url, method: 'post'})
+        return await ajax({url, method: 'post'})
     }
 
     // Upvote/downvote comment from a thread
@@ -106,7 +114,9 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'vote': params.vote
             }
-        this.updateThread(await ajax({url, data, method: 'post'}))
+        let ret = await ajax({url, data, method: 'post'})
+        this.updateThread(ret)
+        return ret
     }
 }
 

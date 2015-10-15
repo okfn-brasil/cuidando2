@@ -36,9 +36,11 @@
     this.watchDepends('comments', 'code', () => this.update())
 
     // Clear text-area
-    this.onControl(riot.SEC('sendCommentWaiting'), () => {
-        this['comment-textarea'].value = ""
-        this.update()
+    this.onControl(riot.SEC('sendCommentWaiting'), (params, ret) => {
+        if (ret) {
+            this['comment-textarea'].value = ""
+            this.update()
+        }
     })
 
     this.sendComment = event => {
