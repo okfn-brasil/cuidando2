@@ -69,6 +69,10 @@
                               .sort(this.dateCompare)
     }
 
+    this.watch('multiPontinfo', () => {
+        this.update()
+    })
+
     this.watch('moneyUpdates', () => {
         this.moneys = []
         for (let row of this.moneyUpdates.value) {
@@ -114,11 +118,6 @@
             this.updateActivities()
             this.triggerChange('multiPontinfo', {key: 'a', codes})
         }
-    })
-
-    this.watch('multiPontinfo', (a) => {
-        console.log(a)
-        this.update()
     })
 
     // Get the icon for an activity
