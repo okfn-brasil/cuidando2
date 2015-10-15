@@ -59,13 +59,6 @@ class PointInfo extends MapStore {
         }, {})
         this.trigger(riot.SEC('multiPontinfo'), {key: params.key, value: data})
     }
-
-    updateMulti(json) {
-        if (json) {
-            for (let point of json.data) {
-            }
-        }
-    }
 }
 
 let pointinfo = new PointInfo('pointinfo')
