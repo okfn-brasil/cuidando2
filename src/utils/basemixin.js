@@ -24,7 +24,9 @@ var BaseMixin = {
     // Register a func to run on control event. Unregister at unmount.
     onControl: function(signal, func) {
         riot.control.on(signal, func)
-        this.on('unmount', () => riot.control.off(signal, func))
+        let offFunc = function() {riot.control.off(signal, func)}
+        this.on('unmount', offFunc)
+        return offFunc
     },
 
     // Run a function if enter was pressed
@@ -104,7 +106,8 @@ var BaseMixin = {
     // Trigger a change in stores only if is not already doing it.
     // The "store" param is where will be saved the variable keeping track if a
     // change is in curse.
-    safeTriggerChange: function(name, value, store=this) {
+    // Accepts an extraFunc to be run when the lock is released.
+    safeTriggerChange: function(name, value, store=this, autoUpdate=true, extraFunc) {
         // Name of the var (lock) that will record if is waiting or not
         let varW = name + 'Waiting'
         // If is not waiting
@@ -112,13 +115,15 @@ var BaseMixin = {
             let signalW = riot.SEC(varW)
             // The function that should realse the lock
             let release = data => {
+                // console.log('data:', data, 'value:', value)
                 // This checks if the returning signal corresponds to
                 // this function call
                 if (data == value) {
                     store[varW] = false
                     // Unwatch
                     riot.control.off(signalW, release)
-                    this.update()
+                    if(extraFunc) extraFunc()
+                    if (autoUpdate) this.update()
                 }
             }
             // Define the watcher to realese the lock
