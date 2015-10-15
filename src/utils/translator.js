@@ -34,6 +34,7 @@ class Translator {
             'Date': 'Data',
             'State': 'Estado',
             'hide': 'esconder',
+            'Cancel': 'Cancelar',
             'Message': 'Mensagem',
             'Responsible': 'Responsável',
             'No user description...': 'Sem descrição de usuário...',

@@ -1,13 +1,13 @@
 <comment>
-    <div class="panel panel-default">
-        <div class="panel-body" if="{ !hidden }">
+    <div class="top-bar">
+        <div if="{ !hidden }">
             <!-- Comment content -->
             <p if="{ !checkIsEditting() }">
                 {text}
             </p>
 
             <!-- Edit form -->
-            <form class="form-inline" if="{ checkIsEditting() }">
+            <form class="form" if="{ checkIsEditting() }">
                 <div class="form-group">
                     <label class="sr-only" for="comment-edit-textarea-{id}">
                         { t('Edit comment') }
@@ -28,7 +28,7 @@
         <div if="{ hidden }">
             <p>{ t('Comment removed.') }</p>
         </div>
-        <div class="panel-footer">
+        <div>
             <a onclick={ fRoute('pessoa ' + author) }>
                 {author}
             </a>
@@ -44,6 +44,7 @@
                     { t("Delete") }
                 </button>
                 <button class="btn btn-default comment-edit-button"
+                        if="{ !checkIsEditting() }"
                         onclick="{ openEditArea }">
                     { t("Edit") }
                 </button>
@@ -80,7 +81,7 @@
             <span>Modificado: {modified}</span>
 
             <!-- Reply form -->
-            <form class="form-inline"
+            <form class="form"
                   if="{ checkIsReplying() }">
                 <div class="form-group">
                     <label class="sr-only"
