@@ -60,7 +60,6 @@
 
     this.mapInited = false
     this.initWhenNeeded = () => {
-        console.log('needed?', document.getElementById('map-container') )
         if (!this.mapInited && opts.showmap
             && document.getElementById('map-container')) {
             console.log('YES!')
