@@ -78,15 +78,17 @@
     })
 
     this.watch('pedidosUpdates', () => {
-        this.pedidos = []
-        for (let pedido of this.pedidosUpdates.value) {
-            this.pedidos.push({
-                date: pedido.received,
-                code: pedido.keywords[0],
-                pedido
-            })
+        if (this.pedidosUpdates && this.pedidosUpdates.value) {
+            this.pedidos = []
+            for (let pedido of this.pedidosUpdates.value) {
+                this.pedidos.push({
+                    date: pedido.received,
+                    code: pedido.keywords[0],
+                    pedido
+                })
+            }
+            this.updateActivities()
         }
-        this.updateActivities()
     })
 
     this.watch('commentsUpdates', () => {
@@ -114,7 +116,8 @@
         }
     })
 
-    this.watch('multiPontinfo', () => {
+    this.watch('multiPontinfo', (a) => {
+        console.log(a)
         this.update()
     })
 
@@ -135,6 +138,7 @@
             if (item.comments.length > 4) return this.assets.aComExtra
             else return this.assets.aCom
         } else if (item.pedido) {
+            // Is a pergunta update
             return this.assets.aPer
         }
         return ''
