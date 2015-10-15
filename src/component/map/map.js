@@ -105,7 +105,7 @@ class Map {
 
         // Create new cluster layer
         var markers = new leaflet.MarkerClusterGroup({
-            maxClusterRadius: 60,
+            maxClusterRadius: 100,
             spiderfyOnMaxZoom: true,
             showCoverageOnHover: false,
             zoomToBoundsOnClick: true,
@@ -115,7 +115,7 @@ class Map {
                 return leaflet.divIcon({
                     html: markers.length,
                     className: 'cluster-circle',
-                    iconSize: leaflet.point(32, 32)
+                    iconSize: leaflet.point(50, 50)
                 })
             }
         })

@@ -31,7 +31,8 @@
                         <div class="row">
                             <div each="{ cat, i in categories }" class="col-sm-4 category">
                                 <div class="subtitle">{ t(cat) }</div>
-                                <img src="{ assets[cat] }">
+                                <raw class="moedas { cat }"
+                                     content="{ parent.assets.moedas }"/>
                                 <div class="value">R$ { formatCur(this[cat]) }</div>
                             </div>
                         </div>

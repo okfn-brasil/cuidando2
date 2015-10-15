@@ -6,7 +6,7 @@
 
             <div class="activity-date">
                 { formatDate(date) }
-                <img class="icon" src="{ assets.planejado }">
+                <img class="icon" src="{ getIcon(this) }">
             </div><!--
                 avoid space
             --><div class="activity-content">
@@ -15,8 +15,7 @@
                 <div if="{ comments }"
                     class="clickable"
                     onclick="{ fRoute('despesa', {code:thread_name}) }">
-                    { comments.length } comentários
-                    comentou sobre
+                    { comments.length } comentários sobre
                     <span if="{ multiPontinfo }">
                         { multiPontinfo.value[thread_name]['ds_projeto_atividade'] }
                     </span>
@@ -116,9 +115,31 @@
     })
 
     this.watch('multiPontinfo', () => {
-        console.log(this.multiPontinfo)
         this.update()
     })
+
+    // Get the icon for an activity
+    this.getIcon = (item) => {
+        if (item.data) {
+            // Is a money update
+            if (item.event == 'modified')
+                var currState = item.data.state[1]
+            else
+                var currState = item.data.state
+            if (currState == 'empenhado') return this.assets.aEmp
+            if (currState == 'liquidado') return this.assets.aLiq
+            if (currState == 'orcado' || currState == 'atualizado')
+                return this.assets.aPla
+        } else if (item.comments) {
+            // Is a comments update
+            if (item.comments.length > 4) return this.assets.aComExtra
+            else return this.assets.aCom
+        } else if (item.pedido) {
+            return this.assets.aPer
+        }
+        return ''
+    }
+
     // this.on('mount', () => {
     //     console.log('MOOOOOOOOOO')
     //     this.interval = setInterval(() => {
