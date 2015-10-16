@@ -1,4 +1,19 @@
 <map>
+    <div class="input-group search-address"
+         if="{ opts.big && opts.showmap }">
+        <input id="search-address-input"
+               class="input-medium search-query form-control"
+               type="text"
+               onkeypress="{ ifEnter(locateAddress) }"
+               placeholder="{ t('Search for an address') }">
+        <span class="input-group-btn">
+            <button onclick="{ locateAddress }"
+                    class="btn btn-color-sec"
+                    type="button">
+                <img src="{ assets.lupa }">
+            </button>
+        </span>
+    </div>
     <div id="bigmap-container">
         <div id="map-parent-container" class="{ map-big: opts.big }"
              if="{ opts.showmap }">
@@ -27,21 +42,6 @@
                 { t('data updated at') } { yearinfo['last_update'] }
             </div>
         </div>
-    </div>
-    <div class="input-group search-address"
-         if="{ opts.big && opts.showmap }">
-        <input id="search-address-input"
-               class="input-medium search-query form-control"
-               type="text"
-               onkeypress="{ ifEnter(locateAddress) }"
-               placeholder="{ t('Search for an address') }">
-        <span class="input-group-btn">
-            <button onclick="{ locateAddress }"
-                    class="btn btn-color-sec"
-                    type="button">
-                <img src="{ assets.lupa }">
-            </button>
-        </span>
     </div>
 
 

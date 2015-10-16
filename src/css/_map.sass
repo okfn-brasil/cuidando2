@@ -16,13 +16,16 @@
     position: relative
 
 .search-address
-  width: 370px
-  top: 90px
-  right: 130px
-  position: absolute
-  border-radius: 4px
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5)
-  z-index: 100
+  z-index: 1000
+  @media (min-width: $screen-xs-min)
+    right: 30px
+    width: 370px
+    top: 90px
+    position: absolute
+    border-radius: 4px
+  @media (min-width: $screen-sm-min)
+    right: 130px
   input
     width: 400px
     border: 0px none
