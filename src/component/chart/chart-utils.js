@@ -14,7 +14,6 @@ export function drawDonut(canvas, color, percentage) {
     imageObj.onload = function() {
         var pattern = context.createPattern(imageObj, 'repeat');
         context.strokeStyle = pattern
-        console.log(pattern)
 
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.beginPath();

@@ -62,7 +62,6 @@
     this.initWhenNeeded = () => {
         if (!this.mapInited && opts.showmap
             && document.getElementById('map-container')) {
-            console.log('YES!')
             this.mapInited = true
             map.initMap('map-container')
             this.watchDepends('points yearinfo', 'year',
@@ -71,7 +70,6 @@
     }
 
     this.one('mount', () => {
-        console.log('MOUNT')
         this.year = this.router.getParam('year')
         this.initWhenNeeded()
     })
@@ -85,7 +83,6 @@
     // })
 
     this.on('updated', () => {
-        console.log('UPDATE')
         this.initWhenNeeded()
         map.redraw()
     })
