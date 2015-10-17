@@ -61,13 +61,17 @@
 .map-update-time
   position: absolute
   bottom: 0px
-  right: 80px
+  right: 0px
+  @media (min-width: $screen-xs-min)
+    right: 80px
   font-size: 9pt
   background-color: rgba(0, 0, 0, 0.5)
   padding: 2px 10px
   color: white
   border-radius: 5px 5px 0px 0px
   z-index: 1100
+  a
+    color: white
 
 
 .map-legend-container
