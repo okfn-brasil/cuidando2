@@ -2,23 +2,23 @@
     <div class="top-bar">
         <div if="{ !hidden }">
             <!-- Comment content -->
-            <p if="{ !opts.checkIsEditting() }">
+            <p if="{ !opts.isEditting }">
                 {text}
             </p>
 
             <!-- Edit form -->
-            <form class="form" if="{ opts.checkIsEditting() }">
+            <form class="form" if="{ opts.isEditting }">
                 <div class="form-group">
-                    <label class="sr-only" for="comment-edit-textarea-{opts.id}">
+                    <label class="sr-only" for="comment-edit-textarea-{this.id}">
                         { t('Edit comment') }
                     </label>
-                    <textarea id="comment-edit-textarea-{opts.id}"
+                    <textarea id="comment-edit-textarea-{this.id}"
                               class="form-control"
                               maxlength="500"
                               rows="3">{text}</textarea>
                 </div>
                 <button type="submit"
-                        onclick="{ opts.sendEdit }"
+                        onclick="{ sendEdit }"
                         class="btn btn-default">
                     { t("Send") }
                     <span if="{ opts.sendEditWaiting }" class="loading"/>
@@ -34,49 +34,49 @@
                 {author}
             </a>
             <button class="btn btn-default comment-reply-button"
-                    onclick="{ opts.openReplyArea }">
+                    onclick="{ openReplyArea }">
                 { t("reply") }
             </button>
 
             <!-- Author buttons -->
-            <div if="{ opts.checkIsAuthor() && !hidden }">
+            <div if="{ checkIsAuthor() }">
                 <button class="btn btn-danger comment-delete-button"
-                        onclick="{ opts.sendDelete }">
+                        onclick="{ sendDelete }">
                     { t("Delete") }
                     <span if="{ opts.sendDeleteWaiting }" class="loading"/>
                 </button>
                 <button class="btn btn-default comment-edit-button"
-                        if="{ !opts.checkIsEditting() }"
-                        onclick="{ opts.openEditArea }">
+                        if="{ !opts.isEditting && !hidden }"
+                        onclick="{ openEditArea }">
                     { t("Edit") }
                 </button>
                 <button class="btn btn-warning probably-hidden"
-                        if="{ opts.checkIsEditting() }"
-                        onclick="{ opts.closeEditArea }">
+                        if="{ opts.isEditting && !hidden }"
+                        onclick="{ closeEditArea }">
                     { t("Cancel") }
                 </button>
             </div>
 
             <!-- Not Author buttons -->
-            <div if="{ !opts.checkIsAuthor() }">
+            <div if="{ !checkIsAuthor() }">
                 <button class="btn btn-default comment-upvote-button"
                         data-vote="up"
-                        onclick="{ opts.sendVote }">
+                        onclick="{ sendVote }">
                     +1
-                    <span if="{ opts.sendVoteWaiting && opts.upvotting }"
+                    <span if="{ opts.sendVoteWaiting && upvotting }"
                           class="loading"/>
                 </button>
                 <button class="btn btn-default comment-downvote-button"
                         data-vote="down"
-                        onclick="{ opts.sendVote }">
+                        onclick="{ sendVote }">
                     -1
-                    <span if="{ opts.sendVoteWaiting && !opts.upvotting }"
+                    <span if="{ opts.sendVoteWaiting && !upvotting }"
                           class="loading"/>
                 </button>
                 <button class="btn btn-danger comment-report-button"
                         if ="{ !hidden }"
                         title="{ t('Report comment as inappropriate') }"
-                        onclick="{ opts.sendReport }">
+                        onclick="{ sendReport }">
                     { t('Report') }
                     <span if="{ opts.sendReportWaiting }" class="loading"/>
                 </button>
@@ -89,25 +89,25 @@
 
             <!-- Reply form -->
             <form class="form"
-                  if="{ opts.checkIsReplying() }">
+                  if="{ opts.isReplying }">
                 <div class="form-group">
                     <label class="sr-only"
-                           for="comment-reply-textarea-{opts.id}">
+                           for="comment-reply-textarea-{this.id}">
                         { t('Reply Comment') }
                     </label>
-                    <textarea id="comment-reply-textarea-{opts.id}"
+                    <textarea id="comment-reply-textarea-{this.id}"
                               class="form-control"
                               maxlength="500"
                               rows="3"/>
                 </div>
                 <button type="submit"
-                        onclick="{ opts.sendReply }"
+                        onclick="{ sendReply }"
                         class="btn btn-default">
                     { t("Send") }
                     <span if="{ opts.sendReplyWaiting }" class="loading"/>
                 </button>
                 <button class="btn btn-warning"
-                        onclick="{ opts.closeReplyArea }">
+                        onclick="{ closeReplyArea }">
                     { t("Cancel") }
                 </button>
             </form>
@@ -122,73 +122,67 @@
     <script type="es6">
     import {checkIsLogged} from '../../store/auth'
     import auth from '../../store/auth'
-    this.checkIsLogged = checkIsLogged
     this.mixin('base')
     this.watch('username')
 
     // RiotJS makes tags inherit parent. This tag uses recursion, so "this"
     // variables were inheriting from parent giving a BIG mess. To avoid this
     // we place local variables at "this.opts"
-    opts.isReplying = false
-    opts.isEditting = false
-    opts.id = this.id
-    opts.author = this.author
-    opts.url = this.url
-    opts['report_url'] = this['report_url']
-    opts['vote_url'] = this['vote_url']
-    opts.update = this.update
+    this.opts.isReplying = false
+    this.opts.isEditting = false
 
-    opts.openEditArea = function() {opts.isEditting = true}
-    opts.openReplyArea = function(event) {
-        if (this.checkIsLogged(event)) opts.isReplying = true
+    this.openEditArea = function() {
+        this.opts.isEditting = true
     }
-    opts.closeEditArea = function() {
-        opts.isEditting = false
-        document.getElementById(`comment-edit-textarea-${opts.id}`).value = ''
-        opts.update()
+    this.openReplyArea = function(event) {
+        if (checkIsLogged(event)) this.opts.isReplying = true
     }
-    opts.closeReplyArea = function() {
-        opts.isReplying = false
-        document.getElementById(`comment-reply-textarea-${opts.id}`).value = ''
-        opts.update()
+    this.closeEditArea = function() {
+        this.opts.isEditting = false
+        this.update()
     }
-    opts.checkIsReplying = function() {return opts.isReplying}
-    opts.checkIsEditting = function() {return opts.isEditting}
-    opts.checkIsAuthor = function() {
-        return opts.author == auth.getUsername()}
+    this.closeReplyArea = function() {
+        this.opts.isReplying = false
+        document.getElementById(`comment-reply-textarea-${this.id}`).value = ''
+        this.update()
+    }
+    // this.checkIsReplying = function() {return this.isReplying}
+    // this.checkIsEditting = function() {return this.opts.isEditting}
+    this.checkIsAuthor = function() {
+        return this.author == auth.getUsername()}
 
-    opts.sendReply = function() {
+    this.sendReply = function() {
         this.safeTriggerChange('sendReply', {
             text: document.getElementById(
-                `comment-reply-textarea-${opts.id}`).value,
-            url: opts.url,
-        }, opts, false, opts.closeReplyArea)
+                `comment-reply-textarea-${this.id}`).value,
+            url: this.url,
+        }, this.opts, false, this.closeReplyArea.bind(this))
     }
 
-    opts.sendEdit = function() {
+    this.sendEdit = function() {
         this.safeTriggerChange('sendEdit', {
             text: document.getElementById(
-                `comment-edit-textarea-${opts.id}`).value,
-            url: opts.url,
-        }, opts, false, opts.closeEditArea)
+                `comment-edit-textarea-${this.id}`).value,
+            url: this.url,
+        }, this.opts, false, this.closeEditArea.bind(this))
     }
 
-    opts.sendDelete = function() {
-        this.safeTriggerChange('sendDelete', {url: opts.url,}, opts)
+    this.sendDelete = function() {
+        this.safeTriggerChange('sendDelete', {url: this.url,}, this.opts)
     }
 
-    opts.sendReport = function() {
-        this.safeTriggerChange('sendReport', {url: opts['report_url']}, opts)
+    this.sendReport = function() {
+        this.safeTriggerChange('sendReport', {url: this['report_url']}, this.opts)
     }
 
-    opts.sendVote = function(event) {
-        if (this.checkIsLogged(event)) {
+    this.sendVote = function(event) {
+        if (checkIsLogged(event)) {
             let type = event.target.dataset.vote == 'up' ? true : false
-            opts.upvotting = type
+            this.upvotting = type
             this.safeTriggerChange('sendVote', {
-                url: opts['vote_url'],
+                url: this['vote_url'],
                 vote: type,
-            }, opts)
+            }, this.opts)
         }
     }
     </script>
