@@ -2,12 +2,13 @@ import config from 'config'
 import ajax from '../utils/ajax.js'
 import MapStore from './mapStore'
 import auth from './auth'
+import msgs from '../store/msgs'
 import {registerSignals} from '../utils/helpers'
 
 var api = config.apiurl_comments
 
 
-function commentCompare(a, b) {return a.created > b.created ? 1 : -1}
+function commentCompare(a, b) {return a.created < b.created ? 1 : -1}
 
 function orderComments(comments) {
     // Substitute strings for Dates
@@ -42,12 +43,19 @@ class Comments extends MapStore {
         return json
     }
 
-    updateThread(json) {
-        if (json) {
-            let key = json.name
-            this._map[key] = this.processResponse(json)
-            this.triggerChanged(key)
+    async updateThread(params, errorMsg) {
+        let json = null
+        try {
+            json = await ajax(params)
+            if (json) {
+                let key = json.name
+                this._map[key] = this.processResponse(json)
+                this.triggerChanged(key)
+            }
+        } catch(err) {
+            msgs.addError(errorMsg)
         }
+        return json
     }
 
     // Add comment to a thread
@@ -57,9 +65,8 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        let ret = await ajax({url, data, method: 'post'})
-        this.updateThread(ret)
-        return ret
+        return await this.updateThread({url, data, method: 'post'},
+            'Error to add comment')
     }
 
     // Reply to a comment
@@ -69,9 +76,8 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        let ret = await ajax({url, data, method: 'post'})
-        this.updateThread(ret)
-        return ret
+        return await this.updateThread({url, data, method: 'post'},
+            'Error to add reply')
     }
 
     // Edit a comment
@@ -81,9 +87,8 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'text': params.text,
             }
-        let ret = await ajax({url, data, method: 'put'})
-        this.updateThread(ret)
-        return ret
+        return await this.updateThread({url, data, method: 'put'},
+            'Error to edit comment')
     }
 
     // Delete a comment
@@ -92,9 +97,8 @@ class Comments extends MapStore {
             data = {
                 'token': await auth.getMicroToken(),
             }
-        let ret = await ajax({url, data, method: 'delete'})
-        this.updateThread(ret)
-        return ret
+        return await this.updateThread({url, data, method: 'delete'},
+                                       'Error to delete comment')
     }
 
     // Report a comment
@@ -103,7 +107,11 @@ class Comments extends MapStore {
             // data = {
             //     'token': await auth.getMicroToken(),
             // }
-        return await ajax({url, method: 'post'})
+        try {
+            return await ajax({url, method: 'post'})
+        } catch(err) {
+            msgs.addError('Error to report comment')
+        }
     }
 
     // Upvote/downvote comment from a thread
@@ -114,9 +122,9 @@ class Comments extends MapStore {
                 'token': await auth.getMicroToken(),
                 'vote': params.vote
             }
-        let ret = await ajax({url, data, method: 'post'})
-        this.updateThread(ret)
-        return ret
+
+        return await this.updateThread({url, data, method: 'post'},
+                                       'Error to vote for comment')
     }
 }
 
