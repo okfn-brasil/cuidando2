@@ -33,6 +33,7 @@ class Translator {
             'last': 'última',
             'Date': 'Data',
             'State': 'Estado',
+            'source': 'fonte',
             'hide': 'esconder',
             'Cancel': 'Cancelar',
             'Message': 'Mensagem',
