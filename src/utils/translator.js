@@ -65,6 +65,7 @@ class Translator {
             'Current password': 'Senha atual',
             'New password': 'Nova senha',
             'Confirm new password': 'Confime a nova senha',
+            'want_to_question?': 'Quer perguntar para o governo sobre essa despesa?',
             'Save': 'Salvar',
             'Description': 'Descrição',
             'Request reset code': 'Solicitar código',
@@ -112,6 +113,7 @@ class Translator {
             'error_renew_token': 'Error to renew token',
             'error_token_json': 'Error in token response',
             'private_data': 'This is your private data, displayed only for you',
+            'want_to_question?': 'Do you want to make a question for the government about this expense?',
         }
     }
 
