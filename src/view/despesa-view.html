@@ -58,7 +58,7 @@
                     </li>
                     <a if="{ !showAllInfo }"
                        class="small-font"
-                        onclick="{ () => showAllInfo = true }">
+                        onclick="{ doShowAll }">
                         mais
                     </a>
                 </ul>
@@ -71,7 +71,7 @@
                     </li>
                     <a if="{ showAllInfo }"
                        class="small-font"
-                        onclick="{ () => showAllInfo = false }">
+                        onclick="{ donotShowAll }">
                         esconder
                     </a>
                 </ul>
@@ -91,6 +91,8 @@
     // this.code = opts.code
     this.code = this.router.getParam('code')
     this.showAllInfo = false
+    this.doShowAll = () => this.showAllInfo = true
+    this.donotShowAll = () => this.showAllInfo = false
 
     this.categories = ['planejado', 'empenhado', 'liquidado']
     this.mainKeysNames = [
