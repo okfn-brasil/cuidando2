@@ -204,6 +204,7 @@
     }
 
     this.openEdit = (field) => {
+        // Populate field value before openning
         if (field != 'password') {
             this['user-edit-${field}'].value = this.userinfo[field]
         }
