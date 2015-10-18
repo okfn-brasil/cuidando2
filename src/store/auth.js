@@ -45,6 +45,7 @@ class Auth {
         if (this._currUsername) userinfo.forgetUser(this._currUsername)
         localStorage.removeItem("mainToken")
         localStorage.removeItem("microToken")
+        this._currUsername = null
         this.trigger(riot.SEC('username'), null)
     }
 
