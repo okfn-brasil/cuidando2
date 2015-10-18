@@ -51,7 +51,8 @@
     this.maxPedidoLength = 5000
 
     this.watch('orgaos', () => {
-        if(this.orgaos) this.orgao = this.orgaos.value[0].key
+        if(this.orgaos && this.orgaos.value)
+            this.orgao = this.orgaos.value[0].key
     })
 
     // this.mainDests = [
