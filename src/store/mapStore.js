@@ -1,4 +1,5 @@
 import ajax from '../utils/ajax.js'
+import msgs from './msgs'
 
 export default class MapStore {
     constructor(signal) {
@@ -30,12 +31,18 @@ export default class MapStore {
         if (current === undefined || force) {
             this._map[key] = 'loading'
 
-            let json = await ajax(await this.ajaxParams(key))
-            if (json) {
-                this._map[key] = await this.processResponse(json)
-            } else {
+            try {
+                let json = await ajax(await this.ajaxParams(key))
+                if (json) {
+                    this._map[key] = await this.processResponse(json)
+                } else {
+                    return null
+                }
+            } catch(err) {
+                msgs.addError('error_mapstore_ajax')
                 return null
             }
+
         }
         this.triggerChanged(key)
     }

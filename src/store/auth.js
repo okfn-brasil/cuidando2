@@ -175,29 +175,37 @@ class Auth {
     }
 
     async loginFacebook() {
-        let json = await ajax({
-            url: api + '/login/external/manual/facebook',
-            method: 'get',
-        })
-        if (json) {
-            let origRedirect = json.redirect,
-                thisUrl = window.location.origin,
-                parts = origRedirect.split(escape("?")),
-                newRedirect = parts[0]
-                    .replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) +
-                    escape("?") + parts[1]
-            localStorage.prevhash = location.hash
-            // redirect to site for login
-            location.href = newRedirect
+        try {
+            let json = await ajax({
+                url: api + '/login/external/manual/facebook',
+                method: 'get',
+            })
+            if (json) {
+                let origRedirect = json.redirect,
+                    thisUrl = window.location.origin,
+                    parts = origRedirect.split(escape("?")),
+                    newRedirect = parts[0]
+                        .replace(/(redirect_uri=)[^\&]+/, '$1' + thisUrl) +
+                        escape("?") + parts[1]
+                localStorage.prevhash = location.hash
+                // redirect to site for login
+                location.href = newRedirect
+            }
+        } catch(err) {
+            msgs.addError('error_get_url_facebook')
         }
     }
 
     // Complete Facebook login after redirect
-    completeFacebook(query) {
-        ajax({
-            url: api + "/complete/manual/facebook" + query,
-            method: 'post',
-        }).then(this.saveTokens.bind(this))
+    async completeFacebook(query) {
+        try {
+            this.saveTokens(await ajax({
+                url: api + "/complete/manual/facebook" + query,
+                method: 'post',
+            }))
+        } catch(err) {
+            msgs.addError('error_complete_login_facebook')
+        }
     }
 
     async logout() {

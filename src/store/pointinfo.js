@@ -2,6 +2,7 @@ import ajax from '../utils/ajax'
 import config from 'config'
 import MapStore from './mapStore'
 import {registerSignals} from '../utils/helpers'
+import msgs from './msgs'
 
 let api = config.apiurl_money
 
@@ -43,7 +44,14 @@ class PointInfo extends MapStore {
             // Request data
             let url = `${api}/execucao/list`,
                 data = {codes: toLoad},
+                json = null
+
+            try {
                 json = await ajax({url, data, method: 'post'})
+            } catch(err) {
+                msgs.addError('error_multipoint_ajax')
+            }
+
             // Update with new data
             if (json && json.data) {
                 for (let info of json.data) {

@@ -99,6 +99,11 @@ class Translator {
             'Invalid characters in username...': 'Caracteres inválidos no nome...',
             'Username seems not registered...': 'O nome de usuária parece não registrado...',
             'Error to create user. Maybe username is already registered...': 'Erro ao criar usuário. Talvez esse nome já esteja registrado...',
+            'error_get_url_facebook': 'Erro ao tentar pegar URL para login em Facebook',
+            'error_complete_login_facebook': 'Erro ao tentar completar login em Facebook',
+            'error_send_question': 'Erro ao tentar enviar pergunta',
+            'error_multipoint_ajax': 'Erro ao tentar pegar informações sobre vários pontos',
+            'error_mapstore_ajax': 'Erro ao tentar pegar dados'
         }
 
         this.dicts.en = {

@@ -54,13 +54,18 @@ class Pedidos extends MapStore {
                 'text': params.text,
                 'orgao': params.orgao,
                 'keywords': params.keywords,
-            }
+            },
+            ret = null
         // this.updatePedido(await ajax({url, data, method: 'post'}))
-        let ret = await ajax({url, data, method: 'post'})
-        if (ret) {
-            // Force pedidos reload for this despesa
-            this.load(params.keywords[0], true)
-            msgs.addSuccess('Question sent')
+        try {
+            ret = await ajax({url, data, method: 'post'})
+            if (ret) {
+                // Force pedidos reload for this despesa
+                this.load(params.keywords[0], true)
+                msgs.addSuccess('Question sent')
+            }
+        } catch(err) {
+            msgs.addError('error_send_question')
         }
         return ret
     }
