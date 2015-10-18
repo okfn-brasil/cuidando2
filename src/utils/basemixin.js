@@ -72,8 +72,8 @@ var BaseMixin = {
         // Watch changes on main vars
         for (let i in names) {
             this.onControl(riot.SEC(names[i]), data => {
-                if ((data.key == this[nameDepends]) &&
-                    (this[names[i]] != data.value)) {
+                if ((data.key == this[nameDepends])
+                    && (this[names[i]] != data.value)) {
                     this[names[i]] = data.value
                     onChangeFuncs[i]()
                 }
