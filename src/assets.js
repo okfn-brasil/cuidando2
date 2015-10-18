@@ -10,6 +10,7 @@ const assets = {
     aEmp: require('urljs?once=1!../assets/activities/empenhado.svg'),
     aLiq: require('urljs?once=1!../assets/activities/liquidado.svg'),
     aCom: require('urljs?once=1!../assets/activities/comments.png'),
+    aComTop: require('urljs?once=1!../assets/activities/comments-top.png'),
     aComExtra: require('urljs?once=1!../assets/activities/comments-extra.png'),
     aPer: require('urljs?once=1!../assets/activities/pergunta.png'),
     moedas: require('raw!../assets/moedas.svg'),
