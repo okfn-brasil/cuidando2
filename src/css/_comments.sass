@@ -20,12 +20,15 @@ comment
   /*   position: relative
   /*   left: 30px
   /*   z-index: -1
+  &.not-comment-top
+    padding: 0px 35px
+  .vertical-center
+    transform: translateY(-50%) translateX(-50%)
 
 .dot-bar
   height: 100%
   border-left: 2px dotted $light-border
   position: absolute
-  left: 30px
   z-index: -1
 
 .comment-row
@@ -49,10 +52,10 @@ comment
   @extend .flex-max-width
 
 .comment-dates
-  width: 100px
+  padding: 0px 20px
 
 .comment-author
-  width: 100px
+  padding: 0px 20px
   font-weight: bold
   a
     color: $neutral-color-dark
