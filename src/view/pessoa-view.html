@@ -190,7 +190,7 @@
         if (!this.description)
             this.description = this.t('No user description...')
         this.isEditting = {}
-        // this.clearFields()
+        this.clearFields()
         this.clearError()
         this.update()
     })
@@ -204,6 +204,9 @@
     }
 
     this.openEdit = (field) => {
+        if (field != 'password') {
+            this['user-edit-${field}'].value = this.userinfo[field]
+        }
         this.isEditting[field] = true
     }
     this.closeEdit = (field) => {this.isEditting[field] = false}
