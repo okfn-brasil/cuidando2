@@ -22,7 +22,8 @@
                         <!-- Edit form -->
                         <form class="form" if="{ opts.isEditting }">
                             <div class="form-group">
-                                <label class="sr-only" for="comment-edit-textarea-{this.id}">
+                                <label class="sr-only"
+                                       for="comment-edit-textarea-{this.id}">
                                     { t('Edit comment') }
                                 </label>
                                 <textarea id="comment-edit-textarea-{this.id}"
@@ -33,7 +34,7 @@
                             <button type="submit"
                                     onclick="{ sendEdit }"
                                     class="btn btn-color-sec">
-                                { t("Send") }
+                                { t('Save') }
                                 <span if="{ opts.sendEditWaiting }" class="loading"/>
                             </button>
                         </form>
@@ -61,7 +62,7 @@
                 </div>
 
                 <!-- Control buttons -->
-                <div class="text-right comment-controls">
+                <div class="text-right control-buttons">
                     <a onclick="{ openReplyArea }">
                         { t("reply") }</a>
                     <!--
