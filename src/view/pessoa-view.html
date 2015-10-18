@@ -10,17 +10,17 @@
         <h1>{ userinfo.username }</h1>
 
         <!-- Description -->
-        <div if="{ !isEditting.descr }">
+        <div if="{ !isEditting.description }">
             <p>
                 { description }
                 <div if="{ checkIsUser() && edittingNone() }">
-                    <a onclick="{ openEdit.bind(this, 'descr') }">editar</a>
+                    <a onclick="{ openEdit.bind(this, 'description') }">editar</a>
                 </div>
             </p>
         </div>
 
         <!-- Edit Description -->
-        <form class="form" if="{ isEditting.descr }">
+        <form class="form" if="{ isEditting.description }">
             <div class="form-group">
                 <label class="sr-only"
                        for="user-edit-description">
@@ -40,7 +40,7 @@
                         <span if="{ sendEditUserinfoWaiting }" class="loading"/>
                     </button>
                     <button class="btn btn-warning"
-                            onclick="{ closeEdit.bind(this, 'descr') }">
+                            onclick="{ closeEdit.bind(this, 'description') }">
                         { t('Cancel') }
                     </button>
                 </div>
@@ -206,7 +206,7 @@
     this.openEdit = (field) => {
         // Populate field value before openning
         if (field != 'password') {
-            this['user-edit-${field}'].value = this.userinfo[field]
+            this[`user-edit-${field}`].value = this.userinfo[field]
         }
         this.isEditting[field] = true
     }
@@ -216,7 +216,7 @@
         let data = {username: this.userinfo.username}
         if (this.isEditting.email) {
             data.email = this['user-edit-email'].value
-        } else if (this.isEditting.descr) {
+        } else if (this.isEditting.description) {
             data.description = this['user-edit-description'].value
         } else if (this.isEditting.password) {
             // Trying to change password
