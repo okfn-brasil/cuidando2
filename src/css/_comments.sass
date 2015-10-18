@@ -4,3 +4,61 @@
 comment
   display: block
   position: relative
+
+.comment-outer-row
+  @extend .flex
+  margin-top: 20px
+
+
+.comment-icon
+  @extend .stretch
+  position: relative
+  padding: 0px 15px
+  /* &::before
+  /*   content: ""
+  /*   border-left: 2px dotted $light-border
+  /*   position: relative
+  /*   left: 30px
+  /*   z-index: -1
+
+.dot-bar
+  height: 100%
+  border-left: 2px dotted $light-border
+  position: absolute
+  left: 30px
+  z-index: -1
+
+.comment-row
+  /* width: calc(100% - 100px)
+  @extend .flex-max-width
+
+.comment-flex
+  @extend .flex
+  -webkit-justify-content: space-between
+  -ms-flex-pack: justify
+  justify-content: space-between
+  -webkit-align-content: stretch
+  -ms-flex-line-pack: stretch
+  align-content: stretch
+  -webkit-align-items: center
+  -ms-flex-align: center
+  align-items: center
+
+.comment-text
+  @extend .stretch
+  @extend .flex-max-width
+
+.comment-dates
+  width: 100px
+
+.comment-author
+  width: 100px
+  font-weight: bold
+  a
+    color: $neutral-color-dark
+
+
+.comment-controls
+  margin: 10px 0px
+  a
+    margin: 0px 5px

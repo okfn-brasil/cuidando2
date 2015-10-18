@@ -1,92 +1,159 @@
 <comment>
     <div class="top-bar">
-        <div if="{ !hidden }">
-            <!-- Comment content -->
-            <p if="{ !opts.isEditting }">
-                {text}
-            </p>
+        <div class="comment-outer-row">
+            <!-- Icon for top most comments -->
+            <div if="{ opts.top }" class="comment-icon">
+                <img class="icon" src="{ assets.aComExtra }">
+            </div>
+            <!-- Icon for replies to top most comments -->
+            <div if="{ !opts.top }" class="comment-icon">
+                <div class="dot-bar"/>
+                <img class="icon vertical-center" src="{ assets.aCom }">
+            </div>
 
-            <!-- Edit form -->
-            <form class="form" if="{ opts.isEditting }">
-                <div class="form-group">
-                    <label class="sr-only" for="comment-edit-textarea-{this.id}">
-                        { t('Edit comment') }
-                    </label>
-                    <textarea id="comment-edit-textarea-{this.id}"
-                              class="form-control"
-                              maxlength="500"
-                              rows="3">{text}</textarea>
+            <div class="comment-row">
+                <div class="comment-flex">
+                    <div class="comment-text">
+                        <!-- Comment content -->
+                        <p if="{ !hidden && !opts.isEditting }">
+                            {text}
+                        </p>
+
+                        <!-- Edit form -->
+                        <form class="form" if="{ opts.isEditting }">
+                            <div class="form-group">
+                                <label class="sr-only" for="comment-edit-textarea-{this.id}">
+                                    { t('Edit comment') }
+                                </label>
+                                <textarea id="comment-edit-textarea-{this.id}"
+                                        class="form-control"
+                                        maxlength="500"
+                                        rows="3">{text}</textarea>
+                            </div>
+                            <button type="submit"
+                                    onclick="{ sendEdit }"
+                                    class="btn btn-color-sec">
+                                { t("Send") }
+                                <span if="{ opts.sendEditWaiting }" class="loading"/>
+                            </button>
+                        </form>
+
+                        <p if="{ hidden }">{ t('Comment removed.') }</p>
+                    </div>
+
+                    <!-- Comment date/votes -->
+                    <div class="text-center comment-dates">
+                        <span>{ formatDate(created) }</span>
+                        <br>
+                        <span if="{ created.getTime() != modified.getTime() }">
+                            ({ formatDate(modified) })
+                            <br>
+                        </span>
+                        <span>+{upvotes}/-{downvotes}</span>
+                    </div>
+
+                    <!-- Comment Author -->
+                    <div class="comment-author">
+                        <a onclick={ fRoute('pessoa ' + author) }>
+                            {author}
+                        </a>
+                    </div>
                 </div>
-                <button type="submit"
-                        onclick="{ sendEdit }"
-                        class="btn btn-default">
-                    { t("Send") }
-                    <span if="{ opts.sendEditWaiting }" class="loading"/>
-                </button>
-            </form>
 
+                <!-- Control buttons -->
+                <div class="text-right comment-controls">
+                    <a onclick="{ openReplyArea }">
+                        { t("reply") }</a>
+                    <!--
+                    <button class="btn btn-default comment-reply-button"
+                            onclick="{ openReplyArea }">
+                        { t("reply") }
+                    </button>
+                    -->
+
+                    <!-- Author buttons -->
+                    <div if="{ checkIsAuthor() && !hidden }"
+                        class="inline">
+                        <a if="{ !opts.isEditting }"
+                            onclick="{ openEditArea }">
+                            { t("edit") }</a>
+                        <a if="{ opts.isEditting }"
+                            onclick="{ closeEditArea }">
+                            { t("Cancel") }</a>
+                        <a onclick="{ sendDelete }">
+                            { t("Delete") }
+                            <span if="{ opts.sendDeleteWaiting }" class="loading"/>
+                        </a>
+                        <!--
+                        <button class="btn btn-default comment-edit-button"
+                                if="{ !opts.isEditting }"
+                                onclick="{ openEditArea }">
+                            { t("Edit") }
+                        </button>
+                        <button class="btn btn-warning probably-hidden"
+                                if="{ opts.isEditting }"
+                                onclick="{ closeEditArea }">
+                            { t("Cancel") }
+                        </button>
+                        <button class="btn btn-danger comment-delete-button"
+                                onclick="{ sendDelete }">
+                            { t("Delete") }
+                            <span if="{ opts.sendDeleteWaiting }" class="loading"/>
+                        </button>
+                        -->
+                    </div>
+
+                    <!-- Not Author buttons -->
+                    <div if="{ !checkIsAuthor() }"
+                        class="inline">
+                        <a data-vote="up"
+                            onclick="{ sendVote }">
+                            +1
+                            <span if="{ opts.sendVoteWaiting && upvotting }"
+                                class="loading"/>
+                        </a>
+                        <a data-vote="down"
+                                onclick="{ sendVote }">
+                            -1
+                            <span if="{ opts.sendVoteWaiting && !upvotting }"
+                                class="loading"/>
+                        </a>
+                        <a class="dangerous-link"
+                                if ="{ !hidden }"
+                                title="{ t('Report comment as inappropriate') }"
+                                onclick="{ sendReport }">
+                            { t('Report') }
+                            <span if="{ opts.sendReportWaiting }" class="loading"/>
+                        </a>
+                        <!--
+                        <button class="btn btn-color-sec comment-upvote-button"
+                                data-vote="up"
+                                onclick="{ sendVote }">
+                            +1
+                            <span if="{ opts.sendVoteWaiting && upvotting }"
+                                class="loading"/>
+                        </button>
+                        <button class="btn btn-color-sec comment-downvote-button"
+                                data-vote="down"
+                                onclick="{ sendVote }">
+                            -1
+                            <span if="{ opts.sendVoteWaiting && !upvotting }"
+                                class="loading"/>
+                        </button>
+                        <button class="btn btn-danger comment-report-button"
+                                if ="{ !hidden }"
+                                title="{ t('Report comment as inappropriate') }"
+                                onclick="{ sendReport }">
+                            { t('Report') }
+                            <span if="{ opts.sendReportWaiting }" class="loading"/>
+                        </button>
+                        -->
+                    </div>
+                </div>
+            </div>
         </div>
-        <div if="{ hidden }">
-            <p>{ t('Comment removed.') }</p>
-        </div>
+
         <div>
-            <a onclick={ fRoute('pessoa ' + author) }>
-                {author}
-            </a>
-            <button class="btn btn-default comment-reply-button"
-                    onclick="{ openReplyArea }">
-                { t("reply") }
-            </button>
-
-            <!-- Author buttons -->
-            <div if="{ checkIsAuthor() }">
-                <button class="btn btn-danger comment-delete-button"
-                        onclick="{ sendDelete }">
-                    { t("Delete") }
-                    <span if="{ opts.sendDeleteWaiting }" class="loading"/>
-                </button>
-                <button class="btn btn-default comment-edit-button"
-                        if="{ !opts.isEditting && !hidden }"
-                        onclick="{ openEditArea }">
-                    { t("Edit") }
-                </button>
-                <button class="btn btn-warning probably-hidden"
-                        if="{ opts.isEditting && !hidden }"
-                        onclick="{ closeEditArea }">
-                    { t("Cancel") }
-                </button>
-            </div>
-
-            <!-- Not Author buttons -->
-            <div if="{ !checkIsAuthor() }">
-                <button class="btn btn-default comment-upvote-button"
-                        data-vote="up"
-                        onclick="{ sendVote }">
-                    +1
-                    <span if="{ opts.sendVoteWaiting && upvotting }"
-                          class="loading"/>
-                </button>
-                <button class="btn btn-default comment-downvote-button"
-                        data-vote="down"
-                        onclick="{ sendVote }">
-                    -1
-                    <span if="{ opts.sendVoteWaiting && !upvotting }"
-                          class="loading"/>
-                </button>
-                <button class="btn btn-danger comment-report-button"
-                        if ="{ !hidden }"
-                        title="{ t('Report comment as inappropriate') }"
-                        onclick="{ sendReport }">
-                    { t('Report') }
-                    <span if="{ opts.sendReportWaiting }" class="loading"/>
-                </button>
-            </div>
-
-            <span>Gostaram: {upvotes}</span>
-            <span>Não gostaram: {downvotes}</span>
-            <span>Criado: {created}</span>
-            <span>Modificado: {modified}</span>
-
             <!-- Reply form -->
             <form class="form"
                   if="{ opts.isReplying }">
@@ -102,7 +169,7 @@
                 </div>
                 <button type="submit"
                         onclick="{ sendReply }"
-                        class="btn btn-default">
+                        class="btn btn-color-sec">
                     { t("Send") }
                     <span if="{ opts.sendReplyWaiting }" class="loading"/>
                 </button>
@@ -115,13 +182,15 @@
 
         <!-- Replies list -->
         <comment each="{ replies }"
-                 style="margin: 40px;"/>
+                 style="margin: 20px;"/>
     </div>
 
 
     <script type="es6">
     import {checkIsLogged} from '../../store/auth'
     import auth from '../../store/auth'
+    import {formatDate} from '../../utils/helpers'
+    this.formatDate = formatDate
     this.mixin('base')
     this.watch('username')
 

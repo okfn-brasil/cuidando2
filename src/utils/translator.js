@@ -35,6 +35,8 @@ class Translator {
             'State': 'Estado',
             'source': 'fonte',
             'hide': 'esconder',
+            'edit': 'editar',
+            'Delete': 'Deletar',
             'Cancel': 'Cancelar',
             'Message': 'Mensagem',
             'Responsible': 'Responsável',
