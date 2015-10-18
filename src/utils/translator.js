@@ -40,7 +40,6 @@ class Translator {
             'Cancel': 'Cancelar',
             'Message': 'Mensagem',
             'Responsible': 'Responsável',
-            'No user description...': 'Sem descrição de usuário...',
             'Username': 'Nome de usuária',
             ' cannot be empty...': ' não pode estar vazio...',
             'Different passwords': 'Senhas não batem',
