@@ -62,6 +62,11 @@ class Translator {
             'Forgot password': 'Esqueceu senha',
             'Login Facebook': 'Entrar via Facebook',
             'Code': 'Código',
+            'Current password': 'Senha atual',
+            'New password': 'Nova senha',
+            'Confirm new password': 'Confime a nova senha',
+            'Save': 'Salvar',
+            'Description': 'Descrição',
             'Request reset code': 'Solicitar código',
             'Change password and login': 'Alterar senha e entrar',
             'Confirm Password': 'Confirmar Senha',
@@ -76,8 +81,9 @@ class Translator {
             'error_decode_token': 'Erro ao decodificar token. Por favor entre novamente.',
             'error_token_json': 'Erro na resposta com token.',
             'See the comments about this expense': 'Acompanhe os comentários sobre essa despesa',
+            'No user description...': 'Essa pessoa ainda não colocou uma descrição...',
             'Your comment': 'Seu comentário',
-
+            'private_data': 'Essas são suas informações pessoais, visíveis apenas para você',
             'Report comment as inappropriate': 'Denunciar comentário como inapropriado',
             'data updated at': 'dados atualizados em',
             'Map legend': 'Legenda do mapa',
@@ -105,6 +111,7 @@ class Translator {
             'address_not_found': 'Address not found...',
             'error_renew_token': 'Error to renew token',
             'error_token_json': 'Error in token response',
+            'private_data': 'This is your private data, displayed only for you',
         }
     }
 

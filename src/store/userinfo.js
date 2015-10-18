@@ -2,13 +2,17 @@ import ajax from '../utils/ajax'
 import config from 'config'
 import MapStore from './mapStore'
 import auth from './auth'
+import {registerSignals} from '../utils/helpers'
 
 let api = config.apiurl_auth
 
 class UserInfo extends MapStore {
     constructor(signal) {
         super(signal)
-        this.on(riot.VEC('sendEditUserinfo'), params => this.sendEdit(params))
+        registerSignals(
+            this,
+            'sendEditUserinfo',
+            true)
     }
     async ajaxParams(key) {
         let url = `${api}/users/${key}`,
@@ -32,7 +36,7 @@ class UserInfo extends MapStore {
     }
 
     // Edit user info
-    async sendEdit(params) {
+    async sendEditUserinfo(params) {
         let url = `${api}/users/${params.username}`,
             data = {
                 'token': await auth.getMicroToken(),

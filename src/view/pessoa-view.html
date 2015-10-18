@@ -7,56 +7,62 @@
 
     <div class="top-bar relative margin-top">
         <span class="block-decorator"/>
-        <h1>{userinfo.username}</h1>
+        <h1>{ userinfo.username }</h1>
 
         <!-- Description -->
         <div if="{ !isEditting.descr }">
             <p>
-                {description}
-                <a if="{ checkIsUser() }"
-                   onclick="{ openEdit.bind(this, 'descr') }">editar</a>
+                { description }
+                <div if="{ checkIsUser() && edittingNone() }">
+                    <a onclick="{ openEdit.bind(this, 'descr') }">editar</a>
+                </div>
             </p>
         </div>
 
         <!-- Edit Description -->
-        <div if="{ isEditting.descr }">
-            <div class="form-group form-inline"
+        <form class="form" if="{ isEditting.descr }">
+            <div class="form-group">
                 <label class="sr-only"
-                        for="user-edit-description">
+                       for="user-edit-description">
                     { t('Description') }
                 </label>
                 <textarea class="form-control"
                           rows="3"
                           id="user-edit-description"
+                          maxlength="500"
                           value="{ userinfo.description }"
                           placeholder="{ t('Description') }"/>
-                <button type="submit"
-                        onclick="{ sendEdit }"
-                        class="btn btn-color-sec">
-                    { t('Update') }
-                </button>
-                <button class="btn btn-color-sec"
-                        onclick="{ closeEdit.bind(this, 'descr') }">
-                    { t('Cancel') }
-                </button>
+                <div class="control-buttons">
+                    <button type="submit"
+                            onclick="{ sendEdit }"
+                            class="btn btn-color-sec">
+                        { t('Save') }
+                        <span if="{ sendEditUserinfoWaiting }" class="loading"/>
+                    </button>
+                    <button class="btn btn-warning"
+                            onclick="{ closeEdit.bind(this, 'descr') }">
+                        { t('Cancel') }
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 
-    <div class="top-bar bottom-bar"
+    <div class="top-bar bottom-bar private-info"
          if="{ checkIsUser() }">
 
-        <p>Essas são suas informações pessoais, visíveis apenas para você:</p>
+        <p>{ t('private_data') }:</p>
 
         <!-- Email -->
         <div if="{ !isEditting.email }">
-            <b>{ t('Email') }:</b> {userinfo.email} -
-            <a onclick="{ openEdit.bind(this, 'email') }">{ t('editar') }</a>
+            <b>{ t('Email') }:</b> {userinfo.email}
+            <a if="{ edittingNone() }"
+               onclick="{ openEdit.bind(this, 'email') }">{ t('editar') }</a>
         </div>
 
         <!-- Edit Email -->
         <div if="{ isEditting.email }">
-            <div class="form-group form-inline"
+            <div class="form-group form">
                 <label class="sr-only"
                         for="user-edit-email">
                     { t('E-mail') }
@@ -66,28 +72,32 @@
                        id="user-edit-email"
                        value="{ userinfo.email }"
                        placeholder="{ t('E-mail') }">
-                <button type="submit"
-                        onclick="{ sendEdit }"
-                        class="btn btn-color-sec">
-                    { t('Update') }
-                </button>
-                <button class="btn btn-color-sec"
-                        onclick="{ closeEdit.bind(this, 'email') }">
-                    { t('Cancel') }
-                </button>
+                <div class="control-buttons">
+                    <button type="submit"
+                            onclick="{ sendEdit }"
+                            class="btn btn-color-sec">
+                        { t('Save') }
+                        <span if="{ sendEditUserinfoWaiting }" class="loading"/>
+                    </button>
+                    <button class="btn btn-color-sec"
+                            onclick="{ closeEdit.bind(this, 'email') }">
+                        { t('Cancel') }
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Password -->
         <div if="{ !isEditting.password }">
-            <b>{ t('Password') }</b> -
-            <a onclick="{ openEdit.bind(this, 'password') }">{ t('editar') }</a>
+            <b>{ t('Password') }</b>
+            <a if="{ edittingNone() }"
+               onclick="{ openEdit.bind(this, 'password') }">{ t('editar') }</a>
         </div>
 
         <!-- Edit Password -->
         <div if="{ isEditting.password }">
-            <form class="form">
-                <div class="form-group form-inline"
+            <form class="form pessoa-edit-password-form">
+                <div class="form-group form-inline">
                     <label class="sr-only"
                             for="user-edit-curr-password">
                         { t('Current password') }
@@ -98,18 +108,18 @@
                         placeholder="{ t('Current password') }">
                 </div>
 
-                <div class="form-group form-inline"
+                <div class="form-group form-inline">
                     <label class="sr-only"
                             for="user-edit-new-password">
-                        { t('New Password') }
+                        { t('New password') }
                     </label>
                     <input type="password"
                             class="form-control { checkFieldError('new_password') }"
                             id="user-edit-new-password"
-                            placeholder="{ t('New Password') }">
+                            placeholder="{ t('New password') }">
                 </div>
 
-                <div class="form-group form-inline"
+                <div class="form-group form-inline">
                     <label class="sr-only"
                             for="user-edit-confirm-password">
                         { t("Confirm new password") }
@@ -117,15 +127,16 @@
                     <input type="password"
                             class="form-control { checkFieldError('confirm-password') }"
                             id="user-edit-confirm-password"
-                            placeholder="{ t('Confirm New Password') }">
+                            placeholder="{ t('Confirm new password') }">
                 </div>
 
                 <button type="submit"
                         onclick="{ sendEdit }"
                         class="btn btn-color-sec">
-                    { t('Update') }
+                    { t('Save') }
+                    <span if="{ sendEditUserinfoWaiting }" class="loading"/>
                 </button>
-                <button class="btn btn-color-sec"
+                <button class="btn btn-warning"
                         onclick="{ closeEdit.bind(this, 'password') }">
                     { t('Cancel') }
                 </button>
@@ -179,23 +190,32 @@
         if (!this.description)
             this.description = this.t('No user description...')
         this.isEditting = {}
-        this.clearFields()
+        // this.clearFields()
         this.clearError()
         this.update()
     })
 
-    this.openEdit = (field) => {this.isEditting[field] = true}
+    // Check if no field is beeing edited
+    this.edittingNone = () => {
+        for (let k in this.isEditting) {
+            if (this.isEditting[k]) return false
+        }
+        return true
+    }
+
+    this.openEdit = (field) => {
+        this.isEditting[field] = true
+    }
     this.closeEdit = (field) => {this.isEditting[field] = false}
     this.checkIsUser = () => this.user == this.username
     this.sendEdit = () => {
         let data = {username: this.userinfo.username}
-        if (this.isEditting.email)
+        if (this.isEditting.email) {
             data.email = this['user-edit-email'].value
-        if (this.isEditting.descr)
+        } else if (this.isEditting.descr) {
             data.description = this['user-edit-description'].value
-
-        // Trying to change password
-        if (this.isEditting.password) {
+        } else if (this.isEditting.password) {
+            // Trying to change password
             if(this['user-edit-new-password'].value
                != this['user-edit-confirm-password'].value) {
                 this.setError('Different passwords',
@@ -207,8 +227,7 @@
             }
         }
 
-        this.triggerChange('sendEditUserinfo', data)
-            /*         this.closeEditArea() */
+        this.safeTriggerChange('sendEditUserinfo', data)
     }
     </script>
 </pessoa-view>
