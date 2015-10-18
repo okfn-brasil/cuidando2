@@ -45,7 +45,7 @@
 
     this.sendComment = event => {
         console.log(this.code)
-        if (this.checkIsLogged(event)) {
+        if (checkIsLogged(event)) {
             if (this['comment-textarea'].value) {
                 this.safeTriggerChange('sendComment', {
                     text: this['comment-textarea'].value,
