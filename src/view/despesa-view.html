@@ -116,7 +116,8 @@
     this.watchDepends('pointinfo', 'code', () => {
         this.mainKeys = []
         for (let name of this.mainKeysNames) {
-            this.mainKeys.push([name[1], this.pointinfo[name[0]]])
+            let value = this.pointinfo[name[0]]
+            if (value) this.mainKeys.push([name[1], value])
         }
 
         this.keys = Object.keys(this.pointinfo)
