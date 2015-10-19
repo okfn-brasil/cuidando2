@@ -138,7 +138,7 @@ class PedidosUpdates extends MapStore {
     processResponse(json) {
         // Substitute strings for Dates
         for (let msg of json.messages) {
-            msg.received = new Date(msg.received)
+            msg.date = new Date(msg.date)
         }
         return json.messages
     }

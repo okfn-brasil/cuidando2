@@ -9,7 +9,7 @@ var api = config.apiurl_esic
 
 
 function pedidosCompare(a, b) {
-    return a.messages[0].received < b.messages[0].received ? 1 : -1
+    return a.history[0].date < b.history[0].date ? 1 : -1
 }
 
 
@@ -28,9 +28,9 @@ class Pedidos extends MapStore {
     processResponse(json) {
         // Substitute strings for Dates
         for (let pedido of json.pedidos) {
-            pedido.date = new Date(pedido.date)
-            for (let message of pedido.messages) {
-                message.received = new Date(message.received)
+            pedido.request_date = new Date(pedido.request_date)
+            for (let message of pedido.history) {
+                message.date = new Date(message.date)
             }
         }
         return json.pedidos.sort(pedidosCompare)

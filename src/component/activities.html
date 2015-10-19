@@ -25,7 +25,7 @@
                 <div if="{ pedido }"
                     class="clickable"
                     onclick="{ fRoute('despesa', {code:code}) }">
-                    Pergunta: { pedido.text }
+                    Pergunta: { pedido.justification }
                 </div>
 
                 <!-- If is a money update -->
@@ -86,7 +86,7 @@
             this.pedidos = []
             for (let pedido of this.pedidosUpdates.value) {
                 this.pedidos.push({
-                    date: pedido.received,
+                    date: pedido.date,
                     code: pedido.keywords[0],
                     pedido
                 })
