@@ -118,6 +118,11 @@ class Translator {
             'error_token_json': 'Error in token response',
             'private_data': 'This is your private data, displayed only for you',
             'want_to_question?': 'Do you want to make a question for the government about this expense?',
+            'error_get_url_facebook': 'Error to get URL for Facebook login',
+            'error_complete_login_facebook': 'Error to complete Facebook login',
+            'error_send_question': 'Error to send question',
+            'error_multipoint_ajax': 'Error to get multiple point info',
+            'error_mapstore_ajax': 'Error to get data'
         }
     }
 
