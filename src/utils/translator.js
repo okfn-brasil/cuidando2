@@ -104,7 +104,8 @@ class Translator {
             'error_send_question': 'Erro ao tentar enviar pergunta',
             'error_multipoint_ajax': 'Erro ao tentar pegar informações sobre vários pontos',
             'error_mapstore_ajax': 'Erro ao tentar pegar dados',
-            'Comment reported': 'Comentário reportado'
+            'Comment reported': 'Comentário reportado',
+            'comments_about': '{_num} comentário{s_num} sobre'
         }
 
         this.dicts.en = {
@@ -123,7 +124,8 @@ class Translator {
             'error_complete_login_facebook': 'Error to complete Facebook login',
             'error_send_question': 'Error to send question',
             'error_multipoint_ajax': 'Error to get multiple point info',
-            'error_mapstore_ajax': 'Error to get data'
+            'error_mapstore_ajax': 'Error to get data',
+            'comments_about': '{_num} comment{s_num} about'
         }
     }
 
@@ -143,10 +145,24 @@ class Translator {
         }
     }
 
+    pluralization(params) {
+        for (let key in params) {
+            // Params that should be puralized
+            if (key[0] == '_') {
+                // Plural or singular
+                if (params[key] > 1) params['s' + key] = 's'
+                else params['s' + key] = ''
+            }
+        }
+    }
+
     translate(str, params) {
         let translated = this.dicts[this._currentLang][str]
         translated = translated ? translated : str
-        if (params) translated = strFormat(translated, params)
+        if (params) {
+            this.pluralization(params)
+            translated = strFormat(translated, params)
+        }
         return translated
     }
 }

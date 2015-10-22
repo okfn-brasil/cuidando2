@@ -15,7 +15,7 @@
                 <div if="{ comments }"
                     class="clickable"
                     onclick="{ fRoute('despesa', {code:thread_name}) }">
-                    { comments.length } comentários sobre
+                    { t('comments_about', {'_num': comments.length}) }
                     <span if="{ multiPontinfo }">
                         { multiPontinfo.value[thread_name]['ds_projeto_atividade'] }
                     </span>
