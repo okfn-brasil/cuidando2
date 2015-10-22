@@ -103,7 +103,8 @@ class Translator {
             'error_complete_login_facebook': 'Erro ao tentar completar login em Facebook',
             'error_send_question': 'Erro ao tentar enviar pergunta',
             'error_multipoint_ajax': 'Erro ao tentar pegar informações sobre vários pontos',
-            'error_mapstore_ajax': 'Erro ao tentar pegar dados'
+            'error_mapstore_ajax': 'Erro ao tentar pegar dados',
+            'Comment reported': 'Comentário reportado'
         }
 
         this.dicts.en = {

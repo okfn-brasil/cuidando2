@@ -108,7 +108,9 @@ class Comments extends MapStore {
             //     'token': await auth.getMicroToken(),
             // }
         try {
-            return await ajax({url, method: 'post'})
+            let ret = await ajax({url, method: 'post'})
+            if (ret) msgs.addSuccess('Comment reported')
+            return ret
         } catch(err) {
             msgs.addError('Error to report comment')
         }
