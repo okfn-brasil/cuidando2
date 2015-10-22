@@ -76,6 +76,7 @@ class Map {
             zoom: 12,
             // maxZoom: 20
         })
+        this.map.keyboard.disable()
 
         // $.getJSON('assets/geojson/subprefeituras.json')
         //     .done(function(response_data) {
