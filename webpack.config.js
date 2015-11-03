@@ -27,6 +27,7 @@ module.exports = {
     module: {
         loaders: [
             // { test: /\.png$/, include: /assets/, loader: "file" },
+            { test: /\.png$/, include: /node_modules/, loader: "file" },
             // { test: /\.(png|otf|svg)$/, loader: "file" },
             { test: /\.css$/, loader: 'style!css' },
             { test: /\.scss$/, include: /src/, loader: 'style!css!sass' },
