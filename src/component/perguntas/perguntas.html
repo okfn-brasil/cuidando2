@@ -53,6 +53,16 @@
             </div>
 
             <div if="{ visible }">
+                <p><b>Protocolo:</b> { protocol }</p>
+                <p><b>Órgão:</b> { orgao_name }</p>
+                <div if="{ attachments.length }">
+                    <h3>Anexos</h3>
+                    <ul>
+                        <li each="{ attachments }">
+                            <a href="{ ia_url }" target="_blank">{ name }</a>
+                        </li>
+                    </ul>
+                </div>
                 <h3>Respostas</h3>
                 <ul class="list-bare">
                     <li each="{ history }">
