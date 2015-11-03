@@ -12,13 +12,13 @@
             --><div class="activity-content">
 
                 <!-- If is a thread update -->
-                <div if="{ comments }"
-                    class="clickable"
-                    onclick="{ fRoute('despesa', {code:thread_name}) }">
+                <div if="{ comments }">
                     { t('comments_about', {'_num': comments.length}) }
-                    <span if="{ multiPontinfo }">
+                    <a if="{ multiPontinfo }"
+                       class="clickable"
+                       onclick="{ fRoute('despesa', {code:thread_name}) }">
                         { multiPontinfo.value[thread_name]['ds_projeto_atividade'] }
-                    </span>
+                    </a>
                 </div>
 
                 <!-- If is a pedido update -->
@@ -29,18 +29,23 @@
                 </div>
 
                 <!-- If is a money update -->
-                <div if="{ data }"
-                    class="clickable"
-                    onclick="{ fRoute('despesa', {code:code}) }">
+                <div if="{ data }">
                     <div if="{ event == 'modified' }">
-                        <b>{description}</b>
+                        <a class="clickable"
+                           onclick="{ fRoute('despesa', {code:code}) }">
+                            {description}
+                        </a>
                         mudou de
                         {data.state[0]}
                         para
                         <b>{data.state[1]}</b>
                     </div>
                     <div if="{ event == 'created' }">
-                        Novo: <b>{description}</b>
+                        Novo:
+                        <a class="clickable"
+                           onclick="{ fRoute('despesa', {code:code}) }">
+                            {description}
+                        </a>
                     </div>
                 </div>
 

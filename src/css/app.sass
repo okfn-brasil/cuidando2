@@ -3,16 +3,19 @@
 $main-color: #07A3C6
 $main-color-dark: #00667D
 $secondary-color: #F44E16
-/* $secondary-color-light: #F59B7D
+$secondary-color-light: #F67146
 $neutral-color-light: #999999
 $neutral-color-dark: #6C6C6C
-$error-color: #FE2F55
+
+$error-color: #FF2D54
 $error-color-light: #FFE0E6
 $success-color: #3C763D
-$success-color-light: #DFF0D8
+$success-color-light: #CCF2D1
 $light-dark-bg: #F8F8F8
 $light-border: #DDD
 $dark-bg: #F0F0F0
+
+$input-focus-color: #82D1E2
 
 $planejado: #DA3582
 $empenhado: #31AD33
@@ -201,6 +204,15 @@ year-selector
 .btn-color-sec
   background-color: $secondary-color
   color: white
+  font-weight: bold
+  &:focus, &:hover
+    color: white
+    background-color: $secondary-color-light
+
+.btn-big
+  padding: 13px 16px
+
+
 
 
 .download-table
@@ -214,18 +226,18 @@ year-selector
 .pessoa-edit-password-form
   margin-top: 10px
 
+.msg
+  /* border: 1px solid
+  border-radius: 3px
+  line-height: 3em
 
 .error-msg
   background-color: $error-color-light
   color: $error-color
-  line-height: 3em
-  border-radius: 3px
 
 .success-msg
   background-color: $success-color-light
   color: $success-color
-  line-height: 3em
-  border-radius: 3px
 
 .incorrect-field
   border-color: $error-color
