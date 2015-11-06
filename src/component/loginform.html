@@ -4,7 +4,7 @@
         <img class="block-center" src="{ assets.logo }">
     </div>
 
-    <div class="modal-body">
+    <div class="text-center modal-body">
 
         <!-- Error messages -->
         <p class="text-center msg error-msg">
@@ -118,17 +118,21 @@
             </button>
         </form>
 
-        <a class="text-center block-center modal-anchor"
-                onclick="{ fChangeView('register') }"
-                if={ view.login }>
-            { t("Register") }
-        </a>
+        <div>
+            <a class="modal-anchor"
+                    onclick="{ fChangeView('register') }"
+                    if={ view.login }>
+                { t("Register") }
+            </a>
+        </div>
 
-        <a class="text-center block-center modal-anchor"
-                onclick={ fChangeView('forgot1') }
-                if={ view.login }>
-            { t("Forgot password") }
-        </a>
+        <div>
+            <a class="modal-anchor"
+                    onclick={ fChangeView('forgot1') }
+                    if={ view.login }>
+                { t("Forgot password") }
+            </a>
+        </div>
 
         <div if="{ view.login || view.register }">
             <div class="relative separator-block">
