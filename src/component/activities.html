@@ -9,14 +9,14 @@
                 <img class="icon" src="{ getIcon(this) }">
             </div><!--
                 avoid space
-            --><div class="activity-content">
+        --><div class="activity-content">
 
                 <!-- If is a thread update -->
                 <div if="{ comments }">
                     { t('comments_about', {'_num': comments.length}) }
                     <a if="{ multiPontinfo }"
-                       class="clickable"
-                       onclick="{ fRoute('despesa', {code:thread_name}) }">
+                        class="clickable"
+                        onclick="{ fRoute('despesa', {code:thread_name}) }">
                         { multiPontinfo.value[thread_name]['ds_projeto_atividade'] }
                     </a>
                 </div>
@@ -32,7 +32,7 @@
                 <div if="{ data }">
                     <div if="{ event == 'modified' }">
                         <a class="clickable"
-                           onclick="{ fRoute('despesa', {code:code}) }">
+                            onclick="{ fRoute('despesa', {code:code}) }">
                             {description}
                         </a>
                         mudou de
@@ -43,7 +43,7 @@
                     <div if="{ event == 'created' }">
                         Novo:
                         <a class="clickable"
-                           onclick="{ fRoute('despesa', {code:code}) }">
+                            onclick="{ fRoute('despesa', {code:code}) }">
                             {description}
                         </a>
                     </div>
