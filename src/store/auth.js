@@ -51,20 +51,39 @@ class Auth {
 
     loadUsername() {
         if (localStorage.mainToken) {
-            try {
-                this._currUsername = decodeToken(localStorage.mainToken).username
-            } catch(err) {
+            var now = new Date()
+            // Check if main token is still valid for 30s
+            if (now < localStorage.mainTokenValidTime - 30000) {
+                try {
+                    this._currUsername = decodeToken(localStorage.mainToken).username
+                } catch(err) {
+                    this.clearUserData()
+                    msgs.addError('error_decode_token')
+                    return null
+                }
+            } else {
+                // Clear tokens if main token is too old
                 this.clearUserData()
-                msgs.addError('error_decode_token')
-                return null
             }
         }
         return true
     }
 
+    // Return the real exp time for a token, based on its validPeriod and
+    // current time
+    realExp(validPeriod) {
+        let now = new Date()
+        // Convert valid period from minutes to miliseconds, add it to now and
+        // return for future checks, to see if it's still valid. We use this value
+        // for checks instead of the exp field in the tokens because server and
+        // clients may differ time settings.
+        return now.getTime() + validPeriod * 60000
+    }
+
     saveTokens(json) {
         if (json && json.mainToken) {
             localStorage.mainToken = json.mainToken
+            localStorage.mainTokenValidTime = this.realExp(json.mainTokenValidPeriod)
             this.saveMicroToken(json)
             if (this.loadUsername())
                 this.trigger(riot.SEC('username'), this._currUsername)
@@ -74,13 +93,7 @@ class Auth {
 
     saveMicroToken(data) {
         localStorage.microToken = data.microToken
-
-        var now = new Date()
-        // Convert valid period from minutes to miliseconds, add it to now and
-        // save for future checks, to see if it's still valid. We use this value
-        // for checks instead of the exp field in the tokens because server and
-        // clients may differ time settings.
-        localStorage.microTokenValidTime = now.getTime() + data.microTokenValidPeriod * 60000
+        localStorage.microTokenValidTime = this.realExp(data.microTokenValidPeriod)
     }
 
     async getMicroToken() {
