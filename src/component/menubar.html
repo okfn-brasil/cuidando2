@@ -109,9 +109,8 @@
 
     this.share = () => {
         this.closeExpanded()
-        let page = encodeURIComponent(location.href),
-            title = "Cuidando 2"
-        location.href = `http://www.facebook.com/sharer.php?u=${page}&t=${title}`
+        let page = encodeURIComponent(location.href)
+        location.href = `http://www.facebook.com/sharer.php?u=${page}`
     }
 
     // A wrapper to route that also closes the menu if is expanded
