@@ -45,7 +45,8 @@ module.exports = {
                   // optional: 'runtime',
               }
             }
-            ,{ test: /\.(png|otf|svg)$/, include: /assets/, loader: "url-loader?limit=100000" }
+            // ,{ test: /\.(png|otf|svg)$/, include: /assets/, loader: "url-loader?limit=100000" }
+            ,{ test: /cluster\.svg$/, include: /assets/, loader: "url-loader?limit=100000" }
         ]
     },
     plugins: [
