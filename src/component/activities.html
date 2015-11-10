@@ -90,11 +90,15 @@
         if (this.pedidosUpdates && this.pedidosUpdates.value) {
             this.pedidos = []
             for (let pedido of this.pedidosUpdates.value) {
-                this.pedidos.push({
-                    date: pedido.date,
-                    code: pedido.keywords[0],
-                    pedido
-                })
+
+                // Hide external pedidos
+                if (pedido.keywords[0] != 'recuperado') {
+                    this.pedidos.push({
+                        date: pedido.date,
+                        code: pedido.keywords[0],
+                        pedido
+                    })
+                }
             }
             this.updateActivities()
         }
