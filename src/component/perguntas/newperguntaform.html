@@ -19,7 +19,7 @@
                        onchange={ secondDestSelected }
                        outclicklimit="{ parent.root }"/>
 
-        <p>Pergunta referente à despesa ...</p>
+        <p>{ startPedido() }</p>
 
         <form class="form">
             <div class="form-group">
@@ -49,9 +49,38 @@
     this.mixin('base')
     this.maxPedidoLength = 5000
 
+    this.startPedido = () => {
+        if (this.pointinfo)
+            return `Referente ao gasto público "${this.pointinfo.ds_projeto_atividade}", de ${this.pointinfo.cd_anoexecucao}, cujo órgão responsável é "${this.pointinfo.ds_orgao}", solicito informações:`
+        else
+            return ''
+    }
+
+    this.bestFitOrgao = () => {
+        // If has a orgaos list
+        if(this.orgaos && this.orgaos.value) {
+            // Tries to find the correct orgao for this despesa
+            this.orgao = null
+            if (this.pointinfo) {
+                for (let orgao of this.orgaos.value) {
+                    if(orgao.key.indexOf(this.pointinfo.ds_orgao) != -1) {
+                        this.orgao = orgao.key
+                        break
+                    }
+                }
+            }
+            // If orgao not found, set to first
+            if (!this.orgao) this.orgao = this.orgaos.value[0].key
+        }
+    }
+
     this.watch('orgaos', () => {
-        if(this.orgaos && this.orgaos.value)
-            this.orgao = this.orgaos.value[0].key
+        this.bestFitOrgao()
+    })
+
+    this.watchDepends('pointinfo', 'code', () => {
+        this.bestFitOrgao()
+        this.update()
     })
 
     // this.mainDests = [
@@ -78,7 +107,7 @@
     this.sendPedido = () => {
         if (this['new-pergunta-textarea'].value) {
             this.safeTriggerChange('sendPedido', {
-                text: this['new-pergunta-textarea'].value,
+                text: this.startPedido() + ' ' + this['new-pergunta-textarea'].value,
                 orgao: this.tags['styled-select'].getCurrent(),
                 keywords: [this.parent.parent.code]
             })
@@ -86,7 +115,6 @@
     }
 
     this.onControl(riot.SEC('sendPedidoWaiting'), (params, ret) => {
-        console.log(params, ret, '<<<<<<<<<<<<>>>>>>>>>>>>')
         if (ret) {
             this.parent.closeModal()
             this.update()
