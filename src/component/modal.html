@@ -48,7 +48,8 @@
         // Run "onModalClose" of children
         if (this.tags) {
             for (let k in this.tags) {
-                if (this.tags[k].onModalClose) this.tags[k].onModalClose()
+                if (this.tags[k] && this.tags[k].onModalClose)
+                    this.tags[k].onModalClose()
             }
         }
     }
