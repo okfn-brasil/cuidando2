@@ -114,26 +114,28 @@
     }
 
     this.watchDepends('pointinfo', 'code', () => {
-        this.mainKeys = []
-        for (let name of this.mainKeysNames) {
-            let value = this.pointinfo[name[0]]
-            if (value) this.mainKeys.push([name[1], value])
-        }
+        if (this.pointinfo) {
+            this.mainKeys = []
+            for (let name of this.mainKeysNames) {
+                let value = this.pointinfo[name[0]]
+                if (value) this.mainKeys.push([name[1], value])
+            }
 
-        this.keys = Object.keys(this.pointinfo)
+            this.keys = Object.keys(this.pointinfo)
 
-        this.planejado = this.pointinfo.sld_orcado_ano
-        if (this.pointinfo.vl_atualizado)
-            this.planejado = this.pointinfo.vl_atualizado
-        this.empenhado = this.pointinfo.vl_empenhadoliquido
-        this.liquidado = this.pointinfo.vl_liquidado
-        this.orgao = this.pointinfo.ds_orgao
-        this.updateTime = this.getUpdateTime()
-        if (this.pointinfo.geometry) {
-            let [lng, lat] = this.pointinfo.geometry.coordinates
-            map.setCenter([lat, lng])
+            this.planejado = this.pointinfo.sld_orcado_ano
+            if (this.pointinfo.vl_atualizado)
+                this.planejado = this.pointinfo.vl_atualizado
+            this.empenhado = this.pointinfo.vl_empenhadoliquido
+            this.liquidado = this.pointinfo.vl_liquidado
+            this.orgao = this.pointinfo.ds_orgao
+            this.updateTime = this.getUpdateTime()
+            if (this.pointinfo.geometry) {
+                let [lng, lat] = this.pointinfo.geometry.coordinates
+                map.setCenter([lat, lng])
+            }
+            this.update()
         }
-        this.update()
     })
 
     this.preunmount = () => {
