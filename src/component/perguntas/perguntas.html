@@ -45,7 +45,7 @@
 
             <div class="text-right"
                 if="{ !visible }">
-                <a onclick="{ () => this.visible = true }">
+                <a onclick="{ parent.showRespostas.bind(this) }">
                     { history.length - 1 }
                     { history.length-1 > 1 ? t("respostas") : t("resposta")}
                     <span class="down-arrow"></span>
@@ -78,7 +78,7 @@
                         <p>{ justification }</p>
                     </li>
                 </ul>
-                <a onclick="{ () => this.visible = false }">
+                <a onclick="{ parent.hideRespostas.bind(this) }">
                     { t('hide') }
                     <span class="up-arrow"></span>
                 </a>
@@ -96,6 +96,15 @@
         if (checkIsLogged(event)) {
             this.tags.modal.openModal(event)
         }
+    }
+
+    this.showRespostas = function () {
+        // 'this' here is a pedido
+        this.visible = true
+    }
+    this.hideRespostas = function () {
+        // 'this' here is a pedido
+        this.visible = false
     }
 
     this.watchDepends('pedidos', 'code', () => {
