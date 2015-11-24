@@ -5,6 +5,7 @@
 
 
     <script type="es6">
-    this.angles = Array.from(new Array(12), (x,i) => 30 * i)
+    this.angles = []
+    for (let i = 0; i < 360; i += 30) this.angles.push(i)
     </script>
 </spinner>
