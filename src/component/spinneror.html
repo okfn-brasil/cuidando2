@@ -1,0 +1,13 @@
+<spinneror>
+
+    <span class="{ transparent: parent[opts.condition] }">
+        <yield/>
+    </span>
+    <spinner if="{ parent[opts.condition] }"
+             scale="{ opts.scale }"/>
+
+
+    <script type="es6">
+    this.mixin('base')
+    </script>
+</spinneror>

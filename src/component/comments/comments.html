@@ -15,9 +15,8 @@
         </div>
         <button type="submit"
                 onclick="{ sendComment }"
-                class="btn btn-color-sec block-right">
-            { t('Send comment') }
-            <span if="{ sendCommentWaiting }" class="loading"/>
+                class="btn btn-color-sec block-right relative">
+            <spinneror condition="sendCommentWaiting" scale="0.15">{ t("Send comment") }</spinneror>
         </button>
     </form>
 

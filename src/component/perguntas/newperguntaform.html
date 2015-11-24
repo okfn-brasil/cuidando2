@@ -35,9 +35,8 @@
             </div>
             <button type="submit"
                     onclick="{ sendPedido }"
-                    class="btn btn-color-sec float-right">
-                { t("Send") }
-                <span if="{ sendPedidoWaiting }" class="loading"/>
+                    class="btn btn-color-sec float-right relative">
+                <spinneror condition="sendPedidoWaiting" scale="0.15">{ t("Send") }</spinneror>
             </button>
         </form>
 

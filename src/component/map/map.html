@@ -39,9 +39,10 @@
             </div>
             <div if="{ opts.big }"
                  class="map-update-time">
-                { t('source') }: <a target="_blank" href="http://orcamento.prefeitura.sp.gov.br/orcamento/execucao.html">Secretaria de Finanças</a> - 
-                { t('data updated at') } { yearinfo['last_update'] }
+                { t('source') }: <a target="_blank" href="http://orcamento.prefeitura.sp.gov.br/orcamento/execucao.html">Secretaria de Finanças</a>
+                <!-- - { t('data updated at') } { yearinfo['last_update'] }-->
             </div>
+            <spinner class="back-layer" if="{ !points }" scale="0.5"/>
         </div>
     </div>
 
@@ -53,10 +54,14 @@
     this.categories = ['planejado', 'empenhado', 'liquidado']
 
     this.pointsChanged = () => {
-        if (this.points) map.updateMap(this.points)
+        if (this.points) {
+            map.updateMap(this.points)
+            this.update()
+        }
     }
     this.yearinfoChanged = () => {
-        if (this.yearinfo) this.update()
+        if (!this.yearinfo) this.points = null
+        this.update()
     }
 
     this.mapInited = false

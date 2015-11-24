@@ -1,0 +1,10 @@
+<spinner>
+    <div class='spin-wheel' style='transform:translate(-50%,-50%) scale({ opts.scale })'>
+        <div class="spin-wheel-part" each="{ i in angles }" style='-webkit-transform:rotate({ i }deg) translate(0,-60px);transform:rotate({ i }deg) translate(0,-60px)'></div>
+    </div>
+
+
+    <script type="es6">
+    this.angles = Array.from(new Array(12), (x,i) => 30 * i)
+    </script>
+</spinner>

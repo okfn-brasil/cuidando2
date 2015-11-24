@@ -25,10 +25,11 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <h2>{ t('Expense') }: { this.pointinfo.ds_projeto_atividade }</h2>
+                                <spinner class="no-back-layer dark-spinner" if="{ !this.pointinfo }" scale="0.25"/>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div if="{ this.pointinfo }" class="row">
                             <div each="{ cat, i in categories }" class="col-sm-4 category">
                                 <div class="subtitle">{ t(cat) }</div>
                                 <raw class="moedas { cat }"
@@ -39,19 +40,19 @@
                     </div>
                 </div>
 
-                <div class="row text-right" if="{ updateTime }">
+                <div if="{ this.pointinfo }" class="row text-right" if="{ updateTime }">
                     <div class="col-sm-12 padded-col">
                         { t('data updated at') }: { updateTime }
                     </div>
                 </div>
 
-                <div class="top-bar orgao-box">
+                <div if="{ this.pointinfo }" class="top-bar orgao-box">
                     <span class="block-decorator"/>
                     <span class="key">{ t('Accountable body') }:</span>
                     <span class="value">{this.orgao}</span>
                 </div>
 
-                <ul class="list-bare top-bar bottom-bar despesa-details-list">
+                <ul if="{ this.pointinfo }" class="list-bare top-bar bottom-bar despesa-details-list">
                     <li each={el, i in mainKeys}>
                         <span class="key">{el[0]}:</span>
                         <span>{el[1]}</span>
@@ -63,7 +64,7 @@
                     </a>
                 </ul>
 
-                <ul if="{ showAllInfo }"
+                <ul if="{ showAllInfo && this.pointinfo }"
                     class="list-bare bottom-bar despesa-details-list">
                     <li each={key, i in keys}>
                         <span class="key">{key}:</span>
@@ -112,6 +113,9 @@
         }
         return undefined
     }
+
+    // reset pointinfo so loading spinner appears
+    this.watch('code', () => this.pointinfo = null)
 
     this.watchDepends('pointinfo', 'code', () => {
         if (this.pointinfo) {

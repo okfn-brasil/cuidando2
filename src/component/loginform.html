@@ -86,8 +86,7 @@
                     class="btn btn-color-sec modal-button"
                     onclick={ sendLogin }
                     if={ view.login }>
-                { t("Login") }
-                <span if="{ loginWaiting }" class="loading"/>
+                <spinneror condition="loginWaiting" scale="0.15">{ t("Login") }</spinneror>
             </button>
 
             <!-- Request Register -->
@@ -95,8 +94,7 @@
                     class="btn btn-color-sec modal-button"
                     onclick={ sendRegister }
                     if={ view.register }>
-                { t("Register") }
-                <span if="{ registerWaiting }" class="loading"/>
+                <spinneror condition="registerWaiting" scale="0.15">{ t("Register") }</spinneror>
             </button>
 
             <!-- Request Reset Code -->
@@ -104,8 +102,7 @@
                     class="btn btn-color-sec modal-button"
                     onclick={ sendForgot1 }
                     if={ view.forgot1 }>
-                { t("Request reset code") }
-                <span if="{ forgotPasswordWaiting }" class="loading"/>
+                <spinneror condition="forgotPasswordWaiting" scale="0.15">{ t("Request reset code") }</spinneror>
             </button>
 
             <!-- Request Reset -->
@@ -113,8 +110,7 @@
                     class="btn btn-color-sec modal-button"
                     onclick={ sendForgot2 }
                     if={ view.forgot2 }>
-                { t("Change password and login") }
-                <span if="{ resetPasswordWaiting }" class="loading"/>
+                <spinneror condition="resetPasswordWaiting" scale="0.15">{ t("Change password and login") }</spinneror>
             </button>
         </form>
 
