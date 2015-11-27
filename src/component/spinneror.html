@@ -1,13 +1,22 @@
 <spinneror>
 
-    <span class="{ transparent: parent[opts.condition] }">
+    <span class="{ transparent: condition() }">
         <yield/>
     </span>
-    <spinner if="{ parent[opts.condition] }"
+    <spinner if="{ condition() }"
              scale="{ opts.scale }"/>
 
 
     <script type="es6">
     this.mixin('base')
+
+    this.condition = () => {
+        // a var name started with '!' is negated
+        if (opts.condition[0] == '!') {
+            return !this.parent[opts.condition.slice(1)]
+        } else {
+            return this.parent[opts.condition]
+        }
+    }
     </script>
 </spinneror>

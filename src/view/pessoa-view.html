@@ -7,10 +7,12 @@
 
     <div class="top-bar relative margin-top">
         <span class="block-decorator"/>
-        <h1>{ userinfo.username }</h1>
+        <h1>
+            <spinneror class="dark-spinner" condition="!userinfo" scale="0.25">{ parent.userinfo.username }</spinneror>
+        </h1>
 
         <!-- Description -->
-        <div if="{ !isEditting.description }">
+        <div if="{ !isEditting.description && userinfo }">
             <p>
                 { description }
                 <div if="{ checkIsUser() && edittingNone() }">
@@ -185,14 +187,25 @@
 
     this.isEditting = {}
 
+    // reset userinfo so loading spinner appears
+    this.watch('user', () => {
+        this.userinfo = null
+        // Hack: without the line below this.user gets updated by this watch
+        // before watchDepends is run, and so watchDepends does nothing thinking
+        // nothing changed.
+        this.user = null
+    })
+
     this.watchDepends('userinfo', 'user', () => {
-        this.description = this.userinfo.description
-        if (!this.description)
-            this.description = this.t('No user description...')
-        this.isEditting = {}
-        this.clearFields()
-        this.clearError()
-        this.update()
+        if (this.userinfo) {
+            this.description = this.userinfo.description
+            if (!this.description)
+                this.description = this.t('No user description...')
+            this.isEditting = {}
+            this.clearFields()
+            this.clearError()
+            this.update()
+        }
     })
 
     // Check if no field is beeing edited
@@ -211,7 +224,12 @@
         this.isEditting[field] = true
     }
     this.closeEdit = (field) => {this.isEditting[field] = false}
-    this.checkIsUser = () => this.user == this.username
+
+    // Check if is displaying data about current user or not
+    this.checkIsUser = () => {
+        return this.username && this.userinfo && (this.user == this.username)
+    }
+
     this.sendEdit = () => {
         let data = {username: this.userinfo.username}
         if (this.isEditting.email) {
