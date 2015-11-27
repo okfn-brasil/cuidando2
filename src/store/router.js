@@ -238,7 +238,7 @@ class Router {
             root = null,
             params = {}
 
-        // If the param1 is a string of route parts repared with ' '
+        // If the param1 is a string of route parts separed with ' '
         if (param1 && typeof param1 === 'string') {
             roots = param1.split(' ')
             params = this._mainParamsToObj(roots)
