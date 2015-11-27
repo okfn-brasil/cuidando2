@@ -80,7 +80,7 @@ var BaseMixin = {
             })
         }
 
-        // Watch changes on var which main depends
+        // Watch changes on var which main depends on
         this.onControl(riot.SEC(nameDepends), (valueDepends) => {
             if (this[nameDepends] != valueDepends) {
                 this[nameDepends] = valueDepends
