@@ -16,7 +16,7 @@
                     { t('comments_about', {'_num': comments.length}) }
                     <a if="{ multiPontinfo }"
                         class="clickable"
-                        onclick="{ fRoute('despesa', {code:thread_name}) }">
+                        onclick="{ fGoDespesa(thread_name) }">
                         { multiPontinfo.value[thread_name]['ds_projeto_atividade'] }
                     </a>
                 </div>
@@ -24,7 +24,7 @@
                 <!-- If is a pedido update -->
                 <div if="{ pedido }"
                     class="clickable"
-                    onclick="{ fRoute('despesa', {code:code}) }">
+                    onclick="{ fGoDespesa(code) }">
                     Pergunta: { pedido.justification }
                 </div>
 
@@ -32,7 +32,7 @@
                 <div if="{ data }">
                     <div if="{ event == 'modified' }">
                         <a class="clickable"
-                            onclick="{ fRoute('despesa', {code:code}) }">
+                            onclick="{ fGoDespesa(code) }">
                             {description}
                         </a>
                         mudou de
@@ -43,7 +43,7 @@
                     <div if="{ event == 'created' }">
                         Novo:
                         <a class="clickable"
-                            onclick="{ fRoute('despesa', {code:code}) }">
+                            onclick="{ fGoDespesa(code) }">
                             {description}
                         </a>
                     </div>
@@ -128,6 +128,20 @@
             this.triggerChange('multiPontinfo', {key: 'a', codes})
         }
     })
+
+    // Returns a function that when called routes to the given despesa page.
+    // Tries to set the year accordingly.
+    this.fGoDespesa = (code) => {
+        if (code) {
+            let params = {code: code}
+            try {
+                let year = code.slice(0, 4)
+                parseInt(year)
+                params['year'] = year
+            } catch(err) {}
+            return this.fRoute('despesa', params)
+        }
+    }
 
     // Get the icon for an activity
     this.getIcon = (item) => {
