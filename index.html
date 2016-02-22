@@ -46,10 +46,10 @@
 
     <script id="polyfill-loader">
     polyfills = {
-        i18n: 'Intl.~locale.pt-BR,Intl.~locale.en',
+        i18n: 'Intl.~locale.pt-BR|always,Intl.~locale.en|always',
         fetch: 'fetch',
         promise: 'Promise',
-        assign: 'Object.assign',
+        assign: 'Object.assign'
     }
     neededPolyfills = []
 
@@ -86,18 +86,25 @@
 
     var currTag = document.getElementById('polyfill-loader')
 
+    var isGoogleBot = /googlebot/i.test(navigator.userAgent)
+
     if (neededPolyfills.length) {
-        currTag = addScript(
-            currTag,
-            'https://cdn.polyfill.io/v2/polyfill.min.js?features='
-          + neededPolyfills.join(',')
-        )
+        if (isGoogleBot) {
+            // Allows GoogleBot indexing even though polyfill.io doesn't
+            currTag = addScript(currTag, 'poly.js')
+        } else {
+            currTag = addScript(
+                currTag,
+                'https://cdn.polyfill.io/v2/polyfill.min.js?features='
+            + neededPolyfills.join(',')
+            )
+        }
     }
 
     currTag = addScript(currTag, 'dist/vendor.bundle.js')
     addScript(currTag, 'dist/bundle.js')
     </script>
-    <!--     <script src="dist/vendor.bundle.js"></script>
-    <script src="dist/bundle.js"></script> -->
+    <!-- <script src="dist/vendor.bundle.js"></script> -->
+    <!-- <script src="dist/bundle.js"></script> -->
   </body>
 </html>
