@@ -24,7 +24,8 @@ let parsers = {
 
 let defaultParams = {
     _root: 'home',
-    year: new Date().getFullYear().toString(),
+    // year: new Date().getFullYear().toString(),
+    year: '2015',
     lang: 'pt-br',
     page: 0,
     per_page_num: 25
@@ -233,7 +234,7 @@ class Router {
     // 'root id1 id2' {id3=id3, q1=q1}
     // {root=root, id1=id1}
     // {id2=id2}
-    route(param1, params2) {
+    processRouteParams(param1, params2) {
         let roots = null,
             root = null,
             params = {}
@@ -248,11 +249,26 @@ class Router {
             params = param1
         }
 
+        // Apply parsers
+        for (let name in params)
+            params[name] = this._applyParser(name, params[name])
+
+        return params
+    }
+
+    route(param1, params2) {
+        let params = this.processRouteParams(param1, params2)
+
         // Update params
         for (let name in params)
-            this.params[name] = this._applyParser(name, params[name])
+            this.params[name] = params[name]
 
         this._paramsToUrl()
+    }
+
+    textRoute(param1, params2) {
+        let params = this.processRouteParams(param1, params2)
+        return '#' + this._createUrl(params)
     }
 
     // Start default view
@@ -260,12 +276,14 @@ class Router {
         this.route(this._defaultRoute)
     }
 
-    _createUrl() {
-        let rootData = this.routes[this.params._root],
+    _createUrl(params=this.params) {
+        // debugger;
+        let rootData = this.routes[params._root],
             url = rootData.format
         // Replace main params to str
         for (let name of rootData.mainParamsNames) {
-            url = url.replace('{' + name + '}', this.params[name])
+            if (!params[name]) params[name] = this.params[name]
+            url = url.replace('{' + name + '}', params[name])
         }
         // Add query params if needed
         let nonDefault = []
