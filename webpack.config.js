@@ -2,10 +2,11 @@ var webpack = require('webpack')
 
 function getConfig() {
     var env = process.env.CONFIG_FILE_ENV
+    var configFile = ''
     if (env) {
-        var configFile = 'config_' + env + '.js'
+        configFile = 'config_' + env + '.js'
     } else {
-        var configFile = 'config.js'
+        configFile = 'config.js'
     }
     console.log("Using this config file: ", configFile)
     return __dirname + '/configs/' + configFile
