@@ -1,8 +1,8 @@
-const _domain = 'http://cuidando.org.br:'
 const config = {
-    apiurl_money: 'http://demo.gastosabertos.org',
-    apiurl_auth: _domain + 5002,
-    apiurl_comments: _domain + 5003,
+    apiurl_money: 'https://site-cuidando.rhcloud.com/dados/api/v1/',
+    apiurl_auth: 'https://viralata-cuidando.rhcloud.com',
+    apiurl_comments: 'https://tagarela-cuidando.rhcloud.com',
+    apiurl_esic: 'https://cuidando.vc/esiclivre',
 }
 
 export default config
