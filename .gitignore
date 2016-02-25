@@ -81,3 +81,7 @@ bundle.js.map
 vendor.bundle.js.map
 OLD/
 telas/
+
+dist_test/
+nginx.*
+test.html
