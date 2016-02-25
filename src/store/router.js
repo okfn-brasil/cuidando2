@@ -32,6 +32,11 @@ let defaultParams = {
 }
 
 
+// window.onpopstate = function(e) {
+//     console.log(e)
+// }
+
+
 class Router {
 
     constructor(routes, defaultParams, parsers) {
