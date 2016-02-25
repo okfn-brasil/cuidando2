@@ -1,0 +1,13 @@
+<anchor>
+    <yield/>
+
+
+    <script type="es6">
+    this.mixin('base')
+    var args = []
+    if (opts.route) args.push(opts.route)
+    if (opts.routeObj) args.push(opts.routeObj)
+    this.root.href = this.tRoute(...args)
+    this.root.onclick = this.fRoute(...args)
+    </script>
+</anchor>

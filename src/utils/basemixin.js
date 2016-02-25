@@ -18,7 +18,10 @@ var BaseMixin = {
     },
 
     fRoute: function() {
-        return () => router.route(...arguments)
+        return (event) => {
+            event.preventDefault()
+            router.route(...arguments)
+        }
     },
 
     // Register a func to run on control event. Unregister at unmount.

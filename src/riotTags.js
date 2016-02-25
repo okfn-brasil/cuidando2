@@ -1,4 +1,5 @@
 import './component/styledselect.html'
+import './component/anchor.html'
 
 import './component/menubar.html'
 import './component/loginform.html'

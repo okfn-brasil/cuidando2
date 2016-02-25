@@ -40,7 +40,7 @@ class Router {
         this._currentView = {}
 
         this._innerRouteMark = '$'
-        this._hashMark = '#'
+        this._hashMark = '?/'
         this._hashParamMark = '/'
         this._queryMark = '?'
         this._queryParamMark = '&'
@@ -82,7 +82,7 @@ class Router {
 
     _urlChanged() {
         // Riot says url changed, make sure
-        if (location.hash.slice(1) != this._currentUrl) {
+        if (location.search.slice(this._hashMark.length) != this._currentUrl) {
             this._urlToParams()
             this._paramsToUrl()
         }
@@ -170,7 +170,7 @@ class Router {
         // TODO: Quando não acha a rota está indo para default,
         // será que não deveria mostrar 404?
 
-        let hash = location.hash.slice(1),
+        let hash = location.search.slice(this._hashMark.length),
             params = {_root: this.defaultParams._root}
 
         if (hash) {
@@ -190,6 +190,7 @@ class Router {
             paths = raw[0].split(this._hashParamMark),
             query = raw[1],
             params = this._mainParamsToObj(paths)
+
 
         if (query) {
             for (let pair of query.split(this._queryParamMark)) {
@@ -214,10 +215,11 @@ class Router {
 
         this._broadcastParams()
 
-        // Changes the urlif different from current
+        // Changes the url if different from current
         this._currentUrl = this._createUrl()
-        if (location.hash.slice(1) != this._currentUrl)
-            location.hash = this._currentUrl
+        if (location.search.slice(this._hashMark.length) != this._currentUrl)
+            window.history.pushState(null, null, this._hashMark + this._currentUrl)
+            // location.search = this._currentUrl
     }
 
     _mainParamsToObj(mainParamsValues) {
@@ -268,7 +270,7 @@ class Router {
 
     textRoute(param1, params2) {
         let params = this.processRouteParams(param1, params2)
-        return '#' + this._createUrl(params)
+        return this._hashMark + this._createUrl(params)
     }
 
     // Start default view
@@ -277,7 +279,6 @@ class Router {
     }
 
     _createUrl(params=this.params) {
-        // debugger;
         let rootData = this.routes[params._root],
             url = rootData.format
         // Replace main params to str
