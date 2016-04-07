@@ -25,7 +25,7 @@ let parsers = {
 let defaultParams = {
     _root: 'home',
     // year: new Date().getFullYear().toString(),
-    year: '2015',
+    year: '2016',
     lang: 'pt-br',
     page: 0,
     per_page_num: 25
