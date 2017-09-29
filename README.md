@@ -1,3 +1,7 @@
+# **Este é um repositório antigo.** [**Link para novos repositórios**](http://repo.cuidando.vc)
+
+---
+
 # Cuidando do Meu Bairro 2.0
 
 **Projeto ainda em desenvolvimento!**
